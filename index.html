@@ -40,13 +40,14 @@
       <div class="flex flex-wrap items-center gap-2">
         <span class="gold-pill text-xs font-semibold px-2.5 py-1 rounded-full tracking-wide uppercase">Photogenik · SnitchCam V1</span>
         <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Perch → 18.0 cm Flight</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/35">+0.95g Stag Mandibles & Suction Grip</span>
         <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$88 UCLA Makerspace Build</span>
       </div>
       <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
-        The Porcelain Scarab: Quiet Micro-Companion & Wall-Perching Camera
+        The Porcelain Scarab: Quiet Micro-Companion, Wall Sentinel & Micro-Fetcher
       </h1>
       <p class="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
-        An owned autonomous flying digital pet that rests as an <strong class="text-slate-200">8.1 cm sculpted pebble</strong>, leaps smoothly into hover via a <strong class="text-amber-300">spring-loaded desk nest</strong>, unfolds <strong class="text-slate-200">18.0 cm watch-movement beetle wings</strong>, and clings silently to walls or mirrors (<strong class="text-emerald-300">0 W · 0 dB</strong>) to watch the room.
+        An owned autonomous flying digital pet that rests as an <strong class="text-slate-200">8.1 cm sculpted pebble</strong>, leaps smoothly into hover via a <strong class="text-amber-300">spring-loaded desk nest</strong>, unfolds <strong class="text-slate-200">18.0 cm watch-movement beetle wings</strong>, clings silently to walls (<strong class="text-emerald-300">0 W · 0 dB</strong>), and scoops up <strong class="text-sky-300">ping-pong balls, rings, or flat cards</strong> using hair-thin <strong class="text-slate-200">carbon-wire mandibles + dual-use suction</strong>.
       </p>
     </header>
 
@@ -54,13 +55,16 @@
     <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 shadow-2xl">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 4-Stage Animated Breakdown</h2>
-          <p class="text-xs text-slate-400">Tap any stage below or switch to the Top-Down CAD Blueprint to inspect the internal mechanics</p>
+          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 5-Stage Animated Breakdown</h2>
+          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Ping-Pong & Suction Fetch</strong>) or switch to the Top-Down CAD Blueprint</p>
         </div>
 
-        <div class="flex items-center gap-1.5">
+        <div class="flex flex-wrap items-center gap-1.5">
           <button id="btn-auto" onclick="toggleAutoPlay()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
             ⏸ Auto-Story: ON
+          </button>
+          <button id="btn-grip-mode" onclick="toggleGripSubMode()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-sky-500/15 text-sky-300 border border-sky-500/35 hover:bg-sky-500/25 transition">
+            🏓 Stage 5 Payload: 2.7g Ping-Pong (Mandibles)
           </button>
           <button id="btn-xray" onclick="toggleXray()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
             🔍 X-Ray: ON
@@ -71,8 +75,8 @@
         </div>
       </div>
 
-      <!-- 4-Stage Selector Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <!-- 5-Stage Selector Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
         <button id="stage-0" onclick="selectStage(0)" class="text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-amber-400">STAGE 1 · 8.1 cm</div>
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪹 Perched Pebble</div>
@@ -92,6 +96,11 @@
           <div class="text-xs font-mono text-sky-400">STAGE 4 · 0 W / 0 dB</div>
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit & Stare</div>
           <div class="text-xs text-slate-400 mt-0.5">Suction lock + eye peek</div>
+        </button>
+        <button id="stage-4" onclick="selectStage(4)" class="col-span-2 sm:col-span-1 text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-rose-400">STAGE 5 · &lt;4g Fetch</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪲 Scoop, Suction & Drop</div>
+          <div class="text-xs text-slate-400 mt-0.5">0.5mm mandibles + suction</div>
         </button>
       </div>
 
@@ -119,7 +128,7 @@
           <span id="manualSpanLabel" class="font-mono text-amber-300 w-16 text-right">18.0 cm</span>
         </div>
         <div class="font-mono text-slate-400">
-          Total Flying Mass: <strong class="text-white">39.9 g</strong> (35.8 g StampFly + 4.1 g Scarab Shell)
+          Total Flying Mass: <strong class="text-white">41.6 g</strong> (35.8 g StampFly + 4.9 g Shell/Suction + 0.95 g Mandibles)
         </div>
       </div>
     </section>
@@ -141,7 +150,7 @@
           </div>
           <h3 class="text-base font-semibold text-white">🚀 Spring Jump-Start Nest</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Lifting a <code class="text-white">40 g</code> Scarab <code class="text-white">40 cm</code> straight into the air only takes <code class="text-amber-300">0.18 Joules</code> (<code class="text-white">~2.8 m/s</code> exit speed). A damped coil spring inside the desk Charging Nest pops the Scarab up to eye level; the shrouded rotors smoothly catch it at the top of the arc, skipping the loud ground-effect spin-up scream.
+            Lifting a <code class="text-white">41 g</code> Scarab <code class="text-white">40 cm</code> straight into the air only takes <code class="text-amber-300">0.18 Joules</code> (<code class="text-white">~2.8 m/s</code> exit speed). A damped coil spring inside the desk Charging Nest pops the Scarab up to eye level; the shrouded rotors smoothly catch it at the top of the arc, skipping the loud ground-effect spin-up scream.
           </p>
         </div>
 
@@ -169,11 +178,101 @@
       </div>
     </section>
 
-    <!-- Section 2: UCLA Freshman ~$88 BOM & Weight Budget -->
+    <!-- NEW Section 2: Ultra-Thin Operational Arms + Dual-Use Suction Gripper & Multi-Utility -->
+    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-5 border border-sky-500/25">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3.5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono uppercase px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30">New · Micro-Manipulation & Double-Duty Utility</span>
+            <span class="text-xs font-mono text-sky-300">+0.95 g Net Added Mass · 0 Extra Motors</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
+            2. Ultra-Thin Stag-Beetle Mandibles + Dual-Use Suction Gripper
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            How an <code class="text-white">8.1 cm</code> Scarab picks up a <strong class="text-amber-300">2.7 g (40 mm) ping-pong ball</strong>, rings, or flat Instax photos without blinding its belly sensors or adding a second servo.
+          </p>
+        </div>
+        <button onclick="selectStage(4); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30 transition">
+          ▶ Watch Stage 5 Fetch Simulation Above
+        </button>
+      </div>
+
+      <!-- Why Belly Claws Fail vs Forward Chin Architecture -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-rose-400 uppercase">3D Curved / Spherical Grip</span>
+            <span class="font-mono text-slate-300 bg-slate-800 px-2 py-0.5 rounded">+0.95 g</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🪲 25°–30° Carbon-Wire Stag Mandibles</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Hanging a <code class="text-white">40 mm</code> ball under the center belly blocks the <code class="text-amber-300">PMW3901 Optical Flow (42°)</code> and <code class="text-amber-300">VL53L3CX ToF laser (27°)</code>, causing an instant crash, while hovering overhead blows a <code class="text-white">2.7 g</code> ball away. Instead, two hair-thin <code class="text-emerald-300">0.5 mm carbon-fiber rods</code> project <code class="text-white">30 mm</code> forward at a <code class="text-white">25°–30°</code> chin angle. The Scarab <strong class="text-white">lands 6 cm behind the ball and scoots forward</strong>, snapping the ball passively past its equator (<code class="text-white">0 W</code> holding power, 100% clear sensor & prop cones).
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-sky-400 uppercase">2D Flat / Smooth Surface Grip</span>
+            <span class="font-mono text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded">+0.0 g (Already Onboard!)</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🧲 Dual-Use Wall + Pickup Suction Cup</h3>
+          <p class="text-slate-300 leading-relaxed">
+            The <code class="text-sky-300">0.8 g TPU-gimbaled micro-suction cup</code> on the front chin sits on a <code class="text-white">90° passive flip-detent hinge</code>: angled forward, it locks onto vertical walls/mirrors; flipped down <code class="text-white">90°</code>, the Scarab lands gently on flat smooth items (<strong class="text-white">1.2 g Instax Mini photo, 1.8 g playing card, 0.8 g guitar pick, ID badge, or sticky note</strong>) to seal a passive vacuum grip and carry them across the room.
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-amber-400 uppercase">Zero-Motor Mid-Air Release</span>
+            <span class="font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded">0.02 g Dyneema Thread</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🪽 85° Wing-Flare "Lost-Motion" Drop</h3>
+          <p class="text-slate-300 leading-relaxed">
+            One <code class="text-amber-300">0.1 mm Dyneema tendon</code> links the existing <code class="text-white">1.7 g</code> wing servo to both grippers via a slotted cam. During normal flight (<code class="text-white">0°–65°</code> wing angle), the thread stays slack. Commanding an <strong class="text-white">85° Full Wing Flare</strong> over a target cup or hand pulls the tendon <code class="text-white">3 mm</code>—<strong class="text-emerald-300">simultaneously spreading the carbon mandibles to drop a ping-pong ball AND lifting a 1 mm edge-peel tab on the suction cup lip to break vacuum and drop a card!</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Double-Duty Utility Matrix (Zero or Sub-Gram Added Hardware) -->
+      <div class="pt-2 space-y-2.5">
+        <h3 class="text-xs sm:text-sm font-semibold text-slate-200 uppercase tracking-wider font-mono">
+          Double-Duty Physical & Ambient Utilities Unlocked (&lt; 4.0 g Payload Ceiling)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-amber-300">🏓 Cup-Pong & "Goblin Fetch"</div>
+            <p class="text-slate-400 leading-relaxed">
+              Scoop a <code class="text-slate-200">2.7 g</code> ping-pong ball off the desk and drop it into a cup across the room, or retrieve dropped <code class="text-slate-200">&lt;4 g</code> items (rings <code class="text-slate-200">2.5 g</code>, single AirPod <code class="text-slate-200">4.0 g</code>, SD card, guitar pick) from behind a desk.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-sky-300">💌 Suction Photo & Note Courier</div>
+            <p class="text-slate-400 leading-relaxed">
+              Vacuum-pick a fresh <code class="text-slate-200">1.2 g</code> Instax print, playing card, tea bag, or handwritten note with the front suction cup, fly to a roommate's desk, flare wings to <code class="text-slate-200">85°</code>, and peel-drop it into their palm.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-emerald-300">💨 9 m/s Precision Desk Air-Duster</div>
+            <p class="text-slate-400 leading-relaxed">
+              Double-duty rotor downwash: a low <code class="text-slate-200">6 cm</code> hover pass over a mechanical keyboard or desk mat uses the focused 4-duct slipstream to blow away crumbs and dust before returning to its nest.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-purple-300">🚨 High-Wall Alarm & Stove Sentinel</div>
+            <p class="text-slate-400 leading-relaxed">
+              Flies to a high mirror out of arm's reach at 7:00 AM so you must stand up to dismiss your alarm, or hops upstairs to check if the stove/iron was left on (<code class="text-slate-200">+0.05 g</code> FIR thermal + <code class="text-slate-200">+0.09 g</code> BME688 VOC nose).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: UCLA Freshman ~$90 BOM & Weight Budget -->
     <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
         <div>
-          <h2 class="text-lg sm:text-xl font-bold text-white">2. UCLA Freshman Build Blueprint (`~$88` vs. `$524+` Crazyflie)</h2>
+          <h2 class="text-lg sm:text-xl font-bold text-white">3. UCLA Freshman Build Blueprint (`~$90` vs. `$524+` Crazyflie)</h2>
           <p class="text-xs text-slate-400">
             Skip the $524 RobotShop Crazyflie for V1 — the <strong class="text-white">$49.95 M5Stack StampFly v1.1</strong> already includes an 8.1 cm 4-duct shroud, ESP32-S3, Optical Flow camera, and Laser ToF altitude hold.
           </p>
@@ -206,7 +305,7 @@
             </tr>
             <tr>
               <td class="py-2.5 pr-3 font-semibold text-white">1.7 g Micro Linear Servo + Y-Wire Pushrod</td>
-              <td class="py-2.5 px-3 text-slate-300">Active 6 mm throw opens both Elytra 45° and breathes at 2 Hz (prevents rotor suction flutter)</td>
+              <td class="py-2.5 px-3 text-slate-300">Active 6 mm throw opens both Elytra 45°, breathes at 2 Hz, & triggers 85° lost-motion drop</td>
               <td class="py-2.5 px-3 text-right font-mono">1.7 g</td>
               <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$11.99</td>
             </tr>
@@ -217,10 +316,16 @@
               <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$6.50</td>
             </tr>
             <tr>
-              <td class="py-2.5 pr-3 font-semibold text-white">TPU-Gimbaled Micro-Suction / Gecko Nose Pad</td>
-              <td class="py-2.5 px-3 text-slate-300">2 mm compliant TPU neck self-aligns on glass/mirrors/wall targets for 0 W silent perching</td>
+              <td class="py-2.5 pr-3 font-semibold text-white">Dual-Use 90° Flip Micro-Suction / Gecko Pad</td>
+              <td class="py-2.5 px-3 text-slate-300">0 W vertical wall/mirror perching + flips down 90° to vacuum-pick flat cards/photos + peel-tab release</td>
               <td class="py-2.5 px-3 text-right font-mono">0.8 g</td>
               <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$5.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">0.5 mm Carbon-Wire Stag Mandibles + Dyneema Tendon</td>
+              <td class="py-2.5 px-3 text-slate-300">25°–30° forward chin caliper snaps around 40 mm (2.7 g) ping-pong balls & rings; 85° wing-flare drop</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.95 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$2.50</td>
             </tr>
             <tr>
               <td class="py-2.5 pr-3 font-semibold text-white">Seeed XIAO ESP32S3 Sense + Spring Launch Nest</td>
@@ -231,19 +336,19 @@
           </tbody>
           <tfoot>
             <tr class="border-t-2 border-slate-700 font-semibold text-white">
-              <td class="pt-3 pr-3">TOTAL STAGE-1 PROTOTYPE</td>
-              <td class="pt-3 px-3 text-xs text-slate-400">Leaves ~5–7 g thrust margin on the 8.1 cm StampFly</td>
-              <td class="pt-3 px-3 text-right font-mono text-amber-300">40.7 g Flying</td>
-              <td class="pt-3 pl-3 text-right font-mono text-emerald-400">~$87.93</td>
+              <td class="pt-3 pr-3">TOTAL STAGE-1 PROTOTYPE (WITH ARMS & SUCTION)</td>
+              <td class="pt-3 px-3 text-xs text-slate-400">Carries 2.7 g ping-pong ball or 1.2 g Instax photo inside StampFly thrust margin</td>
+              <td class="pt-3 px-3 text-right font-mono text-amber-300">41.65 g Flying</td>
+              <td class="pt-3 pl-3 text-right font-mono text-emerald-400">~$90.43</td>
             </tr>
           </tfoot>
         </table>
       </div>
     </section>
 
-    <!-- Section 3: 2-Weekend Step-by-Step Build Plan -->
+    <!-- Section 4: 2-Weekend Step-by-Step Build Plan -->
     <section class="space-y-3">
-      <h2 class="text-lg sm:text-xl font-bold text-white">3. Weekend-by-Weekend Build Checklist</h2>
+      <h2 class="text-lg sm:text-xl font-bold text-white">4. Weekend-by-Weekend Build Checklist</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
         <div class="glass-card rounded-xl p-4 space-y-2">
           <div class="text-xs font-mono text-amber-400 uppercase">Weekend 1 · ~$35 Stage-0 Desk Build</div>
@@ -279,7 +384,8 @@
     const canvas = document.getElementById('scarabCanvas');
     const ctx = canvas.getContext('2d');
 
-    let currentStage = 1; // 0: Perch, 1: Spring Jump-Start, 2: Shrouded Hover, 3: Wall-Sit & Stare
+    let currentStage = 1; // 0: Perch, 1: Spring Jump-Start, 2: Shrouded Hover, 3: Wall-Sit & Stare, 4: Scoop, Suction & Drop
+    let gripSubMode = 'pingpong'; // 'pingpong' (3D Mandibles) or 'suction' (2D Flat Suction Pad)
     let autoPlay = true;
     let xray = true;
     let cadMode = false;
@@ -296,7 +402,7 @@
       {
         title: 'STAGE 2: Nest Spring Jump-Start + Watch-Movement Unfold (→ 18.0 cm)',
         badge: '0.18 J Piston · 2.8 m/s Leap',
-        desc: 'Releasing the nest spring launches the 40.7 g Scarab 40 cm straight up while the 1.7 g servo splits the 0.4 mm PLA elytra and fans out translucent Mylar sub-wings to 18.0 cm—catching hover at apex without takeoff rotor scream.'
+        desc: 'Releasing the nest spring launches the 41.6 g Scarab 40 cm straight up while the 1.7 g servo splits the 0.4 mm PLA elytra and fans out translucent Mylar sub-wings to 18.0 cm—catching hover at apex without takeoff rotor scream.'
       },
       {
         title: 'STAGE 3: Shrouded Low-RPM Hover + Micro-Louver Sidestep',
@@ -307,6 +413,11 @@
         title: 'STAGE 4: Wall-Sitting & Staring Sentinel (0 W · 0 dB Silence)',
         badge: '0 W Motors Off · Silent Eye Peek',
         desc: 'A 1-second rotor push locks the 0.8 g TPU-gimbaled micro-suction / gecko pad onto a mirror or wall spot. Motors shut completely off (0 W, 0 dB), and the golden shell cracks 15° so the camera eye can quietly watch the room.'
+      },
+      {
+        title: 'STAGE 5: Forward Chin Mandibles & Dual-Use Suction Fetch (< 4 g Payloads)',
+        badge: '0.95g Mandibles + 0.8g Suction · 85° Flare Drop',
+        desc: 'Lands behind a 2.7 g (40 mm) ping-pong ball to scoop it into 25°–30° forward carbon mandibles (or nose-tilts onto a 1.2 g Instax photo with the chin suction cup)—keeping the 42° Optical Flow & 27° ToF belly cones 100% clear—then flares wings to 85° to pull the shared Dyneema release tendon and drop it in!'
       }
     ];
 
@@ -314,6 +425,21 @@
       currentStage = idx;
       stageTimer = 0;
       manualUnfold = null;
+      updateStageUI();
+    }
+
+    function toggleGripSubMode() {
+      gripSubMode = gripSubMode === 'pingpong' ? 'suction' : 'pingpong';
+      const btn = document.getElementById('btn-grip-mode');
+      if (gripSubMode === 'pingpong') {
+        btn.textContent = '🏓 Stage 5 Payload: 2.7g Ping-Pong (Mandibles)';
+        btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-sky-500/15 text-sky-300 border border-sky-500/35 hover:bg-sky-500/25 transition';
+      } else {
+        btn.textContent = '💌 Stage 5 Payload: 1.2g Instax Card (Suction Cup)';
+        btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-500/15 text-rose-300 border border-rose-500/35 hover:bg-rose-500/25 transition';
+      }
+      currentStage = 4;
+      stageTimer = 0;
       updateStageUI();
     }
 
@@ -345,17 +471,27 @@
     }
 
     function updateStageUI() {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         const el = document.getElementById('stage-' + i);
+        if (!el) continue;
         if (i === currentStage) {
-          el.className = 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
         } else {
-          el.className = 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
         }
       }
       const meta = STAGE_META[currentStage];
-      document.getElementById('overlay-title').textContent = meta.title;
-      document.getElementById('overlay-badge').textContent = meta.badge;
+      if (currentStage === 4) {
+        document.getElementById('overlay-title').textContent = gripSubMode === 'pingpong'
+          ? 'STAGE 5A: 0.95g Stag Mandibles — Land-Behind, Scoop & 85° Wing-Flare Cup Drop (2.7g Ball)'
+          : 'STAGE 5B: 0.8g Dual-Use Chin Suction — Land-Beside, Nose-Tilt Seal & 75° Peel-Drop (1.2g Photo)';
+        document.getElementById('overlay-badge').textContent = gripSubMode === 'pingpong'
+          ? '3D Grip · 0 W Hold · Sensors 100% Clear'
+          : '2D Vacuum Grip · 1.5mm Edge-Peel Tab';
+      } else {
+        document.getElementById('overlay-title').textContent = meta.title;
+        document.getElementById('overlay-badge').textContent = meta.badge;
+      }
       document.getElementById('overlay-desc').textContent = meta.desc;
     }
 
@@ -372,10 +508,32 @@
       ctx.restore();
     }
 
-    function drawScarabUnit(x, y, rotRad, unfold, rotorsSpinning, eyeAwake, wallMode) {
+    function drawScarabUnit(x, y, rotRad, unfold, rotorsSpinning, eyeAwake, wallMode, flareRelease = 0, showBellyCone = false) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotRad);
+
+      // Optional Belly Sensor Cone (PMW3901 42° Optical Flow + VL53L3CX 27° ToF) proving 0% occlusion!
+      if (showBellyCone && rotorsSpinning) {
+        ctx.save();
+        const coneGrad = ctx.createLinearGradient(0, 18, 0, 115);
+        coneGrad.addColorStop(0, 'rgba(16, 185, 129, 0.28)');
+        coneGrad.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+        ctx.fillStyle = coneGrad;
+        ctx.beginPath();
+        ctx.moveTo(-4, 18);
+        ctx.lineTo(-34, 110);
+        ctx.lineTo(24, 110);
+        ctx.lineTo(4, 18);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(52, 211, 153, 0.45)';
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
 
       // Laminar shrouded downwash + micro-louver vectored slipstream when rotors are active
       if (rotorsSpinning) {
@@ -398,12 +556,13 @@
       const wingMaxPx = 68;
       const fanExt = unfold * wingMaxPx;
       const breathe = rotorsSpinning ? Math.sin(t * 4.0) * 0.05 * unfold : 0;
+      const flareBoost = flareRelease * 0.26; // 85° full wing flare over-travel
 
       if (unfold > 0.04) {
         [-1, 1].forEach(dir => {
           ctx.save();
           ctx.translate(dir * 22, -5);
-          ctx.rotate(dir * (-0.08 + breathe * 0.6));
+          ctx.rotate(dir * (-0.08 - flareBoost + breathe * 0.6));
           ctx.fillStyle = 'rgba(56, 189, 248, 0.17)';
           ctx.strokeStyle = 'rgba(56, 189, 248, 0.72)';
           ctx.lineWidth = 1.3;
@@ -422,10 +581,10 @@
       [-1, 1].forEach(dir => {
         ctx.save();
         ctx.translate(dir * 16, -15);
-        const liftAng = unfold * 0.62 + breathe;
+        const liftAng = unfold * 0.62 + flareBoost + breathe;
         ctx.rotate(dir * (-liftAng));
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.34)';
-        ctx.strokeStyle = '#fbbf24';
+        ctx.fillStyle = flareRelease > 0.2 ? 'rgba(251, 113, 133, 0.42)' : 'rgba(245, 158, 11, 0.34)';
+        ctx.strokeStyle = flareRelease > 0.2 ? '#fb7185' : '#fbbf24';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(0, 0);
@@ -476,9 +635,53 @@
         ctx.stroke();
       }
 
-      // 2mm TPU-Gimbaled Micro-Suction / Gecko Pad at Belly/Nose
+      // 25°–30° Forward-Cantilevered 0.5mm Carbon-Wire Stag Mandibles + Bimodal Chin Suction Pad
+      ctx.save();
+      const jawSpread = flareRelease * 7; // Opens jaws on 85° flare
+      ctx.strokeStyle = flareRelease > 0.2 ? '#fb7185' : '#94a3b8';
+      ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      // Upper/Far carbon mandible
+      ctx.moveTo(24, 10);
+      ctx.quadraticCurveTo(42, 16 - jawSpread * 0.5, 52, 22 - jawSpread);
+      // Lower/Near carbon mandible
+      ctx.moveTo(22, 14);
+      ctx.quadraticCurveTo(40, 25 + jawSpread * 0.5, 50, 29 + jawSpread);
+      ctx.stroke();
+
+      // Silicone high-friction mandible tips
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.arc(52, 22 - jawSpread, 2.2, 0, Math.PI * 2);
+      ctx.arc(50, 29 + jawSpread, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Shared 0.08mm Dyneema Lost-Motion Release Tendon (pulls taut during 85° wing flare)
+      if (xray || flareRelease > 0.1) {
+        ctx.strokeStyle = flareRelease > 0.1 ? '#fbbf24' : 'rgba(251, 191, 36, 0.45)';
+        ctx.setLineDash([2, 2]);
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(6, -6);
+        ctx.lineTo(28, 14);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // 0.8g Bimodal Chin Suction / Gecko Pad (90° flip-detent: forward for walls, ventral for flat cards)
       ctx.fillStyle = '#38bdf8';
-      ctx.fillRect(-10, 20, 20, 4);
+      if (wallMode) {
+        ctx.fillRect(-10, 20, 20, 4);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(16, 17);
+        ctx.lineTo(31, 20);
+        ctx.lineTo(29, 25 - flareRelease * 3); // Edge-peel lip lifts when flareRelease > 0!
+        ctx.lineTo(15, 22);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
 
       // Pronotum Golden Camera Eye + Silent Staring Vision Cone
       ctx.fillStyle = eyeAwake ? '#fde047' : '#475569';
@@ -505,7 +708,7 @@
 
     function renderSceneView(w, h) {
       // 1) Draw Desk Surface + Spring-Loaded Charging Nest on the Left/Center-Left
-      const nestX = 250;
+      const nestX = currentStage === 4 ? 145 : 250;
       const nestY = 255;
 
       // Desk surface line
@@ -514,11 +717,11 @@
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(40, nestY + 22);
-      ctx.lineTo(680, nestY + 22);
+      ctx.lineTo(740, nestY + 22);
       ctx.stroke();
 
       // Right-Side Vertical Mirror / Wall Surface (for Stage 4 Wall-Sitting Sentinel!)
-      const wallX = 680;
+      const wallX = 720;
       ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
       ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
       ctx.lineWidth = 3;
@@ -530,14 +733,14 @@
 
       ctx.font = '12px monospace';
       ctx.fillStyle = '#38bdf8';
-      ctx.fillText('VERTICAL WALL / MIRROR', wallX - 155, 48);
+      ctx.fillText('VERTICAL WALL / MIRROR', wallX - 165, 48);
 
       // Desk Charging Nest Bowl + Internal 0.18 J Launch Spring Cutaway
       ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
       ctx.strokeStyle = '#94a3b8';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.ellipse(nestX, nestY, 62, 16, 0, 0, Math.PI * 2);
+      ctx.ellipse(nestX, nestY, 54, 15, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
 
@@ -549,6 +752,8 @@
       let rotorsOn = false;
       let eyeOn = false;
       let springCompression = 1.0; // 1.0 = compressed, 0.0 = extended
+      let flareRelease = 0;
+      let showBellyCone = false;
 
       if (currentStage === 0) {
         // Perched Pebble
@@ -606,6 +811,122 @@
         ctx.font = '12px monospace';
         ctx.fillText('0.8g TPU Suction Locked · Motors 0 W (0 dB)', wallX - 310, 132);
         ctx.restore();
+      } else if (currentStage === 4) {
+        // STAGE 5: Land-Behind Scoop (3D Ping-Pong Ball) OR Nose-Tilt Suction (2D Instax Card) -> Carry -> 85° Wing-Flare Tendon Drop!
+        const loopDur = 5.6;
+        const p = (stageTimer % loopDur) / loopDur;
+        const pickupX = 290;
+        const cupX = 575;
+        const deskTopY = nestY + 22;
+        springCompression = 0.2;
+        eyeOn = true;
+        showBellyCone = true;
+
+        // Draw Target Red Solo Cup / Catch Tray at cupX
+        ctx.save();
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.24)';
+        ctx.strokeStyle = '#fb7185';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cupX - 28, deskTopY - 48);
+        ctx.lineTo(cupX - 20, deskTopY);
+        ctx.lineTo(cupX + 20, deskTopY);
+        ctx.lineTo(cupX + 28, deskTopY - 48);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#fda4af';
+        ctx.fillText(gripSubMode === 'pingpong' ? 'TARGET CUP' : 'DROP ZONE', cupX - 34, deskTopY + 15);
+        ctx.restore();
+
+        let payloadX = pickupX + 44;
+        let payloadY = deskTopY - 12;
+
+        if (p < 0.25) {
+          // Phase 1: Landed 6 cm behind ball (or beside card), scooting forward / nose-tilting to capture without rotor blow-away!
+          const scoot = p / 0.25;
+          sx = (pickupX - 35) + scoot * 35;
+          sy = deskTopY - 26;
+          rot = gripSubMode === 'suction' && scoot > 0.5 ? 0.14 : 0.04; // Nose-tilt for suction seal
+          unfold = 0.35;
+          rotorsOn = scoot > 0.15;
+          payloadX = pickupX + 44;
+          payloadY = gripSubMode === 'pingpong' ? deskTopY - 13 : deskTopY - 4;
+        } else if (p < 0.65) {
+          // Phase 2: Lift off & carry across desk (Belly Optical Flow + ToF 100% clear!)
+          const fly = (p - 0.25) / 0.40;
+          const smooth = fly * fly * (3 - 2 * fly);
+          sx = pickupX + smooth * (cupX - 44 - pickupX);
+          sy = (deskTopY - 26) - Math.sin(fly * Math.PI * 0.85) * 115 - fly * 25;
+          rot = 0.03;
+          unfold = 0.82; // Normal flight (below 65° lost-motion threshold -> tendon slack!)
+          rotorsOn = true;
+          payloadX = sx + 44;
+          payloadY = sy + 24;
+        } else if (p < 0.80) {
+          // Phase 3: Hover over Target Cup & Execute 85° Full Wing Flare -> Pulls Dyneema Tendon 3mm!
+          const flareP = (p - 0.65) / 0.15;
+          sx = cupX - 44;
+          sy = deskTopY - 135;
+          rot = -0.04;
+          unfold = 1.0;
+          flareRelease = Math.min(1, flareP * 1.5);
+          rotorsOn = true;
+          payloadX = sx + 44;
+          payloadY = (sy + 24) + Math.pow(flareP, 2) * 35;
+        } else {
+          // Phase 4: Payload drops cleanly into the cup while Scarab holds hover!
+          const dropP = (p - 0.80) / 0.20;
+          sx = cupX - 44;
+          sy = deskTopY - 135;
+          rot = 0;
+          unfold = 0.85;
+          flareRelease = Math.max(0, 1 - dropP * 2);
+          rotorsOn = true;
+          payloadX = cupX;
+          payloadY = Math.min(deskTopY - 14, (deskTopY - 76) + dropP * 95);
+        }
+
+        // Draw the Payload (40mm 2.7g Ping-Pong Ball OR 1.2g Flat Instax Photo/Card)
+        ctx.save();
+        if (gripSubMode === 'pingpong') {
+          ctx.fillStyle = '#fb923c';
+          ctx.strokeStyle = '#fff7ed';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.arc(payloadX, payloadY, 12, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#fdba74';
+          ctx.fillText('40mm · 2.7g', payloadX - 28, payloadY - 17);
+        } else {
+          ctx.translate(payloadX - 6, payloadY);
+          ctx.fillStyle = '#f8fafc';
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.5;
+          ctx.fillRect(-16, -3, 34, 7);
+          ctx.strokeRect(-16, -3, 34, 7);
+          ctx.fillStyle = '#0ea5e9';
+          ctx.fillRect(-10, -2, 22, 4);
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#7dd3fc';
+          ctx.fillText('1.2g Instax / Card', -36, -10);
+        }
+        ctx.restore();
+
+        // Live Phase Status Callout on Canvas
+        ctx.save();
+        ctx.font = '12px monospace';
+        ctx.fillStyle = flareRelease > 0.2 ? '#fb7185' : '#34d399';
+        const statusMsg = p < 0.25
+          ? (gripSubMode === 'pingpong' ? '1. Land 6cm Behind & Scoot Forward (0 W Snap-In)' : '1. Land Beside, Idle & Nose-Tilt (3.8N Vacuum Seal)')
+          : p < 0.65
+          ? '2. Forward Carry: 42° Optical Flow & 27° ToF Cone 100% Clear!'
+          : '3. 85° Wing Flare -> Pulls Dyneema Tendon 3mm -> Mid-Air Drop!';
+        ctx.fillText(statusMsg, 225, 52);
+        ctx.restore();
       }
 
       if (manualUnfold !== null) {
@@ -640,14 +961,14 @@
       ctx.restore();
 
       // Draw the Scarab Unit at its current stage pose
-      drawScarabUnit(sx, sy, rot, unfold, rotorsOn, eyeOn, currentStage === 3);
+      drawScarabUnit(sx, sy, rot, unfold, rotorsOn, eyeOn, currentStage === 3, flareRelease, showBellyCone);
     }
 
     function renderCadBlueprintView(w, h) {
       const cx = w / 2;
-      const cy = h / 2;
+      const cy = h / 2 + 18;
       const d = manualUnfold !== null ? manualUnfold : (currentStage === 0 ? 0.0 : currentStage === 3 ? 0.25 : 1.0);
-      const pxPerCm = 24.0;
+      const pxPerCm = 22.0;
       const totalSpanCm = 8.1 + d * (18.0 - 8.1);
       const halfSpanPx = (totalSpanCm * pxPerCm) / 2;
 
@@ -656,14 +977,14 @@
       ctx.fillStyle = '#38bdf8';
       ctx.lineWidth = 1.4;
       ctx.beginPath();
-      ctx.moveTo(cx - halfSpanPx, 28);
-      ctx.lineTo(cx + halfSpanPx, 28);
-      ctx.moveTo(cx - halfSpanPx, 22); ctx.lineTo(cx - halfSpanPx, 34);
-      ctx.moveTo(cx + halfSpanPx, 22); ctx.lineTo(cx + halfSpanPx, 34);
+      ctx.moveTo(cx - halfSpanPx, 24);
+      ctx.lineTo(cx + halfSpanPx, 24);
+      ctx.moveTo(cx - halfSpanPx, 18); ctx.lineTo(cx - halfSpanPx, 30);
+      ctx.moveTo(cx + halfSpanPx, 18); ctx.lineTo(cx + halfSpanPx, 30);
       ctx.stroke();
       ctx.font = '12px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(`TOP-DOWN CAD BLUEPRINT · SPAN: ${totalSpanCm.toFixed(1)} cm (Core: 8.1 x 8.1 cm StampFly · 4 Ducts Unobstructed)`, cx, 19);
+      ctx.fillText(`TOP-DOWN CAD BLUEPRINT · SPAN: ${totalSpanCm.toFixed(1)} cm (Core: 8.1cm · Forward Chin Mandibles + Suction Pad)`, cx, 15);
 
       // 8.1 x 8.1 cm StampFly Quad Frame
       const coreHalf = (8.1 * pxPerCm) / 2;
@@ -672,9 +993,41 @@
       ctx.lineWidth = 1.5;
       ctx.strokeRect(cx - coreHalf, cy - coreHalf, coreHalf * 2, coreHalf * 2);
 
+      // Forward-Cantilevered 0.5mm Carbon-Wire Stag Mandibles + 40mm Ping-Pong Pocket (Ahead of Front Bumper)
+      const frontY = cy - coreHalf;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2.4;
+      [-1, 1].forEach(dir => {
+        ctx.beginPath();
+        ctx.moveTo(cx + dir * 16, frontY + 4);
+        ctx.quadraticCurveTo(cx + dir * 48, frontY - 26, cx + dir * 40, frontY - 58);
+        ctx.stroke();
+      });
+
+      // 40mm (2.7g) Ping-Pong Ball Capture Pocket (Dashed Circle Ahead of Ducts)
+      ctx.strokeStyle = 'rgba(251, 146, 60, 0.75)';
+      ctx.fillStyle = 'rgba(251, 146, 60, 0.14)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.arc(cx, frontY - 38, 38, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#fdba74';
+      ctx.font = '10px monospace';
+      ctx.fillText('40mm Ball Pocket (Clear of Ducts & Sensors)', cx, frontY - 82);
+
+      // Ø14mm (0.8g) Bimodal Chin Suction Pad
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(cx, frontY - 12, 13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
       // 4 Ducts
-      const ductOff = 48;
-      const ductR = 39;
+      const ductOff = 44;
+      const ductR = 36;
       [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => {
         const rx = cx + dx * ductOff;
         const ry = cy + dy * ductOff;
@@ -694,15 +1047,23 @@
         ctx.stroke();
       });
 
+      // Center Belly PMW3901 Optical Flow + VL53L3CX ToF Sensor Window (Unobstructed!)
+      ctx.strokeStyle = '#34d399';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.22)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
       // Mylar Sub-Wing Fans
       if (d > 0.04) {
         [-1, 1].forEach(dir => {
           ctx.save();
-          ctx.translate(cx + dir * 28, cy - 12);
+          ctx.translate(cx + dir * 26, cy - 12);
           ctx.rotate(dir * (-0.14 * d));
           ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
           ctx.strokeStyle = '#38bdf8';
-          const fanW = d * 185;
+          const fanW = d * 170;
           ctx.beginPath();
           ctx.moveTo(0, 0);
           ctx.quadraticCurveTo(dir * fanW * 0.65, -22 * d, dir * fanW, 10);
@@ -717,23 +1078,23 @@
       // Split 0.4 mm Vase-Mode PLA Elytra Shells
       [-1, 1].forEach(dir => {
         ctx.save();
-        ctx.translate(cx + dir * 12, cy - 60);
+        ctx.translate(cx + dir * 12, cy - 55);
         ctx.rotate(dir * (-d * 0.82));
         ctx.fillStyle = 'rgba(245, 158, 11, 0.35)';
         ctx.strokeStyle = '#fbbf24';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(0, 0);
-        ctx.quadraticCurveTo(dir * 84, 5, dir * 82, 75);
-        ctx.quadraticCurveTo(dir * 72, 142, 0, 138);
+        ctx.quadraticCurveTo(dir * 78, 5, dir * 76, 70);
+        ctx.quadraticCurveTo(dir * 66, 132, 0, 128);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
         ctx.restore();
       });
 
-      // 1.7g Linear Servo Y-Pushrod Linkage
-      const servoY = cy + 12 - d * 24;
+      // 1.7g Linear Servo Y-Pushrod Linkage + Shared Lost-Motion Dyneema Tendon to Front Chin
+      const servoY = cy + 12 - d * 22;
       ctx.strokeStyle = '#f97316';
       ctx.fillStyle = '#f97316';
       ctx.lineWidth = 2.2;
@@ -743,9 +1104,17 @@
       [-1, 1].forEach(dir => {
         ctx.beginPath();
         ctx.moveTo(cx, servoY);
-        ctx.lineTo(cx + dir * (18 + d * 32), cy - 28 - d * 10);
+        ctx.lineTo(cx + dir * (18 + d * 30), cy - 26 - d * 10);
         ctx.stroke();
       });
+      // Shared Dyneema release line to suction peel-tab & mandibles
+      ctx.strokeStyle = '#fbbf24';
+      ctx.setLineDash([3, 2]);
+      ctx.beginPath();
+      ctx.moveTo(cx, servoY);
+      ctx.lineTo(cx, frontY - 12);
+      ctx.stroke();
+      ctx.setLineDash([]);
 
       ctx.restore();
     }
@@ -753,8 +1122,9 @@
     function animate() {
       t += 0.016;
       stageTimer += 0.016;
-      if (autoPlay && !cadMode && stageTimer > 4.2) {
-        currentStage = (currentStage + 1) % 4;
+      const stageDur = currentStage === 4 ? 5.6 : 4.2;
+      if (autoPlay && !cadMode && stageTimer > stageDur) {
+        currentStage = (currentStage + 1) % 5;
         stageTimer = 0;
         updateStageUI();
       }
