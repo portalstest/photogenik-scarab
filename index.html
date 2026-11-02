@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photogenik — The Porcelain Scarab (SnitchCam Engineering Proposal)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #0b0f17;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      backdrop-filter: blur(12px);
+    }
+    .gold-pill {
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+    .emerald-pill {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-500/30 selection:text-amber-200">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+
+    <!-- Minimal Editorial Header -->
+    <header class="space-y-3 border-b border-slate-800 pb-7">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="gold-pill text-xs font-semibold px-2.5 py-1 rounded-full tracking-wide uppercase">Photogenik · SnitchCam V1</span>
+        <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Perch → 18.0 cm Flight</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$88 UCLA Makerspace Build</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
+        The Porcelain Scarab: Quiet Micro-Companion & Wall-Perching Camera
+      </h1>
+      <p class="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+        An owned autonomous flying digital pet that rests as an <strong class="text-slate-200">8.1 cm sculpted pebble</strong>, leaps smoothly into hover via a <strong class="text-amber-300">spring-loaded desk nest</strong>, unfolds <strong class="text-slate-200">18.0 cm watch-movement beetle wings</strong>, and clings silently to walls or mirrors (<strong class="text-emerald-300">0 W · 0 dB</strong>) to watch the room.
+      </p>
+    </header>
+
+    <!-- Interactive Animated Breakdown Card -->
+    <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 4-Stage Animated Breakdown</h2>
+          <p class="text-xs text-slate-400">Tap any stage below or switch to the Top-Down CAD Blueprint to inspect the internal mechanics</p>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="btn-auto" onclick="toggleAutoPlay()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+            ⏸ Auto-Story: ON
+          </button>
+          <button id="btn-xray" onclick="toggleXray()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
+            🔍 X-Ray: ON
+          </button>
+          <button id="btn-cad" onclick="toggleCadMode()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
+            📐 View: Flight Scene
+          </button>
+        </div>
+      </div>
+
+      <!-- 4-Stage Selector Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <button id="stage-0" onclick="selectStage(0)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-amber-400">STAGE 1 · 8.1 cm</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪹 Perched Pebble</div>
+          <div class="text-xs text-slate-400 mt-0.5">Coiled 0.18 J nest spring</div>
+        </button>
+        <button id="stage-1" onclick="selectStage(1)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-amber-400">STAGE 2 · 2.8 m/s</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🚀 Spring Jump-Start</div>
+          <div class="text-xs text-slate-400 mt-0.5">40 cm leap + 18 cm unfold</div>
+        </button>
+        <button id="stage-2" onclick="selectStage(2)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-emerald-400">STAGE 3 · 2 Hz Pose</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">✨ Shrouded Hover</div>
+          <div class="text-xs text-slate-400 mt-0.5">Duct lift + louver sidestep</div>
+        </button>
+        <button id="stage-3" onclick="selectStage(3)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-sky-400">STAGE 4 · 0 W / 0 dB</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit & Stare</div>
+          <div class="text-xs text-slate-400 mt-0.5">Suction lock + eye peek</div>
+        </button>
+      </div>
+
+      <!-- High-DPI Canvas Viewport -->
+      <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-[#070a10]">
+        <canvas id="scarabCanvas" width="840" height="370" class="w-full h-[290px] sm:h-[360px] block"></canvas>
+
+        <!-- Live Stage Callout Overlay (Bottom Left) -->
+        <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md bg-slate-950/85 border border-slate-800/90 rounded-lg px-3.5 py-2.5 backdrop-blur-md">
+          <div class="flex items-center justify-between gap-2">
+            <span id="overlay-title" class="text-xs font-semibold text-amber-300">STAGE 2: Spring Jump-Start + Watch-Movement Unfold</span>
+            <span id="overlay-badge" class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-300">0.18 J Dock Piston</span>
+          </div>
+          <p id="overlay-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+            The desk nest's damped spring launches the 40 g Scarab 40 cm upward while the 1.7 g linear servo splits the 0.4 mm PLA elytra and fans out Mylar sub-wings to 18.0 cm—catching hover at apex with zero takeoff rotor scream.
+          </p>
+        </div>
+      </div>
+
+      <!-- Manual Unfold / Servo Scrubber -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-1 text-xs text-slate-400">
+        <div class="flex items-center gap-3 flex-1 min-w-[220px]">
+          <span class="whitespace-nowrap font-medium text-slate-300">Manual Wing / Servo Scrub (8.1 → 18.0 cm):</span>
+          <input id="manualSlider" type="range" min="0" max="1" step="0.01" value="1" class="w-full accent-amber-400 cursor-pointer" oninput="onManualScrub(this.value)" />
+          <span id="manualSpanLabel" class="font-mono text-amber-300 w-16 text-right">18.0 cm</span>
+        </div>
+        <div class="font-mono text-slate-400">
+          Total Flying Mass: <strong class="text-white">39.9 g</strong> (35.8 g StampFly + 4.1 g Scarab Shell)
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: The 3 Selected Propulsion & Perching Unlocks -->
+    <section class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-lg sm:text-xl font-bold text-white">1. Core Propulsion & Perching Architecture</h2>
+        <p class="text-xs sm:text-sm text-slate-400">
+          Why we reject onboard compressed-gas tanks (<code class="text-amber-300">0.8 g/s</code> propellant burn + <code class="text-amber-300">105 dBA</code> supersonic hiss) and instead package <strong class="text-slate-200">spring launch in the nest</strong>, <strong class="text-slate-200">quiet shrouded lift in the core</strong>, and <strong class="text-slate-200">zero-power suction perching on walls</strong>:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-amber-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-amber-400 uppercase">Unlock 1 · Zero-Scream Takeoff</span>
+            <span class="text-xs font-mono bg-amber-500/15 text-amber-300 px-2 py-0.5 rounded">+0 g on Drone</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🚀 Spring Jump-Start Nest</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Lifting a <code class="text-white">40 g</code> Scarab <code class="text-white">40 cm</code> straight into the air only takes <code class="text-amber-300">0.18 Joules</code> (<code class="text-white">~2.8 m/s</code> exit speed). A damped coil spring inside the desk Charging Nest pops the Scarab up to eye level; the shrouded rotors smoothly catch it at the top of the arc, skipping the loud ground-effect spin-up scream.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-sky-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-sky-400 uppercase">Unlock 2 · All-Day Sentinel</span>
+            <span class="text-xs font-mono bg-sky-500/15 text-sky-300 px-2 py-0.5 rounded">0 W · 0 dB Perched</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🪞 Wall-Sitting & Staring</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Instead of burning battery to hover for 5 minutes, the Scarab uses a 1-second rotor push to press a <code class="text-sky-300">0.8 g TPU-gimbaled micro-suction / gecko pad</code> (or magnet) onto a mirror, window, or wall spot—then <strong class="text-white">cuts all motors to 0 W</strong>. It cracks its golden shell <code class="text-white">15°</code> so the hidden camera eye can quietly watch and snap portraits for hours.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-emerald-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-emerald-400 uppercase">Unlock 3 · Decoupled Charm</span>
+            <span class="text-xs font-mono bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded">8.1 → 18.0 cm</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🦋 Shrouded Core + Breathing Shell</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            High-speed flapping wings at <code class="text-white">20 cm</code> buzz loudly and carry almost zero camera weight (<code class="text-white">1–3 g</code>). Instead, a foam-baffled <code class="text-emerald-300">8.1 cm shrouded quad</code> handles lift & level-horizon sidesteps while ultra-light <code class="text-white">0.4 mm</code> beetle shells open to <code class="text-white">18.0 cm</code> and gently breathe at <code class="text-white">2 Hz</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: UCLA Freshman ~$88 BOM & Weight Budget -->
+    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-white">2. UCLA Freshman Build Blueprint (`~$88` vs. `$524+` Crazyflie)</h2>
+          <p class="text-xs text-slate-400">
+            Skip the $524 RobotShop Crazyflie for V1 — the <strong class="text-white">$49.95 M5Stack StampFly v1.1</strong> already includes an 8.1 cm 4-duct shroud, ESP32-S3, Optical Flow camera, and Laser ToF altitude hold.
+          </p>
+        </div>
+        <span class="emerald-pill text-xs font-mono px-3 py-1 rounded-full">Free 3D Printing @ UCLA Boelter Makerspace</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 font-mono text-xs uppercase">
+              <th class="py-2 pr-3">Component</th>
+              <th class="py-2 px-3">Role in Porcelain Scarab</th>
+              <th class="py-2 px-3 text-right">Mass</th>
+              <th class="py-2 pl-3 text-right">Est. Cost</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-200">
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">M5Stack StampFly v1.1 + 1S 300mAh LiHV</td>
+              <td class="py-2.5 px-3 text-slate-300">8.1×8.1 cm 4-duct shrouded quad with built-in PMW3901 Optical Flow & VL53L3CX ToF laser</td>
+              <td class="py-2.5 px-3 text-right font-mono">35.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$49.95</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Split Scarab Elytra (0.4 mm Vase-Mode PLA)</td>
+              <td class="py-2.5 px-3 text-slate-300">2 curved beetle domes printed on UCLA Bambu X1C (single wall, 0% infill, 0.9 g each) + U-clip</td>
+              <td class="py-2.5 px-3 text-right font-mono">1.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$0.00 (UCLA)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">1.7 g Micro Linear Servo + Y-Wire Pushrod</td>
+              <td class="py-2.5 px-3 text-slate-300">Active 6 mm throw opens both Elytra 45° and breathes at 2 Hz (prevents rotor suction flutter)</td>
+              <td class="py-2.5 px-3 text-right font-mono">1.7 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$11.99</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Iridescent Mylar Sub-Wings + 0.8 mm Carbon Ribs</td>
+              <td class="py-2.5 px-3 text-slate-300">Pulled out passively to 18.0 cm span by threads tied to the opening Elytra shells</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.6 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$6.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">TPU-Gimbaled Micro-Suction / Gecko Nose Pad</td>
+              <td class="py-2.5 px-3 text-slate-300">2 mm compliant TPU neck self-aligns on glass/mirrors/wall targets for 0 W silent perching</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$5.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Seeed XIAO ESP32S3 Sense + Spring Launch Nest</td>
+              <td class="py-2.5 px-3 text-slate-300">Hidden pronotum camera (mount on desk perch for Weekend 1; strip to 3.5g board for Weekend 2) + 0.18 J spring cradle</td>
+              <td class="py-2.5 px-3 text-right font-mono">On Nest / +3.5 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$13.99</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-slate-700 font-semibold text-white">
+              <td class="pt-3 pr-3">TOTAL STAGE-1 PROTOTYPE</td>
+              <td class="pt-3 px-3 text-xs text-slate-400">Leaves ~5–7 g thrust margin on the 8.1 cm StampFly</td>
+              <td class="pt-3 px-3 text-right font-mono text-amber-300">40.7 g Flying</td>
+              <td class="pt-3 pl-3 text-right font-mono text-emerald-400">~$87.93</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: 2-Weekend Step-by-Step Build Plan -->
+    <section class="space-y-3">
+      <h2 class="text-lg sm:text-xl font-bold text-white">3. Weekend-by-Weekend Build Checklist</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+        <div class="glass-card rounded-xl p-4 space-y-2">
+          <div class="text-xs font-mono text-amber-400 uppercase">Weekend 1 · ~$35 Stage-0 Desk Build</div>
+          <div class="font-semibold text-white">Build the Animatronic Scarab + Spring Nest First</div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-xs leading-relaxed">
+            <li><strong class="text-white">Print at Boelter Makerspace:</strong> Print the two 75×38 mm curved Elytra domes in <code class="text-amber-300">0.4 mm Spiral Vase Mode</code> (0.9 g each) plus the Spring Launch Nest bowl.</li>
+            <li><strong class="text-white">Assemble Y-Linkage:</strong> Mount the 1.7 g linear servo + 0.5 mm music-wire Y-pushrod so a 6 mm slide sweeps both Elytra open 45° and pulls the Mylar sub-wings out to 18.0 cm.</li>
+            <li><strong class="text-white">Wire the Staring Eye:</strong> Put the XIAO ESP32S3 camera under the front pronotum notch so it peeks out and streams Wi-Fi video when the shell cracks open 15°.</li>
+            <li><strong class="text-white">Scale Check:</strong> Weigh the entire clip-on shell assembly on a $12 (0.01 g) pocket scale — verify it is <strong class="text-emerald-300">≤ 4.9 g</strong> before flight.</li>
+          </ol>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2">
+          <div class="text-xs font-mono text-emerald-400 uppercase">Weekend 2 · +$50 StampFly Integration</div>
+          <div class="font-semibold text-white">Spring Jump-Start, Hover & Wall-Sit</div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-xs leading-relaxed">
+            <li><strong class="text-white">Snap Onto StampFly:</strong> Clip the 4.9 g Scarab shell bridge onto the center X-frame of the 8.1 cm StampFly — keeping all 4 circular air intakes 100% unobstructed.</li>
+            <li><strong class="text-white">Calibrate the 0.18 J Nest Spring:</strong> Set the desk cradle spring compression so releasing the latch tosses the 40.7 g Scarab ~40 cm straight up along two short guide rails.</li>
+            <li><strong class="text-white">Apex Hover Capture:</strong> Trigger the StampFly's IMU + ToF laser to spin up the shrouded rotors as it leaves the cradle and lock a 40 cm hover at zero vertical velocity (tuck shells during transit; unfold to 18 cm in settled hover).</li>
+            <li><strong class="text-white">Press-to-Perch Wall Test:</strong> Press the front TPU-gimbaled micro-suction pad onto a glass/mirror panel (or magnetic wall target), cut motors to <strong class="text-sky-300">0 W</strong>, and crack the shell 15° to watch the room in silence!</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-slate-800/80 pt-5 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+      <span>Robotics Swarm · 3-Model Team Synthesis (Claude Opus 5.5 · Sol 6.1 MAX · Gemini 4 Argon High)</span>
+      <span>Photogenik / SnitchCam V1 Blueprint</span>
+    </footer>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('scarabCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let currentStage = 1; // 0: Perch, 1: Spring Jump-Start, 2: Shrouded Hover, 3: Wall-Sit & Stare
+    let autoPlay = true;
+    let xray = true;
+    let cadMode = false;
+    let stageTimer = 0;
+    let t = 0;
+    let manualUnfold = null;
+
+    const STAGE_META = [
+      {
+        title: 'STAGE 1: Perched Porcelain Pebble (8.1 cm Core on Nest)',
+        badge: 'Coiled 0.18 J Spring · 0 dB',
+        desc: 'Rests on its desk nest as a smooth 8.1 cm porcelain-and-brass pebble. Shells are closed flush over the 4 ducts; the camera eye sleeps beneath the pronotum while the 0.18 J launch spring is latched beneath it.'
+      },
+      {
+        title: 'STAGE 2: Nest Spring Jump-Start + Watch-Movement Unfold (→ 18.0 cm)',
+        badge: '0.18 J Piston · 2.8 m/s Leap',
+        desc: 'Releasing the nest spring launches the 40.7 g Scarab 40 cm straight up while the 1.7 g servo splits the 0.4 mm PLA elytra and fans out translucent Mylar sub-wings to 18.0 cm—catching hover at apex without takeoff rotor scream.'
+      },
+      {
+        title: 'STAGE 3: Shrouded Low-RPM Hover + Micro-Louver Sidestep',
+        badge: '220 Hz Muffled Duct · 2 Hz Breathe',
+        desc: 'The foam-baffled 8.1 cm 4-duct core carries lift and deflects 15% exhaust through bottom louvers for flat, level-horizon sidesteps—while the outer wings gently breathe at 2 Hz (±5°) completely clear of the air intake.'
+      },
+      {
+        title: 'STAGE 4: Wall-Sitting & Staring Sentinel (0 W · 0 dB Silence)',
+        badge: '0 W Motors Off · Silent Eye Peek',
+        desc: 'A 1-second rotor push locks the 0.8 g TPU-gimbaled micro-suction / gecko pad onto a mirror or wall spot. Motors shut completely off (0 W, 0 dB), and the golden shell cracks 15° so the camera eye can quietly watch the room.'
+      }
+    ];
+
+    function selectStage(idx) {
+      currentStage = idx;
+      stageTimer = 0;
+      manualUnfold = null;
+      updateStageUI();
+    }
+
+    function toggleAutoPlay() {
+      autoPlay = !autoPlay;
+      const btn = document.getElementById('btn-auto');
+      btn.textContent = autoPlay ? '⏸ Auto-Story: ON' : '▶ Auto-Story: PAUSED';
+      btn.className = autoPlay
+        ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition'
+        : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 transition';
+    }
+
+    function toggleXray() {
+      xray = !xray;
+      document.getElementById('btn-xray').textContent = xray ? '🔍 X-Ray: ON' : '🔍 X-Ray: OFF';
+    }
+
+    function toggleCadMode() {
+      cadMode = !cadMode;
+      document.getElementById('btn-cad').textContent = cadMode ? '📐 View: Top-Down CAD' : '📐 View: Flight Scene';
+    }
+
+    function onManualScrub(val) {
+      autoPlay = false;
+      document.getElementById('btn-auto').textContent = '▶ Auto-Story: PAUSED';
+      manualUnfold = parseFloat(val);
+      const span = (8.1 + manualUnfold * (18.0 - 8.1)).toFixed(1);
+      document.getElementById('manualSpanLabel').textContent = span + ' cm';
+    }
+
+    function updateStageUI() {
+      for (let i = 0; i < 4; i++) {
+        const el = document.getElementById('stage-' + i);
+        if (i === currentStage) {
+          el.className = 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
+        } else {
+          el.className = 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
+        }
+      }
+      const meta = STAGE_META[currentStage];
+      document.getElementById('overlay-title').textContent = meta.title;
+      document.getElementById('overlay-badge').textContent = meta.badge;
+      document.getElementById('overlay-desc').textContent = meta.desc;
+    }
+
+    function drawBackgroundGrid(w, h) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.07)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 28) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 28) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawScarabUnit(x, y, rotRad, unfold, rotorsSpinning, eyeAwake, wallMode) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotRad);
+
+      // Laminar shrouded downwash + micro-louver vectored slipstream when rotors are active
+      if (rotorsSpinning) {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.34)';
+        ctx.lineWidth = 1.5;
+        const louverShift = currentStage === 2 ? Math.sin(t * 2.4) * 9 : 0;
+        for (let i = -2; i <= 2; i++) {
+          const sx = i * 13;
+          const off = (t * 85) % 28;
+          ctx.beginPath();
+          ctx.moveTo(sx, 16 + off);
+          ctx.lineTo(sx + louverShift, 35 + off);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // Translucent Iridescent Mylar Sub-Wings (fan out to 18.0 cm)
+      const wingMaxPx = 68;
+      const fanExt = unfold * wingMaxPx;
+      const breathe = rotorsSpinning ? Math.sin(t * 4.0) * 0.05 * unfold : 0;
+
+      if (unfold > 0.04) {
+        [-1, 1].forEach(dir => {
+          ctx.save();
+          ctx.translate(dir * 22, -5);
+          ctx.rotate(dir * (-0.08 + breathe * 0.6));
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.17)';
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.72)';
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(dir * (18 + fanExt * 0.6), -12 * unfold, dir * (24 + fanExt), 4);
+          ctx.quadraticCurveTo(dir * (16 + fanExt * 0.5), 16, 0, 10);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+
+      // Split 0.4 mm Vase-Mode Porcelain/Brass Elytra Domes
+      [-1, 1].forEach(dir => {
+        ctx.save();
+        ctx.translate(dir * 16, -15);
+        const liftAng = unfold * 0.62 + breathe;
+        ctx.rotate(dir * (-liftAng));
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.34)';
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(dir * (20 + fanExt * 0.35), -15, dir * (34 + fanExt * 0.5), -2);
+        ctx.quadraticCurveTo(dir * 18, 8, 0, 8);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // 8.1 cm StampFly Shrouded Core Body
+      ctx.fillStyle = xray ? 'rgba(15, 23, 42, 0.85)' : 'rgba(217, 119, 6, 0.88)';
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 32, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      if (xray) {
+        // Foam-baffled annular shroud
+        ctx.strokeStyle = '#10b981';
+        ctx.setLineDash([3, 2]);
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.ellipse(0, 4, 24, 8, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Spinning low-RPM rotor blades
+        const bladeW = rotorsSpinning ? Math.cos(t * 14) * 21 : 21;
+        ctx.strokeStyle = rotorsSpinning ? '#34d399' : '#64748b';
+        ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        ctx.moveTo(-bladeW, 4);
+        ctx.lineTo(bladeW, 4);
+        ctx.stroke();
+
+        // 1.7g Linear Servo Y-Linkage in center
+        ctx.strokeStyle = '#f97316';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(0, 2);
+        ctx.lineTo(-10, -10 - unfold * 4);
+        ctx.moveTo(0, 2);
+        ctx.lineTo(10, -10 - unfold * 4);
+        ctx.stroke();
+      }
+
+      // 2mm TPU-Gimbaled Micro-Suction / Gecko Pad at Belly/Nose
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillRect(-10, 20, 20, 4);
+
+      // Pronotum Golden Camera Eye + Silent Staring Vision Cone
+      ctx.fillStyle = eyeAwake ? '#fde047' : '#475569';
+      ctx.beginPath();
+      ctx.arc(0, -11, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (wallMode && eyeAwake) {
+        // Draw warm vision/portrait cone looking out into the room from the wall!
+        const grad = ctx.createLinearGradient(0, -15, -240, -90);
+        grad.addColorStop(0, 'rgba(250, 204, 21, 0.32)');
+        grad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, -12);
+        ctx.lineTo(-240, -125);
+        ctx.lineTo(-240, 15);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function renderSceneView(w, h) {
+      // 1) Draw Desk Surface + Spring-Loaded Charging Nest on the Left/Center-Left
+      const nestX = 250;
+      const nestY = 255;
+
+      // Desk surface line
+      ctx.save();
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(40, nestY + 22);
+      ctx.lineTo(680, nestY + 22);
+      ctx.stroke();
+
+      // Right-Side Vertical Mirror / Wall Surface (for Stage 4 Wall-Sitting Sentinel!)
+      const wallX = 680;
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.lineWidth = 3;
+      ctx.fillRect(wallX, 30, 18, 247);
+      ctx.beginPath();
+      ctx.moveTo(wallX, 30);
+      ctx.lineTo(wallX, nestY + 22);
+      ctx.stroke();
+
+      ctx.font = '12px monospace';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('VERTICAL WALL / MIRROR', wallX - 155, 48);
+
+      // Desk Charging Nest Bowl + Internal 0.18 J Launch Spring Cutaway
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(nestX, nestY, 62, 16, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Calculate stage kinematics
+      let sx = nestX;
+      let sy = nestY - 18;
+      let rot = 0;
+      let unfold = 0;
+      let rotorsOn = false;
+      let eyeOn = false;
+      let springCompression = 1.0; // 1.0 = compressed, 0.0 = extended
+
+      if (currentStage === 0) {
+        // Perched Pebble
+        sx = nestX;
+        sy = nestY - 16;
+        unfold = 0.0;
+        rotorsOn = false;
+        eyeOn = false;
+        springCompression = 1.0;
+      } else if (currentStage === 1) {
+        // Spring Jump-Start (leaps 40 cm up from nest, unfolds wings mid-leap, catches hover at apex)
+        const cycle = (stageTimer % 3.2) / 3.2;
+        const jumpProgress = Math.min(1, cycle * 1.8);
+        const easeOut = 1 - Math.pow(1 - jumpProgress, 3);
+        sx = nestX;
+        sy = (nestY - 16) - easeOut * 145;
+        unfold = Math.max(0, Math.min(1, (jumpProgress - 0.22) * 1.4));
+        rotorsOn = jumpProgress > 0.45;
+        eyeOn = jumpProgress > 0.3;
+        springCompression = 1.0 - Math.min(1, jumpProgress * 3.0);
+
+        // Draw ballistic trajectory guide arc
+        ctx.save();
+        ctx.strokeStyle = 'rgba(251, 191, 36, 0.35)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(nestX, nestY - 16);
+        ctx.lineTo(nestX, nestY - 161);
+        ctx.stroke();
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '12px monospace';
+        ctx.fillText('40 cm Ballistic Spring Leap (2.8 m/s)', nestX + 46, nestY - 85);
+        ctx.restore();
+      } else if (currentStage === 2) {
+        // Shrouded Hover + Level-Horizon Micro-Louver Sidestep
+        sx = nestX + 145 + Math.sin(t * 1.8) * 42;
+        sy = nestY - 155 + Math.sin(t * 2.6) * 5;
+        rot = 0; // Stays level thanks to duct micro-louvers!
+        unfold = 1.0;
+        rotorsOn = true;
+        eyeOn = true;
+        springCompression = 0.2;
+      } else if (currentStage === 3) {
+        // Wall-Sitting & Staring Sentinel (clings vertically to the wall at wallX, motors OFF, shell cracked 18% so eye stares out!)
+        sx = wallX - 22;
+        sy = 128;
+        rot = -Math.PI / 2; // Pitched 90 deg against vertical wall
+        unfold = 0.22; // Cracked 15 deg so golden camera eye peeks out!
+        rotorsOn = false; // 0 W, 0 dB!
+        eyeOn = true;
+        springCompression = 0.2;
+
+        ctx.save();
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '12px monospace';
+        ctx.fillText('0.8g TPU Suction Locked · Motors 0 W (0 dB)', wallX - 310, 132);
+        ctx.restore();
+      }
+
+      if (manualUnfold !== null) {
+        unfold = manualUnfold;
+      } else {
+        document.getElementById('manualSlider').value = unfold;
+        const span = (8.1 + unfold * (18.0 - 8.1)).toFixed(1);
+        document.getElementById('manualSpanLabel').textContent = span + ' cm';
+      }
+
+      // Draw 0.18 J Coil Spring inside the Desk Nest
+      if (xray) {
+        ctx.save();
+        ctx.strokeStyle = springCompression > 0.6 ? '#f59e0b' : '#10b981';
+        ctx.lineWidth = 2.2;
+        const springTop = nestY - 4 - (1 - springCompression) * 24;
+        const coils = 5;
+        ctx.beginPath();
+        ctx.moveTo(nestX, nestY + 14);
+        for (let k = 1; k <= coils; k++) {
+          const py = nestY + 14 - (k / coils) * (nestY + 14 - springTop);
+          const px = nestX + (k % 2 === 0 ? -12 : 12);
+          ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.font = '12px monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('0.18 J Spring Nest', nestX - 55, nestY + 38);
+        ctx.restore();
+      }
+
+      ctx.restore();
+
+      // Draw the Scarab Unit at its current stage pose
+      drawScarabUnit(sx, sy, rot, unfold, rotorsOn, eyeOn, currentStage === 3);
+    }
+
+    function renderCadBlueprintView(w, h) {
+      const cx = w / 2;
+      const cy = h / 2;
+      const d = manualUnfold !== null ? manualUnfold : (currentStage === 0 ? 0.0 : currentStage === 3 ? 0.25 : 1.0);
+      const pxPerCm = 24.0;
+      const totalSpanCm = 8.1 + d * (18.0 - 8.1);
+      const halfSpanPx = (totalSpanCm * pxPerCm) / 2;
+
+      ctx.save();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.fillStyle = '#38bdf8';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(cx - halfSpanPx, 28);
+      ctx.lineTo(cx + halfSpanPx, 28);
+      ctx.moveTo(cx - halfSpanPx, 22); ctx.lineTo(cx - halfSpanPx, 34);
+      ctx.moveTo(cx + halfSpanPx, 22); ctx.lineTo(cx + halfSpanPx, 34);
+      ctx.stroke();
+      ctx.font = '12px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`TOP-DOWN CAD BLUEPRINT · SPAN: ${totalSpanCm.toFixed(1)} cm (Core: 8.1 x 8.1 cm StampFly · 4 Ducts Unobstructed)`, cx, 19);
+
+      // 8.1 x 8.1 cm StampFly Quad Frame
+      const coreHalf = (8.1 * pxPerCm) / 2;
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.55)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(cx - coreHalf, cy - coreHalf, coreHalf * 2, coreHalf * 2);
+
+      // 4 Ducts
+      const ductOff = 48;
+      const ductR = 39;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => {
+        const rx = cx + dx * ductOff;
+        const ry = cy + dy * ductOff;
+        ctx.beginPath();
+        ctx.strokeStyle = '#10b981';
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+        ctx.arc(rx, ry, ductR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        const ang = t * 10 * (dx * dy);
+        ctx.beginPath();
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2.5;
+        ctx.moveTo(rx - Math.cos(ang) * (ductR - 5), ry - Math.sin(ang) * (ductR - 5));
+        ctx.lineTo(rx + Math.cos(ang) * (ductR - 5), ry + Math.sin(ang) * (ductR - 5));
+        ctx.stroke();
+      });
+
+      // Mylar Sub-Wing Fans
+      if (d > 0.04) {
+        [-1, 1].forEach(dir => {
+          ctx.save();
+          ctx.translate(cx + dir * 28, cy - 12);
+          ctx.rotate(dir * (-0.14 * d));
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+          ctx.strokeStyle = '#38bdf8';
+          const fanW = d * 185;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(dir * fanW * 0.65, -22 * d, dir * fanW, 10);
+          ctx.quadraticCurveTo(dir * fanW * 0.55, 45 * d, 0, 34);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+
+      // Split 0.4 mm Vase-Mode PLA Elytra Shells
+      [-1, 1].forEach(dir => {
+        ctx.save();
+        ctx.translate(cx + dir * 12, cy - 60);
+        ctx.rotate(dir * (-d * 0.82));
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.35)';
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(dir * 84, 5, dir * 82, 75);
+        ctx.quadraticCurveTo(dir * 72, 142, 0, 138);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // 1.7g Linear Servo Y-Pushrod Linkage
+      const servoY = cy + 12 - d * 24;
+      ctx.strokeStyle = '#f97316';
+      ctx.fillStyle = '#f97316';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.arc(cx, servoY, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      [-1, 1].forEach(dir => {
+        ctx.beginPath();
+        ctx.moveTo(cx, servoY);
+        ctx.lineTo(cx + dir * (18 + d * 32), cy - 28 - d * 10);
+        ctx.stroke();
+      });
+
+      ctx.restore();
+    }
+
+    function animate() {
+      t += 0.016;
+      stageTimer += 0.016;
+      if (autoPlay && !cadMode && stageTimer > 4.2) {
+        currentStage = (currentStage + 1) % 4;
+        stageTimer = 0;
+        updateStageUI();
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackgroundGrid(canvas.width, canvas.height);
+      if (cadMode) {
+        renderCadBlueprintView(canvas.width, canvas.height);
+      } else {
+        renderSceneView(canvas.width, canvas.height);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    updateStageUI();
+    animate();
+  </script>
+</body>
+</html>
