@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photogenik — The Porcelain Scarab (26s Fortiche-Style Product Demo)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #07090e;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .cinema-wrapper {
+      width: 100%;
+      max-width: 1120px;
+      background: #0b0f17;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(245, 158, 11, 0.08);
+    }
+    .viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #090d16;
+      overflow: hidden;
+    }
+    #glCanvas, #fxCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #fxCanvas {
+      pointer-events: none;
+    }
+    .hud-top {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+    }
+    .pill-gold {
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      color: #fde68a;
+    }
+    .pill-cyan {
+      background: rgba(14, 165, 233, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #bae6fd;
+    }
+    .hud-bottom {
+      position: absolute;
+      bottom: 14px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .subtitle-box {
+      align-self: center;
+      background: rgba(9, 13, 22, 0.82);
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      border-radius: 10px;
+      padding: 8px 16px;
+      text-align: center;
+      max-width: 760px;
+      backdrop-filter: blur(10px);
+    }
+    .act-label {
+      font-size: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .sub-text {
+      font-size: 13px;
+      color: #f1f5f9;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 18px;
+      background: #0f1623;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn:hover {
+      background: rgba(245, 158, 11, 0.3);
+    }
+    .btn-secondary {
+      background: rgba(30, 41, 59, 0.9);
+      color: #e2e8f0;
+      border: 1px solid rgba(100, 116, 139, 0.4);
+    }
+    .timeline {
+      flex: 1;
+      min-width: 200px;
+      accent-color: #f59e0b;
+      cursor: pointer;
+    }
+    .time-readout {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: #94a3b8;
+      min-width: 92px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="cinema-wrapper">
+    <div class="viewport" id="viewportContainer">
+      <canvas id="glCanvas" width="1280" height="720"></canvas>
+      <canvas id="fxCanvas" width="1280" height="720"></canvas>
+
+      <div class="hud-top">
+        <div class="badge-row">
+          <span class="pill pill-gold" id="shotBadge">CAM 01 · MACRO WORKBENCH DOLLY</span>
+          <span class="pill pill-cyan" id="fpsBadge">FORTICHE PAINTED 3D · ANIMATED ON 2s (12 FPS POSE)</span>
+        </div>
+        <div class="pill pill-gold" id="telemetryBadge">AUW: 41.6g · THRUST: 0.0W (PERCHED)</div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="subtitle-box">
+          <div class="act-label" id="actTitle">ACT I (0.0s–4.8s) · THE PORCELAIN PEBBLE AWAKES</div>
+          <div class="sub-text" id="actDesc">Resting in its coiled 0.18 J brass charging nest, the 8.1 cm Porcelain Scarab cracks its pronotum visor 15° and dilates its golden optical iris.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button class="btn" id="playBtn" onclick="togglePlay()">⏸ Pause</button>
+        <button class="btn btn-secondary" id="audioBtn" onclick="toggleAudio()">🔊 Synth Audio: click to enable</button>
+        <button class="btn btn-secondary" onclick="restartFilm()">↺ Restart (0:00)</button>
+      </div>
+      <input type="range" id="scrubber" class="timeline" min="0" max="26" step="0.04" value="0" oninput="scrubTo(this.value)" />
+      <div class="time-readout" id="timeLabel">00.0s / 26.0s</div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // 1. PROCEDURAL PAINTERLY BRUSHSTROKE TEXTURE GENERATOR (FORTICHE / ARCANE STYLE)
+    // ============================================================================
+    function makePainterlyTexture(baseHex, strokeHex1, strokeHex2, metallicStreaks = false) {
+      const c = document.createElement('canvas');
+      c.width = 512;
+      c.height = 512;
+      const g = c.getContext('2d');
+      g.fillStyle = baseHex;
+      g.fillRect(0, 0, 512, 512);
+
+      // Hand-painted oil gouache strokes
+      for (let i = 0; i < 650; i++) {
+        const x = (Math.sin(i * 12.9898) * 0.5 + 0.5) * 512;
+        const y = (Math.cos(i * 78.233) * 0.5 + 0.5) * 512;
+        const w = 18 + (i % 42);
+        const h = 4 + (i % 11);
+        const ang = (Math.sin(i * 3.14) * 0.35) + (metallicStreaks ? 0 : (i % 5) * 0.12);
+        g.save();
+        g.translate(x, y);
+        g.rotate(ang);
+        g.fillStyle = i % 2 === 0 ? strokeHex1 : strokeHex2;
+        g.globalAlpha = 0.14 + (i % 7) * 0.025;
+        g.beginPath();
+        g.roundRect(-w / 2, -h / 2, w, h, 3);
+        g.fill();
+        g.restore();
+      }
+
+      // Subtle dark charcoal edge grain / cross-hatching + Voronoi porcelain crackle (Opus 5.5 + Sol 6.1)
+      g.strokeStyle = metallicStreaks ? 'rgba(10, 14, 24, 0.25)' : 'rgba(71, 85, 105, 0.18)';
+      g.lineWidth = 1.2;
+      for (let i = 0; i < 220; i++) {
+        const x = (i * 37) % 512;
+        const y = (i * 83) % 512;
+        g.beginPath();
+        g.moveTo(x, y);
+        g.lineTo(x + 24, y + (metallicStreaks ? 2 : 11));
+        if (!metallicStreaks && i % 3 === 0) {
+          g.lineTo(x + 18, y + 26); // Porcelain glaze crackle
+        }
+        g.stroke();
+      }
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    const glCanvas = document.getElementById('glCanvas');
+    const fxCanvas = document.getElementById('fxCanvas');
+    const fx = fxCanvas.getContext('2d');
+
+    const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, antialias: true, preserveDrawingBuffer: true });
+    renderer.setSize(1280, 720, false);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b101b);
+    scene.fog = new THREE.FogExp2(0x0b101b, 0.022);
+
+    const camera = new THREE.PerspectiveCamera(36, 16 / 9, 0.1, 120);
+
+    // Painterly Textures + Bump Maps (Triad Spec: Opus 5.5 + Argon 4 High + Sol 6.1 MAX)
+    const texPorcelain = makePainterlyTexture('#f3ead8', '#e2d4b7', '#fffbf0', false);
+    const texBrass = makePainterlyTexture('#b47b2b', '#7c4d12', '#f6c467', true);
+    const texDarkMetal = makePainterlyTexture('#1f2937', '#111827', '#374151', true);
+    const texWood = makePainterlyTexture('#3b2618', '#26170e', '#523622', true);
+    const texMat = makePainterlyTexture('#25364a', '#1b2838', '#324860', false);
+
+    // Materials with Painterly Bump Maps
+    const matPorcelain = new THREE.MeshStandardMaterial({
+      map: texPorcelain,
+      bumpMap: texPorcelain,
+      bumpScale: 0.015,
+      roughness: 0.34,
+      metalness: 0.12
+    });
+    const matBrass = new THREE.MeshStandardMaterial({
+      map: texBrass,
+      bumpMap: texBrass,
+      bumpScale: 0.02,
+      roughness: 0.28,
+      metalness: 0.84
+    });
+    const matDarkMetal = new THREE.MeshStandardMaterial({
+      map: texDarkMetal,
+      bumpMap: texDarkMetal,
+      bumpScale: 0.015,
+      roughness: 0.48,
+      metalness: 0.68
+    });
+    const matWood = new THREE.MeshStandardMaterial({
+      map: texWood,
+      bumpMap: texWood,
+      bumpScale: 0.03,
+      roughness: 0.72,
+      metalness: 0.08
+    });
+    const matBlueprint = new THREE.MeshStandardMaterial({
+      map: texMat,
+      bumpMap: texMat,
+      bumpScale: 0.01,
+      roughness: 0.85,
+      metalness: 0.05
+    });
+    const matMylar = new THREE.MeshPhysicalMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.25,
+      roughness: 0.15,
+      metalness: 0.1,
+      transparent: true,
+      opacity: 0.62,
+      side: THREE.DoubleSide
+    });
+    const matEyeGlow = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x38bdf8,
+      emissiveIntensity: 2.4,
+      roughness: 0.1
+    });
+    const matRotorGlow = new THREE.MeshStandardMaterial({
+      color: 0x10b981,
+      emissive: 0x10b981,
+      emissiveIntensity: 1.5,
+      transparent: true,
+      opacity: 0.75
+    });
+    const matSuction = new THREE.MeshStandardMaterial({
+      color: 0x0ea5e9,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.4,
+      roughness: 0.25
+    });
+    const matPingPong = new THREE.MeshStandardMaterial({
+      color: 0xf97316,
+      emissive: 0xea580c,
+      emissiveIntensity: 0.18,
+      roughness: 0.35
+    });
+
+    // ============================================================================
+    // 2. FORTICHE INVENTOR'S STUDIO WORKBENCH ENVIRONMENT (MATCHING REFERENCE VIBE)
+    // ============================================================================
+    // Key & Rim Lighting (Moonlit Blue Arched Window + Warm Amber Oil Lantern)
+    const ambientLight = new THREE.AmbientLight(0x3b4d71, 0.75);
+    scene.add(ambientLight);
+
+    const moonLight = new THREE.DirectionalLight(0x60a5fa, 1.35);
+    moonLight.position.set(-6, 9, -8);
+    moonLight.castShadow = true;
+    scene.add(moonLight);
+
+    const lanternLight = new THREE.PointLight(0xf59e0b, 2.8, 22);
+    lanternLight.position.set(5.5, 3.8, -2.5);
+    lanternLight.castShadow = true;
+    scene.add(lanternLight);
+
+    const frontFill = new THREE.DirectionalLight(0xfde68a, 0.65);
+    frontFill.position.set(2, 4, 8);
+    scene.add(frontFill);
+
+    // Workbench Planks
+    const benchGroup = new THREE.Group();
+    for (let i = -4; i <= 4; i++) {
+      const plank = new THREE.Mesh(new THREE.BoxGeometry(18, 0.35, 1.12), matWood);
+      plank.position.set(0, -0.18, i * 1.16);
+      plank.receiveShadow = true;
+      benchGroup.add(plank);
+    }
+    scene.add(benchGroup);
+
+    // Rolled-out Blue-Slate Inventor's Mat on the Desk
+    const deskMat = new THREE.Mesh(new THREE.BoxGeometry(10.5, 0.03, 5.2), matBlueprint);
+    deskMat.position.set(0, 0.015, 0.2);
+    deskMat.receiveShadow = true;
+    scene.add(deskMat);
+
+    // Background Arched Studio Window (Fortiche Silhouette)
+    const windowGroup = new THREE.Group();
+    windowGroup.position.set(-2.2, 4.2, -6.8);
+    const winGlowMat = new THREE.MeshBasicMaterial({ color: 0x293f66 });
+    const winArch = new THREE.Mesh(new THREE.CircleGeometry(3.2, 32), winGlowMat);
+    windowGroup.add(winArch);
+    // Window muntin bars
+    for (let i = 0; i < 6; i++) {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(6.4, 0.1, 0.12), matDarkMetal);
+      bar.rotation.z = (i * Math.PI) / 6;
+      bar.position.z = 0.05;
+      windowGroup.add(bar);
+    }
+    const winRing = new THREE.Mesh(new THREE.TorusGeometry(2.1, 0.08, 12, 36), matDarkMetal);
+    winRing.position.z = 0.05;
+    windowGroup.add(winRing);
+    scene.add(windowGroup);
+
+    // Background Left: Giant Clockwork Brass Gear & Washers (Homage to ChrisGPT Reference)
+    const bgGear = new THREE.Group();
+    bgGear.position.set(-5.2, 1.35, -1.6);
+    bgGear.rotation.y = 0.38;
+    const gearWheel = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.22, 12, 24), matBrass);
+    bgGear.add(gearWheel);
+    for (let i = 0; i < 12; i++) {
+      const tooth = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.34, 0.24), matBrass);
+      const a = (i / 12) * Math.PI * 2;
+      tooth.position.set(Math.cos(a) * 1.35, Math.sin(a) * 1.35, 0);
+      tooth.rotation.z = a;
+      bgGear.add(tooth);
+    }
+    scene.add(bgGear);
+
+    // Background Right: Glowing Amber Oil Lantern
+    const lanternGroup = new THREE.Group();
+    lanternGroup.position.set(5.4, 1.6, -2.8);
+    const lanternBase = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.55, 0.5, 16), matDarkMetal);
+    lanternBase.position.y = -1.35;
+    lanternGroup.add(lanternBase);
+    const lanternGlass = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.35, 0.35, 1.1, 16),
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24 })
+    );
+    lanternGlass.position.y = -0.6;
+    lanternGroup.add(lanternGlass);
+    scene.add(lanternGroup);
+
+    // Right Side of Workbench: Vertical Studio Mirror / Wall Panel (for Act III 0W Wall Perch!)
+    const mirrorGroup = new THREE.Group();
+    mirrorGroup.position.set(4.35, 2.2, 0.0);
+    const mirrorFrame = new THREE.Mesh(new THREE.BoxGeometry(0.22, 4.4, 2.8), matBrass);
+    mirrorGroup.add(mirrorFrame);
+    const mirrorGlass = new THREE.Mesh(
+      new THREE.BoxGeometry(0.06, 4.1, 2.5),
+      new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        roughness: 0.08,
+        metalness: 0.65,
+        transparent: true,
+        opacity: 0.45
+      })
+    );
+    mirrorGlass.position.x = -0.1;
+    mirrorGroup.add(mirrorGlass);
+    scene.add(mirrorGroup);
+
+    // Desk Charging Nest (Left-Center: x = -2.0, z = 0.2) + Internal 0.18 J Coiled Brass Spring
+    const nestGroup = new THREE.Group();
+    nestGroup.position.set(-2.0, 0.18, 0.2);
+    const nestBowl = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 1.15, 0.34, 28), matDarkMetal);
+    nestBowl.castShadow = true;
+    nestBowl.receiveShadow = true;
+    nestGroup.add(nestBowl);
+    const nestRim = new THREE.Mesh(new THREE.TorusGeometry(0.95, 0.08, 12, 28), matBrass);
+    nestRim.rotation.x = Math.PI / 2;
+    nestRim.position.y = 0.17;
+    nestGroup.add(nestRim);
+
+    // Coiled 0.18 J Launch Piston inside the Nest
+    const springPiston = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.55, 18), matBrass);
+    springPiston.position.y = 0.2;
+    nestGroup.add(springPiston);
+    scene.add(nestGroup);
+
+    // Target Red/Brass Cup-Pong Goblet on Right Desk (x = 2.15, z = 0.2)
+    const cupGroup = new THREE.Group();
+    cupGroup.position.set(2.15, 0.52, 0.2);
+    const cupBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.56, 0.40, 1.04, 24, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0xe11d48, roughness: 0.35, metalness: 0.2, side: THREE.DoubleSide })
+    );
+    cupBody.castShadow = true;
+    cupGroup.add(cupBody);
+    const cupRim = new THREE.Mesh(new THREE.TorusGeometry(0.56, 0.045, 10, 24), matBrass);
+    cupRim.rotation.x = Math.PI / 2;
+    cupRim.position.y = 0.52;
+    cupGroup.add(cupRim);
+    scene.add(cupGroup);
+
+    // 40mm (2.7g) Ping-Pong Ball on the Workbench
+    const pingPongBall = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 24), matPingPong);
+    pingPongBall.castShadow = true;
+    scene.add(pingPongBall);
+
+    // 1.2g Flat Instax Mini Photo Card on the Workbench
+    const instaxCard = new THREE.Group();
+    const cardBase = new THREE.Mesh(
+      new THREE.BoxGeometry(0.66, 0.025, 0.52),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 })
+    );
+    const cardPhoto = new THREE.Mesh(
+      new THREE.BoxGeometry(0.50, 0.03, 0.40),
+      new THREE.MeshStandardMaterial({ color: 0x0ea5e9, emissive: 0x0284c7, emissiveIntensity: 0.35 })
+    );
+    cardPhoto.position.x = -0.04;
+    instaxCard.add(cardBase);
+    instaxCard.add(cardPhoto);
+    instaxCard.position.set(-0.4, 0.045, 0.9);
+    scene.add(instaxCard);
+
+    // ============================================================================
+    // 3. THE HERO MODEL: "THE PORCELAIN SCARAB" (8.1cm Core -> 18.0cm Unfolded)
+    // ============================================================================
+    const scarab = new THREE.Group();
+    scene.add(scarab);
+
+    // Core 8.1cm Shrouded Body Chassis
+    const coreChassis = new THREE.Mesh(new THREE.SphereGeometry(0.68, 28, 20), matDarkMetal);
+    coreChassis.scale.set(1.18, 0.45, 1.02);
+    coreChassis.castShadow = true;
+    scarab.add(coreChassis);
+
+    // Brass Equator Trim Ring & Rivets
+    const equatorRing = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.045, 10, 32), matBrass);
+    equatorRing.rotation.x = Math.PI / 2;
+    equatorRing.scale.set(1.12, 0.96, 1.0);
+    scarab.add(equatorRing);
+
+    // 4 Internal Foam-Baffled Shrouded Rotor Ducts + Spinning Blades
+    const rotors = [];
+    const ductOffsets = [
+      [0.36, 0.02, -0.34],
+      [0.36, 0.02, 0.34],
+      [-0.36, 0.02, -0.34],
+      [-0.36, 0.02, 0.34]
+    ];
+    ductOffsets.forEach(([dx, dy, dz]) => {
+      const duct = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.035, 10, 20), matBrass);
+      duct.rotation.x = Math.PI / 2;
+      duct.position.set(dx, dy, dz);
+      scarab.add(duct);
+
+      const bladeGroup = new THREE.Group();
+      bladeGroup.position.set(dx, dy, dz);
+      const b1 = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.015, 0.06), matRotorGlow);
+      const b2 = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.015, 0.42), matRotorGlow);
+      bladeGroup.add(b1, b2);
+      scarab.add(bladeGroup);
+      rotors.push(bladeGroup);
+    });
+
+    // Front Pronotum Visor + Glowing Cyan/Gold Camera Eye (Peeks out when visor tilts!)
+    const pronotumPivot = new THREE.Group();
+    pronotumPivot.position.set(0.42, 0.18, 0);
+    const pronotumHood = new THREE.Mesh(
+      new THREE.SphereGeometry(0.42, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.55),
+      matBrass
+    );
+    pronotumHood.scale.set(1.05, 0.55, 1.15);
+    pronotumPivot.add(pronotumHood);
+    scarab.add(pronotumPivot);
+
+    const cameraEye = new THREE.Mesh(new THREE.SphereGeometry(0.14, 16, 16), matEyeGlow);
+    cameraEye.position.set(0.68, 0.12, 0);
+    scarab.add(cameraEye);
+
+    // Left & Right 0.4mm Vase-Mode Porcelain Elytra Shells (Hinged at Front Shoulder!)
+    const leftElytraPivot = new THREE.Group();
+    leftElytraPivot.position.set(0.32, 0.24, -0.06);
+    const rightElytraPivot = new THREE.Group();
+    rightElytraPivot.position.set(0.32, 0.24, 0.06);
+
+    function createElytraShell(side) {
+      const g = new THREE.Group();
+      const dome = new THREE.Mesh(
+        new THREE.SphereGeometry(0.68, 24, 18, 0, Math.PI * 2, 0, Math.PI * 0.5),
+        matPorcelain
+      );
+      dome.scale.set(1.22, 0.44, 0.52);
+      dome.position.set(-0.32, -0.04, side * 0.30);
+      dome.castShadow = true;
+      g.add(dome);
+
+      // Stitched Brass Seam Strip (Fortiche Aesthetic)
+      const seam = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.06, 0.07), matBrass);
+      seam.position.set(-0.32, 0.16, side * 0.06);
+      g.add(seam);
+      return g;
+    }
+
+    const leftShell = createElytraShell(-1);
+    const rightShell = createElytraShell(1);
+    leftElytraPivot.add(leftShell);
+    rightElytraPivot.add(rightShell);
+    scarab.add(leftElytraPivot, rightElytraPivot);
+
+    // Iridescent Cyan Mylar Sub-Wings (Fan out to 18.0 cm span!)
+    const leftMylarPivot = new THREE.Group();
+    leftMylarPivot.position.set(0.15, 0.16, -0.18);
+    const rightMylarPivot = new THREE.Group();
+    rightMylarPivot.position.set(0.15, 0.16, 0.18);
+
+    function createMylarWing(side) {
+      const wGroup = new THREE.Group();
+      const wingPane = new THREE.Mesh(new THREE.CircleGeometry(0.95, 20, 0, Math.PI * 0.65), matMylar);
+      wingPane.rotation.x = -Math.PI / 2;
+      wingPane.scale.set(0.75, 1.35, 1.0);
+      wingPane.position.set(-0.2, 0, side * 0.45);
+      wGroup.add(wingPane);
+      return wGroup;
+    }
+
+    const leftMylar = createMylarWing(-1);
+    const rightMylar = createMylarWing(1);
+    leftMylarPivot.add(leftMylar);
+    rightMylarPivot.add(rightMylar);
+    scarab.add(leftMylarPivot, rightMylarPivot);
+
+    // 25°–30° Forward-Cantilevered 0.5mm Carbon-Wire Stag Mandibles + Silicone Tips
+    const leftMandiblePivot = new THREE.Group();
+    leftMandiblePivot.position.set(0.68, -0.06, -0.18);
+    const rightMandiblePivot = new THREE.Group();
+    rightMandiblePivot.position.set(0.68, -0.06, 0.18);
+
+    function createMandibleArm(side) {
+      const armGroup = new THREE.Group();
+      const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.018, 0.68, 10), matDarkMetal);
+      rod.rotation.z = Math.PI / 2 + 0.42; // 25°–30° downward chin angle
+      rod.rotation.y = -side * 0.14;
+      rod.position.set(0.28, -0.13, side * 0.04);
+      armGroup.add(rod);
+
+      const tip = new THREE.Mesh(
+        new THREE.SphereGeometry(0.042, 10, 10),
+        new THREE.MeshStandardMaterial({ color: 0xf43f5e, emissive: 0xe11d48, emissiveIntensity: 0.4 })
+      );
+      tip.position.set(0.56, -0.25, side * 0.07);
+      armGroup.add(tip);
+      return armGroup;
+    }
+
+    leftMandiblePivot.add(createMandibleArm(-1));
+    rightMandiblePivot.add(createMandibleArm(1));
+    scarab.add(leftMandiblePivot, rightMandiblePivot);
+
+    // 0.8g Dual-Use Bimodal Chin Suction Pad (Hinged at Front Chin)
+    const suctionPad = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 0.06, 18), matSuction);
+    suctionPad.position.set(0.76, -0.10, 0);
+    suctionPad.rotation.z = -0.5;
+    scarab.add(suctionPad);
+
+    // ============================================================================
+    // 4. PROCEDURAL WEBAUDIO SYNTHESIZER (CLOCKWORK CHIRPS, SPRING BOING, 220HZ HUM)
+    // ============================================================================
+    let audioCtx = null;
+    let audioEnabled = false;
+    let humOsc = null;
+    let humGain = null;
+    const triggeredCues = new Set();
+
+    function initAudio() {
+      if (audioCtx) return;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
+      humOsc = audioCtx.createOscillator();
+      humGain = audioCtx.createGain();
+      humOsc.type = 'triangle';
+      humOsc.frequency.value = 220; // Warm 220 Hz muffled duct purr!
+      humGain.gain.value = 0.0;
+      humOsc.connect(humGain);
+      humGain.connect(audioCtx.destination);
+      humOsc.start();
+    }
+
+    function toggleAudio() {
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      audioEnabled = !audioEnabled;
+      document.getElementById('audioBtn').textContent = audioEnabled
+        ? '🔊 Synth Audio: ON'
+        : '🔇 Synth Audio: MUTED';
+      if (!audioEnabled && humGain) {
+        humGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    function playSynthEffect(type) {
+      if (!audioEnabled || !audioCtx) return;
+      const now = audioCtx.currentTime;
+      if (type === 'chirp') {
+        // Cute clockwork beetle wake-up chirp
+        [520, 780, 1040, 880].forEach((freq, idx) => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(freq, now + idx * 0.07);
+          o.frequency.exponentialRampToValueAtTime(freq * 1.25, now + idx * 0.07 + 0.06);
+          g.gain.setValueAtTime(0.08, now + idx * 0.07);
+          g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.065);
+          o.connect(g);
+          g.connect(audioCtx.destination);
+          o.start(now + idx * 0.07);
+          o.stop(now + idx * 0.07 + 0.07);
+        });
+      } else if (type === 'spring_launch') {
+        // 0.18 J Latch Ka-Chunk + Coiled Spring Boing!
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(110, now);
+        o.frequency.exponentialRampToValueAtTime(490, now + 0.28);
+        g.gain.setValueAtTime(0.16, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start(now);
+        o.stop(now + 0.36);
+      } else if (type === 'suction_pop') {
+        // Soft TPU vacuum seal thwock + shutter click
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(340, now);
+        o.frequency.exponentialRampToValueAtTime(95, now + 0.09);
+        g.gain.setValueAtTime(0.18, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start(now);
+        o.stop(now + 0.11);
+      } else if (type === 'shutter') {
+        // Crisp mechanical portrait shutter click
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'square';
+        o.frequency.setValueAtTime(1400, now);
+        o.frequency.exponentialRampToValueAtTime(420, now + 0.04);
+        g.gain.setValueAtTime(0.12, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+        o.connect(g);
+        g.connect(audioCtx.destination);
+        o.start(now);
+        o.stop(now + 0.05);
+      } else if (type === 'cup_drop') {
+        // 85° tendon snap + hollow ping-pong ball cup bounce!
+        [680, 540, 610].forEach((f, i) => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'triangle';
+          o.frequency.setValueAtTime(f, now + i * 0.09);
+          g.gain.setValueAtTime(0.15 / (i + 1), now + i * 0.09);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.07);
+          o.connect(g);
+          g.connect(audioCtx.destination);
+          o.start(now + i * 0.09);
+          o.stop(now + i * 0.09 + 0.08);
+        });
+      }
+    }
+
+    // ============================================================================
+    // 5. 26-SECOND 5-ACT CHOREOGRAPHY ("ANIMATED ON 2s" + 2D GREASE-PENCIL FX)
+    // ============================================================================
+    let filmTime = 0.0;
+    const FILM_DURATION = 26.0;
+    let isPlaying = true;
+    let lastWallTime = performance.now();
+
+    function lerp(a, b, u) {
+      return a + (b - a) * Math.max(0, Math.min(1, u));
+    }
+    function smoothstep(a, b, x) {
+      const u = Math.max(0, Math.min(1, (x - a) / (b - a)));
+      return u * u * (3 - 2 * u);
+    }
+
+    function updateSceneAtTime(tRaw) {
+      // Quantize character pose to 12 FPS ("Animated on 2s" like Fortiche / Spider-Verse)
+      const tPose = Math.floor(tRaw * 12) / 12;
+
+      // Default states
+      let sx = -2.0, sy = 0.56, sz = 0.2;
+      let rx = 0, ry = 0, rz = 0;
+      let wingUnfold = 0.0;
+      let visorOpen = 0.0;
+      let jawSpread = 0.0;
+      let rotorSpin = 0.0;
+      let springExtend = 0.0;
+      let ballPos = { x: -0.25, y: 0.30, z: 0.2 };
+      let cardPos = { x: -0.45, y: 0.045, z: 0.9, rx: 0, rz: 0 };
+
+      let camPos = { x: -2.0, y: 1.4, z: 3.2 };
+      let camLook = { x: -2.0, y: 0.65, z: 0.2 };
+
+      let shotLabel = '';
+      let telemetryLabel = '';
+      let actHeader = '';
+      let actCaption = '';
+      let fxMode = 'none';
+
+      // Trigger procedural sound cues at exact timestamps
+      if (tRaw < 0.2) triggeredCues.clear();
+      const checkCue = (id, time, sfx) => {
+        if (tRaw >= time && tRaw < time + 0.3 && !triggeredCues.has(id)) {
+          triggeredCues.add(id);
+          playSynthEffect(sfx);
+        }
+      };
+      checkCue('wake', 1.2, 'chirp');
+      checkCue('spring', 4.85, 'spring_launch');
+      checkCue('perch', 11.4, 'suction_pop');
+      checkCue('shutter', 13.1, 'shutter');
+      checkCue('scoop', 16.6, 'suction_pop');
+      checkCue('drop', 19.8, 'cup_drop');
+      checkCue('card', 22.1, 'chirp');
+
+      if (tRaw < 4.8) {
+        // ACT I (0.0s - 4.8s): AWAKENING ON THE WORKBENCH (8.1cm Perched Pebble)
+        const u = tPose / 4.8;
+        sx = -2.0;
+        sy = 0.56;
+        sz = 0.2;
+        visorOpen = smoothstep(0.8, 1.8, tPose) * 0.45;
+        // Curious beetle head tilt on 2s!
+        rx = tPose > 2.0 ? Math.sin(tPose * 4.5) * 0.12 : 0;
+        ry = tPose > 2.4 ? Math.sin(tPose * 2.8) * 0.22 : 0;
+        wingUnfold = tPose > 3.4 ? Math.sin((tPose - 3.4) * 8) * 0.12 : 0;
+        rotorSpin = 0.0;
+
+        camPos = { x: lerp(-3.1, -0.9, tRaw / 4.8), y: lerp(1.55, 1.15, tRaw / 4.8), z: lerp(2.8, 2.1, tRaw / 4.8) };
+        camLook = { x: -1.9, y: 0.62, z: 0.2 };
+
+        shotLabel = 'CAM 01 · MACRO WORKBENCH DOLLY (8.1 cm PEBBLE)';
+        telemetryLabel = 'AUW: 41.6g · POWER: 6.2 mW (SENTINEL WAKE)';
+        actHeader = 'ACT I (0.0s–4.8s) · THE PORCELAIN SCARAB AWAKES';
+        actCaption = 'Resting on its coiled 0.18 J brass charging nest, the 8.1 cm Scarab cracks its golden pronotum visor 15° and dilates its cyan optical iris.';
+        fxMode = tRaw > 1.1 ? 'wake_sparks' : 'none';
+
+      } else if (tRaw < 9.6) {
+        // ACT II (4.8s - 9.6s): 0.18 J SPRING JUMP-START & 18.0 cm WATCH-MOVEMENT UNFOLD
+        const localT = tPose - 4.8;
+        const jumpArc = smoothstep(0.0, 1.4, localT);
+        springExtend = smoothstep(0.0, 0.35, localT);
+        sx = -2.0 + smoothstep(1.8, 4.5, localT) * 1.4;
+        sy = 0.56 + jumpArc * 2.25 + (localT > 1.4 ? Math.sin(localT * 3.5) * 0.08 : 0);
+        sz = 0.2;
+        visorOpen = 0.5;
+        wingUnfold = smoothstep(0.35, 1.35, localT);
+        rotorSpin = localT > 0.45 ? 1.0 : 0.0;
+        rz = smoothstep(0.1, 0.6, localT) * 0.14 * (1 - smoothstep(1.1, 2.0, localT));
+
+        camPos = { x: lerp(-2.2, -0.6, (tRaw - 4.8) / 4.8), y: lerp(0.95, 2.45, (tRaw - 4.8) / 4.8), z: 4.3 };
+        camLook = { x: sx, y: sy, z: 0.2 };
+
+        shotLabel = 'CAM 02 · LOW-ANGLE HERO SLOW-MO (0.18 J SPRING LEAP)';
+        telemetryLabel = 'SPAN: 8.1 → 18.0 cm · DUCT HOVER: 11.2 W (220 Hz PURR)';
+        actHeader = 'ACT II (4.8s–9.6s) · 0.18 J SPRING JUMP-START & 18.0 cm UNFOLD';
+        actCaption = 'The desk nest spring launches the Scarab 40 cm upward (2.8 m/s) while the 1.7 g servo splits the 0.4 mm porcelain elytra and fans out iridescent Mylar wings.';
+        fxMode = localT < 1.3 ? 'spring_burst' : 'hover_louver';
+
+      } else if (tRaw < 15.0) {
+        // ACT III (9.6s - 15.0s): LEVEL-HORIZON LOUVER GLIDE -> 0W WALL-SITTING SENTINEL & PORTRAIT SNAP
+        const localT = tPose - 9.6;
+        const toWall = smoothstep(0.0, 1.85, localT);
+        sx = lerp(-0.6, 3.92, toWall);
+        sy = lerp(2.81, 2.35, toWall);
+        sz = 0.0;
+
+        // Pitch up 90 deg onto vertical mirror at localT = 1.6s!
+        const wallPitch = smoothstep(1.3, 1.9, localT);
+        rz = wallPitch * (Math.PI / 2);
+        wingUnfold = lerp(1.0, 0.24, smoothstep(1.7, 2.3, localT)); // Tucks shell to 15° peek!
+        visorOpen = 0.6;
+        rotorSpin = localT < 1.85 ? 1.0 : 0.0; // Motors CUT to 0W on wall contact!
+
+        camPos = { x: lerp(0.8, 1.65, (tRaw - 9.6) / 5.4), y: 2.35, z: lerp(4.2, 3.1, (tRaw - 9.6) / 5.4) };
+        camLook = { x: lerp(1.2, 3.85, (tRaw - 9.6) / 5.4), y: 2.3, z: 0.0 };
+
+        shotLabel = localT < 1.85 ? 'CAM 03A · LEVEL-HORIZON LOUVER GLIDE' : 'CAM 03B · VERTICAL MIRROR PERCH (0 W · 0 dB)';
+        telemetryLabel = localT < 1.85 ? 'MICRO-LOUVER VECTOR: 15% · HORIZON: 0.0°' : 'MOTORS: 0.0 W (0 dB) · 0.8g TPU SUCTION LOCKED';
+        actHeader = 'ACT III (9.6s–15.0s) · 0 W WALL-SITTING SENTINEL & EYE-LEVEL PORTRAIT';
+        actCaption = 'A 1-second rotor push locks the 0.8 g chin suction pad onto the studio mirror. Motors shut completely off (0 W, 0 dB) while the hidden eye snaps a candid portrait.';
+        fxMode = (tRaw > 13.05 && tRaw < 14.3) ? 'camera_flash' : (localT < 1.85 ? 'hover_louver' : 'wall_vision');
+
+      } else if (tRaw < 21.5) {
+        // ACT IV (15.0s - 21.5s): 0.95g STAG-BEETLE MANDIBLE SCOOP & 85° WING-FLARE CUP DROP (2.7g PING-PONG BALL)
+        const localT = tPose - 15.0;
+        rotorSpin = 1.0;
+        visorOpen = 0.5;
+
+        if (localT < 1.6) {
+          // Swoop down & Land 6cm behind the 40mm ping-pong ball, then scoot forward to snap-capture!
+          const swoop = smoothstep(0.0, 1.0, localT);
+          const scoot = smoothstep(1.0, 1.55, localT);
+          sx = lerp(3.8, -1.25, swoop) + scoot * 0.32;
+          sy = lerp(2.35, 0.52, swoop);
+          rz = lerp(Math.PI / 2, -0.05, swoop);
+          wingUnfold = 0.45;
+          ballPos = { x: -0.25, y: 0.30, z: 0.2 };
+          fxMode = 'belly_cone';
+        } else if (localT < 4.6) {
+          // Lift off & carry the 40mm ping-pong ball 30mm AHEAD of front ducts (Belly 42° Optical Flow + 27° ToF 100% clear!)
+          const fly = smoothstep(1.6, 4.3, localT);
+          sx = lerp(-0.93, 1.48, fly);
+          sy = 0.52 + Math.sin(fly * Math.PI * 0.75) * 1.45 + fly * 0.95;
+          rz = -0.06;
+          wingUnfold = 0.82;
+          ballPos = { x: sx + 0.66, y: sy - 0.22, z: 0.2 };
+          fxMode = 'belly_cone';
+        } else {
+          // Hover over Target Cup (x = 2.15) & Execute 85° Full Wing Flare -> Pulls Dyneema Tendon 3mm -> Drops Ball into Cup!
+          const dropT = Math.max(0, localT - 4.6);
+          sx = 1.48;
+          sy = 1.85;
+          rz = 0.05;
+          wingUnfold = 1.25; // 85° Full Wing Flare Over-Travel!
+          jawSpread = 0.38;  // Mandibles spread open!
+          const fall = Math.min(1, dropT * 1.45);
+          ballPos = {
+            x: 2.14,
+            y: lerp(1.62, 0.55, fall * fall),
+            z: 0.2
+          };
+          fxMode = 'tendon_snap';
+        }
+
+        camPos = { x: lerp(0.2, 1.35, (tRaw - 15.0) / 6.5), y: 1.55, z: 3.65 };
+        camLook = { x: lerp(-0.3, 1.85, (tRaw - 15.0) / 6.5), y: 0.95, z: 0.2 };
+
+        shotLabel = 'CAM 04 · DESKTOP ACTION TRACK (0.95g CARBON STAG MANDIBLES)';
+        telemetryLabel = localT < 4.6
+          ? 'PAYLOAD: 2.7g BALL · BELLY 42° FLOW & 27° ToF: 100% CLEAR'
+          : '85° WING FLARE -> 3mm DYNEEMA TENDON PULL -> MID-AIR DROP!';
+        actHeader = 'ACT IV (15.0s–21.5s) · LAND-BEHIND MANDIBLE SCOOP & 85° WING-FLARE CUP DROP';
+        actCaption = 'Lands 6 cm behind the 2.7 g ping-pong ball to scoop it into 25°–30° forward carbon mandibles (keeping belly sensors unobstructed), then flares wings to 85° to drop it into the cup.';
+
+      } else {
+        // ACT V (21.5s - 26.0s): DUAL-USE SUCTION PHOTO COURIER & SOLAR BASKING FINALE
+        const localT = tPose - 21.5;
+        ballPos = { x: 2.14, y: 0.52, z: 0.2 }; // Inside cup!
+        rotorSpin = localT < 3.6 ? 1.0 : 0.0;
+        visorOpen = 0.45;
+
+        if (localT < 1.3) {
+          // Land beside 1.2g Instax card & Nose-Tilt to seal 0.8g chin suction pad!
+          const tilt = smoothstep(0.3, 1.1, localT);
+          sx = -1.15;
+          sy = 0.48;
+          sz = 0.9;
+          rz = -tilt * 0.22; // Nose-down tilt!
+          wingUnfold = 0.4;
+        } else if (localT < 3.6) {
+          // Carry Instax photo through warm golden sunbeam & peel-drop on desk before settling into Nest!
+          const glide = smoothstep(1.3, 3.4, localT);
+          sx = lerp(-1.15, -2.0, glide);
+          sy = 0.48 + Math.sin(glide * Math.PI) * 1.15;
+          sz = lerp(0.9, 0.2, glide);
+          wingUnfold = localT > 2.8 ? 1.18 : 0.85; // 75° flare peels suction lip!
+          if (localT < 2.85) {
+            cardPos = { x: sx + 0.72, y: sy - 0.16, z: sz, rx: 0, rz: -0.08 };
+          } else {
+            const cFall = Math.min(1, (localT - 2.85) * 1.8);
+            cardPos = { x: -0.6, y: lerp(1.1, 0.045, cFall * cFall), z: 0.7, rx: 0, rz: 0 };
+          }
+        } else {
+          // Settled back on Charging Nest in Golden Sunbeam
+          sx = -2.0;
+          sy = 0.56;
+          sz = 0.2;
+          wingUnfold = Math.max(0, 1 - (localT - 3.6) * 1.5) * 0.5;
+          cardPos = { x: -0.6, y: 0.045, z: 0.7, rx: 0, rz: 0 };
+        }
+
+        camPos = { x: -0.95, y: 1.42, z: 3.25 };
+        camLook = { x: -1.45, y: 0.68, z: 0.45 };
+
+        shotLabel = 'CAM 05 · HERO FINALE (DUAL-USE SUCTION COURIER + SOLAR ELYTRA)';
+        telemetryLabel = 'SUCTION LIFT: 1.2g PHOTO · PEROVSKITE ELYTRA: +180 mW SOLAR';
+        actHeader = 'ACT V (21.5s–26.0s) · DUAL-USE SUCTION PHOTO COURIER & SOLAR BASKING FINALE';
+        actCaption = 'Nose-tilts to vacuum-pick the 1.2 g Instax print with its chin suction pad, peels the seal via a 75° wing flare, and basks its solar elytra in the studio sunbeam.';
+        fxMode = 'solar_finale';
+      }
+
+      // Apply transforms to 3D objects + Opus 5.5 Lantern Flicker (±4%)
+      scarab.position.set(sx, sy, sz);
+      scarab.rotation.set(rx, ry, rz);
+      lanternLight.intensity = 2.8 + Math.sin(tRaw * 17.3) * 0.12 + Math.cos(tRaw * 31.7) * 0.08;
+
+      // Breathing modulation on 2s when hovering + Argon 4 High elastic overshoot on 85° flare
+      const breathe = rotorSpin > 0 ? Math.sin(tPose * 12.5) * 0.06 * wingUnfold : 0;
+      leftElytraPivot.rotation.x = -(wingUnfold * 0.68 + breathe);
+      leftElytraPivot.rotation.z = -(wingUnfold * 0.28);
+      rightElytraPivot.rotation.x = (wingUnfold * 0.68 + breathe);
+      rightElytraPivot.rotation.z = -(wingUnfold * 0.28);
+
+      leftMylarPivot.scale.setScalar(Math.max(0.01, Math.min(1.0, wingUnfold)));
+      rightMylarPivot.scale.setScalar(Math.max(0.01, Math.min(1.0, wingUnfold)));
+      leftMylarPivot.rotation.y = wingUnfold * 0.48 + breathe * 1.2;
+      rightMylarPivot.rotation.y = -wingUnfold * 0.48 - breathe * 1.2;
+
+      pronotumPivot.rotation.z = visorOpen * 0.45;
+      leftMandiblePivot.rotation.y = jawSpread;
+      rightMandiblePivot.rotation.y = -jawSpread;
+
+      springPiston.position.y = 0.2 + springExtend * 0.45;
+
+      rotors.forEach((r, idx) => {
+        if (rotorSpin > 0) {
+          r.rotation.y = tRaw * 38 * (idx % 2 === 0 ? 1 : -1);
+        }
+      });
+
+      // Update WebAudio continuous 220 Hz muffled hum
+      if (audioEnabled && humGain && audioCtx) {
+        const targetGain = rotorSpin > 0 ? 0.045 : 0.0;
+        humGain.gain.setTargetAtTime(targetGain, audioCtx.currentTime, 0.08);
+      }
+
+      pingPongBall.position.set(ballPos.x, ballPos.y, ballPos.z);
+      instaxCard.position.set(cardPos.x, cardPos.y, cardPos.z);
+      instaxCard.rotation.set(cardPos.rx, 0, cardPos.rz);
+
+      camera.position.set(camPos.x, camPos.y, camPos.z);
+      camera.lookAt(camLook.x, camLook.y, camLook.z);
+
+      // Update DOM HUD
+      document.getElementById('shotBadge').textContent = shotLabel;
+      document.getElementById('telemetryBadge').textContent = telemetryLabel;
+      document.getElementById('actTitle').textContent = actHeader;
+      document.getElementById('actDesc').textContent = actCaption;
+      document.getElementById('scrubber').value = tRaw.toFixed(2);
+      document.getElementById('timeLabel').textContent = `${tRaw.toFixed(1).padStart(4, '0')}s / 26.0s`;
+
+      // Render 3D Scene
+      renderer.render(scene, camera);
+
+      // Render 2D Hand-Drawn Fortiche Grease-Pencil FX Overlay
+      renderGreasePencilFX(tRaw, tPose, fxMode, sx, sy, sz, shotLabel, telemetryLabel, actHeader, actCaption);
+    }
+
+    function projectTo2D(x, y, z) {
+      const v = new THREE.Vector3(x, y, z);
+      v.project(camera);
+      return {
+        x: (v.x * 0.5 + 0.5) * fxCanvas.width,
+        y: (-v.y * 0.5 + 0.5) * fxCanvas.height
+      };
+    }
+
+    function renderGreasePencilFX(tRaw, tPose, fxMode, sx, sy, sz, shotLabel, telemetryLabel, actHeader, actCaption) {
+      const w = fxCanvas.width;
+      const h = fxCanvas.height;
+      fx.clearRect(0, 0, w, h);
+
+      // Subtle Fortiche cinematic vignette + painted film grain
+      const vig = fx.createRadialGradient(w / 2, h / 2, w * 0.32, w / 2, h / 2, w * 0.65);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(4,7,14,0.58)');
+      fx.fillStyle = vig;
+      fx.fillRect(0, 0, w, h);
+
+      const pScarab = projectTo2D(sx, sy, sz);
+      const pEye = projectTo2D(sx + 0.68, sy + 0.12, sz);
+
+      if (fxMode === 'wake_sparks') {
+        // Hand-drawn cyan/gold clockwork awakening arcs around the golden eye (like ChrisGPT ref!)
+        fx.save();
+        fx.strokeStyle = '#38bdf8';
+        fx.lineWidth = 2.8;
+        fx.shadowColor = '#38bdf8';
+        fx.shadowBlur = 12;
+        for (let i = 0; i < 6; i++) {
+          const ang = (tPose * 9 + i * 1.05) % (Math.PI * 2);
+          const r1 = 14 + (i % 3) * 6;
+          const r2 = r1 + 22;
+          fx.beginPath();
+          fx.moveTo(pEye.x + Math.cos(ang) * r1, pEye.y + Math.sin(ang) * r1);
+          fx.lineTo(
+            pEye.x + Math.cos(ang + 0.18) * ((r1 + r2) * 0.5),
+            pEye.y + Math.sin(ang + 0.18) * ((r1 + r2) * 0.5)
+          );
+          fx.lineTo(pEye.x + Math.cos(ang) * r2, pEye.y + Math.sin(ang) * r2);
+          fx.stroke();
+        }
+        fx.restore();
+      } else if (fxMode === 'spring_burst') {
+        // Bold hand-drawn golden kinetic launch streaks + Argon 4 High Dual Expanding Chalk Rings!
+        const pNest = projectTo2D(-2.0, 0.3, 0.2);
+        fx.save();
+        fx.strokeStyle = '#fbbf24';
+        fx.lineWidth = 3.2;
+        fx.shadowColor = '#f59e0b';
+        fx.shadowBlur = 14;
+        for (let i = -3; i <= 3; i++) {
+          const xOff = i * 18;
+          fx.beginPath();
+          fx.moveTo(pNest.x + xOff, pNest.y);
+          fx.lineTo(pScarab.x + xOff * 0.6, pScarab.y + 25);
+          fx.stroke();
+        }
+        // Dual expanding chalk shockwave rings at Nest base
+        const ringR = 32 + ((tPose - 4.8) * 95) % 110;
+        fx.strokeStyle = 'rgba(253, 230, 138, 0.78)';
+        fx.beginPath();
+        fx.ellipse(pNest.x, pNest.y, ringR, ringR * 0.28, 0, 0, Math.PI * 2);
+        fx.stroke();
+        fx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
+        fx.beginPath();
+        fx.ellipse(pNest.x, pNest.y, ringR * 0.65, ringR * 0.18, 0, 0, Math.PI * 2);
+        fx.stroke();
+
+        fx.font = 'bold 15px monospace';
+        fx.fillStyle = '#fde68a';
+        fx.fillText('⚡ 0.18 J SPRING LAUNCH (2.8 m/s · ZERO ROTOR SCREAM)', pNest.x + 65, (pNest.y + pScarab.y) * 0.5);
+        fx.restore();
+      } else if (fxMode === 'hover_louver') {
+        // Swirling laminar green/cyan downwash + micro-louver vectored slipstream ribbons
+        fx.save();
+        fx.strokeStyle = 'rgba(52, 211, 153, 0.65)';
+        fx.lineWidth = 2.2;
+        for (let i = -2; i <= 2; i++) {
+          const bx = pScarab.x + i * 24;
+          const by = pScarab.y + 28;
+          const wave = Math.sin(tPose * 14 + i) * 14;
+          fx.beginPath();
+          fx.moveTo(bx, by);
+          fx.quadraticCurveTo(bx - 18 + wave, by + 45, bx - 32, by + 85);
+          fx.stroke();
+        }
+        fx.restore();
+      } else if (fxMode === 'wall_vision' || fxMode === 'camera_flash') {
+        // Warm golden portrait framing cone from the mirror-perched Scarab!
+        const pWallEye = projectTo2D(sx - 0.15, sy + 0.55, sz);
+        fx.save();
+        const grad = fx.createLinearGradient(pWallEye.x, pWallEye.y, pWallEye.x - 420, pWallEye.y + 80);
+        grad.addColorStop(0, 'rgba(250, 204, 21, 0.42)');
+        grad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+        fx.fillStyle = grad;
+        fx.beginPath();
+        fx.moveTo(pWallEye.x, pWallEye.y);
+        fx.lineTo(pWallEye.x - 440, pWallEye.y - 130);
+        fx.lineTo(pWallEye.x - 440, pWallEye.y + 160);
+        fx.closePath();
+        fx.fill();
+
+        if (fxMode === 'camera_flash') {
+          fx.strokeStyle = '#fde047';
+          fx.lineWidth = 3;
+          fx.strokeRect(w * 0.26, h * 0.22, 260, 170);
+          fx.font = 'bold 13px monospace';
+          fx.fillStyle = '#fde047';
+          fx.fillText('📸 EYE-LEVEL CANDID PORTRAIT CAPTURED (0 W · 0 dB)', w * 0.26, h * 0.20);
+        }
+        fx.restore();
+      } else if (fxMode === 'belly_cone') {
+        // Show the 100% unobstructed green 42° Optical Flow + 27° ToF belly cone + Argon 4 High stepped scan rings!
+        const pBelly = projectTo2D(sx, sy - 0.15, sz);
+        const pFloor = projectTo2D(sx, 0.02, sz);
+        fx.save();
+        const gCone = fx.createLinearGradient(0, pBelly.y, 0, pFloor.y);
+        gCone.addColorStop(0, 'rgba(16, 185, 129, 0.38)');
+        gCone.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+        fx.fillStyle = gCone;
+        fx.beginPath();
+        fx.moveTo(pBelly.x - 10, pBelly.y);
+        fx.lineTo(pFloor.x - 68, pFloor.y);
+        fx.lineTo(pFloor.x + 68, pFloor.y);
+        fx.lineTo(pBelly.x + 10, pBelly.y);
+        fx.closePath();
+        fx.fill();
+        fx.strokeStyle = '#34d399';
+        fx.setLineDash([5, 4]);
+        fx.lineWidth = 1.8;
+        fx.stroke();
+        // Stepped scan-ring sweeping down the cone
+        const scanU = (tPose * 2.2) % 1;
+        const scanY = lerp(pBelly.y, pFloor.y, scanU);
+        const scanW = lerp(12, 66, scanU);
+        fx.beginPath();
+        fx.ellipse(pBelly.x, scanY, scanW, scanW * 0.22, 0, 0, Math.PI * 2);
+        fx.stroke();
+        fx.setLineDash([]);
+        fx.font = 'bold 12px monospace';
+        fx.fillStyle = '#6ee7b7';
+        fx.fillText('42° OPTICAL FLOW & 27° ToF CONE 100% CLEAR', pBelly.x - 155, pBelly.y + 42);
+        fx.restore();
+      } else if (fxMode === 'tendon_snap') {
+        // Highlight the 85° Wing-Flare Lost-Motion Dyneema Tendon Pull & Cup Drop!
+        const pChin = projectTo2D(sx + 0.68, sy - 0.1, sz);
+        fx.save();
+        fx.strokeStyle = '#fb7185';
+        fx.lineWidth = 3;
+        fx.shadowColor = '#f43f5e';
+        fx.shadowBlur = 12;
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2 + tPose * 5;
+          fx.beginPath();
+          fx.moveTo(pChin.x + Math.cos(a) * 16, pChin.y + Math.sin(a) * 16);
+          fx.lineTo(pChin.x + Math.cos(a) * 34, pChin.y + Math.sin(a) * 34);
+          fx.stroke();
+        }
+        fx.font = 'bold 14px monospace';
+        fx.fillStyle = '#fda4af';
+        fx.fillText('🪽 85° WING FLARE -> 3mm TENDON PULL -> CLEAN CUP DROP!', pChin.x - 210, pChin.y - 48);
+        fx.restore();
+      } else if (fxMode === 'solar_finale') {
+        // Golden sunbeam rays + end title card
+        fx.save();
+        const sunGrad = fx.createLinearGradient(w * 0.15, 0, w * 0.45, h);
+        sunGrad.addColorStop(0, 'rgba(251, 191, 36, 0.22)');
+        sunGrad.addColorStop(1, 'rgba(251, 191, 36, 0.0)');
+        fx.fillStyle = sunGrad;
+        fx.beginPath();
+        fx.moveTo(w * 0.08, 0);
+        fx.lineTo(w * 0.38, 0);
+        fx.lineTo(w * 0.58, h);
+        fx.lineTo(w * 0.22, h);
+        fx.closePath();
+        fx.fill();
+
+        if (tRaw > 23.6) {
+          const alpha = Math.min(1, (tRaw - 23.6) / 1.0);
+          fx.fillStyle = `rgba(7, 10, 18, ${alpha * 0.68})`;
+          fx.fillRect(w * 0.18, h * 0.18, w * 0.64, h * 0.34);
+          fx.strokeStyle = `rgba(251, 191, 36, ${alpha * 0.75})`;
+          fx.lineWidth = 2;
+          fx.strokeRect(w * 0.18, h * 0.18, w * 0.64, h * 0.34);
+
+          fx.textAlign = 'center';
+          fx.fillStyle = `rgba(253, 230, 138, ${alpha})`;
+          fx.font = 'bold 14px monospace';
+          fx.fillText('PHOTOGENIK · SNITCHCAM V1', w * 0.5, h * 0.26);
+          fx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          fx.font = 'bold 34px -apple-system, BlinkMacSystemFont, sans-serif';
+          fx.fillText('THE PORCELAIN SCARAB', w * 0.5, h * 0.35);
+          fx.fillStyle = `rgba(186, 230, 253, ${alpha})`;
+          fx.font = '15px monospace';
+          fx.fillText('8.1 cm Perch → 18.0 cm Flight · 0 W Wall Sentinel · <4 g Mandible & Suction Fetch', w * 0.5, h * 0.43);
+        }
+        fx.restore();
+      }
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      lastWallTime = performance.now();
+      document.getElementById('playBtn').textContent = isPlaying ? '⏸ Pause' : '▶ Play';
+    }
+
+    function restartFilm() {
+      filmTime = 0.0;
+      triggeredCues.clear();
+      isPlaying = true;
+      lastWallTime = performance.now();
+      document.getElementById('playBtn').textContent = '⏸ Pause';
+    }
+
+    function scrubTo(val) {
+      filmTime = parseFloat(val);
+      updateSceneAtTime(filmTime);
+    }
+
+    // Offscreen composite canvas for ultra-fast deterministic MP4 frame export
+    const compCanvas = document.createElement('canvas');
+    compCanvas.width = 1280;
+    compCanvas.height = 720;
+    const compCtx = compCanvas.getContext('2d');
+
+    window.renderDeterministicFrame = function(timeSec) {
+      isPlaying = false;
+      filmTime = timeSec;
+      updateSceneAtTime(timeSec);
+    };
+
+    window.renderCompositeFrameBase64 = function(timeSec) {
+      isPlaying = false;
+      filmTime = timeSec;
+      updateSceneAtTime(timeSec);
+      compCtx.clearRect(0, 0, 1280, 720);
+      compCtx.drawImage(glCanvas, 0, 0, 1280, 720);
+      compCtx.drawImage(fxCanvas, 0, 0, 1280, 720);
+
+      // Draw top HUD bar & bottom subtitle box onto composite frame
+      compCtx.save();
+      compCtx.fillStyle = 'rgba(9, 13, 22, 0.84)';
+      compCtx.strokeStyle = 'rgba(251, 191, 36, 0.45)';
+      compCtx.lineWidth = 1.5;
+      compCtx.fillRect(24, 18, 420, 30);
+      compCtx.strokeRect(24, 18, 420, 30);
+      compCtx.fillStyle = '#fde68a';
+      compCtx.font = 'bold 12px monospace';
+      compCtx.fillText(document.getElementById('shotBadge').textContent, 36, 37);
+
+      compCtx.fillStyle = 'rgba(9, 13, 22, 0.84)';
+      compCtx.fillRect(830, 18, 426, 30);
+      compCtx.strokeRect(830, 18, 426, 30);
+      compCtx.fillStyle = '#bae6fd';
+      compCtx.fillText(document.getElementById('telemetryBadge').textContent, 842, 37);
+
+      // Bottom subtitle box
+      compCtx.fillStyle = 'rgba(9, 13, 22, 0.88)';
+      compCtx.fillRect(190, 636, 900, 64);
+      compCtx.strokeRect(190, 636, 900, 64);
+      compCtx.textAlign = 'center';
+      compCtx.fillStyle = '#fbbf24';
+      compCtx.font = 'bold 12px monospace';
+      compCtx.fillText(document.getElementById('actTitle').textContent, 640, 656);
+      compCtx.fillStyle = '#f1f5f9';
+      compCtx.font = '14px -apple-system, BlinkMacSystemFont, sans-serif';
+      compCtx.fillText(document.getElementById('actDesc').textContent, 640, 682);
+      compCtx.restore();
+
+      return compCanvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+    };
+
+    function loop(now) {
+      if (isPlaying) {
+        const dt = Math.min(0.1, (now - lastWallTime) / 1000);
+        lastWallTime = now;
+        filmTime = (filmTime + dt) % FILM_DURATION;
+        updateSceneAtTime(filmTime);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    updateSceneAtTime(0);
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
