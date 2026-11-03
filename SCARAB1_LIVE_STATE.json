@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-03 21:15:28 UTC",
-  "state_sha256": "c7b7221232e663b9b738fac9f6d34ec63b461f70539665fdacf326f2e5bd7d55",
+  "updated_at_utc": "2026-11-03 21:30:25 UTC",
+  "state_sha256": "2d1b27933810252ac6909a1a3591239e99c51914766034b223355f872c043a9d",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -12,6 +12,12 @@
     "live_state_json": "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
   },
   "canonical_memories": [
+    {
+      "entity_key": "robotics/photogenik_insect_naming_brand_architecture",
+      "kind": "state",
+      "content": "3-Model Triad Opus 5.5 + Sol 6.1 MAX + Argon 4 High audited entomological naming precedents & brand architecture: (1) Precedents: Defense nano-UAVs (Teledyne FLIR Black Hornet PD-100, AeroVironment Wasp, BAE Bug, Boston Dynamics SandFlea & RHex), MIT/Brooks Genghis & Hannibal (birthed iRobot), Festo Bionic Learning Network (BionicBee, BionicANTs, eMotionButterflies, BionicOpter), Academic labs (Harvard RoboBee/HAMR, Konkuk KUBeetle), and Luxury Horology/Jewelry (Faberge/Cartier/Van Cleef jewel scarabs & dragonflies, MB&F + L Epee 1839); (2) The Jewel vs. Pest Psychological Rule: Defense picked stinging/vermin pests (Hornet, Wasp, Roach) that trigger indoor disgust; consumer heirloom robotics owns armored, iridescent, luminous jewel insects (Scarab, Firefly/Luciole, Mantis, Atlas/Hercules, Dragonfly/Anisoptera, Cicada); (3) Product Lineup Taxonomy: 01 Scarab (8.1cm indoor wall-perching familiar), 02 Firefly/Luciole (25g 5.8cm macaron nightlight & DOE star shepherd), 03 Mantis (countertop dual-arm soldering/kitchen manipulator), 04 Hercules/Atlas (50N+ ground rover & mobile charging dock), 05 Dragonfly (2S outdoor wind-cutting camera scout), 06 Cicada (solar window acoustic sentinel); (4) Umbrella Brand & USPTO Class 007/009 Strategy: House marks like Elytra Labs, Aurelia Robotics, Vivarium, Carapace, or Horoptera paired with species sub-brands.",
+      "created_at": "2026-11-03T21:30:23Z"
+    },
     {
       "entity_key": "robotics/photogenik_scarab1_gdrive_workspace",
       "kind": "state",
@@ -231,6 +237,11 @@
       "filename": "indoor-outdoor-homing-pad-brainstorm.json",
       "size_bytes": 22061,
       "modified_utc": "2026-11-03 00:15:32 UTC"
+    },
+    {
+      "filename": "insect-naming-precedent-brainstorm.json",
+      "size_bytes": 17138,
+      "modified_utc": "2026-11-03 21:29:52 UTC"
     },
     {
       "filename": "market-opportunity-triad-brainstorm.json",
