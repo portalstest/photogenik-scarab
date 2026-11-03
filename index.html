@@ -41,6 +41,7 @@
         <span class="gold-pill text-xs font-semibold px-2.5 py-1 rounded-full tracking-wide uppercase">Photogenik · SnitchCam V1</span>
         <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Perch → 18.0 cm Flight</span>
         <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/35">+0.95g Stag Mandibles & Suction Grip</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/35">Indoor/Outdoor 2S + 9cm UWB Pocket Nest</span>
         <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$88 UCLA Makerspace Build</span>
       </div>
       <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
@@ -88,8 +89,8 @@
     <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 shadow-2xl">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 5-Stage Animated Breakdown</h2>
-          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Ping-Pong & Suction Fetch</strong>) or switch to the Top-Down CAD Blueprint</p>
+          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 6-Stage Animated Breakdown</h2>
+          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Fetch</strong> &amp; <strong class="text-cyan-300">Stage 6: Outdoor 2S + Pocket Nest</strong>) or switch to the Top-Down CAD Blueprint</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-1.5">
@@ -108,8 +109,8 @@
         </div>
       </div>
 
-      <!-- 5-Stage Selector Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+      <!-- 6-Stage Selector Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
         <button id="stage-0" onclick="selectStage(0)" class="text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-amber-400">STAGE 1 · 8.1 cm</div>
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪹 Perched Pebble</div>
@@ -127,13 +128,18 @@
         </button>
         <button id="stage-3" onclick="selectStage(3)" class="text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-sky-400">STAGE 4 · 0 W / 0 dB</div>
-          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit & Stare</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit &amp; Stare</div>
           <div class="text-xs text-slate-400 mt-0.5">Suction lock + eye peek</div>
         </button>
-        <button id="stage-4" onclick="selectStage(4)" class="col-span-2 sm:col-span-1 text-left p-2.5 rounded-xl border transition">
+        <button id="stage-4" onclick="selectStage(4)" class="text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-rose-400">STAGE 5 · &lt;4g Fetch</div>
-          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪲 Scoop, Suction & Drop</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪲 Scoop, Suction &amp; Drop</div>
           <div class="text-xs text-slate-400 mt-0.5">0.5mm mandibles + suction</div>
+        </button>
+        <button id="stage-5" onclick="selectStage(5)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-cyan-400">STAGE 6 · 12 mph + UWB</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🌤️ Outdoor &amp; Pocket Nest</div>
+          <div class="text-xs text-slate-400 mt-0.5">22° wind-tuck + 9cm pad</div>
         </button>
       </div>
 
@@ -292,12 +298,109 @@
             </p>
           </div>
           <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
-            <div class="font-semibold text-purple-300">🚨 High-Wall Alarm & Stove Sentinel</div>
+            <div class="font-semibold text-purple-300">🚨 High-Wall Alarm &amp; Stove Sentinel</div>
             <p class="text-slate-400 leading-relaxed">
               Flies to a high mirror out of arm's reach at 7:00 AM so you must stand up to dismiss your alarm, or hops upstairs to check if the stove/iron was left on (<code class="text-slate-200">+0.05 g</code> FIR thermal + <code class="text-slate-200">+0.09 g</code> BME688 VOC nose).
             </p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- NEW Section 2B: Indoor / Outdoor 2S Dual-Mode + Portable Battery-Pack Homing Pad ("Scarab Pocket Nest") -->
+    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-5 border border-cyan-500/30">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3.5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/35">New · Indoor / Outdoor 2S Dual-Mode + Portable Pocket Nest</span>
+            <span class="text-xs font-mono text-amber-300">Same 8.1 × 8.1 × 2.4 cm Pebble Size · 12 mph Wind Hover · 50 m UWB Leash</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
+            2B. Indoor / Outdoor 2S Edition &amp; Portable Battery-Pack Homing Pad ("Scarab Pocket Nest")
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            Co-engineered by the 3-Model Swarm Triad (<code class="text-amber-300">Opus 5.5 + Sol 6.1 MAX + Argon 4 High</code>): how an <code class="text-white">8.1 cm</code> Scarab survives outdoor breezes, direct <code class="text-white">100,000 lux</code> sunlight, and moving grass while fast-charging on a <strong class="text-cyan-300">9.0 × 9.0 × 1.6 cm MagSafe-style portable battery pad</strong>.
+          </p>
+        </div>
+        <button onclick="selectStage(5); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/45 hover:bg-cyan-500/30 transition">
+          ▶ Watch Stage 6 Outdoor &amp; Pocket Nest Simulation Above
+        </button>
+      </div>
+
+      <!-- 3 Pillars of Indoor/Outdoor + Pocket Nest -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-amber-400 uppercase">1. Wind &amp; "Sail Effect" Fix</span>
+            <span class="font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded">2S Brushless · 22° Tuck</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🌬️ 2S Powertrain + Active "Wind-Feather" Tuck</h3>
+          <p class="text-slate-300 leading-relaxed">
+            A <code class="text-white">42 g</code> 1S brushed quad (<code class="text-white">1.8:1 TWR</code>) blows away above <code class="text-rose-300">6 mph</code>—especially when <code class="text-white">60°</code> open elytra act as <code class="text-rose-300">42–100 cm² bluff sails</code> (<code class="text-white">0.15 N</code> crosswind drag). Upgrading to <code class="text-emerald-300">2S 1002/1103 brushless motors</code> (<code class="text-white">51 g</code> AUW, <code class="text-white">135–165 gf</code> thrust = <code class="text-emerald-300">2.8–3.2:1 TWR</code>, <code class="text-white">24 mph</code> top speed) and retracting the elytra to a <strong class="text-white">22° intake-clear feather angle</strong> outdoors cuts crosswind sail area by <strong class="text-emerald-300">&gt;70%</strong>, enabling <strong class="text-white">9–12 mph (Beaufort 3) photo hover</strong> and <strong class="text-white">15–18 mph Return-to-Pad</strong>.
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-cyan-400 uppercase">2. Sunlight &amp; Grass Immunity</span>
+            <span class="font-mono text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded">6.5 GHz UWB · 50 m Range</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">📡 Pad-Anchored UWB + VIO + Shrouded Baro</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Outdoors, <code class="text-rose-300">100,000 lux sunlight</code> blinds the <code class="text-white">VL53L3CX</code> 940 nm ToF above <code class="text-white">0.65 m</code>, and blowing grass confuses <code class="text-white">PMW3901</code> optical flow. Instead of a bulky GPS mast, a <code class="text-cyan-300">0.4 g Qorvo DW3000 UWB chip</code> pairs with a 3-antenna array inside the Portable Pad for <strong class="text-white">±6–10 cm ranging + 3D Phase-Difference-of-Arrival (PDOA) homing out to 50 m (150 ft)</strong>—100% immune to sunlight and grass—fused with a foam-shrouded <code class="text-emerald-300">BMP581 barometer</code> and camera VIO.
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-emerald-400 uppercase">3. Portable Battery Homing Pad</span>
+            <span class="font-mono text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded">9.0 × 9.0 × 1.6 cm</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🔋 "Scarab Pocket Nest" + 16 cm Lotus Petals</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Sized like a MagSafe power bank (<code class="text-white">145 g @ 5,000 mAh</code> for <strong class="text-emerald-300">7× charges</strong> or <code class="text-white">215 g @ 10,000 mAh</code> for <strong class="text-emerald-300">14× charges</strong>, plus <code class="text-white">30W USB-C PD + Qi2</code> to charge your phone), the Scarab clips to the pad via a <strong class="text-white">Halbach-shielded N52 ring</strong> in your pocket. Set on a table or grass, <strong class="text-cyan-300">4 hinged 16 cm Origami Capture Petals</strong> fold out to guide gusty landings via <code class="text-white">38 kHz pulsed IR + AprilTag</code>, pinned at touchdown by a <strong class="text-amber-300">0.15 s Reverse-DShot suction kiss (40 gf)</strong> for <code class="text-white">15-min (20→80%)</code> 4-pin pogo fast charging.
+          </p>
+        </div>
+      </div>
+
+      <!-- Honest Side-by-Side Comparison Matrix -->
+      <div class="overflow-x-auto pt-1">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 font-mono uppercase">
+              <th class="py-2 pr-3">Specification</th>
+              <th class="py-2 px-3">Indoor-Only Scarab (1S Brushed)</th>
+              <th class="py-2 pl-3 text-cyan-300">Indoor / Outdoor Scarab (2S Brushless) + Pocket Nest</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-200">
+            <tr>
+              <td class="py-2 pr-3 font-semibold text-white">Scarab Stowed Footprint</td>
+              <td class="py-2 px-3 font-mono">8.1 × 8.1 × 2.4 cm (41.6 g)</td>
+              <td class="py-2 pl-3 font-mono text-emerald-300">8.1 × 8.1 × 2.4 cm — Exact Same Size (51.0 g)</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-3 font-semibold text-white">Homing &amp; Charging Dock</td>
+              <td class="py-2 px-3">Wall-plugged desk cradle (11 cm)</td>
+              <td class="py-2 pl-3 text-white"><strong class="text-cyan-300">9.0 × 9.0 × 1.6 cm Portable Power-Bank Nest</strong> (unfolds to 16 cm landing lotus + 0.18 J spring launch)</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-3 font-semibold text-white">Wind Limit (Photo Hover / RTH)</td>
+              <td class="py-2 px-3 text-slate-400">≤ 5 mph / Blows away &gt; 6 mph</td>
+              <td class="py-2 pl-3 text-amber-300 font-semibold">9 – 12 mph (Beaufort 3) Photo Hover · 15 – 18 mph Return-to-Pad (22° Wind-Tuck)</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-3 font-semibold text-white">Outdoor Range &amp; Sunlight Lock</td>
+              <td class="py-2 px-3 text-slate-400">&lt; 2 m (ToF washes out in 100k lux sun; grass breaks flow)</td>
+              <td class="py-2 pl-3 text-emerald-300 font-semibold">45 – 50 m (150 ft) in 100,000 lux sun via Dual UWB (Pocket Leash + Tabletop 3D PDOA) + Baro + VIO</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-3 font-semibold text-white">Flight Endurance &amp; Field Recharges</td>
+              <td class="py-2 px-3">5.5 min hover (wall recharge)</td>
+              <td class="py-2 pl-3 text-white"><strong>5.5–6.5 min Indoors / 4.5 min in 10 mph wind</strong> · <strong class="text-cyan-300">7× (145g 5Ah) or 14× (215g 10Ah) fast recharges in pocket!</strong></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -451,6 +554,11 @@
         title: 'STAGE 5: Forward Chin Mandibles & Dual-Use Suction Fetch (< 4 g Payloads)',
         badge: '0.95g Mandibles + 0.8g Suction · 85° Flare Drop',
         desc: 'Lands behind a 2.7 g (40 mm) ping-pong ball to scoop it into 25°–30° forward carbon mandibles (or nose-tilts onto a 1.2 g Instax photo with the chin suction cup)—keeping the 42° Optical Flow & 27° ToF belly cones 100% clear—then flares wings to 85° to pull the shared Dyneema release tendon and drop it in!'
+      },
+      {
+        title: 'STAGE 6: Outdoor 2S Wind-Tuck (22°) & Portable 9 cm "Scarab Pocket Nest" Homing',
+        badge: '12 mph Breeze · 50m UWB PDOA · 16 cm Lotus Pad',
+        desc: 'Outdoors in 100,000 lux sun & 12 mph wind, 2S brushless motors + 22° Wind-Tuck Elytra cut crosswind sail drag by >70%. The 9.0×9.0×1.6 cm MagSafe-style Pocket Nest unfolds 16 cm capture petals, guides the Scarab via 6.5 GHz UWB + 38 kHz pulsed IR, and pins touchdown with a 0.15s Reverse-DShot suction kiss for 15-min fast charging!'
       }
     ];
 
@@ -504,13 +612,13 @@
     }
 
     function updateStageUI() {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 6; i++) {
         const el = document.getElementById('stage-' + i);
         if (!el) continue;
         if (i === currentStage) {
-          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
+          el.className = 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
         } else {
-          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
+          el.className = 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
         }
       }
       const meta = STAGE_META[currentStage];
@@ -960,6 +1068,174 @@
           : '3. 85° Wing Flare -> Pulls Dyneema Tendon 3mm -> Mid-Air Drop!';
         ctx.fillText(statusMsg, 225, 52);
         ctx.restore();
+      } else if (currentStage === 5) {
+        // STAGE 6: Outdoor 2S Wind-Tuck (22°) & Portable 9.0 cm "Scarab Pocket Nest" Homing Pad
+        const p = (stageTimer % 6.0) / 6.0;
+        const padX = 560;
+        const padY = nestY + 12;
+        showBellyCone = true;
+
+        // 1) Draw 100,000 Lux Outdoor Sun + Animated 12 mph Crosswind Streamlines + Blowing Grass
+        ctx.save();
+        // Sun orb
+        const sunGrad = ctx.createRadialGradient(88, 52, 4, 88, 52, 42);
+        sunGrad.addColorStop(0, 'rgba(250, 204, 21, 0.95)');
+        sunGrad.addColorStop(0.5, 'rgba(250, 204, 21, 0.28)');
+        sunGrad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+        ctx.fillStyle = sunGrad;
+        ctx.beginPath();
+        ctx.arc(88, 52, 42, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#fde047';
+        ctx.fillText('☀️ 100,000 LUX DIRECT SUN (ToF Washed Out -> UWB + Baro Active)', 135, 36);
+
+        // Animated 12 mph (5.4 m/s) headwind ribbons blowing right-to-left
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.lineWidth = 1.5;
+        for (let wLine = 0; wLine < 5; wLine++) {
+          const wy = 72 + wLine * 34;
+          const wxOff = ((t * 210 + wLine * 130) % 660);
+          const wx = 700 - wxOff;
+          ctx.beginPath();
+          ctx.moveTo(wx, wy);
+          ctx.lineTo(wx - 75, wy + Math.sin(t * 6 + wLine) * 4);
+          ctx.stroke();
+          // Arrowhead
+          ctx.beginPath();
+          ctx.moveTo(wx - 75, wy + Math.sin(t * 6 + wLine) * 4);
+          ctx.lineTo(wx - 66, wy - 4);
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText('🌬️ 12 mph (5.4 m/s · Beaufort 3) Outdoor Breeze -> 22° Elytra Wind-Tuck (-72% Sail Area)', 135, 55);
+
+        // Blowing outdoor grass blades along ground
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)';
+        ctx.lineWidth = 1.6;
+        for (let gx = 65; gx < 690; gx += 22) {
+          if (Math.abs(gx - padX) < 88 || Math.abs(gx - nestX) < 65) continue;
+          const sway = -7 - Math.sin(t * 7 + gx * 0.05) * 4;
+          ctx.beginPath();
+          ctx.moveTo(gx, nestY + 22);
+          ctx.quadraticCurveTo(gx + sway * 0.5, nestY + 12, gx + sway, nestY + 5);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // 2) Draw the Portable 9.0×9.0×1.6 cm "Scarab Pocket Nest" (10,000 mAh / 37 Wh MagSafe Power Bank)
+        const petalOpen = p < 0.2 ? p / 0.2 : 1.0; // Unfolds 9.0 cm -> 16.0 cm capture petals!
+        ctx.save();
+        // 38 kHz Pulsed 940nm IR + AprilTag Terminal Landing Funnel
+        const irGrad = ctx.createLinearGradient(padX, padY - 145, padX, padY);
+        irGrad.addColorStop(0, 'rgba(34, 211, 238, 0.02)');
+        irGrad.addColorStop(1, 'rgba(34, 211, 238, 0.26)');
+        ctx.fillStyle = irGrad;
+        ctx.beginPath();
+        ctx.moveTo(padX - 75 * petalOpen, padY - 135);
+        ctx.lineTo(padX + 75 * petalOpen, padY - 135);
+        ctx.lineTo(padX + 44, padY - 4);
+        ctx.lineTo(padX - 44, padY - 4);
+        ctx.closePath();
+        ctx.fill();
+
+        // Unfolding 16.0 cm Origami Capture Petals (25° self-centering bevels on left & right)
+        ctx.strokeStyle = '#22d3ee';
+        ctx.fillStyle = 'rgba(8, 145, 178, 0.35)';
+        ctx.lineWidth = 2.2;
+        [-1, 1].forEach(dir => {
+          ctx.beginPath();
+          ctx.moveTo(padX + dir * 36, padY - 2);
+          ctx.lineTo(padX + dir * (36 + 34 * petalOpen), padY - 12 * petalOpen);
+          ctx.lineTo(padX + dir * (36 + 34 * petalOpen), padY + 4);
+          ctx.lineTo(padX + dir * 36, padY + 8);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        });
+
+        // Core 9.0 x 9.0 x 1.6 cm Power-Bank Body
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.fillRect(padX - 38, padY - 4, 76, 14);
+        ctx.strokeRect(padX - 38, padY - 4, 76, 14);
+
+        // Halbach-shielded N52 Magnetic Ring + 4-Pin Gold Balance Pogo Contacts
+        ctx.fillStyle = '#fbbf24';
+        [-18, -6, 6, 18].forEach(px => {
+          ctx.fillRect(padX + px - 2, padY - 6, 4, 3);
+        });
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillText('🔋 9cm POCKET NEST (10Ah · 16cm Petals · UWB)', padX - 115, padY + 26);
+        ctx.restore();
+
+        // 3) Scarab Flight Trajectory: Upwind 2S Approach (22° Wind-Tuck) -> UWB/IR Lock -> Reverse-DShot Kiss
+        if (p < 0.55) {
+          const k = p / 0.55;
+          sx = 175 + k * (padX - 175);
+          sy = 122 + Math.sin(k * Math.PI) * (-14) + Math.pow(k, 2) * 48;
+          rot = 0.24 * (1 - k * 0.5); // 2S brushless forward pitch into headwind
+          unfold = 0.24; // 22° Outdoor Wind-Tuck Mode!
+          rotorsOn = true;
+          eyeOn = true;
+        } else if (p < 0.78) {
+          const k = (p - 0.55) / 0.23;
+          sx = padX + Math.sin(t * 14) * (1 - k) * 5;
+          sy = 170 + k * (padY - 22 - 170);
+          rot = 0.08 * (1 - k);
+          unfold = 0.24 * (1 - k);
+          rotorsOn = true;
+          eyeOn = true;
+        } else {
+          // Touchdown + 0.15s Reverse-DShot Suction Kiss (40 gf downward hold-down pulse) + 3C Fast Charge!
+          sx = padX;
+          sy = padY - 20;
+          rot = 0;
+          unfold = 0.0;
+          const kissPhase = p < 0.88;
+          rotorsOn = kissPhase;
+          eyeOn = true;
+
+          ctx.save();
+          if (kissPhase) {
+            // Draw upward reverse-thrust slipstream arrows pinning Scarab to the Pocket Nest
+            ctx.strokeStyle = '#f43f5e';
+            ctx.fillStyle = '#fb7185';
+            ctx.lineWidth = 2;
+            [-24, 24].forEach(dx => {
+              ctx.beginPath();
+              ctx.moveTo(sx + dx, sy - 6);
+              ctx.lineTo(sx + dx, sy - 34);
+              ctx.stroke();
+            });
+            ctx.font = '11px monospace';
+            ctx.fillText('⚡ 0.15s Reverse-DShot Kiss (40 gf Downforce Lock!)', padX - 135, sy - 42);
+          } else {
+            ctx.font = '11px monospace';
+            ctx.fillStyle = '#34d399';
+            ctx.fillText('🔌 3C Fast-Charging on Pocket Nest (20%→80% in 15m · 14× Flights)', padX - 165, sy - 34);
+          }
+          ctx.restore();
+        }
+
+        // Draw 6.5 GHz UWB PDOA 3D Vector Tether Line between Pocket Nest & Scarab
+        if (p < 0.78) {
+          ctx.save();
+          ctx.strokeStyle = '#22d3ee';
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(padX, padY - 4);
+          ctx.lineTo(sx, sy + 10);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#67e8f9';
+          ctx.font = '11px monospace';
+          ctx.fillText('📡 6.5 GHz UWB PDOA Vector (±6 cm · 50m Range)', (padX + sx) * 0.5 - 95, (padY + sy) * 0.5 + 16);
+          ctx.restore();
+        }
       }
 
       if (manualUnfold !== null) {
@@ -1155,9 +1431,9 @@
     function animate() {
       t += 0.016;
       stageTimer += 0.016;
-      const stageDur = currentStage === 4 ? 5.6 : 4.2;
+      const stageDur = currentStage >= 4 ? 5.8 : 4.2;
       if (autoPlay && !cadMode && stageTimer > stageDur) {
-        currentStage = (currentStage + 1) % 5;
+        currentStage = (currentStage + 1) % 6;
         stageTimer = 0;
         updateStageUI();
       }
