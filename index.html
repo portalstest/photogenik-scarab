@@ -421,6 +421,171 @@
           </p>
         </div>
       </div>
+
+      <!-- NEW INLINE: INTERACTIVE SWISS-ARMY SENSOR & CHIN-POD LOADOUT CONFIGURATOR + COMBINATORIAL UNLOCKS -->
+      <div id="swiss-army-configurator" class="rounded-xl p-4 sm:p-5 bg-slate-950/85 border border-emerald-500/35 space-y-4 mt-2">
+        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-sky-500/25 pb-3">
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2 text-[10px] font-mono text-emerald-300">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/40 font-semibold">DWG SUB-SHEET PG-SWISS-V2</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/40 text-sky-300">10 MILLIGRAM SENSORS (+1.48g SILICON)</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300">TI TPS22994 4-CH I²C GATE (&le;400 mA RAIL)</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-white">
+              🛠️ Swiss-Army Sensor &amp; Chin-Pod Loadout Configurator (&ldquo;Sense &rarr; Relocate &rarr; Test &rarr; Act &rarr; Verify&rdquo;)
+            </h3>
+            <p class="text-xs text-slate-300">
+              Click any <strong class="text-emerald-300">Combinatorial Multi-Tool Workflow Preset</strong> or toggle individual sub-gram silicon sensors &amp; magnetic Chin Pods to watch live beams, radar wavefronts, and mass/power telemetry update on the CAD blueprint above.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="applySwissPreset('all')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 hover:bg-emerald-500/30 transition">
+              ⚡ Full Suite
+            </button>
+            <button onclick="applySwissPreset('minimal')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 border border-slate-600 hover:bg-slate-700 transition">
+              ↺ Featherweight
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Combinatorial Multi-Tool Utility Unlock Presets -->
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between text-[10px] text-sky-400 font-mono gap-2">
+            <span>1-CLICK COMBINATORIAL MULTI-TOOL PRESETS (OPUS 5.5 + SOL 6.1 MAX + ARGON 4 HIGH):</span>
+            <span id="active-combo-badge" class="text-emerald-300 font-bold">ACTIVE PRESET: 06 // MAX SWISS-ARMY SUITE</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            <button id="combo-btn-sleep" onclick="applySwissPreset('sleep')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-indigo-300 font-mono">CHAIN 01 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🌙 Sleep Shepherd</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">60GHz + FIR + CO₂ &rarr; IR AC</div>
+            </button>
+            <button id="combo-btn-kitchen" onclick="applySwissPreset('kitchen')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-rose-300 font-mono">CHAIN 02 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">☕ Kitchen &amp; PCB Bench</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">VOC + FIR &rarr; Spotter + Tarsi</div>
+            </button>
+            <button id="combo-btn-detective" onclick="applySwissPreset('detective')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-amber-300 font-mono">CHAIN 03 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🕵️ Leak Detective</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">80kHz + FIR + Puff + UV-A</div>
+            </button>
+            <button id="combo-btn-valet" onclick="applySwissPreset('valet')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-emerald-300 font-mono">CHAIN 04 · 4 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">💊 Pill/Ring Valet</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">UWB + Stag Jaw + Spotter</div>
+            </button>
+            <button id="combo-btn-party" onclick="applySwissPreset('party')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-purple-300 font-mono">CHAIN 05 · 4 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🃏 UV Secret-Ink DM</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">Suction Card + 365nm UV</div>
+            </button>
+            <button id="combo-btn-all" onclick="applySwissPreset('all')" class="text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition">
+              <div class="text-[10px] text-sky-300 font-mono">CHAIN 06 · ALL 10</div>
+              <div class="text-xs font-bold text-white mt-0.5">🛠️ Max Swiss-Army</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">All 10 sensors + Stag Jaw</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Combinatorial Chain State-Machine Banner -->
+        <div class="rounded-xl p-3 bg-slate-900/95 border border-emerald-500/30 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center text-xs">
+          <div class="lg:col-span-4 space-y-0.5">
+            <div class="text-[10px] font-mono text-emerald-400 uppercase" id="combo-stage-tag">CLOSED-LOOP STATE MACHINE // SENSE &rarr; RELOCATE &rarr; TEST &rarr; ACT &rarr; VERIFY</div>
+            <div class="text-xs sm:text-sm font-bold text-white" id="combo-title">6. Full Swiss-Army Loadout (All 10 Silicon Sensors + Stag Mandible Pod)</div>
+          </div>
+          <div class="lg:col-span-8 text-slate-300 leading-relaxed" id="combo-desc">
+            All 10 sub-gram silicon sensors (+1.48 g bare silicon + 0.60 g flex/TPS22994 load-switch bus = +2.08 g permanent overhead) are reflowed onto the nose &amp; belly flex-PCB. While perched, TI TPS22994 hardware-gates sensor rails into mutually exclusive time-slices (35 mW average perched draw vs. 1,323 mW un-gated sensor peak), keeping total flying mass at 44.68 g (50.8% of 88 g thrust ceiling).
+          </div>
+        </div>
+
+        <!-- 3-Column Sensor & Chin-Pod Toggle Matrix -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 text-xs">
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-sky-500/25 space-y-2">
+            <div class="flex items-center justify-between text-[10px] font-mono text-sky-400 border-b border-slate-800 pb-1">
+              <span>A. PHOTONICS &amp; RF WAND</span>
+              <span>CH3 / CH1 GATED</span>
+            </div>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-spotter" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🎯 650nm Class-1 Spotter Beam</span></span>
+              <span class="font-mono text-[10px] text-sky-300">+0.15g · 20mW</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-uv" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🔮 365nm UV-A Blacklight LED</span></span>
+              <span class="font-mono text-[10px] text-purple-300">+0.20g · 350mW pk</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-doe" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🌌 Micro-DOE Ceiling Halo (6 BPM)</span></span>
+              <span class="font-mono text-[10px] text-indigo-300">+0.25g · 45mW</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-uwb" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>📡 DW3110 UWB + BLE 6.0 Hound</span></span>
+              <span class="font-mono text-[10px] text-emerald-300">+0.22g · 3mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-ir" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>📺 940nm IR + CC1101 Sub-GHz</span></span>
+              <span class="font-mono text-[10px] text-amber-300">+0.18g · 2mW avg</span>
+            </label>
+          </div>
+
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-amber-500/25 space-y-2">
+            <div class="flex items-center justify-between text-[10px] font-mono text-amber-400 border-b border-slate-800 pb-1">
+              <span>B. SIXTH-SENSE &amp; 60GHz RADAR</span>
+              <span>CH2 DUTY-CYCLED</span>
+            </div>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-fir" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🌡️ HTPA 8&times;8 FIR Thermal + TMOS</span></span>
+              <span class="font-mono text-[10px] text-rose-300">+0.11g · 2mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-voc" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🧪 Bosch BME688 AI VOC Nose</span></span>
+              <span class="font-mono text-[10px] text-amber-300">+0.05g · 3mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-co2" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>💨 Sensirion STCC4 CO₂ Sentinel</span></span>
+              <span class="font-mono text-[10px] text-emerald-300">+0.10g · 4mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-radar" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🫀 BGT60TR13C 60GHz Sleep Radar</span></span>
+              <span class="font-mono text-[10px] text-cyan-300">+0.18g · 15mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-ultra" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🦇 2&times; 80kHz Ultrasonic Leak Mics</span></span>
+              <span class="font-mono text-[10px] text-sky-300">+0.04g · 2mW avg</span>
+            </label>
+          </div>
+
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-rose-500/25 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-rose-400 border-b border-slate-800 pb-1">
+                <span>C. NEST CHIN-POD CAROUSEL (PICK 1)</span>
+                <span>N52 + 2-PIN ID</span>
+              </div>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="stag" checked onchange="updateSwissConfig()" class="accent-rose-400" /><span>🏓 Pod A: 3D Carbon Stag Mandibles</span></span>
+                <span class="font-mono text-[10px] text-rose-300">+0.95g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="suction" onchange="updateSwissConfig()" class="accent-rose-400" /><span>💌 Pod B: 2D Suction + Peel Tab</span></span>
+                <span class="font-mono text-[10px] text-sky-300">+0.80g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="tarsi" onchange="updateSwissConfig()" class="accent-rose-400" /><span>📱 Pod C: Capacitive Beetle Tarsi</span></span>
+                <span class="font-mono text-[10px] text-emerald-300">+0.25g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="scent" onchange="updateSwissConfig()" class="accent-rose-400" /><span>🌿 Pod D: Scent-Wick + 9m/s Duster</span></span>
+                <span class="font-mono text-[10px] text-amber-300">+0.20g</span>
+              </label>
+            </div>
+            <div class="rounded-lg p-2.5 bg-slate-950 border border-emerald-500/40 space-y-1 font-mono text-[10px]">
+              <div class="flex justify-between"><span class="text-slate-400">ALL-UP MASS (&le;45.0g):</span><span id="sw-total-mass" class="text-emerald-300 font-bold">44.68 g (50.8% Thrust)</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">TPS22994 RAIL GATE:</span><span id="sw-power-gate" class="text-amber-300 font-bold">1,323 mW pk &rarr; 35 mW Avg</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">ENDURANCE / HOPS:</span><span id="sw-flight-time" class="text-sky-300 font-bold">4.8 min · 22 Room Hops</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Section 3: UCLA Freshman ~$90 BOM & Weight Budget -->
@@ -1723,6 +1888,51 @@
       bctx.beginPath();
       bctx.arc(36, -6, 3.8, 0, Math.PI * 2);
       bctx.fill();
+
+      if (window.swissState) {
+        if (window.swissState.doe) {
+          const haloPulse = 0.5 + 0.5 * Math.sin(t * 2.2);
+          bctx.strokeStyle = `rgba(129, 140, 248, ${0.35 + haloPulse * 0.4})`;
+          bctx.lineWidth = 1.3;
+          bctx.beginPath();
+          bctx.moveTo(22, -10); bctx.lineTo(6, -68);
+          bctx.moveTo(22, -10); bctx.lineTo(38, -68);
+          bctx.stroke();
+          bctx.beginPath();
+          bctx.ellipse(22, -68, 16 + haloPulse * 6, 4.5, 0, 0, Math.PI * 2);
+          bctx.stroke();
+        }
+        if (window.swissState.spotter) {
+          bctx.strokeStyle = 'rgba(244, 63, 94, 0.85)';
+          bctx.lineWidth = 1.6;
+          bctx.setLineDash([5, 3]);
+          bctx.beginPath();
+          bctx.moveTo(43, 0); bctx.lineTo(135, 34);
+          bctx.stroke();
+          bctx.setLineDash([]);
+          bctx.fillStyle = '#fb7185';
+          bctx.beginPath(); bctx.arc(135, 34, 3.2, 0, Math.PI * 2); bctx.fill();
+        }
+        if (window.swissState.uv) {
+          const uvGrad = bctx.createLinearGradient(42, 4, 110, 48);
+          uvGrad.addColorStop(0, 'rgba(192, 132, 252, 0.34)');
+          uvGrad.addColorStop(1, 'rgba(192, 132, 252, 0.02)');
+          bctx.fillStyle = uvGrad;
+          bctx.beginPath();
+          bctx.moveTo(42, 4); bctx.lineTo(108, 26); bctx.lineTo(96, 52);
+          bctx.closePath(); bctx.fill();
+        }
+        if (window.swissState.radar) {
+          bctx.strokeStyle = 'rgba(34, 211, 238, 0.55)';
+          bctx.lineWidth = 1.2;
+          for (let r = 1; r <= 3; r++) {
+            const rad = 18 * r + ((t * 22) % 18);
+            bctx.beginPath();
+            bctx.arc(44, -2, rad, -0.45, 0.45);
+            bctx.stroke();
+          }
+        }
+      }
       bctx.restore();
     }
 
@@ -2086,6 +2296,147 @@
         rotorsOn ? '14.2 W · 53 dBA' : '0.006 W · 0 dB SILENT';
     }
 
+    const SWISS_SPECS = {
+      spotter: { g: 0.15, pk: 20, avg: 0 },
+      uv:      { g: 0.20, pk: 350, avg: 0 },
+      doe:     { g: 0.25, pk: 45, avg: 4 },
+      uwb:     { g: 0.22, pk: 280, avg: 3 },
+      ir:      { g: 0.18, pk: 240, avg: 2 },
+      fir:     { g: 0.11, pk: 18, avg: 2 },
+      voc:     { g: 0.05, pk: 38, avg: 3 },
+      co2:     { g: 0.10, pk: 110, avg: 4 },
+      radar:   { g: 0.18, pk: 210, avg: 15 },
+      ultra:   { g: 0.04, pk: 12, avg: 2 }
+    };
+
+    const POD_MASS = { stag: 0.95, suction: 0.80, tarsi: 0.25, scent: 0.20 };
+
+    const COMBO_PRESETS = {
+      sleep: {
+        badge: 'ACTIVE PRESET: 01 // SLEEP & CLIMATE SHEPHERD',
+        tag: 'CHAIN 01 // 60GHz RADAR + FIR THERMAL + STCC4 CO₂ -> ROAMING IR/SUB-GHZ + DOE HALO + SCENT',
+        title: '1. Bedside Environmental & Circadian Sleep Shepherd (0 W Perched)',
+        desc: 'Perched on your bedroom mirror at 0 W motor draw, BGT60TR13C 60 GHz radar tracks contactless respiration (12–18 BPM) through the duvet while FIR distinguishes overheating vs. a kicked-off blanket and STCC4 checks if CO₂ > 1,000 ppm. If stuffy, the Scarab hops for 6 seconds into line-of-sight of the AC/shades, fires a supercap-buffered 940nm IR or 433MHz command, and returns to its perch. At dawn, radar-gated light sleep triggers a 6→12 BPM ceiling DOE halo and a 1.5 µL peppermint plume.',
+        sensors: ['doe', 'ir', 'fir', 'co2', 'radar'],
+        pod: 'scent',
+        modeIdx: 2
+      },
+      kitchen: {
+        badge: 'ACTIVE PRESET: 02 // KITCHEN & PCB BENCH CO-PILOT',
+        tag: 'CHAIN 02 // BME688 VOC + FIR HOTSPOT -> 650nm SPOTTER + CAPACITIVE TARSI + 9.2 m/s DUSTER',
+        title: '2. Proactive Culinary, Pour-Over & Soldering Bench Co-Pilot',
+        desc: 'BME688 AI VOC nose detects rising oil smoke-point aldehydes 45 seconds before a smoke alarm while FIR watches pan/kettle temperature (chiming at 93.0°C for pour-over bloom) or spots a 115°C shorting 0402 IC on a PCB bench. Never flying over hot burner updrafts, it points its Spotter dot at the hotspot, taps an iPad recipe or induction stove capacitive OFF pad with Pod C (Beetle Tarsi), and uses a thermally interlocked (<40°C) 9.2 m/s air-duster on cooled PCBs.',
+        sensors: ['spotter', 'ir', 'fir', 'voc'],
+        pod: 'tarsi',
+        modeIdx: 5
+      },
+      detective: {
+        badge: 'ACTIVE PRESET: 03 // HOME LEAK & DRAFT DETECTIVE',
+        tag: 'CHAIN 03 // 80kHz TDOA MICS + FIR THERMAL + 9.2 m/s PUFF + 365nm UV-A + BME688 AMMONIA',
+        title: '3. Multi-Sensory "Active Perturbation" Home Detective',
+        desc: 'Hops between 3 perched viewpoints (0 W motors off so rotor harmonics never mask ultrasound) to triangulate 25–45 kHz pinhole pipe leaks, radiator hisses, or outlet corona arcing via dual SPU0410 mics. Cross-verifies evaporative wet-drywall cooling (ΔT = -2°C) or warm phantom wall-warts via FIR, puffs a 1s 9.2 m/s air jet to smear and prove window draft direction, confirms UV-A stains with a BME688 ammonia sniff, and locks the Spotter beam onto the fault.',
+        sensors: ['spotter', 'uv', 'fir', 'voc', 'ultra'],
+        pod: 'suction',
+        modeIdx: 5
+      },
+      valet: {
+        badge: 'ACTIVE PRESET: 04 // PILL/RING VALET & WAKER',
+        tag: 'CHAIN 04 // DW3110 UWB + BLE 6.0 HOUND + POD A STAG MANDIBLES + SPOTTER + TARSI',
+        title: '4. Physical Caretaking, Ring/Pill Dish Courier & 4-Stage Waker',
+        desc: 'Using the 0.10g STCC4 CO₂ sensor frees +0.70g of mass margin so Pod A (0.95g Carbon Stag Mandibles) can ferry a 0.6g daily vitamin capsule or lost 3.2g wedding ring to a bedside dish—pulsing the 650nm Spotter dot on the dish until acknowledged. For un-snoozable mornings, it escalates from DOE ceiling halo → 2.2m high-wall perch → physically landing on your nightstand to tap the touch-lamp ON.',
+        sensors: ['spotter', 'uwb', 'radar', 'co2'],
+        pod: 'stag',
+        modeIdx: 0
+      },
+      party: {
+        badge: 'ACTIVE PRESET: 05 // UV SECRET-INK & CARD DEALER',
+        tag: 'CHAIN 05 // POD B SUCTION DEALER + 365nm UV-A CLUE REVEAL + SPOTTER + MANDIBLE DICE DROP',
+        title: '5. Tabletop Dungeon Master, Secret-Ink Clue Reveal & Card Dealer',
+        desc: 'Approaches the card deck from 15 cm (ground-effect-aware descent so downwash never scatters cards), picks up a 1.2g playing card or NFC Seed Card via Pod B suction, and peels the lip tab at 75° wing flare to deal it. Hovers over "blank" UV-ink clue cards to strobe its 365nm blacklight and reveal hidden escape-room maps, or uses Pod A to drop a 1.5g foam d20 from 10 cm for a fair roll.',
+        sensors: ['spotter', 'uv', 'doe', 'uwb'],
+        pod: 'suction',
+        modeIdx: 1
+      },
+      all: {
+        badge: 'ACTIVE PRESET: 06 // MAX SWISS-ARMY SUITE (ALL 10 SENSORS + POD A)',
+        tag: 'CLOSED-LOOP STATE MACHINE // SENSE → RELOCATE → TEST → ACT → VERIFY',
+        title: '6. Full Swiss-Army Loadout (All 10 Silicon Sensors + Stag Mandible Pod)',
+        desc: 'All 10 sub-gram silicon sensors (+1.48 g bare silicon + 0.60 g flex/TPS22994 load-switch bus = +2.08 g permanent overhead) are reflowed onto the nose & belly flex-PCB. While perched, TI TPS22994 hardware-gates sensor rails into mutually exclusive time-slices (35 mW average perched draw vs. 1,323 mW un-gated sensor peak), keeping total flying mass at 44.68 g (50.8% of 88 g thrust ceiling).',
+        sensors: ['spotter', 'uv', 'doe', 'uwb', 'ir', 'fir', 'voc', 'co2', 'radar', 'ultra'],
+        pod: 'stag',
+        modeIdx: 0
+      },
+      minimal: {
+        badge: 'ACTIVE PRESET: BASE FEATHERWEIGHT (0 EXTRA SENSORS)',
+        tag: 'BASELINE PALM SCARAB // 41.65g CORE + SELECTED CHIN POD ONLY',
+        title: 'Base Featherweight Configuration (Core Camera + Optical Flow/ToF Only)',
+        desc: 'Strips the nose flex-PCB down to the baseline XIAO ESP32S3 camera + belly PMW3901 Optical Flow & VL53L3CX ToF sensors, maximizing raw hover endurance at 5.2 minutes (24 room-to-room hops per charge).',
+        sensors: [],
+        pod: 'stag',
+        modeIdx: 0
+      }
+    };
+
+    function updateSwissConfig() {
+      const state = {};
+      let sensMass = 0, peakMw = 0, avgMw = 0, count = 0;
+      Object.keys(SWISS_SPECS).forEach(k => {
+        const el = document.getElementById('sens-' + k);
+        const on = el ? el.checked : false;
+        state[k] = on;
+        if (on) {
+          sensMass += SWISS_SPECS[k].g;
+          peakMw += SWISS_SPECS[k].pk;
+          avgMw += SWISS_SPECS[k].avg;
+          count++;
+        }
+      });
+      const podEl = document.querySelector('input[name="chinPod"]:checked');
+      const podKey = podEl ? podEl.value : 'stag';
+      state.pod = podKey;
+      const podG = POD_MASS[podKey] || 0.95;
+      const busG = count > 0 ? 0.60 : 0.0;
+      const totalMass = 41.65 + busG + sensMass + podG;
+      const thrustPct = ((totalMass / 88.0) * 100).toFixed(1);
+      const hoverMin = (5.2 * Math.pow(41.65 / totalMass, 1.35)).toFixed(1);
+      const hops = Math.round(parseFloat(hoverMin) * 4.6);
+
+      window.swissState = state;
+      document.getElementById('sw-total-mass').textContent = `${totalMass.toFixed(2)} g (${thrustPct}% Thrust)`;
+      document.getElementById('sw-power-gate').textContent = `${peakMw} mW pk → ${avgMw} mW Avg`;
+      document.getElementById('sw-flight-time').textContent = `${hoverMin} min · ${hops} Room Hops`;
+    }
+
+    function applySwissPreset(presetKey) {
+      const p = COMBO_PRESETS[presetKey] || COMBO_PRESETS.all;
+      Object.keys(SWISS_SPECS).forEach(k => {
+        const el = document.getElementById('sens-' + k);
+        if (el) el.checked = p.sensors.includes(k);
+      });
+      const radio = document.querySelector(`input[name="chinPod"][value="${p.pod}"]`);
+      if (radio) radio.checked = true;
+
+      ['sleep', 'kitchen', 'detective', 'valet', 'party', 'all'].forEach(id => {
+        const b = document.getElementById('combo-btn-' + id);
+        if (b) {
+          b.className = (id === presetKey)
+            ? 'text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition'
+            : 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition';
+        }
+      });
+
+      document.getElementById('active-combo-badge').textContent = p.badge;
+      document.getElementById('combo-stage-tag').textContent = p.tag;
+      document.getElementById('combo-title').textContent = p.title;
+      document.getElementById('combo-desc').textContent = p.desc;
+
+      if (typeof p.modeIdx === 'number') {
+        selectBpMode(p.modeIdx);
+      }
+      updateSwissConfig();
+    }
+
+    updateSwissConfig();
     updateStageUI();
     animate();
   </script>
