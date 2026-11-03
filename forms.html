@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DWG NO. PG-SANCTUARY-5FORMS-V3 — 3D/CAD Form-Factor &amp; Kinematic Simulation Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #030812;
+      color: #e2e8f0;
+      font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+      overflow-x: hidden;
+    }
+    .cad-panel {
+      background: linear-gradient(180deg, rgba(7, 18, 36, 0.95) 0%, rgba(3, 10, 22, 0.98) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      box-shadow: 0 0 32px rgba(14, 165, 233, 0.1), inset 0 0 20px rgba(56, 189, 248, 0.04);
+    }
+    .form-card {
+      background: rgba(8, 22, 44, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .form-card:hover {
+      border-color: rgba(56, 189, 248, 0.65);
+      transform: translateY(-1px);
+    }
+    .form-card-active {
+      background: linear-gradient(135deg, rgba(14, 116, 144, 0.38) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.28);
+    }
+    .mode-pill {
+      background: rgba(10, 25, 48, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      transition: all 0.16s ease;
+    }
+    .mode-pill:hover {
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #fff;
+    }
+    .mode-pill-active {
+      background: rgba(245, 158, 11, 0.22);
+      border: 1px solid #fbbf24;
+      color: #fef3c7;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.25);
+    }
+    input[type="range"] {
+      accent-color: #38bdf8;
+    }
+    .cad-grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-2.5 sm:p-5 selection:bg-sky-500/30 selection:text-sky-200">
+  <div class="max-w-[1600px] mx-auto space-y-4">
+
+    <!-- TOP ENGINEERING TITLE BLOCK -->
+    <header class="cad-panel rounded-xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2 text-[10px] sm:text-[11px]">
+          <span class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/40 text-sky-300 font-semibold">DWG NO. PG-SANCTUARY-5FORMS-V3</span>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/40 text-emerald-300">INVARIANT CORE: 33.60 g (Φ1–Φ4 SINGLE CAM DRUM)</span>
+          <span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300">SWAT-REFLEX CURE: PELAGIC FLIGHT LAW + RADIAL SYMMETRY</span>
+          <span class="px-2 py-0.5 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300">3-MODEL TRIAD VERIFIED</span>
+        </div>
+        <h1 class="text-base sm:text-xl font-bold text-white font-sans tracking-tight">
+          MODULAR BIOMIMETIC &amp; HOROLOGICAL SANCTUARY — 5-FORM INTERACTIVE 3D/CAD KINEMATIC SIMULATOR
+        </h1>
+        <p class="text-[11px] sm:text-xs text-slate-300 font-sans max-w-4xl">
+          One identical <strong class="text-sky-300">33.6 g 4-Phase Cam-Drum Mechatronic Skeleton</strong> paired with <strong class="text-amber-300">5 Interchangeable ~8.0 g Magnetic Sanctuary Shells</strong>. Toggle forms, scrub the <code class="text-emerald-300">0°–270°</code> cam drum, X-ray the internal linkage, and test all 6 functional modes in synchronized 3D WebGL + Orthographic CAD projections.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 text-slate-200 border border-slate-600 hover:bg-slate-700 transition">
+          ← Main Proposal
+        </a>
+        <a href="blueprint.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/50 hover:bg-sky-500/30 transition">
+          📐 2D Blueprint &amp; Swiss-Army Tools
+        </a>
+        <a href="cinema.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-400/50 hover:bg-purple-500/30 transition">
+          🎬 3D Demo Film
+        </a>
+      </div>
+    </header>
+
+    <!-- 5 UNIQUE FORM FACTOR SELECTOR BAR -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
+      <button id="form-btn-0" onclick="selectForm(0)" class="form-card form-card-active text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-cyan-300">
+          <span class="font-bold">FORM 01 • PELAGIC CNIDARIA</span>
+          <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40">41.90 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🪼 AURELIA (Moon-Jelly Bell)</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          4 radial frosted silica bell lappets + spiral continuum tendril + inverted ceiling chandelier perch.
+        </div>
+        <div class="mt-2 flex items-center gap-1.5 text-[10px] text-emerald-300">
+          <span>● Radial 4-Fold</span>
+          <span>•</span>
+          <span>Swat Suppression: 10/10</span>
+        </div>
+      </button>
+
+      <button id="form-btn-1" onclick="selectForm(1)" class="form-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-rose-300">
+          <span class="font-bold">FORM 02 • KINETIC FLORA</span>
+          <span class="px-1.5 py-0.5 rounded bg-rose-500/20 border border-rose-400/40">42.10 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🪷 LOTUS (Botanical Seed Pod)</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          4 overlapping Kyoto-porcelain petals bloom 110° below rotor plane + 3-stamen gold calyx gripper.
+        </div>
+        <div class="mt-2 flex items-center gap-1.5 text-[10px] text-emerald-300">
+          <span>● Radial 4-Fold</span>
+          <span>•</span>
+          <span>Swat Suppression: 10/10</span>
+        </div>
+      </button>
+
+      <button id="form-btn-2" onclick="selectForm(2)" class="form-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-amber-300">
+          <span class="font-bold">FORM 03 • CELESTIAL HOROLOGY</span>
+          <span class="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40">42.40 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🪐 ASTROLABE (Armillary Orb)</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          3 counter-rotating PVD-brass &amp; ceramic meridian rings + jeweler's iris collet + star planetarium.
+        </div>
+        <div class="mt-2 flex items-center gap-1.5 text-[10px] text-amber-300">
+          <span>● Spherical Gyro</span>
+          <span>•</span>
+          <span>Swat Suppression: 9.5/10</span>
+        </div>
+      </button>
+
+      <button id="form-btn-3" onclick="selectForm(3)" class="form-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-sky-300">
+          <span class="font-bold">FORM 04 • KINETIC ORIGAMI</span>
+          <span class="px-1.5 py-0.5 rounded bg-sky-500/20 border border-sky-400/40">41.15 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🌊 MANTA (Pelagic Gliding Ray)</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          Ultra-flat 2.7 cm river lozenge unfolds 186 mm Kevlar-hinge ray wings + flush window perch.
+        </div>
+        <div class="mt-2 flex items-center gap-1.5 text-[10px] text-sky-300">
+          <span>● -52% Wall Torque</span>
+          <span>•</span>
+          <span>Swat Suppression: 9.5/10</span>
+        </div>
+      </button>
+
+      <button id="form-btn-4" onclick="selectForm(4)" class="form-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-purple-300">
+          <span class="font-bold">FORM 05 • DUAL-VALVE STONE</span>
+          <span class="px-1.5 py-0.5 rounded bg-purple-500/20 border border-purple-400/40">41.65 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🗿 TALISMAN / SCARAB</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          24° split-valve ceramic stone: toggle Zero-Bug Brancusi Talisman vs. Collector Scarab trim.
+        </div>
+        <div class="mt-2 flex items-center justify-between text-[10px] text-purple-300">
+          <span>● 10/10 DFM Baseline</span>
+          <span id="scarab-trim-badge" onclick="event.stopPropagation(); toggleTalismanTrim();" class="px-1.5 py-0.5 rounded bg-amber-500/25 border border-amber-400/60 text-amber-200 hover:bg-amber-500/40 cursor-pointer">Trim: Zero-Bug Talisman ⇄</span>
+        </div>
+      </button>
+    </section>
+
+    <!-- 6 FUNCTIONAL MODES & KINEMATIC SCRUBBER BAR -->
+    <section class="cad-panel rounded-xl p-3 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="text-[10px] text-slate-400 uppercase tracking-wider mr-1">Functional State:</span>
+        <button id="mode-btn-0" onclick="selectMode(0)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          1. 🔒 Closed Sanctuary (0° Privacy)
+        </button>
+        <button id="mode-btn-1" onclick="selectMode(1)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          2. ⚙️ 400ms Cam Morph (Φ1→Φ3)
+        </button>
+        <button id="mode-btn-2" onclick="selectMode(2)" class="mode-pill mode-pill-active px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          3. 🛸 Pelagic Flight + 10 Sensors
+        </button>
+        <button id="mode-btn-3" onclick="selectMode(3)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          4. 🧲 0W Ceiling / Wall Perch
+        </button>
+        <button id="mode-btn-4" onclick="selectMode(4)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          5. 💍 &lt;4g Micro-Fetch &amp; Tap (Φ4)
+        </button>
+        <button id="mode-btn-5" onclick="selectMode(5)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
+          6. 🤲 Cup-in-Hands Palm Landing
+        </button>
+      </div>
+
+      <!-- Sliders: Cam Drum Angle, X-Ray Ghost Core, Explode -->
+      <div class="flex flex-wrap items-center gap-4 text-xs bg-slate-950/80 px-3 py-2 rounded-lg border border-slate-800">
+        <div class="flex items-center gap-2">
+          <label for="camSlider" class="text-[11px] text-amber-300 font-semibold whitespace-nowrap">Cam θ:</label>
+          <input id="camSlider" type="range" min="0" max="270" value="205" class="w-24 sm:w-28" oninput="onManualCamScrub(this.value)" />
+          <span id="camAngleLabel" class="text-[11px] text-white font-mono w-10">205°</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="xraySlider" class="text-[11px] text-sky-300 font-semibold whitespace-nowrap">X-Ray Shell:</label>
+          <input id="xraySlider" type="range" min="0" max="90" value="15" class="w-20" oninput="onXrayChange(this.value)" />
+          <span id="xrayLabel" class="text-[11px] text-white font-mono w-8">15%</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="explodeSlider" class="text-[11px] text-purple-300 font-semibold whitespace-nowrap">Explode:</label>
+          <input id="explodeSlider" type="range" min="0" max="100" value="0" class="w-20" oninput="onExplodeChange(this.value)" />
+        </div>
+        <button id="btnWireframe" onclick="toggleWireframe()" class="px-2 py-1 rounded bg-slate-800 border border-slate-600 text-[11px] text-slate-200 hover:border-sky-400">
+          CAD Mesh: ON
+        </button>
+      </div>
+    </section>
+
+    <!-- MAIN WORKSTATION GRID: 3D WEBGL VIEWPORT (LEFT 7 COLS) + 3 ORTHOGRAPHIC CAD PANES (RIGHT 5 COLS) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- LEFT 7 COLS: INTERACTIVE 3D WEBGL CAD VIEWPORT -->
+      <div class="lg:col-span-7 cad-panel rounded-xl overflow-hidden flex flex-col justify-between relative min-h-[540px] sm:min-h-[640px]">
+        <!-- Top Overlay HUD inside 3D Viewport -->
+        <div class="p-3.5 flex flex-wrap items-start justify-between gap-2 pointer-events-none z-10 bg-gradient-to-b from-slate-950/90 via-slate-950/40 to-transparent">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="hudFormBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 border border-cyan-400/50 text-cyan-300">
+                FORM 01: AURELIA (PELAGIC BELL)
+              </span>
+              <span id="hudSymmetryBadge" class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 border border-emerald-400/40 text-emerald-300">
+                SYMMETRY: 4-FOLD RADIAL (NO HEAD VECTOR)
+              </span>
+            </div>
+            <h2 id="hudTitle" class="text-base sm:text-lg font-bold text-white font-sans mt-1">
+              🪼 AURELIA — Bioluminescent Moon-Jelly Bell &amp; Continuum Tendril
+            </h2>
+            <p id="hudSubtitle" class="text-[11px] text-slate-300 font-sans max-w-xl">
+              4 frosted silica-polycarbonate bell lappets open ≥105° clear of the 4 outboard Ø40mm rotors. Opaque Φ1 inner eyelid guarantees 100% closed privacy.
+            </p>
+          </div>
+          <!-- Camera View Presets -->
+          <div class="flex flex-wrap gap-1 pointer-events-auto">
+            <button onclick="setCameraPreset('iso')" class="px-2 py-1 rounded bg-slate-900/90 border border-sky-500/40 text-[10px] text-sky-300 hover:bg-sky-500/20">ISO 3D</button>
+            <button onclick="setCameraPreset('top')" class="px-2 py-1 rounded bg-slate-900/90 border border-sky-500/40 text-[10px] text-sky-300 hover:bg-sky-500/20">TOP PLAN</button>
+            <button onclick="setCameraPreset('side')" class="px-2 py-1 rounded bg-slate-900/90 border border-sky-500/40 text-[10px] text-sky-300 hover:bg-sky-500/20">SIDE ELEV</button>
+            <button onclick="setCameraPreset('bottom')" class="px-2 py-1 rounded bg-slate-900/90 border border-amber-500/40 text-[10px] text-amber-300 hover:bg-amber-500/20">FETCH / CORE</button>
+          </div>
+        </div>
+
+        <!-- 3D WebGL Canvas Container -->
+        <div id="webgl-container" class="w-full flex-1 relative cad-grid-bg cursor-grab active:cursor-grabbing" style="min-height: 430px;"></div>
+
+        <!-- Bottom Live Telemetry Strip inside 3D Viewport -->
+        <div class="p-3 bg-slate-950/95 border-t border-sky-500/25 grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] z-10">
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">CLOSED → OPEN SPAN</div>
+            <div id="statSpan" class="font-bold text-sky-300 mt-0.5">80.0 → 182.0 mm</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">TOTAL FLYING MASS</div>
+            <div id="statMass" class="font-bold text-emerald-300 mt-0.5">41.90 g (1.61:1 TWR)</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">OUTBOARD ROTOR CLEARANCE</div>
+            <div id="statClearance" class="font-bold text-amber-300 mt-0.5">100% Unobstructed</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">0W PASSIVE PERCH MODE</div>
+            <div id="statPerch" class="font-bold text-purple-300 mt-0.5">Ceiling Chandelier</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800 col-span-2 sm:col-span-1">
+            <div class="text-[9px] text-slate-400">Φ4 FETCH MECHANISM</div>
+            <div id="statFetch" class="font-bold text-rose-300 mt-0.5">Spiral Tendril (45mm)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT 5 COLS: SYNCHRONIZED 3-PANE ORTHOGRAPHIC & KINEMATIC CAD PROJECTIONS -->
+      <div class="lg:col-span-5 flex flex-col gap-3.5">
+
+        <!-- PANE 1: ORTHOGRAPHIC TOP PLAN VIEW (DOWNWASH & SYMMETRY CHECK) -->
+        <div class="cad-panel rounded-xl p-3 flex flex-col">
+          <div class="flex items-center justify-between text-[11px] mb-1.5">
+            <span class="font-bold text-sky-300">PANE A • ORTHOGRAPHIC TOP PLAN (DOWNWASH &amp; SYMMETRY AUDIT)</span>
+            <span id="orthoTopScale" class="text-[10px] text-slate-400">SCALE 1:1 • UNITS: mm</span>
+          </div>
+          <canvas id="canvasTopOrtho" width="540" height="205" class="w-full rounded-lg bg-[#020710] border border-sky-500/20"></canvas>
+        </div>
+
+        <!-- PANE 2: ORTHOGRAPHIC SIDE ELEVATION & ROOM PERCH / FETCH SECTION -->
+        <div class="cad-panel rounded-xl p-3 flex flex-col">
+          <div class="flex items-center justify-between text-[11px] mb-1.5">
+            <span class="font-bold text-amber-300">PANE B • CROSS-SECTION ELEVATION (PERCH TORQUE &amp; Φ4 FETCH)</span>
+            <span id="orthoSideStatus" class="text-[10px] text-emerald-300">Φ1 PRIVACY SHUTTER + 10 SENSORS</span>
+          </div>
+          <canvas id="canvasSideOrtho" width="540" height="205" class="w-full rounded-lg bg-[#020710] border border-amber-500/20"></canvas>
+        </div>
+
+        <!-- PANE 3: SINGLE-SERVO 4-PHASE LOST-MOTION CAM-DRUM TRACK (0°–270°) -->
+        <div class="cad-panel rounded-xl p-3 flex flex-col">
+          <div class="flex items-center justify-between text-[11px] mb-1.5">
+            <span class="font-bold text-rose-300">PANE C • CLAIM CLUSTER 1 — UNROLLED CAM DRUM (θ = 0°..270°)</span>
+            <span id="camPhaseReadout" class="text-[10px] text-amber-300 font-bold">PHASE Φ3: ROTOR LOCK</span>
+          </div>
+          <canvas id="canvasCamTrack" width="540" height="155" class="w-full rounded-lg bg-[#020710] border border-rose-500/20"></canvas>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM COMPARATIVE ENGINEERING MATRIX & MODULAR SHELL ARCHITECTURE -->
+    <section class="cad-panel rounded-xl p-4 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-white font-sans">
+            ⚖️ SIDE-BY-SIDE ENGINEERING, AERODYNAMIC &amp; PSYCHOLOGICAL COMPARISON (SHARED 33.60 g CORE)
+          </h3>
+          <p class="text-xs text-slate-300 font-sans">
+            Click any row below to switch the live 3D/CAD simulation above to that form factor. All 5 forms snap onto the same 4 cam-follower bayonet mounts (<code class="text-sky-300">0.30 g</code> interface).
+          </p>
+        </div>
+        <div class="text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-400/30 px-3 py-1 rounded-lg">
+          ✔ Pelagic Flight Law Active: 2.0s Warm Pre-Glow • ≤0.4 m/s Approach • 0.4 Hz Buoyant Hover • Open-Palm Landing
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-700 text-[10px] text-slate-400 uppercase">
+              <th class="py-2 px-2.5">Form Factor (Click to Load)</th>
+              <th class="py-2 px-2.5">Symmetry &amp; Silhouette</th>
+              <th class="py-2 px-2.5">Closed → Open Span</th>
+              <th class="py-2 px-2.5">Total Mass (Shell Δ)</th>
+              <th class="py-2 px-2.5">Outboard Thrust</th>
+              <th class="py-2 px-2.5">Signature 0W Perch</th>
+              <th class="py-2 px-2.5">Φ4 Micro-Fetch &amp; Tap</th>
+              <th class="py-2 px-2.5">Swat Suppression</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/80 font-sans">
+            <tr onclick="selectForm(0)" class="hover:bg-sky-500/10 cursor-pointer transition">
+              <td class="py-2 px-2.5 font-bold text-cyan-300">01. 🪼 AURELIA (Jellyfish Bell)</td>
+              <td class="py-2 px-2.5 text-emerald-300">4-Fold Radial (No Head)</td>
+              <td class="py-2 px-2.5 font-mono">80×52 mm → 182 mm</td>
+              <td class="py-2 px-2.5 font-mono">41.90 g (+0.25 g)</td>
+              <td class="py-2 px-2.5 text-emerald-300">100% (Lappets ≥105°)</td>
+              <td class="py-2 px-2.5">Ceiling Chandelier (10/10)</td>
+              <td class="py-2 px-2.5">Spiral Continuum Tendril (45 mm)</td>
+              <td class="py-2 px-2.5 font-bold text-emerald-300">10/10 (Pure Wonder)</td>
+            </tr>
+            <tr onclick="selectForm(1)" class="hover:bg-sky-500/10 cursor-pointer transition">
+              <td class="py-2 px-2.5 font-bold text-rose-300">02. 🪷 LOTUS (Botanical Pod)</td>
+              <td class="py-2 px-2.5 text-emerald-300">4-Fold Radial Corolla</td>
+              <td class="py-2 px-2.5 font-mono">78×58 mm → 180 mm</td>
+              <td class="py-2 px-2.5 font-mono">42.10 g (+0.45 g)</td>
+              <td class="py-2 px-2.5 text-emerald-300">100% (Inter-Petal Valleys)</td>
+              <td class="py-2 px-2.5">Ikebana Wall Sconce (9.5/10)</td>
+              <td class="py-2 px-2.5">3-Stamen Nitinol Calyx (28 mm)</td>
+              <td class="py-2 px-2.5 font-bold text-emerald-300">10/10 (Botanical Calm)</td>
+            </tr>
+            <tr onclick="selectForm(2)" class="hover:bg-sky-500/10 cursor-pointer transition">
+              <td class="py-2 px-2.5 font-bold text-amber-300">03. 🪐 ASTROLABE (Armillary Orb)</td>
+              <td class="py-2 px-2.5 text-amber-300">Spherical Gyro Cage</td>
+              <td class="py-2 px-2.5 font-mono">Ø79 mm → 180 mm</td>
+              <td class="py-2 px-2.5 font-mono">42.40 g (+0.75 g)</td>
+              <td class="py-2 px-2.5 text-emerald-300">100% (Outboard of Rings)</td>
+              <td class="py-2 px-2.5">Hanging Orrery / Sundial (9/10)</td>
+              <td class="py-2 px-2.5">3-Jaw Jeweler's Iris Collet</td>
+              <td class="py-2 px-2.5 font-bold text-amber-300">9.5/10 (Horological Jewel)</td>
+            </tr>
+            <tr onclick="selectForm(3)" class="hover:bg-sky-500/10 cursor-pointer transition">
+              <td class="py-2 px-2.5 font-bold text-sky-300">04. 🌊 MANTA (Origami Ray)</td>
+              <td class="py-2 px-2.5 text-sky-300">Pelagic Diamond Ray</td>
+              <td class="py-2 px-2.5 font-mono">84×72×27 mm → 186 mm</td>
+              <td class="py-2 px-2.5 font-mono text-emerald-300">41.15 g (-0.50 g)</td>
+              <td class="py-2 px-2.5 text-emerald-300">102% (+14% Cruise Lift)</td>
+              <td class="py-2 px-2.5 font-bold text-sky-300">Flush Glass/Wall (10/10)</td>
+              <td class="py-2 px-2.5">Ventral Cephalic Fin Claspers</td>
+              <td class="py-2 px-2.5 font-bold text-sky-300">9.5/10 (Gliding Ray)</td>
+            </tr>
+            <tr onclick="selectForm(4)" class="hover:bg-sky-500/10 cursor-pointer transition">
+              <td class="py-2 px-2.5 font-bold text-purple-300">05. 🗿 TALISMAN / SCARAB</td>
+              <td class="py-2 px-2.5 text-purple-300">Brancusi Dual-Valve Stone</td>
+              <td class="py-2 px-2.5 font-mono">81×64×34 mm → 180 mm</td>
+              <td class="py-2 px-2.5 font-mono">41.65 g (0.00 g Ref)</td>
+              <td class="py-2 px-2.5 text-emerald-300">100% (Baseline Validated)</td>
+              <td class="py-2 px-2.5">Wall Talisman / Desk Dock (9.5/10)</td>
+              <td class="py-2 px-2.5">Concealed Ventral Soft V-Pad</td>
+              <td class="py-2 px-2.5 font-bold text-purple-300">9.0/10 (Abstract Stone)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // ============================================================================
+    // 1. CANONICAL 5-FORM KINEMATIC & ENGINEERING SPECIFICATION DATABASE
+    // ============================================================================
+    const FORMS = [
+      {
+        id: 0,
+        code: "AURELIA",
+        badge: "FORM 01: AURELIA (PELAGIC BELL)",
+        symmetry: "SYMMETRY: 4-FOLD RADIAL (NO HEAD VECTOR)",
+        title: "🪼 AURELIA — Bioluminescent Moon-Jelly Bell & Continuum Tendril",
+        subtitle: "4 frosted silica-polycarbonate bell lappets open ≥105° clear of the 4 outboard Ø40mm rotors. Opaque Φ1 inner eyelid guarantees 100% closed privacy.",
+        spanText: "Ø80.0 × 52.0 → 182.0 mm",
+        massText: "41.90 g (1.61:1 TWR)",
+        clearanceText: "100% (Lappets ≥105°)",
+        perchText: "Inverted Ceiling Chandelier",
+        fetchText: "Spiral Tendril (45 mm)",
+        accentHex: "#22d3ee",
+        closedDia: 80,
+        closedHeight: 52,
+        openSpan: 182,
+        perchType: "ceiling",
+        momentArmMm: 18.0
+      },
+      {
+        id: 1,
+        code: "LOTUS",
+        badge: "FORM 02: LOTUS (KINETIC FLORA)",
+        symmetry: "SYMMETRY: 4-FOLD RADIAL COROLLA",
+        title: "🪷 LOTUS — 4-Petal Kyoto Porcelain Seed Pod & Gold Stamen Calyx",
+        subtitle: "4 overlapping matte porcelain petals bloom outward and downward (110° corolla below rotor plane) while rotors extend through the inter-petal valleys.",
+        spanText: "Ø78.0 × 58.0 → 180.0 mm",
+        massText: "42.10 g (1.60:1 TWR)",
+        clearanceText: "100% (Inter-Petal Valleys)",
+        perchText: "Ikebana Wall Sconce",
+        fetchText: "3-Stamen Calyx (28 mm)",
+        accentHex: "#fb7185",
+        closedDia: 78,
+        closedHeight: 58,
+        openSpan: 180,
+        perchType: "wall",
+        momentArmMm: 22.0
+      },
+      {
+        id: 2,
+        code: "ASTROLABE",
+        badge: "FORM 03: ASTROLABE (CELESTIAL HOROLOGY)",
+        symmetry: "SYMMETRY: SPHERICAL GYROSCOPIC HALO",
+        title: "🪐 ASTROLABE — Counter-Rotating Armillary Orb & Iris Collet",
+        subtitle: "3 nested PVD-brass & satin-ceramic meridian rings counter-rotate 60° via helical cam tracks into an open planetarium cage inboard of the 4 rotors.",
+        spanText: "Ø79.0 Sphere → 180.0 mm",
+        massText: "42.40 g (1.59:1 TWR)",
+        clearanceText: "100% (Outboard of Rings)",
+        perchText: "Wall Sundial / Hanging Orrery",
+        fetchText: "3-Jaw Iris Collet (22 mm)",
+        accentHex: "#fbbf24",
+        closedDia: 79,
+        closedHeight: 79,
+        openSpan: 180,
+        perchType: "ceiling",
+        momentArmMm: 24.0
+      },
+      {
+        id: 3,
+        code: "MANTA",
+        badge: "FORM 04: MANTA (KINETIC ORIGAMI RAY)",
+        symmetry: "SYMMETRY: PELAGIC LIFTING LOZENGE",
+        title: "🌊 MANTA — Ultra-Flat 2.7cm Origami Pelagic Ray & Cephalic Claspers",
+        subtitle: "Laser-scored Kevlar/TPU living hinges unfold 186mm swept wing spars (-0.50g lighter than metal hinges) with undulating biowave LED edge guidance.",
+        spanText: "84×72×27 mm → 186.0 mm",
+        massText: "41.15 g (1.64:1 TWR)",
+        clearanceText: "102% (+14% Cruise Lift)",
+        perchText: "Flush Glass / Wall (13.5mm CG)",
+        fetchText: "Ventral Cephalic Claspers",
+        accentHex: "#38bdf8",
+        closedDia: 84,
+        closedHeight: 27,
+        openSpan: 186,
+        perchType: "wall",
+        momentArmMm: 13.5
+      },
+      {
+        id: 4,
+        code: "TALISMAN",
+        badge: "FORM 05: TALISMAN / SCARAB (DUAL-VALVE STONE)",
+        symmetry: "SYMMETRY: BILATERAL SPLIT PEBBLE",
+        title: "🗿 THE SACRED TALISMAN — Zero-Bug Brancusi Split Stone (with Scarab Trim Toggle)",
+        subtitle: "100% baseline 2-shell mechanics with zero entomological cues: matte travertine ceramic valves part 24° to reveal a warm 2700K golden horizon ring.",
+        spanText: "81×64×34 mm → 180.0 mm",
+        massText: "41.65 g (1.62:1 TWR)",
+        clearanceText: "100% (Baseline Validated)",
+        perchText: "Wall Talisman / Desk Sanctuary",
+        fetchText: "Concealed Ventral V-Pad",
+        accentHex: "#c084fc",
+        closedDia: 81,
+        closedHeight: 34,
+        openSpan: 180,
+        perchType: "wall",
+        momentArmMm: 16.0
+      }
+    ];
+
+    // State Variables
+    let currentForm = 0;
+    let currentMode = 2; // Default to Mode 3: Pelagic Flight + 10 Sensors so user immediately sees deployed beauty
+    let camDeg = 205;    // 0..270 deg
+    let targetCamDeg = 205;
+    let xrayFactor = 0.15;
+    let explodeFactor = 0.0;
+    let showWireframe = true;
+    let scarabCollectorTrim = false; // false = Zero-Bug Brancusi Talisman, true = Royal Collector Scarab
+    let clockTime = 0;
+
+    // Smooth helper
+    function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+    function smoothstep(a, b, x) {
+      const t = clamp01((x - a) / (b - a));
+      return t * t * (3 - 2 * t);
+    }
+
+    // Derive Phase Progress (0..1) from Cam Drum Angle theta (0..270 deg)
+    function getCamPhases(theta) {
+      return {
+        phi1_eyelid: smoothstep(0, 40, theta),       // 0..40 deg: Privacy eyelid opens
+        phi2_shell: smoothstep(35, 135, theta),      // 35..135 deg: Shell/Petals/Rings/Wings open
+        phi3_rotors: smoothstep(85, 205, theta),     // 85..205 deg: 4-bar rotor arms deploy outboard
+        phi4_fetch: smoothstep(205, 270, theta)      // 205..270 deg: Lost-motion tendon fetch actuates
+      };
+    }
+
+    // ============================================================================
+    // 2. THREE.JS 3D WEBGL CAD SCENE INITIALIZATION
+    // ============================================================================
+    const container = document.getElementById("webgl-container");
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030812, 0.028);
+
+    const camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(6.8, 5.2, 7.8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.target.set(0, 0.2, 0);
+
+    // Studio & Blueprint Lighting
+    const ambientLight = new THREE.AmbientLight(0x94a3b8, 0.75);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xf8fafc, 1.35);
+    keyLight.position.set(8, 14, 10);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.95);
+    rimLight.position.set(-9, 6, -8);
+    scene.add(rimLight);
+
+    const warmCoreLight = new THREE.PointLight(0xfbbf24, 1.4, 8);
+    warmCoreLight.position.set(0, 0.2, 0);
+    scene.add(warmCoreLight);
+
+    // Blueprint Reference Floor Grid & Coordinate Axes
+    const gridHelper = new THREE.GridHelper(14, 28, 0x0ea5e9, 0x0f2942);
+    gridHelper.position.y = -2.2;
+    scene.add(gridHelper);
+
+    // Root Group for the Robot (moves/tilts during Flight, Perch, and Palm Landing)
+    const robotRoot = new THREE.Group();
+    scene.add(robotRoot);
+
+    // Environment Props Group (Qi2 Dock, Ceiling/Wall Perch Disc, Target Gold Ring, Open Human Palm)
+    const envGroup = new THREE.Group();
+    scene.add(envGroup);
+
+    // ----------------------------------------------------------------------------
+    // SHARED MATERIALS
+    // ----------------------------------------------------------------------------
+    const matMgCore = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.75, roughness: 0.3 });
+    const matCamDrum = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.65, roughness: 0.25 });
+    const matCarbon = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.45, roughness: 0.35 });
+    const matBrass = new THREE.MeshStandardMaterial({ color: 0xeab308, metalness: 0.85, roughness: 0.2 });
+    const matPropBlade = new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.3, roughness: 0.2, transparent: true, opacity: 0.75 });
+    const matWireframe = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.32 });
+
+    // Form-Specific Shell Materials (with dynamic X-Ray opacity support)
+    const matAureliaBell = new THREE.MeshPhysicalMaterial({
+      color: 0xa5f3fc,
+      emissive: 0x0891b2,
+      emissiveIntensity: 0.22,
+      roughness: 0.18,
+      metalness: 0.05,
+      transmission: 0.68,
+      transparent: true,
+      opacity: 0.86,
+      side: THREE.DoubleSide
+    });
+
+    const matLotusPetal = new THREE.MeshPhysicalMaterial({
+      color: 0xfff1f2,
+      emissive: 0x881337,
+      emissiveIntensity: 0.08,
+      roughness: 0.24,
+      metalness: 0.04,
+      clearcoat: 0.5,
+      transparent: true,
+      opacity: 0.92,
+      side: THREE.DoubleSide
+    });
+
+    const matAstrolabeRing = new THREE.MeshStandardMaterial({
+      color: 0xfbbf24,
+      emissive: 0x78350f,
+      emissiveIntensity: 0.12,
+      metalness: 0.88,
+      roughness: 0.2,
+      transparent: true,
+      opacity: 0.94,
+      side: THREE.DoubleSide
+    });
+
+    const matMantaWing = new THREE.MeshPhysicalMaterial({
+      color: 0x0f2942,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.18,
+      roughness: 0.28,
+      metalness: 0.35,
+      clearcoat: 0.6,
+      transparent: true,
+      opacity: 0.92,
+      side: THREE.DoubleSide
+    });
+
+    const matTalismanStone = new THREE.MeshPhysicalMaterial({
+      color: 0xf1f5f9,
+      emissive: 0x334155,
+      emissiveIntensity: 0.06,
+      roughness: 0.38,
+      metalness: 0.08,
+      clearcoat: 0.25,
+      transparent: true,
+      opacity: 0.94,
+      side: THREE.DoubleSide
+    });
+
+    function addCadEdges(mesh, colorHex = 0x38bdf8) {
+      const edges = new THREE.EdgesGeometry(mesh.geometry, 22);
+      const line = new THREE.LineSegments(
+        edges,
+        new THREE.LineBasicMaterial({ color: colorHex, transparent: true, opacity: 0.35 })
+      );
+      line.name = "cadEdge";
+      mesh.add(line);
+    }
+
+    // ----------------------------------------------------------------------------
+    // BUILD INVARIANT 33.6g MECHATRONIC CORE (SHARED BY ALL 5 FORMS)
+    // ----------------------------------------------------------------------------
+    const coreGroup = new THREE.Group();
+    robotRoot.add(coreGroup);
+
+    // 1. Central Magnesium Spine & Battery Pack
+    const spineGeo = new THREE.CylinderGeometry(0.75, 0.82, 0.55, 8);
+    const spineMesh = new THREE.Mesh(spineGeo, matMgCore);
+    addCadEdges(spineMesh, 0x38bdf8);
+    coreGroup.add(spineMesh);
+
+    // 2. Central Single-Actuator Slotted Cam Drum (rotates with camDeg!)
+    const camDrumGeo = new THREE.CylinderGeometry(0.46, 0.46, 0.72, 24);
+    const camDrumMesh = new THREE.Mesh(camDrumGeo, matCamDrum);
+    addCadEdges(camDrumMesh, 0xfbbf24);
+    coreGroup.add(camDrumMesh);
+
+    // Helical slot ring visual on the cam drum
+    const camSlotRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.48, 0.035, 8, 32),
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
+    );
+    camSlotRing.rotation.x = Math.PI / 2;
+    camSlotRing.rotation.y = 0.35;
+    camDrumMesh.add(camSlotRing);
+
+    // 3. Gimbal Sensor Eye (OV5640 RGB + MLX90640 Thermal FIR + DOE Star Projector)
+    const sensorTurretGroup = new THREE.Group();
+    sensorTurretGroup.position.set(0, 0.42, 0);
+    coreGroup.add(sensorTurretGroup);
+
+    const turretSphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.32, 20, 20),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8, roughness: 0.15 })
+    );
+    sensorTurretGroup.add(turretSphere);
+
+    const lensRing = new THREE.Mesh(
+      new THREE.TorusGeometry(0.16, 0.03, 12, 24),
+      matBrass
+    );
+    lensRing.position.set(0, 0.12, 0.26);
+    lensRing.rotation.x = -0.35;
+    sensorTurretGroup.add(lensRing);
+
+    // Φ1 Physical Privacy Eyelid Shutter (closes over sensor turret when theta < 40 deg)
+    const privacyEyelid = new THREE.Mesh(
+      new THREE.SphereGeometry(0.35, 20, 14, 0, Math.PI * 2, 0, Math.PI * 0.58),
+      new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.7, roughness: 0.25, side: THREE.DoubleSide })
+    );
+    addCadEdges(privacyEyelid, 0xfbbf24);
+    sensorTurretGroup.add(privacyEyelid);
+
+    // 2700K Internal Horizon Light Halo
+    const horizonHalo = new THREE.Mesh(
+      new THREE.TorusGeometry(0.78, 0.04, 12, 36),
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.85 })
+    );
+    horizonHalo.rotation.x = Math.PI / 2;
+    coreGroup.add(horizonHalo);
+
+    // 4. Four-Bar Folding Outboard Rotor Arms & Shrouded Ø40mm Low-RPM Rotors
+    const rotorAssemblies = [];
+    const armAngles = [Math.PI * 0.25, Math.PI * 0.75, Math.PI * 1.25, Math.PI * 1.75];
+    armAngles.forEach((ang, idx) => {
+      const armPivot = new THREE.Group();
+      armPivot.rotation.y = ang;
+      coreGroup.add(armPivot);
+
+      // Parallel 4-bar carbon links
+      const link1 = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.06, 0.07), matCarbon);
+      link1.position.set(0.65, 0.05, 0.09);
+      const link2 = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.06, 0.07), matCarbon);
+      link2.position.set(0.65, 0.05, -0.09);
+      armPivot.add(link1, link2);
+
+      // Outboard Rotor Duct Pod
+      const rotorPod = new THREE.Group();
+      rotorPod.position.set(1.3, 0.08, 0);
+      armPivot.add(rotorPod);
+
+      // Thin carbon perimeter guard ring (0% vertical blockage)
+      const ductRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.56, 0.035, 10, 28),
+        matCarbon
+      );
+      ductRing.rotation.x = Math.PI / 2;
+      addCadEdges(ductRing, 0x38bdf8);
+      rotorPod.add(ductRing);
+
+      // Brushless 0802 Hub
+      const motorHub = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.11, 0.11, 0.16, 12),
+        matBrass
+      );
+      rotorPod.add(motorHub);
+
+      // 4-Blade Low-RPM Acoustic-Damped Propeller
+      const propGroup = new THREE.Group();
+      propGroup.position.y = 0.05;
+      for (let b = 0; b < 4; b++) {
+        const blade = new THREE.Mesh(
+          new THREE.BoxGeometry(0.48, 0.012, 0.09),
+          matPropBlade
+        );
+        blade.rotation.y = (b * Math.PI) / 2;
+        blade.position.x = Math.cos((b * Math.PI) / 2) * 0.24;
+        blade.position.z = -Math.sin((b * Math.PI) / 2) * 0.24;
+        blade.rotation.x = 0.22;
+        propGroup.add(blade);
+      }
+      rotorPod.add(propGroup);
+
+      rotorAssemblies.push({ armPivot, link1, link2, rotorPod, propGroup, baseAngle: ang, index: idx });
+    });
+
+    // 5. Sensor Volumetric Cones (Visible in Flight / Perch modes)
+    const sensorBeamsGroup = new THREE.Group();
+    coreGroup.add(sensorBeamsGroup);
+
+    // FIR Thermal + 60GHz Radar Forward/Downward Cone
+    const radarCone = new THREE.Mesh(
+      new THREE.ConeGeometry(1.35, 2.8, 24, 1, true),
+      new THREE.MeshBasicMaterial({ color: 0x38bdf8, wireframe: true, transparent: true, opacity: 0.22 })
+    );
+    radarCone.position.set(0, -1.45, 0.85);
+    radarCone.rotation.x = -0.55;
+    sensorBeamsGroup.add(radarCone);
+
+    // Upward DOE Star / Breathing Halo Projection Cone
+    const doeStarCone = new THREE.Mesh(
+      new THREE.ConeGeometry(1.9, 2.6, 20, 1, true),
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24, wireframe: true, transparent: true, opacity: 0.25 })
+    );
+    doeStarCone.position.set(0, 1.65, 0);
+    doeStarCone.rotation.x = Math.PI;
+    sensorBeamsGroup.add(doeStarCone);
+
+    // ----------------------------------------------------------------------------
+    // BUILD THE 5 INTERCHANGEABLE SANCTUARY SHELLS & Φ4 FETCH MECHANISMS
+    // ----------------------------------------------------------------------------
+    const shellGroups = [
+      new THREE.Group(), // 0: AURELIA (Moon-Jelly Bell)
+      new THREE.Group(), // 1: LOTUS (4-Petal Seed Pod)
+      new THREE.Group(), // 2: ASTROLABE (3-Ring Armillary Orb)
+      new THREE.Group(), // 3: MANTA (Origami Pelagic Ray)
+      new THREE.Group()  // 4: TALISMAN / SCARAB (Dual-Valve Stone)
+    ];
+    shellGroups.forEach(g => robotRoot.add(g));
+
+    // === FORM 01: AURELIA (4 Radial Frosted Bell Lappets + Spiral Continuum Tendril) ===
+    const aureliaLappets = [];
+    for (let i = 0; i < 4; i++) {
+      const lappetPivot = new THREE.Group();
+      lappetPivot.rotation.y = (i * Math.PI) / 2;
+      shellGroups[0].add(lappetPivot);
+
+      // Quarter-dome frosted bell petal
+      const lappetGeo = new THREE.SphereGeometry(
+        1.12,
+        20,
+        16,
+        -Math.PI * 0.24,
+        Math.PI * 0.48,
+        0.08,
+        Math.PI * 0.52
+      );
+      const lappetMesh = new THREE.Mesh(lappetGeo, matAureliaBell);
+      addCadEdges(lappetMesh, 0x22d3ee);
+      lappetPivot.add(lappetMesh);
+      aureliaLappets.push(lappetPivot);
+    }
+    // Aurelia Crown Magnetic Ring
+    const aureliaCrown = new THREE.Mesh(
+      new THREE.TorusGeometry(0.28, 0.045, 12, 24),
+      matBrass
+    );
+    aureliaCrown.rotation.x = Math.PI / 2;
+    aureliaCrown.position.y = 1.08;
+    shellGroups[0].add(aureliaCrown);
+
+    // Aurelia Φ4 Oral-Arm Continuum Spiral Tendril
+    const aureliaTendrilGroup = new THREE.Group();
+    shellGroups[0].add(aureliaTendrilGroup);
+    const tendrilSegments = [];
+    for (let s = 0; s < 10; s++) {
+      const seg = new THREE.Mesh(
+        new THREE.SphereGeometry(0.085 - s * 0.004, 10, 10),
+        new THREE.MeshStandardMaterial({
+          color: s === 9 ? 0xfbbf24 : 0x22d3ee,
+          emissive: 0x0891b2,
+          emissiveIntensity: 0.4
+        })
+      );
+      aureliaTendrilGroup.add(seg);
+      tendrilSegments.push(seg);
+    }
+
+    // === FORM 02: LOTUS (4 Overlapping Kyoto-Porcelain Petals + 3-Stamen Calyx) ===
+    const lotusPetals = [];
+    for (let i = 0; i < 4; i++) {
+      const petalPivot = new THREE.Group();
+      // Offset by 45 deg from rotor arms so rotors emerge through the inter-petal valleys!
+      petalPivot.rotation.y = (i * Math.PI) / 2;
+      petalPivot.position.y = -0.25;
+      shellGroups[1].add(petalPivot);
+
+      const petalGeo = new THREE.SphereGeometry(
+        1.08,
+        18,
+        16,
+        -Math.PI * 0.26,
+        Math.PI * 0.52,
+        0.05,
+        Math.PI * 0.62
+      );
+      petalGeo.scale(1.0, 1.18, 0.92);
+      const petalMesh = new THREE.Mesh(petalGeo, matLotusPetal);
+      petalMesh.position.y = 0.25;
+      addCadEdges(petalMesh, 0xfb7185);
+      petalPivot.add(petalMesh);
+      lotusPetals.push(petalPivot);
+    }
+    // Lotus Φ4 3-Stamen Gold Nitinol Calyx Gripper
+    const lotusStamens = [];
+    for (let k = 0; k < 3; k++) {
+      const stPivot = new THREE.Group();
+      stPivot.rotation.y = (k * Math.PI * 2) / 3;
+      stPivot.position.y = -0.32;
+      shellGroups[1].add(stPivot);
+
+      const filament = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.025, 0.02, 0.65, 8),
+        matBrass
+      );
+      filament.position.set(0.14, -0.32, 0);
+      const antherTip = new THREE.Mesh(
+        new THREE.SphereGeometry(0.055, 10, 10),
+        matBrass
+      );
+      antherTip.position.set(0.14, -0.65, 0);
+      stPivot.add(filament, antherTip);
+      lotusStamens.push(stPivot);
+    }
+
+    // === FORM 03: ASTROLABE (3 Counter-Rotating Meridian Rings + Iris Collet) ===
+    const astrolabeRings = [];
+    const ringRadii = [1.08, 1.01, 0.94];
+    ringRadii.forEach((rad, idx) => {
+      const ringGroup = new THREE.Group();
+      const ringMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(rad, rad, 0.34, 36, 1, true),
+        matAstrolabeRing
+      );
+      addCadEdges(ringMesh, 0xfbbf24);
+      ringGroup.add(ringMesh);
+      shellGroups[2].add(ringGroup);
+      astrolabeRings.push(ringGroup);
+    });
+    // Astrolabe Φ4 South-Pole 3-Jaw Jeweler's Iris Collet
+    const astrolabeColletJaws = [];
+    for (let j = 0; j < 3; j++) {
+      const jaw = new THREE.Mesh(
+        new THREE.ConeGeometry(0.07, 0.42, 8),
+        matBrass
+      );
+      jaw.rotation.x = Math.PI;
+      shellGroups[2].add(jaw);
+      astrolabeColletJaws.push({ mesh: jaw, angle: (j * Math.PI * 2) / 3 });
+    }
+
+    // === FORM 04: MANTA (Ultra-Flat 2.7cm Origami Pelagic Ray + Cephalic Claspers) ===
+    const mantaWings = [];
+    [-1, 1].forEach(side => {
+      const wingPivot = new THREE.Group();
+      wingPivot.position.set(side * 0.25, 0.12, 0);
+      shellGroups[3].add(wingPivot);
+
+      // Sculpted diamond ray wing panel
+      const wingShape = new THREE.Shape();
+      wingShape.moveTo(0, 0.95);
+      wingShape.lineTo(side * 1.45, 0.15);
+      wingShape.lineTo(side * 0.85, -0.85);
+      wingShape.lineTo(0, -0.65);
+      wingShape.closePath();
+
+      const extrudeGeo = new THREE.ExtrudeGeometry(wingShape, {
+        depth: 0.06,
+        bevelEnabled: true,
+        bevelSegments: 2,
+        steps: 1,
+        bevelSize: 0.02,
+        bevelThickness: 0.02
+      });
+      const wingMesh = new THREE.Mesh(extrudeGeo, matMantaWing);
+      wingMesh.rotation.x = Math.PI / 2;
+      addCadEdges(wingMesh, 0x38bdf8);
+      wingPivot.add(wingMesh);
+      mantaWings.push({ pivot: wingPivot, side });
+    });
+    // Manta Φ4 Ventral Cephalic Fin Claspers
+    const mantaClaspers = [];
+    [-1, 1].forEach(side => {
+      const clasper = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.48, 0.16),
+        matBrass
+      );
+      shellGroups[3].add(clasper);
+      mantaClaspers.push({ mesh: clasper, side });
+    });
+
+    // === FORM 05: TALISMAN / SCARAB (Dual-Valve 24° Split Ceramic Pebble) ===
+    const talismanValves = [];
+    [-1, 1].forEach(side => {
+      const valvePivot = new THREE.Group();
+      valvePivot.position.set(0, 0.22, 0.72); // Front hinge pivot
+      shellGroups[4].add(valvePivot);
+
+      const valveGeo = new THREE.SphereGeometry(
+        1.08,
+        22,
+        16,
+        side > 0 ? 0 : Math.PI * 0.5,
+        Math.PI * 0.5,
+        0.05,
+        Math.PI * 0.52
+      );
+      valveGeo.scale(0.88, 0.58, 1.12);
+      const valveMesh = new THREE.Mesh(valveGeo, matTalismanStone);
+      valveMesh.position.set(0, -0.18, -0.72);
+      valveMesh.rotation.y = side > 0 ? -Math.PI * 0.25 : Math.PI * 0.25;
+      addCadEdges(valveMesh, 0xc084fc);
+      valvePivot.add(valveMesh);
+      talismanValves.push({ pivot: valvePivot, mesh: valveMesh, side });
+    });
+    // Talisman Φ4 Ventral Soft V-Pad Gripper
+    const talismanJaws = [];
+    [-1, 1].forEach(side => {
+      const vPad = new THREE.Mesh(
+        new THREE.BoxGeometry(0.09, 0.45, 0.12),
+        matBrass
+      );
+      shellGroups[4].add(vPad);
+      talismanJaws.push({ mesh: vPad, side });
+    });
+
+    // ----------------------------------------------------------------------------
+    // ENVIRONMENT PROPS: Qi2 Dock, Ceiling/Wall Disc, Target Gold Ring, Human Palm
+    // ----------------------------------------------------------------------------
+    // 1. Qi2 Sanctuary Charging Pad
+    const qi2Dock = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.35, 1.48, 0.18, 32),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.35 })
+    );
+    qi2Dock.position.set(0, -2.1, 0);
+    addCadEdges(qi2Dock, 0x38bdf8);
+    envGroup.add(qi2Dock);
+
+    // 2. N52 Magnetic Wall / Ceiling Target Disc
+    const perchDisc = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.65, 0.65, 0.08, 24),
+      new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.8, roughness: 0.2 })
+    );
+    addCadEdges(perchDisc, 0xfbbf24);
+    envGroup.add(perchDisc);
+
+    // 3. <4g Gold Ring Fetch Target
+    const goldRingTarget = new THREE.Mesh(
+      new THREE.TorusGeometry(0.18, 0.038, 12, 28),
+      matBrass
+    );
+    envGroup.add(goldRingTarget);
+
+    // 4. Stylized Open Human Palm (for Mode 6: Cup-in-Hands Landing Demo)
+    const palmGroup = new THREE.Group();
+    const palmPad = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.45, 1.2, 0.14, 24),
+      new THREE.MeshStandardMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.28, wireframe: false })
+    );
+    addCadEdges(palmPad, 0x38bdf8);
+    palmGroup.add(palmPad);
+    envGroup.add(palmGroup);
+
+    // ============================================================================
+    // 3. UI & STATE CONTROLLERS
+    // ============================================================================
+    function updateHUD() {
+      const f = FORMS[currentForm];
+      document.getElementById("hudFormBadge").textContent = f.badge;
+      document.getElementById("hudSymmetryBadge").textContent = f.symmetry;
+      document.getElementById("hudTitle").textContent = f.title;
+      document.getElementById("hudSubtitle").textContent = f.subtitle;
+      document.getElementById("statSpan").textContent = f.spanText;
+      document.getElementById("statMass").textContent = f.massText;
+      document.getElementById("statClearance").textContent = f.clearanceText;
+      document.getElementById("statPerch").textContent = f.perchText;
+      document.getElementById("statFetch").textContent = f.fetchText;
+
+      for (let i = 0; i < 5; i++) {
+        const btn = document.getElementById(`form-btn-${i}`);
+        if (i === currentForm) btn.classList.add("form-card-active");
+        else btn.classList.remove("form-card-active");
+        shellGroups[i].visible = (i === currentForm);
+      }
+
+      for (let m = 0; m < 6; m++) {
+        const mBtn = document.getElementById(`mode-btn-${m}`);
+        if (m === currentMode) mBtn.classList.add("mode-pill-active");
+        else mBtn.classList.remove("mode-pill-active");
+      }
+    }
+
+    window.selectForm = function(idx) {
+      currentForm = idx;
+      updateHUD();
+    };
+
+    window.toggleTalismanTrim = function() {
+      scarabCollectorTrim = !scarabCollectorTrim;
+      const badge = document.getElementById("scarab-trim-badge");
+      if (scarabCollectorTrim) {
+        badge.textContent = "Trim: Collector Scarab ⇄";
+        matTalismanStone.color.setHex(0x1e3a8a); // Lapis blue collector trim
+        matTalismanStone.metalness = 0.55;
+        matTalismanStone.roughness = 0.18;
+      } else {
+        badge.textContent = "Trim: Zero-Bug Talisman ⇄";
+        matTalismanStone.color.setHex(0xf1f5f9); // Matte Brancusi travertine/porcelain
+        matTalismanStone.metalness = 0.08;
+        matTalismanStone.roughness = 0.38;
+      }
+      selectForm(4);
+    };
+
+    window.selectMode = function(modeIdx) {
+      currentMode = modeIdx;
+      // Set target cam drum angle based on functional mode
+      if (modeIdx === 0) targetCamDeg = 0;        // Closed Sanctuary (0 deg)
+      else if (modeIdx === 1) targetCamDeg = 145; // 400ms Mid-Morph (145 deg)
+      else if (modeIdx === 2) targetCamDeg = 205; // Pelagic Flight (205 deg)
+      else if (modeIdx === 3) targetCamDeg = 185; // 0W Perch (185 deg)
+      else if (modeIdx === 4) targetCamDeg = 265; // <4g Micro-Fetch (265 deg)
+      else if (modeIdx === 5) targetCamDeg = 45;  // Cup-in-Hands Palm Landing
+      updateHUD();
+    };
+
+    window.onManualCamScrub = function(val) {
+      targetCamDeg = parseFloat(val);
+      camDeg = targetCamDeg;
+      document.getElementById("camAngleLabel").textContent = `${Math.round(camDeg)}°`;
+    };
+
+    window.onXrayChange = function(val) {
+      xrayFactor = parseFloat(val) / 100;
+      document.getElementById("xrayLabel").textContent = `${Math.round(val)}%`;
+      const alpha = Math.max(0.12, 1.0 - xrayFactor);
+      matAureliaBell.opacity = alpha * 0.88;
+      matLotusPetal.opacity = alpha;
+      matAstrolabeRing.opacity = alpha;
+      matMantaWing.opacity = alpha;
+      matTalismanStone.opacity = alpha;
+    };
+
+    window.onExplodeChange = function(val) {
+      explodeFactor = parseFloat(val) / 100;
+    };
+
+    window.toggleWireframe = function() {
+      showWireframe = !showWireframe;
+      document.getElementById("btnWireframe").textContent = `CAD Mesh: ${showWireframe ? "ON" : "OFF"}`;
+      scene.traverse(obj => {
+        if (obj.name === "cadEdge") obj.visible = showWireframe;
+      });
+    };
+
+    window.setCameraPreset = function(preset) {
+      if (preset === "iso") {
+        camera.position.set(6.8, 5.2, 7.8);
+      } else if (preset === "top") {
+        camera.position.set(0.01, 10.5, 0.01);
+      } else if (preset === "side") {
+        camera.position.set(0, 0.8, 10.2);
+      } else if (preset === "bottom") {
+        camera.position.set(3.8, -3.5, 5.2);
+      }
+      controls.target.set(0, 0.1, 0);
+      controls.update();
+    };
+
+    // ============================================================================
+    // 4. REAL-TIME KINEMATIC SOLVER & 3D + 2D ORTHOGRAPHIC RENDER LOOP
+    // ============================================================================
+    const canvasTop = document.getElementById("canvasTopOrtho");
+    const ctxTop = canvasTop.getContext("2d");
+    const canvasSide = document.getElementById("canvasSideOrtho");
+    const ctxSide = canvasSide.getContext("2d");
+    const canvasCam = document.getElementById("canvasCamTrack");
+    const ctxCam = canvasCam.getContext("2d");
+
+    function updateKinematicsAndEnvironment(dt) {
+      clockTime += dt;
+
+      // Auto-sweep in Mode 1 (400ms Cam Morph demo)
+      if (currentMode === 1) {
+        targetCamDeg = 135 + Math.sin(clockTime * 2.2) * 130;
+      } else if (currentMode === 5) {
+        // Mode 6: Cup-in-Hands Landing smoothly cycles from open flight (200°) down into palm & folds closed (0°)
+        const cycle = (Math.sin(clockTime * 1.4) + 1) * 0.5; // 0..1
+        targetCamDeg = cycle * 200;
+      }
+
+      // Smooth interpolation of cam angle
+      camDeg += (targetCamDeg - camDeg) * 0.12;
+      document.getElementById("camSlider").value = Math.round(camDeg);
+      document.getElementById("camAngleLabel").textContent = `${Math.round(camDeg)}°`;
+
+      const phases = getCamPhases(camDeg);
+
+      // Update Phase Readout Badge
+      const phaseEl = document.getElementById("camPhaseReadout");
+      if (camDeg < 35) phaseEl.textContent = "Φ1: PRIVACY SHUTTER SEALED (0°–40°)";
+      else if (camDeg < 110) phaseEl.textContent = "Φ2: SHELL / PETAL / RING MORPH (40°–130°)";
+      else if (camDeg < 210) phaseEl.textContent = "Φ3: OUTBOARD 4-BAR ROTOR LOCK (90°–210°)";
+      else phaseEl.textContent = "Φ4: LOST-MOTION MICRO-FETCH & TAP (210°–270°)";
+
+      // 1. Rotate Central Cam Drum
+      camDrumMesh.rotation.y = (camDeg * Math.PI) / 180;
+
+      // 2. Actuate Φ1 Privacy Eyelid & Sensor Turret Elevation
+      privacyEyelid.rotation.x = -phases.phi1_eyelid * 1.65;
+      sensorTurretGroup.position.y = 0.36 + phases.phi2_shell * 0.22 + explodeFactor * 0.65;
+
+      // 3. Actuate Φ3 4-Bar Outboard Rotor Arms (81mm closed -> 180-186mm deployed)
+      const isSpinning = (phases.phi3_rotors > 0.65) && (currentMode === 2 || currentMode === 4 || (currentMode === 5 && camDeg > 90));
+      rotorAssemblies.forEach(r => {
+        const radius = 0.48 + phases.phi3_rotors * 0.96 + explodeFactor * 0.45;
+        r.rotorPod.position.x = radius;
+        r.link1.scale.x = 0.45 + phases.phi3_rotors * 0.68;
+        r.link1.position.x = radius * 0.52;
+        r.link2.scale.x = 0.45 + phases.phi3_rotors * 0.68;
+        r.link2.position.x = radius * 0.52;
+        if (isSpinning) {
+          r.propGroup.rotation.y += (r.index % 2 === 0 ? 1 : -1) * 0.55;
+        }
+      });
+
+      // 4. Sensor Cones visibility
+      sensorBeamsGroup.visible = (phases.phi1_eyelid > 0.7) && (currentMode === 2 || currentMode === 3 || currentMode === 4);
+      radarCone.rotation.y = Math.sin(clockTime * 1.5) * 0.25;
+      doeStarCone.rotation.y = clockTime * 0.4;
+
+      // 5. Actuate Form-Specific Shells & Φ4 Micro-Fetch Mechanisms
+      const expY = explodeFactor * 0.85;
+
+      // FORM 01: AURELIA (4 radial frosted bell lappets + spiral continuum tendril)
+      aureliaLappets.forEach((lap, idx) => {
+        lap.position.y = expY;
+        // Hinges upward/outward clear of rotor downwash
+        lap.children[0].rotation.z = -phases.phi2_shell * 0.82;
+        lap.children[0].position.x = phases.phi2_shell * 0.18;
+      });
+      // Spiral Continuum Tendril (uncoils in Φ4)
+      const tendrilReach = 0.15 + phases.phi4_fetch * 1.25;
+      tendrilSegments.forEach((seg, sIdx) => {
+        const frac = sIdx / 9;
+        const spiralRad = (1 - phases.phi4_fetch * 0.55) * 0.14 * Math.sin(frac * Math.PI);
+        seg.position.set(
+          Math.cos(frac * 7 + clockTime * 2) * spiralRad,
+          -0.25 - frac * tendrilReach - expY * 0.4,
+          Math.sin(frac * 7 + clockTime * 2) * spiralRad
+        );
+      });
+
+      // FORM 02: LOTUS (4 porcelain petals bloom outward/downward 110° below rotor plane)
+      lotusPetals.forEach(p => {
+        p.position.y = -0.25 + expY * 0.5;
+        p.children[0].rotation.z = -phases.phi2_shell * 1.28; // Opens past horizontal so 0% downwash is blocked
+      });
+      lotusStamens.forEach(st => {
+        const drop = phases.phi4_fetch * 0.55;
+        st.position.y = -0.25 - drop - expY * 0.4;
+        // Opens to grasp, then closes around ring
+        const pinch = Math.sin(phases.phi4_fetch * Math.PI) * 0.42;
+        st.children[0].rotation.z = pinch;
+      });
+
+      // FORM 03: ASTROLABE (3 counter-rotating meridian rings + south-pole iris collet)
+      astrolabeRings[0].rotation.x = phases.phi2_shell * 0.95;
+      astrolabeRings[1].rotation.z = -phases.phi2_shell * 1.05;
+      astrolabeRings[2].rotation.x = -phases.phi2_shell * 0.65;
+      astrolabeRings.forEach((rg, i) => {
+        rg.position.y = expY * (i - 1) * 0.35;
+      });
+      astrolabeColletJaws.forEach(j => {
+        const spread = 0.06 + Math.sin(phases.phi4_fetch * Math.PI) * 0.18;
+        const drop = 0.45 + phases.phi4_fetch * 0.55;
+        j.mesh.position.set(
+          Math.cos(j.angle) * spread,
+          -drop - expY * 0.4,
+          Math.sin(j.angle) * spread
+        );
+      });
+
+      // FORM 04: MANTA (Origami living-hinge wings unfold 180° + cephalic claspers)
+      mantaWings.forEach(w => {
+        w.pivot.position.y = 0.12 + expY * 0.6;
+        // Closed = folded inward over core; Open = flat horizontal
+        w.pivot.rotation.z = w.side * (1 - phases.phi2_shell) * 2.35;
+      });
+      mantaClaspers.forEach(c => {
+        const drop = 0.25 + phases.phi4_fetch * 0.62;
+        const spread = 0.24 - phases.phi4_fetch * 0.12;
+        c.mesh.position.set(c.side * spread, -drop - expY * 0.4, 0.35);
+      });
+
+      // FORM 05: TALISMAN / SCARAB (Dual-valve 24° lateral parting + ventral V-pad)
+      talismanValves.forEach(v => {
+        v.pivot.position.y = 0.22 + expY * 0.65;
+        v.pivot.rotation.y = v.side * phases.phi2_shell * 0.46;
+        v.pivot.rotation.x = phases.phi2_shell * 0.28;
+      });
+      talismanJaws.forEach(j => {
+        const drop = 0.28 + phases.phi4_fetch * 0.58;
+        const spread = 0.22 - phases.phi4_fetch * 0.11;
+        j.mesh.position.set(j.side * spread, -drop - expY * 0.4, 0.2);
+      });
+
+      // 6. Position Robot Root & Environment Props by Functional Mode
+      robotRoot.rotation.set(0, 0, 0);
+      qi2Dock.visible = (currentMode === 0 || currentMode === 1);
+      perchDisc.visible = (currentMode === 3);
+      goldRingTarget.visible = (currentMode === 4);
+      palmGroup.visible = (currentMode === 5);
+
+      if (currentMode === 0) {
+        // Resting on Qi2 Sanctuary Dock
+        robotRoot.position.set(0, -1.45, 0);
+      } else if (currentMode === 1) {
+        // 400ms Morph on Dock
+        robotRoot.position.set(0, -1.25 + phases.phi3_rotors * 0.6, 0);
+      } else if (currentMode === 2) {
+        // Pelagic Flight: 0.4 Hz sinusoidal buoyant breathing hover!
+        robotRoot.position.set(
+          Math.sin(clockTime * 0.8) * 0.22,
+          0.35 + Math.sin(clockTime * 2.5) * 0.18,
+          Math.cos(clockTime * 0.6) * 0.18
+        );
+        robotRoot.rotation.z = Math.cos(clockTime * 0.8) * 0.06;
+        robotRoot.rotation.x = Math.sin(clockTime * 0.6) * 0.05;
+      } else if (currentMode === 3) {
+        // Mode 4: 0W Passive Perching (Ceiling Chandelier vs. Wall Sconce)
+        const f = FORMS[currentForm];
+        if (f.perchType === "ceiling") {
+          perchDisc.position.set(0, 1.85, 0);
+          perchDisc.rotation.set(0, 0, 0);
+          robotRoot.position.set(0, 0.78, 0);
+        } else {
+          perchDisc.position.set(0, 0.25, -1.25);
+          perchDisc.rotation.set(Math.PI / 2, 0, 0);
+          robotRoot.position.set(0, 0.25, -0.45);
+          robotRoot.rotation.x = Math.PI / 2;
+        }
+      } else if (currentMode === 4) {
+        // Mode 5: <4g Micro-Fetch & Capacitive Tap
+        const hoverY = 0.25 + Math.sin(clockTime * 2.2) * 0.08;
+        robotRoot.position.set(0, hoverY, 0);
+        goldRingTarget.position.set(0, hoverY - 1.15, currentForm >= 3 ? 0.22 : 0);
+      } else if (currentMode === 5) {
+        // Mode 6: Cup-in-Hands Open-Palm Landing
+        palmGroup.position.set(0, -1.25, 0);
+        const heightAbovePalm = -0.65 + (camDeg / 200) * 1.45;
+        robotRoot.position.set(0, heightAbovePalm, 0);
+      }
+    }
+
+    // ============================================================================
+    // 5. 2D ORTHOGRAPHIC CAD DRAWINGS (TOP PLAN, SIDE ELEVATION, CAM TRACK)
+    // ============================================================================
+    function drawOrthographicViews() {
+      const f = FORMS[currentForm];
+      const phases = getCamPhases(camDeg);
+
+      // --------------------------------------------------------------------------
+      // PANE A: ORTHOGRAPHIC TOP PLAN VIEW (DOWNWASH & SYMMETRY AUDIT)
+      // --------------------------------------------------------------------------
+      const wT = canvasTop.width, hT = canvasTop.height;
+      ctxTop.clearRect(0, 0, wT, hT);
+
+      // Blueprint grid
+      ctxTop.strokeStyle = "rgba(56, 189, 248, 0.08)";
+      ctxTop.lineWidth = 1;
+      for (let x = 0; x < wT; x += 24) {
+        ctxTop.beginPath(); ctxTop.moveTo(x, 0); ctxTop.lineTo(x, hT); ctxTop.stroke();
+      }
+      for (let y = 0; y < hT; y += 24) {
+        ctxTop.beginPath(); ctxTop.moveTo(0, y); ctxTop.lineTo(wT, y); ctxTop.stroke();
+      }
+
+      const cx = wT * 0.42, cy = hT * 0.53;
+      // Crosshair axes
+      ctxTop.strokeStyle = "rgba(148, 163, 184, 0.25)";
+      ctxTop.setLineDash([4, 4]);
+      ctxTop.beginPath(); ctxTop.moveTo(cx - 110, cy); ctxTop.lineTo(cx + 110, cy); ctxTop.stroke();
+      ctxTop.beginPath(); ctxTop.moveTo(cx, cy - 85); ctxTop.lineTo(cx, cy + 85); ctxTop.stroke();
+      ctxTop.setLineDash([]);
+
+      // Closed envelope dashed reference circle (81mm)
+      const closedR = 36;
+      ctxTop.strokeStyle = "rgba(148, 163, 184, 0.45)";
+      ctxTop.setLineDash([3, 3]);
+      ctxTop.beginPath(); ctxTop.arc(cx, cy, closedR, 0, Math.PI * 2); ctxTop.stroke();
+      ctxTop.setLineDash([]);
+
+      // 4 Outboard Rotor Disks (expand from r=22 to r=62)
+      const armR = 20 + phases.phi3_rotors * 44;
+      const propR = 19;
+      for (let i = 0; i < 4; i++) {
+        const ang = (i * Math.PI) / 2 + Math.PI / 4;
+        const rx = cx + Math.cos(ang) * armR;
+        const ry = cy + Math.sin(ang) * armR;
+
+        // 4-Bar arm line
+        ctxTop.strokeStyle = "#94a3b8";
+        ctxTop.lineWidth = 2;
+        ctxTop.beginPath(); ctxTop.moveTo(cx, cy); ctxTop.lineTo(rx, ry); ctxTop.stroke();
+
+        // Swept Rotor Disk (Green/Cyan = 100% unobstructed outboard flow)
+        ctxTop.fillStyle = "rgba(16, 185, 129, 0.14)";
+        ctxTop.strokeStyle = "#34d399";
+        ctxTop.lineWidth = 1.5;
+        ctxTop.beginPath(); ctxTop.arc(rx, ry, propR, 0, Math.PI * 2); ctxTop.fill(); ctxTop.stroke();
+      }
+
+      // Form-Specific Outer Shell Planform
+      ctxTop.strokeStyle = f.accentHex;
+      ctxTop.fillStyle = "rgba(56, 189, 248, 0.12)";
+      ctxTop.lineWidth = 2;
+      if (currentForm === 0 || currentForm === 1) {
+        // 4-Fold Radial Lappets / Petals (positioned at 0, 90, 180, 270 deg — between the 45-deg rotor arms!)
+        for (let i = 0; i < 4; i++) {
+          const pAng = (i * Math.PI) / 2;
+          const pDist = 14 + phases.phi2_shell * 18;
+          const px = cx + Math.cos(pAng) * pDist;
+          const py = cy + Math.sin(pAng) * pDist;
+          ctxTop.beginPath();
+          ctxTop.arc(px, py, 16, pAng - 0.8, pAng + 0.8);
+          ctxTop.stroke();
+        }
+      } else if (currentForm === 2) {
+        // Astrolabe nested meridian rings
+        ctxTop.beginPath(); ctxTop.arc(cx, cy, 34, 0, Math.PI * 2); ctxTop.stroke();
+        ctxTop.beginPath();
+        ctxTop.ellipse(cx, cy, 32, Math.max(8, 32 * Math.cos(phases.phi2_shell * 1.1)), phases.phi2_shell * 0.6, 0, Math.PI * 2);
+        ctxTop.stroke();
+      } else if (currentForm === 3) {
+        // Manta diamond wings
+        const wingW = 34 + phases.phi2_shell * 36;
+        ctxTop.beginPath();
+        ctxTop.moveTo(cx, cy - 34);
+        ctxTop.lineTo(cx + wingW, cy);
+        ctxTop.lineTo(cx, cy + 30);
+        ctxTop.lineTo(cx - wingW, cy);
+        ctxTop.closePath();
+        ctxTop.fill(); ctxTop.stroke();
+      } else {
+        // Talisman / Scarab split valves
+        const splitX = 4 + phases.phi2_shell * 16;
+        ctxTop.beginPath(); ctxTop.ellipse(cx - splitX, cy, 16, 32, -phases.phi2_shell * 0.35, 0, Math.PI * 2); ctxTop.stroke();
+        ctxTop.beginPath(); ctxTop.ellipse(cx + splitX, cy, 16, 32, phases.phi2_shell * 0.35, 0, Math.PI * 2); ctxTop.stroke();
+      }
+
+      // Dimension Callout on Right Side of Top Plan
+      const curSpanMm = Math.round(f.closedDia + phases.phi3_rotors * (f.openSpan - f.closedDia));
+      ctxTop.fillStyle = "#e2e8f0";
+      ctxTop.font = "bold 11px JetBrains Mono, monospace";
+      ctxTop.fillText(`LIVE SPAN: ${curSpanMm} mm`, wT * 0.68, 42);
+      ctxTop.fillStyle = "#34d399";
+      ctxTop.font = "10px JetBrains Mono, monospace";
+      ctxTop.fillText(`✔ 0% Downwash Blockage`, wT * 0.68, 62);
+      ctxTop.fillStyle = "#38bdf8";
+      ctxTop.fillText(`✔ Shared 33.6g Core`, wT * 0.68, 80);
+      ctxTop.fillStyle = "#fbbf24";
+      ctxTop.fillText(`✔ Φ1 Lens Seal: ${phases.phi1_eyelid < 0.1 ? "LOCKED" : "OPEN"}`, wT * 0.68, 98);
+      ctxTop.fillStyle = "#cbd5e1";
+      ctxTop.fillText(`Pitch Torque Arm:`, wT * 0.68, 124);
+      ctxTop.fillStyle = f.accentHex;
+      ctxTop.fillText(`d = ${f.momentArmMm.toFixed(1)} mm (${f.perchType.toUpperCase()})`, wT * 0.68, 140);
+
+      // --------------------------------------------------------------------------
+      // PANE B: CROSS-SECTION SIDE ELEVATION (DOWNWASH + Φ4 FETCH REACH)
+      // --------------------------------------------------------------------------
+      const wS = canvasSide.width, hS = canvasSide.height;
+      ctxSide.clearRect(0, 0, wS, hS);
+
+      ctxSide.strokeStyle = "rgba(251, 191, 36, 0.07)";
+      for (let x = 0; x < wS; x += 24) {
+        ctxSide.beginPath(); ctxSide.moveTo(x, 0); ctxSide.lineTo(x, hS); ctxSide.stroke();
+      }
+      for (let y = 0; y < hS; y += 24) {
+        ctxSide.beginPath(); ctxSide.moveTo(0, y); ctxSide.lineTo(wS, y); ctxSide.stroke();
+      }
+
+      const sx = wS * 0.42, sy = hS * 0.44;
+
+      // Central 33.6g Core Box & Cam Drum
+      ctxSide.fillStyle = "rgba(30, 41, 59, 0.9)";
+      ctxSide.strokeStyle = "#38bdf8";
+      ctxSide.lineWidth = 1.5;
+      ctxSide.fillRect(sx - 26, sy - 14, 52, 28);
+      ctxSide.strokeRect(sx - 26, sy - 14, 52, 28);
+
+      // Outboard Rotors in Side View
+      const sideArmX = 28 + phases.phi3_rotors * 58;
+      [-1, 1].forEach(dir => {
+        const rx = sx + dir * sideArmX;
+        ctxSide.strokeStyle = "#94a3b8";
+        ctxSide.beginPath(); ctxSide.moveTo(sx + dir * 26, sy); ctxSide.lineTo(rx, sy); ctxSide.stroke();
+
+        ctxSide.strokeStyle = "#34d399";
+        ctxSide.strokeRect(rx - 18, sy - 4, 36, 8);
+
+        // Downwash arrows when open
+        if (phases.phi3_rotors > 0.65) {
+          ctxSide.strokeStyle = "rgba(52, 211, 153, 0.45)";
+          ctxSide.beginPath();
+          ctxSide.moveTo(rx, sy + 8); ctxSide.lineTo(rx, sy + 42);
+          ctxSide.stroke();
+        }
+      });
+
+      // Shell Elevation Profile
+      ctxSide.strokeStyle = f.accentHex;
+      ctxSide.lineWidth = 2;
+      ctxSide.beginPath();
+      const domeH = (f.closedHeight / 80) * 38;
+      ctxSide.arc(sx, sy, 34 + phases.phi2_shell * 8, Math.PI, 0);
+      ctxSide.stroke();
+
+      // Φ4 Micro-Fetch Tendril / Calyx Extension Downward
+      const fetchDropPx = 14 + phases.phi4_fetch * 46;
+      ctxSide.strokeStyle = "#fb7185";
+      ctxSide.lineWidth = 2.2;
+      ctxSide.beginPath();
+      ctxSide.moveTo(sx, sy + 14);
+      ctxSide.lineTo(sx, sy + 14 + fetchDropPx);
+      ctxSide.stroke();
+      ctxSide.fillStyle = "#fbbf24";
+      ctxSide.beginPath();
+      ctxSide.arc(sx, sy + 14 + fetchDropPx, 5, 0, Math.PI * 2);
+      ctxSide.fill();
+
+      // Side Elevation Callouts
+      ctxSide.fillStyle = "#e2e8f0";
+      ctxSide.font = "bold 11px JetBrains Mono, monospace";
+      ctxSide.fillText(`HEIGHT: ${f.closedHeight} mm`, wS * 0.68, 42);
+      ctxSide.fillStyle = "#fb7185";
+      ctxSide.font = "10px JetBrains Mono, monospace";
+      ctxSide.fillText(`Φ4 Fetch Reach: ${Math.round(phases.phi4_fetch * 45)} mm`, wS * 0.68, 64);
+      ctxSide.fillStyle = "#38bdf8";
+      ctxSide.fillText(`60GHz Radar + FIR: ON`, wS * 0.68, 84);
+      ctxSide.fillStyle = "#fbbf24";
+      ctxSide.fillText(`DOE Halo: 6 BPM Calm`, wS * 0.68, 104);
+      ctxSide.fillStyle = "#34d399";
+      ctxSide.fillText(`Pelagic Hover: 0.4 Hz`, wS * 0.68, 124);
+
+      // --------------------------------------------------------------------------
+      // PANE C: UNROLLED SINGLE-SERVO 4-PHASE CAM DRUM (θ = 0°..270°)
+      // --------------------------------------------------------------------------
+      const wC = canvasCam.width, hC = canvasCam.height;
+      ctxCam.clearRect(0, 0, wC, hC);
+
+      const padL = 48, padR = 24, padT = 24, padB = 26;
+      const plotW = wC - padL - padR;
+      const plotH = hC - padT - padB;
+
+      // Phase background bands
+      const bands = [
+        { start: 0, end: 40, color: "rgba(56, 189, 248, 0.12)", label: "Φ1 Eyelid" },
+        { start: 40, end: 130, color: "rgba(168, 85, 247, 0.12)", label: "Φ2 Shell Bloom" },
+        { start: 130, end: 210, color: "rgba(16, 185, 129, 0.12)", label: "Φ3 Rotor Lock" },
+        { start: 210, end: 270, color: "rgba(244, 63, 94, 0.15)", label: "Φ4 Fetch" }
+      ];
+      bands.forEach(b => {
+        const x0 = padL + (b.start / 270) * plotW;
+        const bw = ((b.end - b.start) / 270) * plotW;
+        ctxCam.fillStyle = b.color;
+        ctxCam.fillRect(x0, padT, bw, plotH);
+        ctxCam.fillStyle = "#94a3b8";
+        ctxCam.font = "9px JetBrains Mono, monospace";
+        ctxCam.fillText(b.label, x0 + 4, padT + 12);
+      });
+
+      // Draw the 4 Cam Track Curves
+      const curves = [
+        { color: "#38bdf8", fn: deg => getCamPhases(deg).phi1_eyelid },
+        { color: "#c084fc", fn: deg => getCamPhases(deg).phi2_shell },
+        { color: "#34d399", fn: deg => getCamPhases(deg).phi3_rotors },
+        { color: "#fb7185", fn: deg => getCamPhases(deg).phi4_fetch }
+      ];
+      curves.forEach(c => {
+        ctxCam.strokeStyle = c.color;
+        ctxCam.lineWidth = 2;
+        ctxCam.beginPath();
+        for (let d = 0; d <= 270; d += 5) {
+          const px = padL + (d / 270) * plotW;
+          const py = padT + plotH - c.fn(d) * (plotH - 18);
+          if (d === 0) ctxCam.moveTo(px, py);
+          else ctxCam.lineTo(px, py);
+        }
+        ctxCam.stroke();
+      });
+
+      // Current Cam Angle Cursor Line
+      const curX = padL + (camDeg / 270) * plotW;
+      ctxCam.strokeStyle = "#fbbf24";
+      ctxCam.lineWidth = 2;
+      ctxCam.beginPath();
+      ctxCam.moveTo(curX, padT);
+      ctxCam.lineTo(curX, padT + plotH);
+      ctxCam.stroke();
+
+      ctxCam.fillStyle = "#fbbf24";
+      ctxCam.font = "bold 10px JetBrains Mono, monospace";
+      ctxCam.fillText(`θ = ${Math.round(camDeg)}°`, Math.min(wC - 75, Math.max(padL, curX - 24)), hC - 6);
+    }
+
+    // Main Animation Loop
+    let lastTime = performance.now();
+    function animate(now) {
+      requestAnimationFrame(animate);
+      const dt = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+
+      updateKinematicsAndEnvironment(dt);
+      controls.update();
+      renderer.render(scene, camera);
+      drawOrthographicViews();
+    }
+
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    updateHUD();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
