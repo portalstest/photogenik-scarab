@@ -303,8 +303,8 @@
     </section>
 
     <!-- NEW Section 2B: Interactive 3-Pane CAD Blueprint & 6-Utility Kinematic Animator (Palm-Sized Indoor Scarab) -->
-    <section id="indoor-blueprint-section" class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 border border-sky-500/40 shadow-2xl">
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+    <section id="indoor-blueprint-section" class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 border border-sky-500/40 shadow-2xl" style="background: linear-gradient(180deg, rgba(6, 18, 36, 0.95) 0%, rgba(4, 12, 24, 0.98) 100%);">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sky-500/25 pb-3.5">
         <div>
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs font-mono uppercase px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40">New · Interactive CAD Blueprint &amp; 6-Utility Simulator</span>
@@ -313,17 +313,113 @@
           <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
             📐 Interactive Blueprint Mockup: All 6 Indoor Capabilities &amp; Single-Servo Kinematics
           </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Click any of the <strong class="text-white">6 Indoor Utility Modes</strong> inside the blueprint below (<strong class="text-rose-300">🏓 3D Ball &amp; Ring Fetch</strong>, <strong class="text-sky-300">💌 2D Suction Courier</strong>, <strong class="text-emerald-300">🪞 0W Wall-Sit Sentinel</strong>, <strong class="text-amber-300">🚀 0.18J Nest Jump-Start</strong>, <strong class="text-cyan-300">💨 9 m/s Desk Air-Duster</strong>, <strong class="text-purple-300">🚨 7AM High-Wall Alarm &amp; Stove Patrol</strong>) or drag the <strong class="text-sky-300">Maneuver Timeline Scrubber</strong> to inspect the synchronized Side Cross-Section, Top-Down Orthographic Plan, and 5:1 Slotted-Cam Multiplexer.
+          <p class="text-xs text-slate-300 mt-0.5">
+            Click any of the <strong class="text-white">6 Indoor Utility Modes</strong> below (<strong class="text-rose-300">🏓 3D Ball &amp; Ring Fetch</strong>, <strong class="text-sky-300">💌 2D Suction Courier</strong>, <strong class="text-emerald-300">🪞 0W Wall-Sit Sentinel</strong>, <strong class="text-amber-300">🚀 0.18J Nest Jump-Start</strong>, <strong class="text-cyan-300">💨 9 m/s Desk Air-Duster</strong>, <strong class="text-purple-300">🚨 7AM High-Wall Alarm &amp; Stove Patrol</strong>) or drag the <strong class="text-sky-300">Maneuver Timeline Scrubber</strong> to inspect the synchronized Side Cross-Section, Top-Down Orthographic Plan, and 5:1 Slotted-Cam Multiplexer.
           </p>
         </div>
-        <a href="blueprint.html" target="_blank" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500/35 transition whitespace-nowrap">
-          🔍 Open Full-Screen CAD Blueprint ↗
-        </a>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btnAutoCycle" onclick="toggleAutoCycle()" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/50 hover:bg-sky-500/30 transition">
+            ⏸ Auto-Cycle: ON
+          </button>
+          <button id="btnCallouts" onclick="toggleCallouts()" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/50 hover:bg-amber-500/30 transition">
+            📏 Leader Lines: ON
+          </button>
+          <a href="blueprint.html" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-sky-200 border border-sky-400/40 hover:bg-slate-700 transition whitespace-nowrap">
+            🔍 Full-Screen CAD ↗
+          </a>
+        </div>
       </div>
 
-      <div class="rounded-xl overflow-hidden border border-sky-500/35 bg-[#040b16]">
-        <iframe src="blueprint.html" title="Photogenik Scarab Interactive 6-Utility CAD Blueprint" class="w-full h-[760px] sm:h-[820px] border-0 block"></iframe>
+      <!-- 6 Interactive Indoor Utility Mode Selector Buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <button id="mode-btn-0" onclick="selectBpMode(0)" class="text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-rose-300"><span>UTILITY 01</span><span>+0.95g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🏓 3D Ball &amp; Ring Fetch</div>
+          <div class="text-[11px] text-slate-300 mt-0.5">Scoot-scoop &amp; 85° drop</div>
+        </button>
+        <button id="mode-btn-1" onclick="selectBpMode(1)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-sky-300"><span>UTILITY 02</span><span>+0.0g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">💌 2D Suction Courier</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Instax photo &amp; card pickup</div>
+        </button>
+        <button id="mode-btn-2" onclick="selectBpMode(2)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-emerald-300"><span>UTILITY 03</span><span>0 W · 0 dB</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🪞 Wall-Sit &amp; Stare</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Mirror perch + 15° eye peek</div>
+        </button>
+        <button id="mode-btn-3" onclick="selectBpMode(3)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-amber-300"><span>UTILITY 04</span><span>0.18 J</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🚀 Nest Jump-Start</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">40 cm leap + 18 cm unfold</div>
+        </button>
+        <button id="mode-btn-4" onclick="selectBpMode(4)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-cyan-300"><span>UTILITY 05</span><span>9.2 m/s</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">💨 Desk Air-Duster</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Flat louver keyboard sweep</div>
+        </button>
+        <button id="mode-btn-5" onclick="selectBpMode(5)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-purple-300"><span>UTILITY 06</span><span>+0.14g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🚨 Alarm &amp; Stove Patrol</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">2.2m perch &amp; FIR check</div>
+        </button>
+      </div>
+
+      <!-- Synchronized 3-Pane CAD Blueprint Canvas -->
+      <div class="relative rounded-xl overflow-hidden border border-sky-500/40 bg-[#040c18]">
+        <canvas id="blueprintCanvas" width="1120" height="540" class="w-full h-[340px] sm:h-[470px] block"></canvas>
+      </div>
+
+      <!-- Interactive Timeline Scrubber + Live Blueprint Telemetry Bar -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center pt-1 text-xs font-mono">
+        <div class="lg:col-span-5 flex items-center gap-3">
+          <span class="text-sky-300 whitespace-nowrap font-semibold">MANEUVER TIMELINE:</span>
+          <input id="phaseSlider" type="range" min="0" max="1" step="0.005" value="0" class="w-full accent-sky-400 cursor-pointer" oninput="onScrubPhase(this.value)" />
+          <span id="phasePctLabel" class="text-amber-300 w-12 text-right">0%</span>
+        </div>
+
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-sky-500/30">
+            <span class="text-slate-400 block">SERVO CAM / SPAN</span>
+            <span id="tel-span" class="text-sky-300 font-bold">55° · 18.0 cm</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-amber-500/30">
+            <span class="text-slate-400 block">TENDON STATE (L1/L2)</span>
+            <span id="tel-tendon" class="text-amber-300 font-bold">SLACK (0.0 N)</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-emerald-500/30">
+            <span class="text-slate-400 block">BELLY FLOW / ToF</span>
+            <span id="tel-sensors" class="text-emerald-300 font-bold">100% UNOBSTRUCTED</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-rose-500/30">
+            <span class="text-slate-400 block">POWER / ACOUSTICS</span>
+            <span id="tel-power" class="text-rose-300 font-bold">14.2 W · 53 dBA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Column Kinematic & Mechanical Engineering Callouts -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1 text-xs">
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-sky-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-sky-400 uppercase" id="card-tag-1">KINEMATIC SEQUENCE</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-1">1. Land-Behind &amp; Scoot-Scoop (0 W Grip)</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-1">
+            Instead of hovering overhead (where 9 m/s downwash blows a 2.7 g ball away), the Scarab lands 6 cm behind the ball and scoots forward. The 0.5 mm carbon-wire mandibles flex open and snap around the 40 mm equator at 0 W holding power.
+          </p>
+        </div>
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-amber-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-amber-400 uppercase" id="card-tag-2">SENSOR &amp; CG GEOMETRY</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-2">2. 100% Clear Belly Optical Flow &amp; ToF</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-2">
+            Positioning the ball 28 mm forward of the front bumper keeps the 42° PMW3901 Optical Flow and 27° VL53L3CX laser cones completely unobstructed while rear rotor differential trims the forward CG shift.
+          </p>
+        </div>
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-rose-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-rose-400 uppercase" id="card-tag-3">LOST-MOTION RELEASE</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-3">3. 85° Wing-Flare Tendon Drop into Cup</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-3">
+            Commanding an 85° over-travel wing flare over the target cup pulls Dyneema tendon branch L2 by 3.0 mm, spreading the carbon mandibles to 45 mm to drop the ping-pong ball or ring cleanly.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -1368,7 +1464,626 @@
       } else {
         renderSceneView(canvas.width, canvas.height);
       }
+      if (typeof tickBlueprint === 'function') {
+        tickBlueprint();
+      }
       requestAnimationFrame(animate);
+    }
+
+    // --- INLINE 3-PANE CAD BLUEPRINT & 6-MODE INDOOR UTILITY ANIMATOR ---
+    const bpCanvas = document.getElementById('blueprintCanvas');
+    const bctx = bpCanvas ? bpCanvas.getContext('2d') : null;
+    let activeBpMode = 0;
+    let bpPhase = 0;
+    let bpAutoCycle = true;
+    let bpShowCallouts = true;
+
+    const BP_MODE_SPECS = [
+      {
+        name: 'UTILITY 01 // 3D PING-PONG & RING FETCH ("GOBLIN FETCH")',
+        dwg: 'SUB-ASSY: 0.5mm CARBON STAG MANDIBLES (+0.95g · 28° CANTILEVER)',
+        c1: ['KINEMATIC SEQUENCE', '1. Land-Behind & Scoot-Scoop (0 W Grip)', 'Instead of hovering overhead (where 9 m/s downwash blows a 2.7 g ball away), the Scarab lands 6 cm behind the ball and scoots forward. The 0.5 mm carbon-wire mandibles flex open and snap around the 40 mm equator at 0 W holding power.'],
+        c2: ['SENSOR & CG GEOMETRY', '2. 100% Clear Belly Optical Flow & ToF', 'Positioning the ball 28 mm forward of the front bumper keeps the 42° PMW3901 Optical Flow and 27° VL53L3CX laser cones completely unobstructed while rear rotor differential trims the forward CG shift.'],
+        c3: ['LOST-MOTION RELEASE', '3. 85° Wing-Flare Tendon Drop into Cup', 'Commanding an 85° over-travel wing flare over the target cup pulls Dyneema tendon branch L2 by 3.0 mm, spreading the carbon mandibles to 45 mm to drop the ping-pong ball or ring cleanly.']
+      },
+      {
+        name: 'UTILITY 02 // 2D INSTAX PHOTO & NOTE COURIER (SUCTION PICKUP)',
+        dwg: 'SUB-ASSY: 0.8g BIMODAL TPU SUCTION PAD (90° FLIP DETENT + 1.5mm PEEL TAB)',
+        c1: ['ANTI-BLOWAWAY MANEUVER', '1. Land-Beside, Idle & 18° Nose-Tilt', 'Approaching a 1.2 g Instax photo or playing card from above blows it off the desk. Instead, the Scarab lands adjacent to the card, idles rotors to 15%, and pitches its nose down 18° to press the flipped chin suction pad onto the surface (3.8 N seal).'],
+        c2: ['FLUTTER CAGING', '2. Mandible Lateral Anti-Flutter Rails', 'During forward flight, the two carbon-wire mandibles rest lightly against the left and right edges of the card, preventing aerodynamic pitch-up flutter while keeping belly sensors 100% clear.'],
+        c3: ['VACUUM PEEL RELEASE', '3. 75° Wing-Flare Edge-Peel Tab Drop', 'At 65°–75° wing flare, shorter tendon branch L1 pulls the 1.5 mm peripheral lip tab on the suction cup, peeling the vacuum seal from the edge in <30 ms (0.35 N force vs 3.8 N axial pull) to drop the note into a hand.']
+      },
+      {
+        name: 'UTILITY 03 // 0W WALL-SITTING & STARING PORTRAIT SENTINEL',
+        dwg: 'SUB-ASSY: VERTICAL SUCTION PERCH + 15° PRONOTUM CAMERA VISOR PEEK',
+        c1: ['PRESS-TO-PERCH', '1. 1.0s Rotor Push onto Mirror or Glass', 'Flies to eye level (1.6 m) on a mirror, window, or smooth wall and uses 1 second of forward pitch thrust to seat the 0.8 g TPU-gimbaled micro-suction pad.'],
+        c2: ['ZERO-POWER SILENCE', '2. 0.0 W Motors Off · 0 dB Room Presence', 'All 4 shrouded motors shut down completely. The Scarab hangs passively like a porcelain-and-brass brooch for hours while its 0.7 g solar elytra film trickle-charges from indoor/window light.'],
+        c3: ['PEEKING EYE VISOR', '3. 15° Cam Crack & Eye-Level Candid Framing', 'Moving the 1.7 g servo into Zone 1 (0°–15°) cracks the golden elytra 4 mm so the hidden XIAO ESP32S3 camera eye peeks out to snap natural eye-level portraits when you smile.']
+      },
+      {
+        name: 'UTILITY 04 // 0.18J NEST SPRING JUMP-START & 18.0cm UNFOLD',
+        dwg: 'SUB-ASSY: DAMPED HELICAL LAUNCH CRADLE + OUTBOARD ELYTRA LINKAGE',
+        c1: ['STORED BALLISTIC ENERGY', '1. 0.18 Joule Coiled Nest Plunger', 'While charging on its desk nest as an 8.1 cm closed pebble, a damped coil spring beneath the cradle stores 0.18 J of mechanical energy—requiring zero extra mass on the flying Scarab.'],
+        c2: ['WATCH-MOVEMENT UNFOLD', '2. 40 cm Vertical Leap & 18.0 cm Wing Sweep', 'Releasing the latch tosses the 41.6 g Scarab 40 cm straight up at 2.8 m/s while the 1.7 g linear servo sweeps the 0.4 mm PLA elytra to 55° and pulls out the iridescent Mylar sub-wings to 18.0 cm.'],
+        c3: ['QUIET APEX CAPTURE', '3. Zero Ground-Effect Rotor Scream', 'Because the rotors spin up in clean mid-air as the Scarab reaches its 40 cm apex (with shells already translated outboard of the 4 duct intakes), takeoff is whisper-smooth.']
+      },
+      {
+        name: 'UTILITY 05 // 9.2 m/s PRECISION KEYBOARD & DESK AIR-DUSTER',
+        dwg: 'SUB-ASSY: 4-DUCT CONCENTRATED DOWNWASH + 15% MICRO-LOUVER SIDESTEP',
+        c1: ['FOCUSED SLIPSTREAM', '1. 9.2 m/s Annular Duct Downwash Jet', 'At a 6 cm hover altitude above a mechanical keyboard, the four 35 mm shrouded ducts project a concentrated 9.2 m/s air curtain that dislodges crumbs, dust, and pet hair from between keycaps.'],
+        c2: ['LEVEL-HORIZON SWEEP', '2. 15% Exhaust Micro-Louver Translation', 'Instead of pitching the body forward (which would angle the air jet away), bottom exhaust micro-louvers deflect 15% of the slipstream to glide the Scarab flat across the desk.'],
+        c3: ['AUTO-RETURN TO NEST', '3. 20-Second Autonomous Desk Sweep', 'Completes a programmed 20-second raster scan across your keyboard and mouse mat before hopping right back onto its charging nest.']
+      },
+      {
+        name: 'UTILITY 06 // HIGH-WALL 7:00 AM ALARM & STOVE THERMAL SENTINEL',
+        dwg: 'SUB-ASSY: +0.05g FIR THERMAL + +0.09g BME688 VOC NOSE + HIGH PERCH',
+        c1: ['UN-SNOOZABLE 7AM ALARM', '1. Perches 2.2 m High Out of Arm\'s Reach', 'At 6:59 AM, the Scarab leaps from its nightstand nest and suction-perches 2.2 m high on the bedroom wall or mirror—chirping gently until you physically stand up out of bed to dismiss it.'],
+        c2: ['KITCHEN STOVE PATROL', '2. +0.14 g Thermal & VOC Safety Check', 'Wondering if you left the stove, oven, or curling iron on? Send a 15-second patrol hop: a 0.05 g far-infrared thermal diode + 0.09 g BME688 gas sensor checks for >60°C hotspots or smoke VOCs.'],
+        c3: ['PRIVACY-BY-PHYSICS', '3. Physical Shell Closure = 100% Camera Shutter', 'When parked in Stage 0 (0° servo position), the opaque 0.4 mm PLA pronotum physically seals over the camera lens—providing a verifiable hardware privacy shutter.']
+      }
+    ];
+
+    function selectBpMode(idx) {
+      activeBpMode = idx;
+      bpPhase = 0;
+      for (let i = 0; i < 6; i++) {
+        const b = document.getElementById('mode-btn-' + i);
+        if (!b) continue;
+        b.className = i === idx
+          ? 'text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 shadow-sm transition'
+          : 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition';
+      }
+      const spec = BP_MODE_SPECS[idx];
+      document.getElementById('card-tag-1').textContent = spec.c1[0];
+      document.getElementById('card-title-1').textContent = spec.c1[1];
+      document.getElementById('card-desc-1').textContent = spec.c1[2];
+      document.getElementById('card-tag-2').textContent = spec.c2[0];
+      document.getElementById('card-title-2').textContent = spec.c2[1];
+      document.getElementById('card-desc-2').textContent = spec.c2[2];
+      document.getElementById('card-tag-3').textContent = spec.c3[0];
+      document.getElementById('card-title-3').textContent = spec.c3[1];
+      document.getElementById('card-desc-3').textContent = spec.c3[2];
+    }
+
+    function toggleAutoCycle() {
+      bpAutoCycle = !bpAutoCycle;
+      document.getElementById('btnAutoCycle').textContent = bpAutoCycle ? '⏸ Auto-Cycle: ON' : '▶ Auto-Cycle: PAUSED';
+    }
+
+    function toggleCallouts() {
+      bpShowCallouts = !bpShowCallouts;
+      document.getElementById('btnCallouts').textContent = bpShowCallouts ? '📏 Leader Lines: ON' : '📏 Leader Lines: OFF';
+    }
+
+    function onScrubPhase(val) {
+      bpAutoCycle = false;
+      document.getElementById('btnAutoCycle').textContent = '▶ Auto-Cycle: PAUSED';
+      bpPhase = parseFloat(val);
+    }
+
+    function drawSideScarabBp(x, y, pitchRad, shellDeg, rotorsOn, suctionDown, flareBranch, payloadType, holdingPayload) {
+      bctx.save();
+      bctx.translate(x, y);
+      bctx.rotate(pitchRad);
+      const unfoldFrac = Math.min(1, shellDeg / 60);
+
+      if (rotorsOn) {
+        const coneGrad = bctx.createLinearGradient(0, 14, 0, 130);
+        coneGrad.addColorStop(0, 'rgba(16, 185, 129, 0.30)');
+        coneGrad.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+        bctx.fillStyle = coneGrad;
+        bctx.beginPath();
+        bctx.moveTo(-5, 14); bctx.lineTo(-42, 130); bctx.lineTo(30, 130); bctx.lineTo(5, 14);
+        bctx.closePath();
+        bctx.fill();
+        bctx.strokeStyle = 'rgba(52, 211, 153, 0.55)';
+        bctx.setLineDash([3, 3]);
+        bctx.lineWidth = 1;
+        bctx.beginPath();
+        bctx.moveTo(0, 14); bctx.lineTo(-42, 130);
+        bctx.moveTo(0, 14); bctx.lineTo(30, 130);
+        bctx.stroke();
+        bctx.setLineDash([]);
+        if (bpShowCallouts) {
+          bctx.font = '9px monospace';
+          bctx.fillStyle = '#34d399';
+          bctx.fillText('42° FLOW + 27° ToF (0% OCCLUDED)', -62, 112);
+        }
+      }
+
+      if (rotorsOn) {
+        bctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+        bctx.lineWidth = 1.4;
+        [-24, -14, 14, 24].forEach((dx, idx) => {
+          const wave = ((t * 90 + idx * 8) % 28);
+          bctx.beginPath();
+          bctx.moveTo(dx, 14);
+          bctx.lineTo(dx - (activeBpMode === 4 ? 10 : 0), 34 + wave);
+          bctx.stroke();
+        });
+      }
+
+      bctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+      bctx.strokeStyle = '#38bdf8';
+      bctx.lineWidth = 1.8;
+      bctx.beginPath();
+      bctx.roundRect(-42, -8, 84, 22, 6);
+      bctx.fill();
+      bctx.stroke();
+
+      [-22, 22].forEach(dx => {
+        bctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+        bctx.strokeRect(dx - 13, -6, 26, 18);
+        const bladeW = rotorsOn ? Math.sin(t * 45 + dx) * 11 : 11;
+        bctx.strokeStyle = rotorsOn ? '#34d399' : '#64748b';
+        bctx.lineWidth = 2.2;
+        bctx.beginPath();
+        bctx.moveTo(dx - bladeW, 2);
+        bctx.lineTo(dx + bladeW, 2);
+        bctx.stroke();
+      });
+
+      if (shellDeg > 12) {
+        bctx.save();
+        bctx.translate(-8, -8);
+        bctx.rotate(-Math.min(0.68, (shellDeg / 65) * 0.58));
+        bctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+        bctx.strokeStyle = '#38bdf8';
+        bctx.lineWidth = 1.2;
+        bctx.beginPath();
+        bctx.moveTo(0, 0);
+        bctx.quadraticCurveTo(-48 * unfoldFrac, -24 * unfoldFrac, -78 * unfoldFrac, -4);
+        bctx.quadraticCurveTo(-40 * unfoldFrac, 8, 0, 4);
+        bctx.closePath();
+        bctx.fill();
+        bctx.stroke();
+        bctx.restore();
+      }
+
+      bctx.save();
+      bctx.translate(16, -8);
+      bctx.rotate(-shellDeg * (Math.PI / 180) * 0.72);
+      bctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+      bctx.strokeStyle = '#fbbf24';
+      bctx.lineWidth = 2;
+      bctx.beginPath();
+      bctx.moveTo(22, 4);
+      bctx.quadraticCurveTo(-18, -24, -60, 4);
+      bctx.lineTo(22, 4);
+      bctx.closePath();
+      bctx.fill();
+      bctx.stroke();
+      if (bpShowCallouts && shellDeg > 20) {
+        bctx.font = '9px monospace';
+        bctx.fillStyle = '#fbbf24';
+        bctx.fillText(`ELYTRA ${Math.round(shellDeg)}°`, -52, -16);
+      }
+      bctx.restore();
+
+      bctx.fillStyle = '#f97316';
+      bctx.beginPath();
+      bctx.arc(0, -2, 3.5, 0, Math.PI * 2);
+      bctx.fill();
+
+      bctx.strokeStyle = flareBranch > 0 ? '#fb7185' : 'rgba(251, 191, 36, 0.55)';
+      bctx.setLineDash(flareBranch > 0 ? [] : [2, 2]);
+      bctx.lineWidth = flareBranch > 0 ? 1.8 : 1.1;
+      bctx.beginPath();
+      bctx.moveTo(0, -2); bctx.lineTo(42, 8); bctx.lineTo(58, 18);
+      bctx.stroke();
+      bctx.setLineDash([]);
+
+      const mandibleSpread = flareBranch === 2 ? -7 : 0;
+      bctx.strokeStyle = '#fb7185';
+      bctx.lineWidth = 2.2;
+      bctx.beginPath();
+      bctx.moveTo(36, 8); bctx.quadraticCurveTo(54, 18 + mandibleSpread, 68, 22 + mandibleSpread);
+      bctx.moveTo(36, 12); bctx.quadraticCurveTo(52, 26 - mandibleSpread, 65, 29 - mandibleSpread);
+      bctx.stroke();
+
+      bctx.fillStyle = '#38bdf8';
+      bctx.strokeStyle = '#7dd3fc';
+      bctx.lineWidth = 1.3;
+      if (suctionDown) {
+        const peelLift = flareBranch >= 1 ? 4 : 0;
+        bctx.beginPath();
+        bctx.moveTo(42, 13); bctx.lineTo(56, 16); bctx.lineTo(55, 21 - peelLift); bctx.lineTo(41, 18);
+        bctx.closePath();
+        bctx.fill();
+        bctx.stroke();
+      } else {
+        bctx.fillRect(42, -2, 5, 14);
+      }
+
+      if (holdingPayload) {
+        if (payloadType === 'ball') {
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.28)';
+          bctx.strokeStyle = '#fb923c';
+          bctx.lineWidth = 2;
+          bctx.beginPath();
+          bctx.arc(64, 24, 15, 0, Math.PI * 2);
+          bctx.fill();
+          bctx.stroke();
+          bctx.fillStyle = '#fed7aa';
+          bctx.font = '9px monospace';
+          bctx.fillText('2.7g Ø40mm', 46, 48);
+        } else if (payloadType === 'card') {
+          bctx.fillStyle = 'rgba(248, 250, 252, 0.9)';
+          bctx.strokeStyle = '#38bdf8';
+          bctx.lineWidth = 1.5;
+          bctx.fillRect(38, 21, 34, 5);
+          bctx.strokeRect(38, 21, 34, 5);
+          bctx.fillStyle = '#7dd3fc';
+          bctx.font = '9px monospace';
+          bctx.fillText('1.2g INSTAX', 40, 36);
+        }
+      }
+
+      bctx.fillStyle = shellDeg >= 12 ? '#fde047' : '#475569';
+      bctx.beginPath();
+      bctx.arc(36, -6, 3.8, 0, Math.PI * 2);
+      bctx.fill();
+      bctx.restore();
+    }
+
+    function drawTopDownBpPane(shellDeg, rotorsOn, flareBranch, payloadType, holdingPayload) {
+      const cx = 920, cy = 172;
+      const unfold = Math.min(1, shellDeg / 65);
+      const scale = 1.22;
+      const halfCore = 40.5 * scale;
+      bctx.save();
+      const spanCm = (8.1 + unfold * (18.0 - 8.1)).toFixed(1);
+      const halfSpanPx = (parseFloat(spanCm) * 10 * scale) * 0.5;
+      bctx.strokeStyle = '#38bdf8';
+      bctx.fillStyle = '#38bdf8';
+      bctx.lineWidth = 1.2;
+      bctx.beginPath();
+      bctx.moveTo(cx - halfSpanPx, 54); bctx.lineTo(cx + halfSpanPx, 54);
+      bctx.moveTo(cx - halfSpanPx, 49); bctx.lineTo(cx - halfSpanPx, 59);
+      bctx.moveTo(cx + halfSpanPx, 49); bctx.lineTo(cx + halfSpanPx, 59);
+      bctx.stroke();
+      bctx.font = '10px monospace';
+      bctx.textAlign = 'center';
+      bctx.fillText(`SPAN: ${spanCm} cm (CORE: 8.1 cm)`, cx, 47);
+
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+      bctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      bctx.lineWidth = 1.5;
+      bctx.fillRect(cx - halfCore, cy - halfCore, halfCore * 2, halfCore * 2);
+      bctx.strokeRect(cx - halfCore, cy - halfCore, halfCore * 2, halfCore * 2);
+
+      const dOff = 22.5 * scale, dRad = 17.5 * scale;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => {
+        const rx = cx + dx * dOff, ry = cy + dy * dOff;
+        bctx.strokeStyle = '#10b981';
+        bctx.fillStyle = 'rgba(16, 185, 129, 0.10)';
+        bctx.beginPath(); bctx.arc(rx, ry, dRad, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        const ang = rotorsOn ? t * 18 * (dx * dy) : 0.4;
+        bctx.strokeStyle = rotorsOn ? '#34d399' : '#64748b';
+        bctx.lineWidth = 2;
+        bctx.beginPath();
+        bctx.moveTo(rx - Math.cos(ang) * (dRad - 3), ry - Math.sin(ang) * (dRad - 3));
+        bctx.lineTo(rx + Math.cos(ang) * (dRad - 3), ry + Math.sin(ang) * (dRad - 3));
+        bctx.stroke();
+      });
+
+      bctx.fillStyle = 'rgba(16, 185, 129, 0.28)';
+      bctx.strokeStyle = '#34d399';
+      bctx.beginPath(); bctx.arc(cx, cy, 8, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      const frontY = cy - halfCore;
+      const spreadPx = flareBranch === 2 ? 9 : 0;
+      bctx.strokeStyle = '#fb7185';
+      bctx.lineWidth = 2.2;
+      [-1, 1].forEach(dir => {
+        bctx.beginPath();
+        bctx.moveTo(cx + dir * 10, frontY + 2);
+        bctx.quadraticCurveTo(cx + dir * (26 + spreadPx), frontY - 16, cx + dir * (22 + spreadPx), frontY - 36);
+        bctx.stroke();
+      });
+
+      bctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+      bctx.strokeStyle = '#38bdf8';
+      bctx.beginPath(); bctx.arc(cx, frontY - 8, 7.5, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      if (holdingPayload) {
+        if (payloadType === 'ball') {
+          bctx.strokeStyle = '#fb923c';
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.22)';
+          bctx.beginPath(); bctx.arc(cx, frontY - 23, 20, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        } else if (payloadType === 'card') {
+          bctx.strokeStyle = '#38bdf8';
+          bctx.fillStyle = 'rgba(248, 250, 252, 0.35)';
+          bctx.fillRect(cx - 22, frontY - 28, 44, 24);
+          bctx.strokeRect(cx - 22, frontY - 28, 44, 24);
+        }
+      }
+
+      if (unfold > 0.03) {
+        [-1, 1].forEach(dir => {
+          bctx.save();
+          bctx.translate(cx + dir * 14, cy - 10);
+          bctx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+          bctx.strokeStyle = '#38bdf8';
+          const wSpan = unfold * 88;
+          bctx.beginPath();
+          bctx.moveTo(0, 0);
+          bctx.quadraticCurveTo(dir * wSpan * 0.65, -14 * unfold, dir * wSpan, 6);
+          bctx.quadraticCurveTo(dir * wSpan * 0.55, 28 * unfold, 0, 22);
+          bctx.closePath();
+          bctx.fill(); bctx.stroke();
+          bctx.restore();
+        });
+      }
+
+      [-1, 1].forEach(dir => {
+        bctx.save();
+        bctx.translate(cx + dir * 7, cy - 32);
+        bctx.rotate(dir * (-unfold * 0.85));
+        bctx.fillStyle = 'rgba(245, 158, 11, 0.32)';
+        bctx.strokeStyle = '#fbbf24';
+        bctx.lineWidth = 1.6;
+        bctx.beginPath();
+        bctx.moveTo(0, 0);
+        bctx.quadraticCurveTo(dir * 44, 4, dir * 42, 42);
+        bctx.quadraticCurveTo(dir * 38, 76, 0, 74);
+        bctx.closePath();
+        bctx.fill(); bctx.stroke();
+        bctx.restore();
+      });
+      bctx.restore();
+    }
+
+    function drawCamDetailBpPane(shellDeg) {
+      const x0 = 752, y0 = 338, trackW = 330;
+      bctx.save();
+      bctx.font = '10px monospace';
+      bctx.fillStyle = '#cbd5e1';
+      bctx.fillText('1.7g SERVO CAM STROKE (0.0 → 6.0 mm) · 4 MECHANICAL ZONES:', x0, y0);
+      const zones = [
+        { label: 'Z1: 0–15°', sub: 'Eye Peek', w: 0.20, col: '#fde047' },
+        { label: 'Z2: 15–65°', sub: 'Flight Unfold', w: 0.44, col: '#34d399' },
+        { label: 'Z3: 65–75°', sub: 'L1 Suction Peel', w: 0.18, col: '#38bdf8' },
+        { label: 'Z4: 75–85°', sub: 'L2 Jaw Spread', w: 0.18, col: '#fb7185' }
+      ];
+      let curX = x0;
+      zones.forEach(z => {
+        const zw = trackW * z.w;
+        bctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        bctx.strokeStyle = z.col;
+        bctx.lineWidth = 1.4;
+        bctx.fillRect(curX, y0 + 12, zw - 3, 36);
+        bctx.strokeRect(curX, y0 + 12, zw - 3, 36);
+        bctx.fillStyle = z.col;
+        bctx.font = 'bold 9px monospace';
+        bctx.fillText(z.label, curX + 5, y0 + 27);
+        bctx.fillStyle = '#94a3b8';
+        bctx.font = '9px monospace';
+        bctx.fillText(z.sub, curX + 5, y0 + 41);
+        curX += zw;
+      });
+      const normPos = Math.min(1, Math.max(0, shellDeg / 85));
+      const pinX = x0 + normPos * trackW;
+      bctx.fillStyle = '#f97316';
+      bctx.strokeStyle = '#fff';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.arc(pinX, y0 + 30, 7, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      const ty = y0 + 82;
+      bctx.strokeStyle = '#fbbf24';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.moveTo(x0 + 20, ty); bctx.lineTo(pinX, ty); bctx.stroke();
+
+      const l1Taut = shellDeg >= 65;
+      bctx.strokeStyle = l1Taut ? '#38bdf8' : 'rgba(56, 189, 248, 0.35)';
+      bctx.setLineDash(l1Taut ? [] : [3, 3]);
+      bctx.beginPath(); bctx.moveTo(pinX, ty); bctx.lineTo(x0 + 250, ty - 16); bctx.stroke();
+
+      const l2Taut = shellDeg >= 75;
+      bctx.strokeStyle = l2Taut ? '#fb7185' : 'rgba(251, 113, 133, 0.35)';
+      bctx.setLineDash(l2Taut ? [] : [3, 3]);
+      bctx.beginPath(); bctx.moveTo(pinX, ty); bctx.lineTo(x0 + 250, ty + 18); bctx.stroke();
+      bctx.setLineDash([]);
+
+      bctx.font = '10px monospace';
+      bctx.fillStyle = l1Taut ? '#38bdf8' : '#64748b';
+      bctx.fillText(`Branch L1 (Suction Peel): ${l1Taut ? 'TAUT -> PEELING LIP!' : 'SLACK (0 N)'}`, x0 + 15, ty + 44);
+      bctx.fillStyle = l2Taut ? '#fb7185' : '#64748b';
+      bctx.fillText(`Branch L2 (Mandible Drop): ${l2Taut ? 'TAUT -> SPREAD 45mm!' : 'SLACK (0 N)'}`, x0 + 15, ty + 62);
+      bctx.fillStyle = '#34d399';
+      bctx.fillText(`SAFETY GATE: Suction peel locked until Elytra >= 65° (Ducts Clear)`, x0 + 15, ty + 82);
+      bctx.restore();
+    }
+
+    function tickBlueprint() {
+      if (!bctx) return;
+      if (bpAutoCycle) {
+        bpPhase += 0.0028;
+        if (bpPhase >= 1.0) {
+          bpPhase = 0;
+          selectBpMode((activeBpMode + 1) % 6);
+        }
+        document.getElementById('phaseSlider').value = bpPhase;
+      }
+      document.getElementById('phasePctLabel').textContent = Math.round(bpPhase * 100) + '%';
+
+      const w = bpCanvas.width, h = bpCanvas.height;
+      bctx.save();
+      bctx.fillStyle = '#040c18';
+      bctx.fillRect(0, 0, w, h);
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.055)';
+      bctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 14) { bctx.beginPath(); bctx.moveTo(x, 0); bctx.lineTo(x, h); bctx.stroke(); }
+      for (let y = 0; y < h; y += 14) { bctx.beginPath(); bctx.moveTo(0, y); bctx.lineTo(w, y); bctx.stroke(); }
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.13)';
+      for (let x = 0; x < w; x += 70) { bctx.beginPath(); bctx.moveTo(x, 0); bctx.lineTo(x, h); bctx.stroke(); }
+      for (let y = 0; y < h; y += 70) { bctx.beginPath(); bctx.moveTo(0, y); bctx.lineTo(w, y); bctx.stroke(); }
+
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      bctx.lineWidth = 1.5;
+      bctx.strokeRect(10, 10, w - 20, h - 20);
+      bctx.beginPath();
+      bctx.moveTo(730, 10); bctx.lineTo(730, h - 10);
+      bctx.moveTo(730, 285); bctx.lineTo(w - 10, 285);
+      bctx.stroke();
+
+      bctx.fillStyle = 'rgba(8, 28, 54, 0.9)';
+      bctx.fillRect(11, 11, 718, 26);
+      bctx.fillRect(731, 11, w - 742, 26);
+      bctx.fillRect(731, 286, w - 742, 26);
+      bctx.font = 'bold 11px monospace';
+      bctx.fillStyle = '#38bdf8';
+      bctx.fillText(BP_MODE_SPECS[activeBpMode].name, 22, 28);
+      bctx.fillStyle = '#fbbf24';
+      bctx.fillText('PANE B // TOP-DOWN ORTHOGRAPHIC CAD (2.2:1)', 742, 28);
+      bctx.fillStyle = '#fb7185';
+      bctx.fillText('PANE C // 4-STAGE SLOTTED CAM & Y-TENDON (5:1)', 742, 303);
+      bctx.font = '10px monospace';
+      bctx.fillStyle = '#94a3b8';
+      bctx.fillText(BP_MODE_SPECS[activeBpMode].dwg, 22, 52);
+
+      const groundY = 445;
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.moveTo(30, groundY); bctx.lineTo(710, groundY); bctx.stroke();
+
+      let sx = 220, sy = 260, pitch = 0, shellDeg = 55, rotorsOn = true, suctionDown = false, flareBranch = 0;
+      let payloadType = 'ball', holdingPayload = false, statusBanner = '';
+      const p = bpPhase;
+
+      if (activeBpMode === 0) {
+        payloadType = 'ball';
+        const pickupX = 240, cupX = 590;
+        bctx.strokeStyle = '#fbbf24';
+        bctx.fillStyle = 'rgba(245, 158, 11, 0.14)';
+        bctx.lineWidth = 2;
+        bctx.beginPath();
+        bctx.moveTo(cupX - 28, groundY - 56); bctx.lineTo(cupX - 20, groundY);
+        bctx.lineTo(cupX + 20, groundY); bctx.lineTo(cupX + 28, groundY - 56);
+        bctx.stroke(); bctx.fill();
+        bctx.font = '10px monospace'; bctx.fillStyle = '#fbbf24';
+        bctx.fillText('TARGET CUP', cupX - 30, groundY + 24);
+
+        if (p < 0.26) {
+          const k = p / 0.26;
+          sx = 140 + k * 42; sy = groundY - 22; pitch = 0.04; shellDeg = 45;
+          rotorsOn = k < 0.35; holdingPayload = k > 0.78;
+          statusBanner = 'PHASE 1: Land 6 cm Behind 40mm Ball & Scoot Forward -> Passive 0 W Equator Snap!';
+          if (!holdingPayload) {
+            bctx.fillStyle = 'rgba(251, 146, 60, 0.28)'; bctx.strokeStyle = '#fb923c';
+            bctx.beginPath(); bctx.arc(pickupX, groundY - 15, 15, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+          }
+        } else if (p < 0.70) {
+          const k = (p - 0.26) / 0.44;
+          sx = 182 + k * (cupX - 64 - 182);
+          sy = (groundY - 22) - Math.sin(k * Math.PI) * 165 - k * 85;
+          pitch = 0.11 * (1 - k); shellDeg = 55; rotorsOn = true; holdingPayload = true;
+          statusBanner = 'PHASE 2: Forward-Cantilever Carry -> 42° Flow & 27° ToF Cones 100% Unobstructed!';
+        } else {
+          const k = (p - 0.70) / 0.30;
+          sx = cupX - 64; sy = groundY - 155; pitch = -0.05; shellDeg = 85;
+          rotorsOn = true; flareBranch = 2; holdingPayload = false;
+          statusBanner = 'PHASE 3: 85° Wing Flare -> Pulls Dyneema Branch L2 (3.0 mm) -> Mandibles Spread 45mm -> Drop!';
+          const ballY = Math.min(groundY - 18, (groundY - 130) + Math.pow(k, 1.7) * 125);
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.35)'; bctx.strokeStyle = '#fb923c';
+          bctx.beginPath(); bctx.arc(cupX, ballY, 15, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        }
+      } else if (activeBpMode === 1) {
+        payloadType = 'card'; suctionDown = true;
+        const cardX = 235, handX = 585;
+        bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 2;
+        bctx.strokeRect(handX - 36, groundY - 12, 72, 12);
+        bctx.font = '10px monospace'; bctx.fillStyle = '#38bdf8';
+        bctx.fillText('RECIPIENT DESK / PALM', handX - 58, groundY + 24);
+        if (p < 0.28) {
+          const k = p / 0.28;
+          sx = 175 + k * 12; sy = groundY - 22; pitch = k > 0.45 ? 0.22 : 0.0;
+          shellDeg = 42; rotorsOn = false; holdingPayload = k > 0.75;
+          statusBanner = 'PHASE 1: Land Beside Card, Idle Rotors & Pitch Nose 18° -> 3.8 N Vacuum Seal (Zero Blow-Away)!';
+          if (!holdingPayload) {
+            bctx.fillStyle = '#f8fafc'; bctx.strokeStyle = '#38bdf8';
+            bctx.fillRect(cardX - 17, groundY - 5, 34, 5); bctx.strokeRect(cardX - 17, groundY - 5, 34, 5);
+          }
+        } else if (p < 0.70) {
+          const k = (p - 0.28) / 0.42;
+          sx = 187 + k * (handX - 52 - 187);
+          sy = (groundY - 22) - Math.sin(k * Math.PI) * 155 - k * 80;
+          pitch = 0.08 * (1 - k); shellDeg = 55; rotorsOn = true; holdingPayload = true;
+          statusBanner = 'PHASE 2: Courier Flight -> Carbon Mandibles Cage Lateral Card Edges Against Flutter!';
+        } else {
+          const k = (p - 0.70) / 0.30;
+          sx = handX - 52; sy = groundY - 145; pitch = 0; shellDeg = 74;
+          rotorsOn = true; flareBranch = 1; holdingPayload = false;
+          statusBanner = 'PHASE 3: 75° Wing Flare -> Pulls Branch L1 (1.5mm Lip Peel Tab) -> Breaks Vacuum in <30 ms!';
+          const dropY = Math.min(groundY - 17, (groundY - 122) + k * 112);
+          bctx.fillStyle = '#f8fafc'; bctx.strokeStyle = '#38bdf8';
+          bctx.fillRect(handX - 17, dropY, 34, 5); bctx.strokeRect(handX - 17, dropY, 34, 5);
+        }
+      } else if (activeBpMode === 2) {
+        const wallX = 640;
+        bctx.fillStyle = 'rgba(56, 189, 248, 0.10)'; bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 2.5;
+        bctx.fillRect(wallX, 75, 18, groundY - 75); bctx.strokeRect(wallX, 75, 18, groundY - 75);
+        if (p < 0.35) {
+          const k = p / 0.35;
+          sx = 190 + k * (wallX - 46 - 190); sy = 285 - k * 90; pitch = 0.14;
+          shellDeg = 55 * (1 - k * 0.6); rotorsOn = true;
+          statusBanner = 'PHASE 1: Approach Vertical Mirror at Eye Level (1.6 m) & 1.0s Rotor Push to Seat Suction Pad';
+        } else {
+          sx = wallX - 20; sy = 195; pitch = -Math.PI / 2; shellDeg = 15; rotorsOn = false;
+          statusBanner = 'PHASE 2: 0.0 W Motors OFF (0 dB Silence) · 15° Shell Crack -> Eye-Level Portrait Framing!';
+          const fovGrad = bctx.createLinearGradient(sx, sy, sx - 320, sy + 60);
+          fovGrad.addColorStop(0, 'rgba(250, 204, 21, 0.32)'); fovGrad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+          bctx.fillStyle = fovGrad;
+          bctx.beginPath(); bctx.moveTo(sx - 10, sy - 20); bctx.lineTo(sx - 340, sy - 95); bctx.lineTo(sx - 340, sy + 85); bctx.closePath(); bctx.fill();
+        }
+      } else if (activeBpMode === 3) {
+        const nestX = 360;
+        bctx.fillStyle = '#0f172a'; bctx.strokeStyle = '#fbbf24'; bctx.lineWidth = 2;
+        bctx.fillRect(nestX - 52, groundY - 18, 104, 18); bctx.strokeRect(nestX - 52, groundY - 18, 104, 18);
+        if (p < 0.18) {
+          sx = nestX; sy = groundY - 30; shellDeg = 0; rotorsOn = false;
+          statusBanner = 'PHASE 1: Docked 8.1 cm Porcelain Pebble · 0.18 J Nest Spring Coiled (0 dB Standby)';
+        } else if (p < 0.58) {
+          const k = (p - 0.18) / 0.40;
+          sx = nestX; sy = (groundY - 30) - (1 - Math.pow(1 - k, 2)) * 235;
+          shellDeg = k * 58; rotorsOn = k > 0.35;
+          statusBanner = 'PHASE 2: 0.18 J Ballistic Leap (2.8 m/s -> 40 cm Apex) + Outboard Elytra & Mylar Unfold!';
+        } else {
+          sx = nestX + Math.sin(t * 3) * 14; sy = (groundY - 265) + Math.sin(t * 4) * 5;
+          shellDeg = 58 + Math.sin(t * 12) * 4; rotorsOn = true;
+          statusBanner = 'PHASE 3: Smooth Apex Hover Capture (18.0 cm Span · 2 Hz Breathing Elytra · Zero Takeoff Scream)';
+        }
+      } else if (activeBpMode === 4) {
+        const kbX = 210, kbW = 330;
+        bctx.fillStyle = 'rgba(15, 23, 42, 0.95)'; bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 1.6;
+        bctx.fillRect(kbX, groundY - 14, kbW, 14); bctx.strokeRect(kbX, groundY - 14, kbW, 14);
+        sx = kbX + 30 + p * (kbW - 60); sy = groundY - 78; pitch = 0.0; shellDeg = 52; rotorsOn = true;
+        statusBanner = '9.2 m/s Focused 4-Duct Slipstream + 15% Louver Sidestep -> Sweeps Crumbs & Dust at 0° Body Tilt!';
+      } else {
+        const stoveX = 520;
+        bctx.fillStyle = 'rgba(244, 63, 94, 0.15)'; bctx.strokeStyle = '#fb7185'; bctx.lineWidth = 2;
+        bctx.fillRect(stoveX - 45, groundY - 28, 90, 28); bctx.strokeRect(stoveX - 45, groundY - 28, 90, 28);
+        sx = 210 + Math.sin(p * Math.PI) * 260; sy = 175 + Math.cos(p * Math.PI * 2) * 18;
+        pitch = 0.06; shellDeg = 55; rotorsOn = true;
+        statusBanner = '+0.05g FIR Thermal + +0.09g BME688 VOC Nose -> Patrols Kitchen Hotspot & High-Wall 7AM Alarm!';
+      }
+
+      bctx.font = 'bold 11px monospace';
+      bctx.fillStyle = '#34d399';
+      bctx.fillText(statusBanner, 22, 74);
+      bctx.restore();
+
+      drawSideScarabBp(sx, sy, pitch, shellDeg, rotorsOn, suctionDown, flareBranch, payloadType, holdingPayload);
+      drawTopDownBpPane(shellDeg, rotorsOn, flareBranch, payloadType, holdingPayload);
+      drawCamDetailBpPane(shellDeg);
+
+      const spanVal = (8.1 + Math.min(1, shellDeg / 65) * (18.0 - 8.1)).toFixed(1);
+      document.getElementById('tel-span').textContent = `${Math.round(shellDeg)}° · ${spanVal} cm`;
+      document.getElementById('tel-tendon').textContent =
+        flareBranch === 2 ? 'L2 TAUT (3.0mm DROP)' : flareBranch === 1 ? 'L1 TAUT (1.5mm PEEL)' : 'SLACK (0.0 N)';
+      document.getElementById('tel-sensors').textContent = '100% UNOBSTRUCTED';
+      document.getElementById('tel-power').textContent =
+        rotorsOn ? '14.2 W · 53 dBA' : '0.006 W · 0 dB SILENT';
     }
 
     updateStageUI();
