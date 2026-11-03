@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-03 22:13:40 UTC",
-  "state_sha256": "be029c73d88547a813cb30abd28431806c918582cf88d51d052f90fa457cd60b",
+  "updated_at_utc": "2026-11-03 22:31:43 UTC",
+  "state_sha256": "a3bd84e8d9f763aa299837e08becb9e8b357acc68eae0e3f82a1687f6c88eed7",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -173,6 +173,11 @@
       "filename": "aliexpress-mosquito-triad-brainstorm.json",
       "size_bytes": 6681,
       "modified_utc": "2026-11-02 21:35:01 UTC"
+    },
+    {
+      "filename": "cad-5forms-sim-brainstorm.json",
+      "size_bytes": 23250,
+      "modified_utc": "2026-11-03 22:30:27 UTC"
     },
     {
       "filename": "cat-wet-food-can-brainstorm.json",
