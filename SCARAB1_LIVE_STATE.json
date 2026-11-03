@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-03 21:01:24 UTC",
-  "state_sha256": "e7a6fdb58f9ce66d66f6b0707aa9ce305a3f49e097298b378917bb183cffe121",
+  "updated_at_utc": "2026-11-03 21:15:28 UTC",
+  "state_sha256": "c7b7221232e663b9b738fac9f6d34ec63b461f70539665fdacf326f2e5bd7d55",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -12,6 +12,12 @@
     "live_state_json": "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
   },
   "canonical_memories": [
+    {
+      "entity_key": "robotics/photogenik_scarab1_gdrive_workspace",
+      "kind": "state",
+      "content": "Provisioned and shared Google Drive folder Scarab1 \u2014 Photogenik Master Workspace (Folder ID: 1N7eXUW2lRcgNYZYLpvEsXKXg5YAiGsLp, shared with prashanth.gopal22@gmail.com as writer, linked to Drive Project 15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0). Uploaded and verified in-place auto-updating for: Native Google Doc SCARAB1_MASTER_CONTEXT_AND_COLLAB_HANDOFF (ID: 1EsqLW6mqehaU7gBHv6z4IpfdD97cnF0crryd0seubRU), Raw Markdown (ID: 1SGYDNPd9gxba8fxPgyJlsDt51cxTAIwG), SCARAB1_LIVE_STATE.json (ID: 1vNConm9mAanspE8YcRtytWYjYeq6Axm1), Native Google Doc UCLA_BROTHER_SCARAB_BLUEPRINT (ID: 1HV2qyzZ8gy3XRGMNNnAGgr5GrovnplUcFCFMnXakhaE), HTML CAD blueprints, 26s MP4 film, and all 34 research JSON logs in research-triad-logs (ID: 1Z-5KXo-gRyMvDpE1DM15cKssp9dTVDP9). End-to-end auto-sync runs via /Users/harshagopalakrishnan/bin/scarab1-autosync and com.robotics.scarab1-autosync.",
+      "created_at": "2026-11-03T21:13:53Z"
+    },
     {
       "entity_key": "robotics/photogenik_scarab1_master_context_autosync",
       "kind": "state",
