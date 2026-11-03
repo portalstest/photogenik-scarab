@@ -39,10 +39,10 @@
     <header class="space-y-3 border-b border-slate-800 pb-7">
       <div class="flex flex-wrap items-center gap-2">
         <span class="gold-pill text-xs font-semibold px-2.5 py-1 rounded-full tracking-wide uppercase">Photogenik · SnitchCam V1</span>
-        <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Perch → 18.0 cm Flight</span>
-        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/35">+0.95g Stag Mandibles & Suction Grip</span>
-        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/35">Indoor/Outdoor 2S + 9cm UWB Pocket Nest</span>
-        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$88 UCLA Makerspace Build</span>
+        <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Palm Pebble → 18.0 cm Flight</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/35">+0.95g Stag Mandibles &amp; Suction Grip</span>
+        <a href="blueprint.html" class="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/45 hover:bg-cyan-500/30 transition">📐 Interactive 6-Utility CAD Blueprint</a>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$90 UCLA Makerspace Build</span>
       </div>
       <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
         The Porcelain Scarab: Quiet Micro-Companion, Wall Sentinel & Micro-Fetcher
@@ -89,8 +89,8 @@
     <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 shadow-2xl">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 6-Stage Animated Breakdown</h2>
-          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Fetch</strong> &amp; <strong class="text-cyan-300">Stage 6: Outdoor 2S + Pocket Nest</strong>) or switch to the Top-Down CAD Blueprint</p>
+          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 5-Stage Indoor Flight &amp; Fetch Breakdown</h2>
+          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Ping-Pong &amp; Suction Fetch</strong>) or scroll down for the <strong class="text-sky-300">3-Pane CAD Blueprint Animator</strong></p>
         </div>
 
         <div class="flex flex-wrap items-center gap-1.5">
@@ -109,8 +109,8 @@
         </div>
       </div>
 
-      <!-- 6-Stage Selector Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+      <!-- 5-Stage Selector Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
         <button id="stage-0" onclick="selectStage(0)" class="text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-amber-400">STAGE 1 · 8.1 cm</div>
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪹 Perched Pebble</div>
@@ -131,15 +131,10 @@
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit &amp; Stare</div>
           <div class="text-xs text-slate-400 mt-0.5">Suction lock + eye peek</div>
         </button>
-        <button id="stage-4" onclick="selectStage(4)" class="text-left p-2.5 rounded-xl border transition">
+        <button id="stage-4" onclick="selectStage(4)" class="col-span-2 sm:col-span-1 text-left p-2.5 rounded-xl border transition">
           <div class="text-xs font-mono text-rose-400">STAGE 5 · &lt;4g Fetch</div>
           <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪲 Scoop, Suction &amp; Drop</div>
           <div class="text-xs text-slate-400 mt-0.5">0.5mm mandibles + suction</div>
-        </button>
-        <button id="stage-5" onclick="selectStage(5)" class="text-left p-2.5 rounded-xl border transition">
-          <div class="text-xs font-mono text-cyan-400">STAGE 6 · 12 mph + UWB</div>
-          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🌤️ Outdoor &amp; Pocket Nest</div>
-          <div class="text-xs text-slate-400 mt-0.5">22° wind-tuck + 9cm pad</div>
         </button>
       </div>
 
@@ -307,100 +302,28 @@
       </div>
     </section>
 
-    <!-- NEW Section 2B: Indoor / Outdoor 2S Dual-Mode + Portable Battery-Pack Homing Pad ("Scarab Pocket Nest") -->
-    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-5 border border-cyan-500/30">
-      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3.5">
+    <!-- NEW Section 2B: Interactive 3-Pane CAD Blueprint & 6-Utility Kinematic Animator (Palm-Sized Indoor Scarab) -->
+    <section id="indoor-blueprint-section" class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 border border-sky-500/40 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
         <div>
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-mono uppercase px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/35">New · Indoor / Outdoor 2S Dual-Mode + Portable Pocket Nest</span>
-            <span class="text-xs font-mono text-amber-300">Same 8.1 × 8.1 × 2.4 cm Pebble Size · 12 mph Wind Hover · 50 m UWB Leash</span>
+            <span class="text-xs font-mono uppercase px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40">New · Interactive CAD Blueprint &amp; 6-Utility Simulator</span>
+            <span class="text-xs font-mono text-amber-300">DWG NO. PG-SCARAB-INDOOR-V1 · 81 × 81 × 24 mm · 41.65 g</span>
           </div>
           <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
-            2B. Indoor / Outdoor 2S Edition &amp; Portable Battery-Pack Homing Pad ("Scarab Pocket Nest")
+            📐 Interactive Blueprint Mockup: All 6 Indoor Capabilities &amp; Single-Servo Kinematics
           </h2>
           <p class="text-xs text-slate-400 mt-0.5">
-            Co-engineered by the 3-Model Swarm Triad (<code class="text-amber-300">Opus 5.5 + Sol 6.1 MAX + Argon 4 High</code>): how an <code class="text-white">8.1 cm</code> Scarab survives outdoor breezes, direct <code class="text-white">100,000 lux</code> sunlight, and moving grass while fast-charging on a <strong class="text-cyan-300">9.0 × 9.0 × 1.6 cm MagSafe-style portable battery pad</strong>.
+            Click any of the <strong class="text-white">6 Indoor Utility Modes</strong> inside the blueprint below (<strong class="text-rose-300">🏓 3D Ball &amp; Ring Fetch</strong>, <strong class="text-sky-300">💌 2D Suction Courier</strong>, <strong class="text-emerald-300">🪞 0W Wall-Sit Sentinel</strong>, <strong class="text-amber-300">🚀 0.18J Nest Jump-Start</strong>, <strong class="text-cyan-300">💨 9 m/s Desk Air-Duster</strong>, <strong class="text-purple-300">🚨 7AM High-Wall Alarm &amp; Stove Patrol</strong>) or drag the <strong class="text-sky-300">Maneuver Timeline Scrubber</strong> to inspect the synchronized Side Cross-Section, Top-Down Orthographic Plan, and 5:1 Slotted-Cam Multiplexer.
           </p>
         </div>
-        <button onclick="selectStage(5); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/45 hover:bg-cyan-500/30 transition">
-          ▶ Watch Stage 6 Outdoor &amp; Pocket Nest Simulation Above
-        </button>
+        <a href="blueprint.html" target="_blank" class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-sky-500/25 text-sky-200 border border-sky-400/50 hover:bg-sky-500/35 transition whitespace-nowrap">
+          🔍 Open Full-Screen CAD Blueprint ↗
+        </a>
       </div>
 
-      <!-- 3 Pillars of Indoor/Outdoor + Pocket Nest -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-amber-400 uppercase">1. Wind &amp; "Sail Effect" Fix</span>
-            <span class="font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded">2S Brushless · 22° Tuck</span>
-          </div>
-          <h3 class="text-sm font-semibold text-white">🌬️ 2S Powertrain + Active "Wind-Feather" Tuck</h3>
-          <p class="text-slate-300 leading-relaxed">
-            A <code class="text-white">42 g</code> 1S brushed quad (<code class="text-white">1.8:1 TWR</code>) blows away above <code class="text-rose-300">6 mph</code>—especially when <code class="text-white">60°</code> open elytra act as <code class="text-rose-300">42–100 cm² bluff sails</code> (<code class="text-white">0.15 N</code> crosswind drag). Upgrading to <code class="text-emerald-300">2S 1002/1103 brushless motors</code> (<code class="text-white">51 g</code> AUW, <code class="text-white">135–165 gf</code> thrust = <code class="text-emerald-300">2.8–3.2:1 TWR</code>, <code class="text-white">24 mph</code> top speed) and retracting the elytra to a <strong class="text-white">22° intake-clear feather angle</strong> outdoors cuts crosswind sail area by <strong class="text-emerald-300">&gt;70%</strong>, enabling <strong class="text-white">9–12 mph (Beaufort 3) photo hover</strong> and <strong class="text-white">15–18 mph Return-to-Pad</strong>.
-          </p>
-        </div>
-
-        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-cyan-400 uppercase">2. Sunlight &amp; Grass Immunity</span>
-            <span class="font-mono text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded">6.5 GHz UWB · 50 m Range</span>
-          </div>
-          <h3 class="text-sm font-semibold text-white">📡 Pad-Anchored UWB + VIO + Shrouded Baro</h3>
-          <p class="text-slate-300 leading-relaxed">
-            Outdoors, <code class="text-rose-300">100,000 lux sunlight</code> blinds the <code class="text-white">VL53L3CX</code> 940 nm ToF above <code class="text-white">0.65 m</code>, and blowing grass confuses <code class="text-white">PMW3901</code> optical flow. Instead of a bulky GPS mast, a <code class="text-cyan-300">0.4 g Qorvo DW3000 UWB chip</code> pairs with a 3-antenna array inside the Portable Pad for <strong class="text-white">±6–10 cm ranging + 3D Phase-Difference-of-Arrival (PDOA) homing out to 50 m (150 ft)</strong>—100% immune to sunlight and grass—fused with a foam-shrouded <code class="text-emerald-300">BMP581 barometer</code> and camera VIO.
-          </p>
-        </div>
-
-        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="font-mono text-emerald-400 uppercase">3. Portable Battery Homing Pad</span>
-            <span class="font-mono text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded">9.0 × 9.0 × 1.6 cm</span>
-          </div>
-          <h3 class="text-sm font-semibold text-white">🔋 "Scarab Pocket Nest" + 16 cm Lotus Petals</h3>
-          <p class="text-slate-300 leading-relaxed">
-            Sized like a MagSafe power bank (<code class="text-white">145 g @ 5,000 mAh</code> for <strong class="text-emerald-300">7× charges</strong> or <code class="text-white">215 g @ 10,000 mAh</code> for <strong class="text-emerald-300">14× charges</strong>, plus <code class="text-white">30W USB-C PD + Qi2</code> to charge your phone), the Scarab clips to the pad via a <strong class="text-white">Halbach-shielded N52 ring</strong> in your pocket. Set on a table or grass, <strong class="text-cyan-300">4 hinged 16 cm Origami Capture Petals</strong> fold out to guide gusty landings via <code class="text-white">38 kHz pulsed IR + AprilTag</code>, pinned at touchdown by a <strong class="text-amber-300">0.15 s Reverse-DShot suction kiss (40 gf)</strong> for <code class="text-white">15-min (20→80%)</code> 4-pin pogo fast charging.
-          </p>
-        </div>
-      </div>
-
-      <!-- Honest Side-by-Side Comparison Matrix -->
-      <div class="overflow-x-auto pt-1">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="border-b border-slate-800 text-slate-400 font-mono uppercase">
-              <th class="py-2 pr-3">Specification</th>
-              <th class="py-2 px-3">Indoor-Only Scarab (1S Brushed)</th>
-              <th class="py-2 pl-3 text-cyan-300">Indoor / Outdoor Scarab (2S Brushless) + Pocket Nest</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800/70 text-slate-200">
-            <tr>
-              <td class="py-2 pr-3 font-semibold text-white">Scarab Stowed Footprint</td>
-              <td class="py-2 px-3 font-mono">8.1 × 8.1 × 2.4 cm (41.6 g)</td>
-              <td class="py-2 pl-3 font-mono text-emerald-300">8.1 × 8.1 × 2.4 cm — Exact Same Size (51.0 g)</td>
-            </tr>
-            <tr>
-              <td class="py-2 pr-3 font-semibold text-white">Homing &amp; Charging Dock</td>
-              <td class="py-2 px-3">Wall-plugged desk cradle (11 cm)</td>
-              <td class="py-2 pl-3 text-white"><strong class="text-cyan-300">9.0 × 9.0 × 1.6 cm Portable Power-Bank Nest</strong> (unfolds to 16 cm landing lotus + 0.18 J spring launch)</td>
-            </tr>
-            <tr>
-              <td class="py-2 pr-3 font-semibold text-white">Wind Limit (Photo Hover / RTH)</td>
-              <td class="py-2 px-3 text-slate-400">≤ 5 mph / Blows away &gt; 6 mph</td>
-              <td class="py-2 pl-3 text-amber-300 font-semibold">9 – 12 mph (Beaufort 3) Photo Hover · 15 – 18 mph Return-to-Pad (22° Wind-Tuck)</td>
-            </tr>
-            <tr>
-              <td class="py-2 pr-3 font-semibold text-white">Outdoor Range &amp; Sunlight Lock</td>
-              <td class="py-2 px-3 text-slate-400">&lt; 2 m (ToF washes out in 100k lux sun; grass breaks flow)</td>
-              <td class="py-2 pl-3 text-emerald-300 font-semibold">45 – 50 m (150 ft) in 100,000 lux sun via Dual UWB (Pocket Leash + Tabletop 3D PDOA) + Baro + VIO</td>
-            </tr>
-            <tr>
-              <td class="py-2 pr-3 font-semibold text-white">Flight Endurance &amp; Field Recharges</td>
-              <td class="py-2 px-3">5.5 min hover (wall recharge)</td>
-              <td class="py-2 pl-3 text-white"><strong>5.5–6.5 min Indoors / 4.5 min in 10 mph wind</strong> · <strong class="text-cyan-300">7× (145g 5Ah) or 14× (215g 10Ah) fast recharges in pocket!</strong></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="rounded-xl overflow-hidden border border-sky-500/35 bg-[#040b16]">
+        <iframe src="blueprint.html" title="Photogenik Scarab Interactive 6-Utility CAD Blueprint" class="w-full h-[760px] sm:h-[820px] border-0 block"></iframe>
       </div>
     </section>
 
@@ -612,13 +535,13 @@
     }
 
     function updateStageUI() {
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 5; i++) {
         const el = document.getElementById('stage-' + i);
         if (!el) continue;
         if (i === currentStage) {
-          el.className = 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
         } else {
-          el.className = 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
         }
       }
       const meta = STAGE_META[currentStage];
@@ -1431,9 +1354,9 @@
     function animate() {
       t += 0.016;
       stageTimer += 0.016;
-      const stageDur = currentStage >= 4 ? 5.8 : 4.2;
+      const stageDur = currentStage === 4 ? 5.6 : 4.2;
       if (autoPlay && !cadMode && stageTimer > stageDur) {
-        currentStage = (currentStage + 1) % 6;
+        currentStage = (currentStage + 1) % 5;
         stageTimer = 0;
         updateStageUI();
       }
