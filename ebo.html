@@ -165,21 +165,24 @@
         <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 p-2 rounded-lg border border-sky-500/30 text-[11px]">
           <div class="flex flex-wrap items-center gap-1.5">
             <span class="text-slate-400 font-semibold mr-1">Feed Source:</span>
-            <button id="btnSourceBridge" onclick="switchFeedMode('bridge')" class="px-2.5 py-1 rounded bg-emerald-500/25 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/35">
-              📱 Auto Mac Bridge (ROLA / iPhone Mirroring)
+            <button onclick="openRolaMacAppStore()" class="px-2.5 py-1 rounded bg-emerald-500/25 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/35" title="Install ROLA - Smart Robot natively on your Apple Silicon Mac (no iPhone Mirroring required)">
+              💻 1. Install/Open Native ROLA on Mac
             </button>
-            <select id="macWindowSelect" onchange="selectMacWindow(this.value)" class="bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-sky-200 text-[11px] max-w-[230px]">
-              <option value="auto">🪟 Auto-Detect: iPhone Mirroring / ROLA</option>
-              <option value="0">🖥️ Full macOS Main Display</option>
-            </select>
-            <button onclick="openIphoneMirroringApp()" class="px-2.5 py-1 rounded bg-sky-500/20 border border-sky-400/60 text-sky-200 font-semibold hover:bg-sky-500/30" title="Launch or focus macOS iPhone Mirroring so your ROLA app is on screen">
-              📲 Open iPhone Mirroring
+            <button id="btnSourceWebRTC" onclick="startRolaScreenCapture()" class="px-2.5 py-1 rounded bg-sky-500/25 border border-sky-400 text-sky-200 font-bold hover:bg-sky-500/35">
+              🪟 2. Stream ROLA Window (Chrome 60 FPS)
             </button>
             <button id="btnSourceCam" onclick="startLiveCameraFeed()" class="px-2.5 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-200 font-semibold hover:bg-purple-500/30">
               📷 Live Camera (iPhone / Mac)
             </button>
-            <button id="btnSourceWebRTC" onclick="startRolaScreenCapture()" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-sky-400">
-              🪟 Browser Screen Share
+            <button id="btnSourceBridge" onclick="switchFeedMode('bridge')" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-emerald-400">
+              📱 Mac Bridge Window
+            </button>
+            <select id="macWindowSelect" onchange="selectMacWindow(this.value)" class="bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-sky-200 text-[11px] max-w-[210px]">
+              <option value="auto">🪟 Auto-Detect: ROLA / Mirroring</option>
+              <option value="0">🖥️ Full macOS Main Display</option>
+            </select>
+            <button onclick="openIphoneMirroringApp()" class="px-2 py-1 rounded bg-slate-800 border border-slate-600 text-slate-300 hover:text-white">
+              📲 iPhone Mirroring
             </button>
             <button id="btnSourceSim" onclick="startSyntheticDemoFeed()" class="px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-400 hover:text-white">
               🧪 Sim Grid
@@ -478,6 +481,21 @@
           }
         } catch (e) {}
       }
+    };
+
+    window.openRolaMacAppStore = async function() {
+      logEvent("Opening ROLA - Smart Robot (id1478722613) on Mac App Store for native Apple Silicon execution...", "text-emerald-300 font-bold");
+      if (bridgeOnline) {
+        try {
+          await fetch(`${BRIDGE_URL}/api/open_app`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ store_url: "macappstore://apps.apple.com/us/app/rola-smart-robot/id1478722613" })
+          });
+          return;
+        } catch (e) {}
+      }
+      window.open("https://apps.apple.com/us/app/rola-smart-robot/id1478722613", "_blank");
     };
 
     window.openIphoneMirroringApp = async function() {
