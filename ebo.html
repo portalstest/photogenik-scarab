@@ -139,8 +139,11 @@
       <div class="lg:col-span-7 hud-panel rounded-xl p-3.5 flex flex-col justify-between space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="feedStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span class="font-bold text-white">LIVE EBO SE OPTICAL FEED + COCO-SSD + PID SERVO OVERLAY</span>
+            <span id="activeFeedBadge" class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-[10px] font-bold">
+              CONNECTING LIVE FEED...
+            </span>
           </div>
           <div class="flex items-center gap-2 text-[11px]">
             <label class="text-slate-400">Target Class:</label>
@@ -158,12 +161,43 @@
           </div>
         </div>
 
-        <!-- Hidden video element for WebRTC getDisplayMedia -->
+        <!-- IN-VIEWPORT FEED SOURCE SELECTOR BAR (Works in Antigravity IDE & Chrome) -->
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 p-2 rounded-lg border border-sky-500/30 text-[11px]">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-slate-400 font-semibold mr-1">Feed Source:</span>
+            <button id="btnSourceBridge" onclick="switchFeedMode('bridge')" class="px-2.5 py-1 rounded bg-emerald-500/25 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/35">
+              📱 Auto Mac Bridge (ROLA / iPhone Mirroring)
+            </button>
+            <select id="macWindowSelect" onchange="selectMacWindow(this.value)" class="bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-sky-200 text-[11px] max-w-[230px]">
+              <option value="auto">🪟 Auto-Detect: iPhone Mirroring / ROLA</option>
+              <option value="0">🖥️ Full macOS Main Display</option>
+            </select>
+            <button onclick="openIphoneMirroringApp()" class="px-2.5 py-1 rounded bg-sky-500/20 border border-sky-400/60 text-sky-200 font-semibold hover:bg-sky-500/30" title="Launch or focus macOS iPhone Mirroring so your ROLA app is on screen">
+              📲 Open iPhone Mirroring
+            </button>
+            <button id="btnSourceCam" onclick="startLiveCameraFeed()" class="px-2.5 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-200 font-semibold hover:bg-purple-500/30">
+              📷 Live Camera (iPhone / Mac)
+            </button>
+            <button id="btnSourceWebRTC" onclick="startRolaScreenCapture()" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-sky-400">
+              🪟 Browser Screen Share
+            </button>
+            <button id="btnSourceSim" onclick="startSyntheticDemoFeed()" class="px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-400 hover:text-white">
+              🧪 Sim Grid
+            </button>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button id="btnClickCalib" onclick="toggleVideoClickCalibration()" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/60 text-amber-200 font-semibold hover:bg-amber-500/30">
+              🎯 Click Stick on Video
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden video element for WebRTC getDisplayMedia / getUserMedia -->
         <video id="rolaVideo" autoplay playsinline muted class="hidden"></video>
 
         <!-- Primary AI Vision Canvas -->
         <div class="relative w-full rounded-xl overflow-hidden bg-[#02060d] border border-sky-500/30" style="aspect-ratio: 16/10;">
-          <canvas id="visionCanvas" width="960" height="600" class="w-full h-full block"></canvas>
+          <canvas id="visionCanvas" width="960" height="600" class="w-full h-full block cursor-crosshair"></canvas>
         </div>
 
         <!-- Bottom Telemetry Readout Bar -->
@@ -326,7 +360,15 @@
     let bridgeOnline = false;
     let cocoModel = null;
     let currentMissionMode = 0; // 0=Manual, 1=Follow, 2=LostItem, 3=Patrol, 4=Orbit, 5=Dock
-    let useSyntheticFeed = true;
+    // feedMode: 'bridge' (default auto-stream from Mac 127.0.0.1:8795/api/frame.jpg), 'webrtc' (camera/screen), 'sim'
+    let feedMode = "bridge";
+    let useSyntheticFeed = false;
+    let selectedMacWindowId = "auto";
+    let bridgeWindowOwner = "iPhone Mirroring / ROLA";
+    let bridgeWindowBounds = { X: 400, Y: 108, Width: 640, Height: 663 };
+    let bridgeStickCenter = { x: 720, y: 560 };
+    let bridgeStickRadius = 68;
+    let videoClickCalibActive = false;
     let detections = [];
     let lockedTarget = null;
     let cmdThrottle = 0.0;
@@ -336,7 +378,31 @@
     let keysHeld = {};
     let pulseTick = 0;
 
-    // Synthetic Demo Cat & Room Objects (when testing before connecting live ROLA screen capture)
+    // Live In-RAM Bridge Frame Loader (Streams iPhone Mirroring / ROLA window with zero browser popups)
+    const bridgeImg = new Image();
+    bridgeImg.crossOrigin = "anonymous";
+    let bridgeFrameReady = false;
+    let bridgeFrameInFlight = false;
+    let lastBridgeFrameTs = 0;
+
+    bridgeImg.onload = function() {
+      bridgeFrameReady = true;
+      bridgeFrameInFlight = false;
+    };
+    bridgeImg.onerror = function() {
+      bridgeFrameInFlight = false;
+    };
+
+    function requestNextBridgeFrame(now) {
+      if (feedMode !== "bridge" || !bridgeOnline || bridgeFrameInFlight) return;
+      if ((now - lastBridgeFrameTs) < 42) return; // ~24 FPS smooth window stream
+      bridgeFrameInFlight = true;
+      lastBridgeFrameTs = now;
+      const widParam = (selectedMacWindowId !== "auto") ? `&window_id=${selectedMacWindowId}` : "";
+      bridgeImg.src = `${BRIDGE_URL}/api/frame.jpg?t=${Date.now()}${widParam}`;
+    }
+
+    // Synthetic Demo Cat & Room Objects (optional Sim Grid mode)
     const simCat = { x: 480, y: 310, vx: 1.8, vy: 0.7, w: 150, h: 130, label: "cat", score: 0.94 };
     const simPhone = { x: 240, y: 430, w: 85, h: 65, label: "cell phone", score: 0.89 };
 
@@ -347,6 +413,15 @@
       const t = new Date().toLocaleTimeString();
       line.textContent = `[${t}] ${msg}`;
       box.prepend(line);
+    }
+
+    function updateFeedBadge(text, isLive = true) {
+      const b = document.getElementById("activeFeedBadge");
+      if (!b) return;
+      b.textContent = text;
+      b.className = isLive
+        ? "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-[10px] font-bold"
+        : "px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/50 text-amber-300 text-[10px] font-bold";
     }
 
     // ============================================================================
@@ -366,11 +441,85 @@
     initCocoModel();
 
     // ============================================================================
-    // 3. WEBRTC SCREEN CAPTURE OF OFFICIAL ROLA / iPHONE MIRRORING WINDOW
+    // 3. MULTI-SOURCE VIDEO INGESTION (MAC BRIDGE IN-RAM / CAMERA / WEBRTC / SIM)
     // ============================================================================
     const videoEl = document.getElementById("rolaVideo");
     const canvas = document.getElementById("visionCanvas");
     const ctx = canvas.getContext("2d");
+
+    window.switchFeedMode = function(mode) {
+      feedMode = mode;
+      useSyntheticFeed = (mode === "sim");
+      if (mode === "bridge") {
+        updateFeedBadge(`📱 LIVE MAC BRIDGE: ${bridgeWindowOwner}`, true);
+        logEvent(`Switched to Live Mac Bridge Window Stream (${bridgeWindowOwner}).`, "text-emerald-300");
+      } else if (mode === "sim") {
+        updateFeedBadge("🧪 SYNTHETIC SIM GRID", false);
+        logEvent("Switched to Simulated EBO SE Living-Room Pet & Object Feed.", "text-sky-300");
+      }
+    };
+
+    window.selectMacWindow = async function(val) {
+      selectedMacWindowId = val;
+      feedMode = "bridge";
+      useSyntheticFeed = false;
+      if (bridgeOnline && val !== "auto") {
+        try {
+          const res = await fetch(`${BRIDGE_URL}/api/select_window`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ window_id: parseInt(val, 10) })
+          });
+          const st = await res.json();
+          if (st.active_window_owner) {
+            bridgeWindowOwner = st.active_window_owner;
+            updateFeedBadge(`📱 LIVE WINDOW: ${bridgeWindowOwner}`, true);
+            logEvent(`Streaming macOS window: ${bridgeWindowOwner}`, "text-emerald-300");
+          }
+        } catch (e) {}
+      }
+    };
+
+    window.openIphoneMirroringApp = async function() {
+      feedMode = "bridge";
+      useSyntheticFeed = false;
+      selectedMacWindowId = "auto";
+      logEvent("Launching / focusing macOS iPhone Mirroring.app for ROLA feed...", "text-sky-300");
+      if (bridgeOnline) {
+        try {
+          await fetch(`${BRIDGE_URL}/api/open_app`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ app: "iPhone Mirroring" })
+          });
+          await refreshMacWindowDropdown();
+        } catch (e) {}
+      }
+    };
+
+    window.startLiveCameraFeed = async function() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+        videoEl.srcObject = stream;
+        await videoEl.play();
+        feedMode = "webrtc";
+        useSyntheticFeed = false;
+        updateFeedBadge("📷 LIVE OPTICAL CAMERA (WEBRTC)", true);
+        logEvent("Connected live optical camera (iPhone Continuity / FaceTime HD)!", "text-emerald-300");
+      } catch (err) {
+        logEvent("Camera blocked inside IDE preview iframe — opening Chrome with live camera...", "text-amber-300");
+        if (bridgeOnline) {
+          await fetch(`${BRIDGE_URL}/api/open_app`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: "https://join-garden.com/ebo?autoconnect=camera" })
+          });
+        }
+      }
+    };
 
     window.startRolaScreenCapture = async function() {
       try {
@@ -380,32 +529,106 @@
         });
         videoEl.srcObject = stream;
         await videoEl.play();
+        feedMode = "webrtc";
         useSyntheticFeed = false;
-        logEvent("Connected live ROLA / iPhone Mirroring video stream!", "text-emerald-300");
+        updateFeedBadge("🪟 LIVE WEBRTC WINDOW STREAM", true);
+        logEvent("Connected live ROLA / iPhone Mirroring WebRTC stream!", "text-emerald-300");
       } catch (err) {
-        logEvent("Screen capture canceled or blocked — staying on Simulated EBO Room Feed.", "text-amber-300");
+        logEvent("Browser screen picker blocked in IDE iframe — using Automatic Mac Bridge Window Stream instead!", "text-emerald-300");
+        switchFeedMode("bridge");
       }
     };
 
     window.startSyntheticDemoFeed = function() {
-      useSyntheticFeed = true;
-      logEvent("Switched to Simulated EBO SE Living-Room Pet & Object Feed.", "text-sky-300");
+      switchFeedMode("sim");
     };
+
+    window.toggleVideoClickCalibration = function() {
+      videoClickCalibActive = !videoClickCalibActive;
+      const btn = document.getElementById("btnClickCalib");
+      if (videoClickCalibActive) {
+        btn.className = "px-2.5 py-1 rounded bg-rose-500/30 border border-rose-400 text-rose-200 font-bold animate-pulse";
+        btn.textContent = "🎯 Click ROLA Stick on Video Now...";
+        logEvent("Click directly on the ROLA joystick center inside the video feed below to calibrate!", "text-amber-300 font-bold");
+      } else {
+        btn.className = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/60 text-amber-200 font-semibold hover:bg-amber-500/30";
+        btn.textContent = "🎯 Click Stick on Video";
+      }
+    };
+
+    canvas.addEventListener("click", async (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const u = (e.clientX - rect.left) / rect.width;
+      const v = (e.clientY - rect.top) / rect.height;
+      if (videoClickCalibActive && bridgeOnline) {
+        try {
+          const res = await fetch(`${BRIDGE_URL}/api/calibrate_uv`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ u, v, target: "stick_center" })
+          });
+          const st = await res.json();
+          if (st.stick_center) {
+            bridgeStickCenter = st.stick_center;
+            document.getElementById("calJoyX").value = st.stick_center.x;
+            document.getElementById("calJoyY").value = st.stick_center.y;
+            logEvent(`Calibrated ROLA Stick Center at Mac coords (${st.stick_center.x}, ${st.stick_center.y})!`, "text-emerald-300 font-bold");
+          }
+        } catch (err) {}
+        toggleVideoClickCalibration();
+      }
+    });
 
     // ============================================================================
     // 4. LOCAL MAC BRIDGE (127.0.0.1:8795) COMMUNICATION
     // ============================================================================
+    async function refreshMacWindowDropdown() {
+      if (!bridgeOnline) return;
+      try {
+        const res = await fetch(`${BRIDGE_URL}/api/windows`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const sel = document.getElementById("macWindowSelect");
+        const prevVal = sel.value;
+        sel.innerHTML = `<option value="auto">🪟 Auto: ${data.active_window_owner || "iPhone Mirroring / ROLA"}</option><option value="0">🖥️ Full macOS Main Display</option>`;
+        (data.windows || []).forEach(w => {
+          const opt = document.createElement("option");
+          opt.value = String(w.id);
+          const label = `${w.owner}${w.name ? " — " + w.name : ""} (${w.bounds.Width}×${w.bounds.Height})`;
+          opt.textContent = label.slice(0, 48);
+          sel.appendChild(opt);
+        });
+        if ([...sel.options].some(o => o.value === prevVal)) {
+          sel.value = prevVal;
+        }
+      } catch (e) {}
+    }
+
     async function pollBridgeStatus() {
       try {
         const res = await fetch(`${BRIDGE_URL}/api/status`, { method: "GET" });
         if (res.ok) {
           const st = await res.json();
+          const wasOffline = !bridgeOnline;
           bridgeOnline = true;
+          const cmdCount = st.cmd_count ?? st.totalCommands ?? 0;
+          const cursor = st.cursor || st.mouseCursor;
+          if (st.active_window_owner) bridgeWindowOwner = st.active_window_owner;
+          if (st.active_window_bounds) bridgeWindowBounds = st.active_window_bounds;
+          if (st.stick_center) bridgeStickCenter = st.stick_center;
+          if (st.stick_radius) bridgeStickRadius = st.stick_radius;
+
           const badge = document.getElementById("bridgeBadge");
-          badge.textContent = `🟢 MAC BRIDGE (127.0.0.1:8795): CONNECTED (${st.totalCommands} cmds)`;
+          badge.textContent = `🟢 MAC BRIDGE (127.0.0.1:8795): LIVE (${cmdCount} cmds)`;
           badge.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
-          if (st.mouseCursor) {
-            document.getElementById("calibCursorReadout").textContent = `Mac Cursor: (${st.mouseCursor.x}, ${st.mouseCursor.y})`;
+          if (cursor) {
+            document.getElementById("calibCursorReadout").textContent = `Mac Cursor: (${cursor.x}, ${cursor.y})`;
+          }
+          if (feedMode === "bridge") {
+            updateFeedBadge(`📱 LIVE MAC BRIDGE: ${bridgeWindowOwner}`, true);
+          }
+          if (wasOffline) {
+            refreshMacWindowDropdown();
           }
         }
       } catch (e) {
@@ -416,7 +639,13 @@
       }
     }
     setInterval(pollBridgeStatus, 1000);
+    setInterval(refreshMacWindowDropdown, 5000);
     pollBridgeStatus();
+
+    // Auto-connect camera if opened with ?autoconnect=camera
+    if (window.location.search.includes("autoconnect=camera")) {
+      setTimeout(() => startLiveCameraFeed(), 400);
+    }
 
     async function sendBridgeControl(throttle, steering, modeLabel) {
       cmdThrottle = throttle;
@@ -429,7 +658,7 @@
         await fetch(`${BRIDGE_URL}/api/control`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ throttle, steering, mode: modeLabel })
+          body: JSON.stringify({ vx: steering, vy: throttle, throttle, steering, mode: modeLabel })
         });
       } catch (e) {}
     }
@@ -451,16 +680,17 @@
       logEvent(`Triggered ROLA App Action Button: [${actionName.toUpperCase()}]`, "text-amber-300");
       if (bridgeOnline) {
         try {
-          await fetch(`${BRIDGE_URL}/api/action`, {
+          await fetch(`${BRIDGE_URL}/api/macro`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: actionName })
+            body: JSON.stringify({ macro: actionName, action: actionName })
           });
         } catch (e) {}
       }
     };
 
     window.calibrateAfterDelay = function(targetName) {
+      const mappedTarget = (targetName === "joyCenter") ? "stick_center" : targetName;
       logEvent(`Hover mouse over ROLA [${targetName}] on your Mac screen — capturing in 3.0s...`, "text-amber-300");
       setTimeout(async () => {
         if (!bridgeOnline) {
@@ -471,12 +701,14 @@
           const res = await fetch(`${BRIDGE_URL}/api/calibrate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ target: targetName, fromCursor: true })
+            body: JSON.stringify({ target: mappedTarget, fromCursor: true })
           });
           const st = await res.json();
-          if (targetName === "joyCenter" && st.joyCenter) {
-            document.getElementById("calJoyX").value = st.joyCenter.x;
-            document.getElementById("calJoyY").value = st.joyCenter.y;
+          const sc = st.stick_center || st.joyCenter;
+          if (targetName === "joyCenter" && sc) {
+            bridgeStickCenter = sc;
+            document.getElementById("calJoyX").value = sc.x;
+            document.getElementById("calJoyY").value = sc.y;
           }
           logEvent(`Calibrated [${targetName}] at Mac screen coordinates!`, "text-emerald-300 font-bold");
         } catch (e) {}
@@ -484,14 +716,14 @@
     };
 
     window.pushManualCalibration = async function() {
-      const x = parseFloat(document.getElementById("calJoyX").value || "260");
-      const y = parseFloat(document.getElementById("calJoyY").value || "640");
+      const x = parseFloat(document.getElementById("calJoyX").value || "720");
+      const y = parseFloat(document.getElementById("calJoyY").value || "560");
       const r = parseFloat(document.getElementById("calJoyR").value || "68");
       if (bridgeOnline) {
         await fetch(`${BRIDGE_URL}/api/calibrate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ target: "joyCenter", x, y, joyRadius: r })
+          body: JSON.stringify({ target: "stick_center", pos: { x, y }, radius: r })
         });
       }
     };
@@ -587,13 +819,46 @@
 
       const W = canvas.width, H = canvas.height;
 
-      // 1. Draw either Live ROLA Video Stream or Synthetic Living-Room Feed
-      if (!useSyntheticFeed && videoEl.readyState >= 2) {
+      // Trigger next in-RAM frame fetch from Mac Bridge if in 'bridge' mode
+      requestNextBridgeFrame(now);
+
+      // 1. Draw Live WebRTC Feed, Live Mac Bridge Window Feed, or Synthetic Feed
+      if (feedMode === "webrtc" && videoEl.readyState >= 2) {
         ctx.drawImage(videoEl, 0, 0, W, H);
         if (cocoModel && (now - lastDetectTs) > 95) {
           lastDetectTs = now;
           try {
             detections = await cocoModel.detect(videoEl);
+          } catch (e) {}
+        }
+      } else if (feedMode === "bridge" && bridgeOnline && bridgeFrameReady && bridgeImg.naturalWidth > 0) {
+        // Draw dark letterbox background + preserve aspect ratio or fill cleanly
+        ctx.fillStyle = "#02060d";
+        ctx.fillRect(0, 0, W, H);
+        const iw = bridgeImg.naturalWidth;
+        const ih = bridgeImg.naturalHeight;
+        const scale = Math.min(W / iw, H / ih);
+        const dw = iw * scale;
+        const dh = ih * scale;
+        const dx = (W - dw) / 2;
+        const dy = (H - dh) / 2;
+        ctx.drawImage(bridgeImg, dx, dy, dw, dh);
+
+        // Draw top-left live source pill on canvas
+        ctx.fillStyle = "rgba(2, 6, 23, 0.82)";
+        ctx.fillRect(12, 12, 460, 28);
+        ctx.strokeStyle = "rgba(52, 211, 153, 0.7)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(12, 12, 460, 28);
+        ctx.fillStyle = "#34d399";
+        ctx.font = "bold 12px JetBrains Mono, monospace";
+        ctx.fillText(`🟢 LIVE MAC WINDOW: ${bridgeWindowOwner.slice(0, 38)}`, 22, 30);
+
+        // Run real-time COCO-SSD AI detection on the live window frame!
+        if (cocoModel && (now - lastDetectTs) > 120) {
+          lastDetectTs = now;
+          try {
+            detections = await cocoModel.detect(canvas);
           } catch (e) {}
         }
       } else {
