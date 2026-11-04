@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-03 22:33:42 UTC",
-  "state_sha256": "a2f87dd28eaeb59635fdb9216b9386dff875103c60bf33eb857f001c7a87d363",
+  "updated_at_utc": "2026-11-04 22:40:52 UTC",
+  "state_sha256": "834c4721785c0dfd247b2031620e9d360d2c3e2eefdc617945cdde5a1da9725f",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -214,6 +214,11 @@
       "filename": "dual-utility-suction-brainstorm.json",
       "size_bytes": 12049,
       "modified_utc": "2026-11-02 22:11:10 UTC"
+    },
+    {
+      "filename": "ebo-rola-vla-brainstorm.json",
+      "size_bytes": 14959,
+      "modified_utc": "2026-11-04 22:40:37 UTC"
     },
     {
       "filename": "endurance-triad-brainstorm.json",
