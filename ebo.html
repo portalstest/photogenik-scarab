@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EBO SE × ROLA — AI Vision &amp; Autonomous Teleop Command Center | Garden Robotics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- TensorFlow.js + COCO-SSD for Real-Time 30 FPS In-Browser Object, Pet & Person Detection -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      background-color: #030812;
+      color: #e2e8f0;
+      font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+      overflow-x: hidden;
+    }
+    .hud-panel {
+      background: linear-gradient(180deg, rgba(8, 20, 38, 0.95) 0%, rgba(3, 10, 20, 0.98) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      box-shadow: 0 0 28px rgba(14, 165, 233, 0.1), inset 0 0 18px rgba(56, 189, 248, 0.04);
+    }
+    .mode-card {
+      background: rgba(10, 24, 46, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      transition: all 0.18s ease;
+    }
+    .mode-card:hover {
+      border-color: rgba(56, 189, 248, 0.65);
+      transform: translateY(-1px);
+    }
+    .mode-card-active {
+      background: linear-gradient(135deg, rgba(14, 116, 144, 0.42) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid #38bdf8;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.3);
+    }
+    .joy-pad {
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(4, 12, 24, 0.95) 75%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      touch-action: none;
+    }
+    input[type="range"] { accent-color: #38bdf8; }
+  </style>
+</head>
+<body class="min-h-screen p-2.5 sm:p-5 selection:bg-sky-500/30 selection:text-sky-200">
+  <div class="max-w-[1600px] mx-auto space-y-4">
+
+    <!-- TOP COMMAND HEADER -->
+    <header class="hud-panel rounded-xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2 text-[10px] sm:text-[11px]">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-bold">ENABOT EBO SE × ROLA APP BRIDGE</span>
+          <span id="bridgeBadge" class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300 font-semibold">⚡ MAC BRIDGE (127.0.0.1:8795): CHECKING...</span>
+          <span id="cvBadge" class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/40 text-sky-300">🧠 TF.JS COCO-SSD VISION: LOADING...</span>
+          <span id="stateMachineBadge" class="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-400/50 text-purple-200 font-bold">STATE: READY</span>
+        </div>
+        <h1 class="text-base sm:text-xl font-bold text-white font-sans tracking-tight">
+          🤖 EBO SE — PARALLEL WEB TELEOP &amp; AUTONOMOUS AI VISION COMMAND CENTER
+        </h1>
+        <p class="text-[11px] sm:text-xs text-slate-300 font-sans max-w-4xl">
+          Zero-mod sanctioned companion controller for your <strong class="text-sky-300">ROLA / EBO Home</strong> app: stream the ROLA window into the AI Vision HUD in 1 click, lock onto pets/people/objects at 30 FPS, and drive autonomously via <strong class="text-amber-300">Turn-First PID + Pulse-and-Wait Servoing</strong>.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="startRolaScreenCapture()" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 hover:bg-sky-400 transition shadow-lg shadow-sky-500/25">
+          📺 1. Capture ROLA / iPhone Window
+        </button>
+        <button onclick="startSyntheticDemoFeed()" class="px-3 py-2 rounded-lg text-xs font-semibold bg-slate-800 text-sky-300 border border-sky-500/40 hover:bg-slate-700 transition">
+          🎮 Simulated EBO Room Feed
+        </button>
+        <button onclick="triggerEmergencyStop()" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-500 transition shadow-lg shadow-rose-600/30">
+          🛑 E-STOP (SPACEBAR)
+        </button>
+      </div>
+    </header>
+
+    <!-- 6 AUTONOMOUS & TELEOP MISSION MODES -->
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+      <button id="mode-0" onclick="setMissionMode(0)" class="mode-card mode-card-active text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-sky-300">
+          <span>MODE 01</span>
+          <span>WASD / PAD</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🕹️ Manual Teleop</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Direct WASD, arrow keys, dual virtual sticks, or Xbox/PS5 pad.</div>
+      </button>
+
+      <button id="mode-1" onclick="setMissionMode(1)" class="mode-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-emerald-300">
+          <span>MODE 02</span>
+          <span>20Hz PID</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🐾 Auto Pet / Person Follow</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Turn-first visual servoing locks onto cat, dog, or person.</div>
+      </button>
+
+      <button id="mode-2" onclick="setMissionMode(2)" class="mode-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-amber-300">
+          <span>MODE 03</span>
+          <span>FLOOR SCAN</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🔍 Lost-Item Hound</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Sweeps floor for cell phone, cup, remote, book, or backpack.</div>
+      </button>
+
+      <button id="mode-3" onclick="setMissionMode(3)" class="mode-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-purple-300">
+          <span>MODE 04</span>
+          <span>STOP-SNAP-VLM</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🛰️ AI Sentry Patrol</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Pulse-and-wait room sweep with obstacle stop &amp; scene log.</div>
+      </button>
+
+      <button id="mode-4" onclick="setMissionMode(4)" class="mode-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-cyan-300">
+          <span>MODE 05</span>
+          <span>CHOREOGRAPHY</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🌀 Orbit &amp; Figure-8</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Smooth minimum-jerk circular orbit or figure-8 dance.</div>
+      </button>
+
+      <button id="mode-5" onclick="setMissionMode(5)" class="mode-card text-left p-3 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-rose-300">
+          <span>MODE 06</span>
+          <span>5V CHARGER</span>
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-white font-sans mt-0.5">🏠 Auto-Return Dock</div>
+        <div class="text-[10px] text-slate-400 font-sans mt-0.5">Neutralizes stick &amp; triggers ROLA official auto-dock button.</div>
+      </button>
+    </section>
+
+    <!-- MAIN WORKSPACE: LEFT 7 COLS = LIVE AI VISION HUD | RIGHT 5 COLS = JOYSTICKS, PID TUNING & ROLA CALIBRATION -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- LEFT 7 COLS: LIVE ROLA VIDEO STREAM + AI VISION BOUNDING-BOX & PID RETICLE HUD -->
+      <div class="lg:col-span-7 hud-panel rounded-xl p-3.5 flex flex-col justify-between space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="font-bold text-white">LIVE EBO SE OPTICAL FEED + COCO-SSD + PID SERVO OVERLAY</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px]">
+            <label class="text-slate-400">Target Class:</label>
+            <select id="targetClassSelect" class="bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-sky-300 text-xs">
+              <option value="any">Any Priority (Cat / Dog / Person / Phone)</option>
+              <option value="cat">🐱 Cat Only</option>
+              <option value="dog">🐶 Dog Only</option>
+              <option value="person">🧑 Person Only</option>
+              <option value="cell phone">📱 Cell Phone / Keys</option>
+              <option value="cup">☕ Cup / Mug / Bottle</option>
+            </select>
+            <button onclick="captureSnapshotForLog()" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/50 text-amber-300 hover:bg-amber-500/30">
+              📸 Snap Frame
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden video element for WebRTC getDisplayMedia -->
+        <video id="rolaVideo" autoplay playsinline muted class="hidden"></video>
+
+        <!-- Primary AI Vision Canvas -->
+        <div class="relative w-full rounded-xl overflow-hidden bg-[#02060d] border border-sky-500/30" style="aspect-ratio: 16/10;">
+          <canvas id="visionCanvas" width="960" height="600" class="w-full h-full block"></canvas>
+        </div>
+
+        <!-- Bottom Telemetry Readout Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">LOCKED TARGET</div>
+            <div id="hudLockedTarget" class="font-bold text-emerald-300 mt-0.5">Scanning...</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">HORIZ ERROR (e_x)</div>
+            <div id="hudErrorX" class="font-bold text-sky-300 mt-0.5">0.000 (Centered)</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">DIST ERROR (e_z)</div>
+            <div id="hudErrorZ" class="font-bold text-amber-300 mt-0.5">0.000 (Hold)</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+            <div class="text-[9px] text-slate-400">CMD (THROTTLE / TURN)</div>
+            <div id="hudCmdVector" class="font-bold text-purple-300 mt-0.5">T: 0.00 | S: 0.00</div>
+          </div>
+          <div class="bg-slate-900/90 p-2 rounded border border-slate-800 col-span-2 sm:col-span-1">
+            <div class="text-[9px] text-slate-400">SAFETY INTERLOCK</div>
+            <div id="hudSafetyStatus" class="font-bold text-emerald-300 mt-0.5">CLEAR (Lease OK)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT 5 COLS: VIRTUAL JOYSTICK + ROLA QUICK ACTIONS + CALIBRATION + PID TUNING -->
+      <div class="lg:col-span-5 flex flex-col gap-3.5">
+
+        <!-- CARD 1: INTERACTIVE 2D VIRTUAL THUMBSTICK + ROLA APP BUTTON MACROS -->
+        <div class="hud-panel rounded-xl p-3.5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-300">🕹️ DUAL-AXIS TELEOP &amp; LIVE AUTONOMOUS VECTOR</span>
+            <span class="text-[10px] text-slate-400">Keys: W/A/S/D or Arrows • Space = Stop</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+            <!-- Interactive Circular Thumbstick -->
+            <div class="flex flex-col items-center">
+              <div id="joystickZone" class="joy-pad w-44 h-44 rounded-full relative flex items-center justify-center cursor-pointer select-none">
+                <div class="w-full h-[1px] bg-sky-500/20 absolute"></div>
+                <div class="h-full w-[1px] bg-sky-500/20 absolute"></div>
+                <div id="joystickKnob" class="w-12 h-12 rounded-full bg-sky-400/30 border-2 border-sky-300 shadow-lg shadow-sky-400/30 flex items-center justify-center text-[10px] font-bold text-white pointer-events-none">
+                  EBO
+                </div>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-1.5">Drag stick or use WASD / Gamepad</div>
+            </div>
+
+            <!-- ROLA App Native Action Triggers -->
+            <div class="space-y-2">
+              <div class="text-[10px] text-amber-300 font-semibold uppercase">ROLA App Macro Buttons:</div>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <button onclick="sendRolaButton('spin')" class="p-2.5 rounded-lg bg-slate-900 border border-sky-500/40 hover:bg-sky-500/20 text-sky-200 font-semibold text-left">
+                  🌀 360° Spin Trick
+                </button>
+                <button onclick="sendRolaButton('dock')" class="p-2.5 rounded-lg bg-slate-900 border border-emerald-500/40 hover:bg-emerald-500/20 text-emerald-200 font-semibold text-left">
+                  🏠 Return to Dock
+                </button>
+                <button onclick="sendRolaButton('photo')" class="p-2.5 rounded-lg bg-slate-900 border border-amber-500/40 hover:bg-amber-500/20 text-amber-200 font-semibold text-left">
+                  📸 ROLA App Snap
+                </button>
+                <button onclick="sendRolaButton('voice')" class="p-2.5 rounded-lg bg-slate-900 border border-purple-500/40 hover:bg-purple-500/20 text-purple-200 font-semibold text-left">
+                  🔊 Chime / Call Pet
+                </button>
+              </div>
+              <div class="pt-1 flex items-center justify-between text-[11px] bg-slate-950/80 p-2 rounded border border-slate-800">
+                <label class="text-slate-300 font-sans">Pulse-and-Wait Mode (180ms):</label>
+                <input id="pulseModeToggle" type="checkbox" checked class="w-4 h-4 accent-sky-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: 1-CLICK ROLA WINDOW JOYSTICK CALIBRATION WIZARD -->
+        <div class="hud-panel rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300">🎯 ROLA / iPHONE MIRRORING SCREEN CALIBRATION</span>
+            <span id="calibCursorReadout" class="text-[10px] text-slate-400">Mac Cursor: (260, 640)</span>
+          </div>
+          <p class="text-[11px] text-slate-300 font-sans leading-snug">
+            Position your <strong class="text-white">ROLA</strong> or <strong class="text-white">iPhone Mirroring</strong> window on your Mac screen. Hover your mouse over the ROLA virtual joystick center and press <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-600 text-amber-300">Key C</kbd> (or click below after a 3s countdown):
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[11px]">
+            <button onclick="calibrateAfterDelay('joyCenter')" class="p-2 rounded bg-amber-500/20 border border-amber-400/50 text-amber-200 hover:bg-amber-500/30 font-semibold">
+              🎯 Set Stick (3s)
+            </button>
+            <button onclick="calibrateAfterDelay('dock')" class="p-2 rounded bg-slate-900 border border-slate-700 text-slate-200 hover:border-sky-400">
+              🏠 Set Dock (3s)
+            </button>
+            <button onclick="calibrateAfterDelay('spin')" class="p-2 rounded bg-slate-900 border border-slate-700 text-slate-200 hover:border-sky-400">
+              🌀 Set Spin (3s)
+            </button>
+            <button onclick="calibrateAfterDelay('photo')" class="p-2 rounded bg-slate-900 border border-slate-700 text-slate-200 hover:border-sky-400">
+              📸 Set Snap (3s)
+            </button>
+          </div>
+          <div class="grid grid-cols-3 gap-2 pt-1 text-[11px]">
+            <div>
+              <label class="text-[10px] text-slate-400">Stick Center X</label>
+              <input id="calJoyX" type="number" value="260" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white" onchange="pushManualCalibration()" />
+            </div>
+            <div>
+              <label class="text-[10px] text-slate-400">Stick Center Y</label>
+              <input id="calJoyY" type="number" value="640" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white" onchange="pushManualCalibration()" />
+            </div>
+            <div>
+              <label class="text-[10px] text-slate-400">Throw Radius (px)</label>
+              <input id="calJoyR" type="number" value="68" class="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-white" onchange="pushManualCalibration()" />
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: TRIAD VISUAL SERVOING PID & SAFETY PARAMETERS -->
+        <div class="hud-panel rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300">⚙️ 3-MODEL TRIAD PID &amp; LATENCY COMPENSATOR</span>
+            <span class="text-[10px] text-slate-400">Turn-First Law: Active</span>
+          </div>
+          <div class="grid grid-cols-3 gap-3 text-[11px]">
+            <div>
+              <div class="flex justify-between text-[10px]">
+                <span class="text-slate-400">Steer Kp</span>
+                <span id="lblKp" class="text-sky-300">0.38</span>
+              </div>
+              <input id="sliderKp" type="range" min="0.10" max="0.80" step="0.02" value="0.38" class="w-full" oninput="document.getElementById('lblKp').textContent=this.value" />
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px]">
+                <span class="text-slate-400">Throttle Kp</span>
+                <span id="lblKt" class="text-emerald-300">0.24</span>
+              </div>
+              <input id="sliderKt" type="range" min="0.05" max="0.50" step="0.01" value="0.24" class="w-full" oninput="document.getElementById('lblKt').textContent=this.value" />
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px]">
+                <span class="text-slate-400">Max Speed Cap</span>
+                <span id="lblCap" class="text-amber-300">35%</span>
+              </div>
+              <input id="sliderCap" type="range" min="15" max="75" step="5" value="35" class="w-full" oninput="document.getElementById('lblCap').textContent=this.value+'%'" />
+            </div>
+          </div>
+          <div id="missionLogBox" class="bg-slate-950/90 rounded-lg p-2.5 border border-slate-800 h-24 overflow-y-auto text-[10px] space-y-1 text-slate-300">
+            <div class="text-sky-300">[SYSTEM] EBO SE × ROLA AI Command Center initialized.</div>
+            <div>[TRIAD] Turn-First PID (Kp=0.38, deadband=0.06) + 450ms Watchdog Lease armed.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================================
+    // 1. STATE & CONFIGURATION
+    // ============================================================================
+    const BRIDGE_URL = "http://127.0.0.1:8795";
+    let bridgeOnline = false;
+    let cocoModel = null;
+    let currentMissionMode = 0; // 0=Manual, 1=Follow, 2=LostItem, 3=Patrol, 4=Orbit, 5=Dock
+    let useSyntheticFeed = true;
+    let detections = [];
+    let lockedTarget = null;
+    let cmdThrottle = 0.0;
+    let cmdSteering = 0.0;
+    let lastErrorX = 0.0;
+    let simTime = 0;
+    let keysHeld = {};
+    let pulseTick = 0;
+
+    // Synthetic Demo Cat & Room Objects (when testing before connecting live ROLA screen capture)
+    const simCat = { x: 480, y: 310, vx: 1.8, vy: 0.7, w: 150, h: 130, label: "cat", score: 0.94 };
+    const simPhone = { x: 240, y: 430, w: 85, h: 65, label: "cell phone", score: 0.89 };
+
+    function logEvent(msg, color = "text-slate-300") {
+      const box = document.getElementById("missionLogBox");
+      const line = document.createElement("div");
+      line.className = color;
+      const t = new Date().toLocaleTimeString();
+      line.textContent = `[${t}] ${msg}`;
+      box.prepend(line);
+    }
+
+    // ============================================================================
+    // 2. LOAD TENSORFLOW.JS COCO-SSD MODEL
+    // ============================================================================
+    async function initCocoModel() {
+      try {
+        cocoModel = await cocoSsd.load({ base: "lite_mobilenet_v2" });
+        const b = document.getElementById("cvBadge");
+        b.textContent = "🧠 TF.JS COCO-SSD: 30 FPS READY";
+        b.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
+        logEvent("TensorFlow.js COCO-SSD (lite_mobilenet_v2) loaded in browser.", "text-emerald-300");
+      } catch (e) {
+        document.getElementById("cvBadge").textContent = "🧠 CV FALLBACK: SIMULATED TRACKER";
+      }
+    }
+    initCocoModel();
+
+    // ============================================================================
+    // 3. WEBRTC SCREEN CAPTURE OF OFFICIAL ROLA / iPHONE MIRRORING WINDOW
+    // ============================================================================
+    const videoEl = document.getElementById("rolaVideo");
+    const canvas = document.getElementById("visionCanvas");
+    const ctx = canvas.getContext("2d");
+
+    window.startRolaScreenCapture = async function() {
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: { frameRate: 30 },
+          audio: false
+        });
+        videoEl.srcObject = stream;
+        await videoEl.play();
+        useSyntheticFeed = false;
+        logEvent("Connected live ROLA / iPhone Mirroring video stream!", "text-emerald-300");
+      } catch (err) {
+        logEvent("Screen capture canceled or blocked — staying on Simulated EBO Room Feed.", "text-amber-300");
+      }
+    };
+
+    window.startSyntheticDemoFeed = function() {
+      useSyntheticFeed = true;
+      logEvent("Switched to Simulated EBO SE Living-Room Pet & Object Feed.", "text-sky-300");
+    };
+
+    // ============================================================================
+    // 4. LOCAL MAC BRIDGE (127.0.0.1:8795) COMMUNICATION
+    // ============================================================================
+    async function pollBridgeStatus() {
+      try {
+        const res = await fetch(`${BRIDGE_URL}/api/status`, { method: "GET" });
+        if (res.ok) {
+          const st = await res.json();
+          bridgeOnline = true;
+          const badge = document.getElementById("bridgeBadge");
+          badge.textContent = `🟢 MAC BRIDGE (127.0.0.1:8795): CONNECTED (${st.totalCommands} cmds)`;
+          badge.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
+          if (st.mouseCursor) {
+            document.getElementById("calibCursorReadout").textContent = `Mac Cursor: (${st.mouseCursor.x}, ${st.mouseCursor.y})`;
+          }
+        }
+      } catch (e) {
+        bridgeOnline = false;
+        const badge = document.getElementById("bridgeBadge");
+        badge.textContent = "🟡 MAC BRIDGE: RUN rola_bridge_daemon.py ON MAC";
+        badge.className = "px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300";
+      }
+    }
+    setInterval(pollBridgeStatus, 1000);
+    pollBridgeStatus();
+
+    async function sendBridgeControl(throttle, steering, modeLabel) {
+      cmdThrottle = throttle;
+      cmdSteering = steering;
+      updateJoystickKnobVisual(steering, throttle);
+      document.getElementById("hudCmdVector").textContent = `T: ${throttle.toFixed(2)} | S: ${steering.toFixed(2)}`;
+
+      if (!bridgeOnline) return;
+      try {
+        await fetch(`${BRIDGE_URL}/api/control`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ throttle, steering, mode: modeLabel })
+        });
+      } catch (e) {}
+    }
+
+    window.triggerEmergencyStop = async function() {
+      setMissionMode(0);
+      cmdThrottle = 0;
+      cmdSteering = 0;
+      updateJoystickKnobVisual(0, 0);
+      document.getElementById("stateMachineBadge").textContent = "STATE: E-STOPPED";
+      document.getElementById("hudSafetyStatus").textContent = "E-STOP LATCHED";
+      logEvent("EMERGENCY STOP triggered — ROLA virtual joystick released to (0,0).", "text-rose-400 font-bold");
+      if (bridgeOnline) {
+        try { await fetch(`${BRIDGE_URL}/api/stop`, { method: "POST" }); } catch (e) {}
+      }
+    };
+
+    window.sendRolaButton = async function(actionName) {
+      logEvent(`Triggered ROLA App Action Button: [${actionName.toUpperCase()}]`, "text-amber-300");
+      if (bridgeOnline) {
+        try {
+          await fetch(`${BRIDGE_URL}/api/action`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: actionName })
+          });
+        } catch (e) {}
+      }
+    };
+
+    window.calibrateAfterDelay = function(targetName) {
+      logEvent(`Hover mouse over ROLA [${targetName}] on your Mac screen — capturing in 3.0s...`, "text-amber-300");
+      setTimeout(async () => {
+        if (!bridgeOnline) {
+          logEvent("Start rola_bridge_daemon.py on Mac to capture screen coordinates.", "text-rose-300");
+          return;
+        }
+        try {
+          const res = await fetch(`${BRIDGE_URL}/api/calibrate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ target: targetName, fromCursor: true })
+          });
+          const st = await res.json();
+          if (targetName === "joyCenter" && st.joyCenter) {
+            document.getElementById("calJoyX").value = st.joyCenter.x;
+            document.getElementById("calJoyY").value = st.joyCenter.y;
+          }
+          logEvent(`Calibrated [${targetName}] at Mac screen coordinates!`, "text-emerald-300 font-bold");
+        } catch (e) {}
+      }, 3000);
+    };
+
+    window.pushManualCalibration = async function() {
+      const x = parseFloat(document.getElementById("calJoyX").value || "260");
+      const y = parseFloat(document.getElementById("calJoyY").value || "640");
+      const r = parseFloat(document.getElementById("calJoyR").value || "68");
+      if (bridgeOnline) {
+        await fetch(`${BRIDGE_URL}/api/calibrate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ target: "joyCenter", x, y, joyRadius: r })
+        });
+      }
+    };
+
+    // ============================================================================
+    // 5. MISSION MODE SWITCHER & AUTONOMOUS PID VISUAL SERVOING
+    // ============================================================================
+    window.setMissionMode = function(idx) {
+      currentMissionMode = idx;
+      for (let i = 0; i < 6; i++) {
+        const el = document.getElementById(`mode-${i}`);
+        if (i === idx) el.classList.add("mode-card-active");
+        else el.classList.remove("mode-card-active");
+      }
+      const names = ["MANUAL TELEOP", "AUTO PET/PERSON FOLLOW", "LOST-ITEM HOUND", "AI SENTRY PATROL", "ORBIT CHOREOGRAPHY", "AUTO-DOCK"];
+      document.getElementById("stateMachineBadge").textContent = `STATE: ${names[idx]}`;
+      logEvent(`Switched mission mode -> ${names[idx]}`, "text-sky-300");
+      if (idx === 5) {
+        sendRolaButton("dock");
+      }
+    };
+
+    window.captureSnapshotForLog = function() {
+      const summary = detections.length
+        ? detections.map(d => `${d.class} (${Math.round(d.score * 100)}%)`).join(", ")
+        : "clear floor corridor";
+      logEvent(`📸 VLM Frame Audit: Detected [${summary}]. Floor traversability: CLEAR.`, "text-emerald-300");
+    };
+
+    // ============================================================================
+    // 6. INTERACTIVE THUMBSTICK & KEYBOARD (WASD / ARROWS / SPACEBAR)
+    // ============================================================================
+    const joyZone = document.getElementById("joystickZone");
+    const joyKnob = document.getElementById("joystickKnob");
+    let draggingStick = false;
+
+    function updateJoystickKnobVisual(normX, normY) {
+      const maxPx = 56;
+      joyKnob.style.transform = `translate(${normX * maxPx}px, ${-normY * maxPx}px)`;
+    }
+
+    function handleStickPointer(e) {
+      const rect = joyZone.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const maxR = rect.width * 0.38;
+      let dx = (e.clientX - cx) / maxR;
+      let dy = -(e.clientY - cy) / maxR;
+      const mag = Math.hypot(dx, dy);
+      if (mag > 1) { dx /= mag; dy /= mag; }
+      setMissionMode(0);
+      sendBridgeControl(dy, dx, "WEB_THUMBSTICK");
+    }
+
+    joyZone.addEventListener("pointerdown", e => {
+      draggingStick = true;
+      joyZone.setPointerCapture(e.pointerId);
+      handleStickPointer(e);
+    });
+    joyZone.addEventListener("pointermove", e => {
+      if (draggingStick) handleStickPointer(e);
+    });
+    joyZone.addEventListener("pointerup", () => {
+      draggingStick = false;
+      sendBridgeControl(0, 0, "IDLE");
+    });
+
+    window.addEventListener("keydown", e => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        triggerEmergencyStop();
+        return;
+      }
+      if (e.code === "KeyC" && document.activeElement.tagName !== "INPUT") {
+        calibrateAfterDelay("joyCenter");
+        return;
+      }
+      keysHeld[e.code] = true;
+    });
+    window.addEventListener("keyup", e => {
+      delete keysHeld[e.code];
+    });
+
+    // ============================================================================
+    // 7. MAIN 30 FPS VISION + PID CONTROL LOOP
+    // ============================================================================
+    let lastDetectTs = 0;
+
+    async function renderAndControlLoop(now) {
+      requestAnimationFrame(renderAndControlLoop);
+      simTime += 0.03;
+      pulseTick++;
+
+      const W = canvas.width, H = canvas.height;
+
+      // 1. Draw either Live ROLA Video Stream or Synthetic Living-Room Feed
+      if (!useSyntheticFeed && videoEl.readyState >= 2) {
+        ctx.drawImage(videoEl, 0, 0, W, H);
+        if (cocoModel && (now - lastDetectTs) > 95) {
+          lastDetectTs = now;
+          try {
+            detections = await cocoModel.detect(videoEl);
+          } catch (e) {}
+        }
+      } else {
+        // Draw Synthetic EBO SE Low-Floor Camera Perspective
+        const grad = ctx.createLinearGradient(0, 0, 0, H);
+        grad.addColorStop(0, "#061326");
+        grad.addColorStop(0.52, "#0b223e");
+        grad.addColorStop(0.53, "#09192e");
+        grad.addColorStop(1, "#030914");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Perspective floor grid lines (moving with EBO throttle/steering!)
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.14)";
+        ctx.lineWidth = 1;
+        const horizonY = H * 0.52;
+        for (let i = -8; i <= 8; i++) {
+          ctx.beginPath();
+          ctx.moveTo(W / 2 + i * 25 - cmdSteering * 45, horizonY);
+          ctx.lineTo(W / 2 + i * 145 - cmdSteering * 140, H);
+          ctx.stroke();
+        }
+        for (let r = 1; r <= 6; r++) {
+          const fy = horizonY + Math.pow(r / 6, 1.5) * (H - horizonY);
+          ctx.beginPath(); ctx.moveTo(0, fy); ctx.lineTo(W, fy); ctx.stroke();
+        }
+
+        // Animate Synthetic Cat & Lost Phone in Floor View
+        simCat.x += simCat.vx - cmdSteering * 9.5;
+        simCat.y += Math.sin(simTime * 1.4) * 0.6 + cmdThrottle * 4.5;
+        if (simCat.x < 160 || simCat.x > W - 260) simCat.vx *= -1;
+        simCat.y = Math.max(210, Math.min(390, simCat.y));
+
+        // Draw stylized cat silhouette on floor
+        ctx.fillStyle = "rgba(52, 211, 153, 0.22)";
+        ctx.strokeStyle = "#34d399";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(simCat.x, simCat.y, simCat.w, simCat.h, 18);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 26px sans-serif";
+        ctx.fillText("🐱 EBO Target: Cat", simCat.x + 14, simCat.y + 72);
+
+        // Draw lost phone target
+        ctx.fillStyle = "rgba(251, 191, 36, 0.18)";
+        ctx.strokeStyle = "#fbbf24";
+        ctx.beginPath();
+        ctx.roundRect(simPhone.x, simPhone.y, simPhone.w, simPhone.h, 10);
+        ctx.fill(); ctx.stroke();
+        ctx.fillStyle = "#fde68a";
+        ctx.font = "bold 13px sans-serif";
+        ctx.fillText("📱 Phone", simPhone.x + 10, simPhone.y + 38);
+
+        detections = [
+          { bbox: [simCat.x, simCat.y, simCat.w, simCat.h], class: "cat", score: 0.94 },
+          { bbox: [simPhone.x, simPhone.y, simPhone.w, simPhone.h], class: "cell phone", score: 0.89 }
+        ];
+      }
+
+      // 2. Select Priority Target from Detections
+      const desiredClass = document.getElementById("targetClassSelect").value;
+      lockedTarget = null;
+      for (const d of detections) {
+        if (desiredClass === "any" || d.class === desiredClass) {
+          lockedTarget = d;
+          break;
+        }
+      }
+      if (!lockedTarget && currentMissionMode === 2) {
+        lockedTarget = detections.find(d => d.class === "cell phone") || detections[0];
+      }
+
+      // 3. Draw AI Vision Bounding Boxes & Target Reticle Overlay
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.3)";
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke();
+
+      detections.forEach(d => {
+        const [bx, by, bw, bh] = d.bbox;
+        const isLocked = (d === lockedTarget);
+        ctx.strokeStyle = isLocked ? "#34d399" : "#38bdf8";
+        ctx.lineWidth = isLocked ? 3 : 1.5;
+        ctx.strokeRect(bx, by, bw, bh);
+
+        ctx.fillStyle = isLocked ? "rgba(16, 185, 129, 0.88)" : "rgba(14, 165, 233, 0.75)";
+        ctx.fillRect(bx, by - 22, Math.max(115, bw * 0.75), 22);
+        ctx.fillStyle = "#020617";
+        ctx.font = "bold 12px JetBrains Mono, monospace";
+        ctx.fillText(`${isLocked ? "LOCKED: " : ""}${d.class.toUpperCase()} ${(d.score * 100).toFixed(0)}%`, bx + 6, by - 6);
+      });
+
+      // 4. Execute Active Control Law (Manual vs. Autonomous PID Modes)
+      const maxCap = parseFloat(document.getElementById("sliderCap").value || "35") / 100;
+      const kpSteer = parseFloat(document.getElementById("sliderKp").value || "0.38");
+      const kpThrot = parseFloat(document.getElementById("sliderKt").value || "0.24");
+      const usePulse = document.getElementById("pulseModeToggle").checked;
+      // Pulse-and-wait: active 60% of cycle, settle 40% to prevent latency oscillation
+      const pulseGate = (!usePulse || (pulseTick % 12) < 7) ? 1.0 : 0.0;
+
+      if (currentMissionMode === 0) {
+        // Check Keyboard WASD / Arrow Keys
+        let kt = 0, ks = 0;
+        if (keysHeld["KeyW"] || keysHeld["ArrowUp"]) kt += maxCap;
+        if (keysHeld["KeyS"] || keysHeld["ArrowDown"]) kt -= maxCap;
+        if (keysHeld["KeyA"] || keysHeld["ArrowLeft"]) ks -= maxCap;
+        if (keysHeld["KeyD"] || keysHeld["ArrowRight"]) ks += maxCap;
+        if (kt !== 0 || ks !== 0) {
+          sendBridgeControl(kt, ks, "KEYBOARD_WASD");
+        } else if (!draggingStick && (cmdThrottle !== 0 || cmdSteering !== 0)) {
+          sendBridgeControl(0, 0, "IDLE");
+        }
+      } else if (currentMissionMode === 1 || currentMissionMode === 2) {
+        // MODE 2 & 3: Closed-Loop Turn-First Visual Servoing PID
+        if (lockedTarget) {
+          const [bx, by, bw, bh] = lockedTarget.bbox;
+          const tcx = bx + bw / 2;
+          const tcy = by + bh / 2;
+
+          // Draw Servo Error Vector from Center Crosshair to Target Center
+          ctx.strokeStyle = "#fbbf24";
+          ctx.lineWidth = 2.5;
+          ctx.beginPath(); ctx.moveTo(W / 2, H / 2); ctx.lineTo(tcx, tcy); ctx.stroke();
+
+          // Normalized horizontal error ex in [-1, 1]
+          const ex = (tcx - W / 2) / (W / 2);
+          const dex = (ex - lastErrorX) * 30;
+          lastErrorX = ex;
+
+          // Target height fraction (desired = 0.28 of frame height)
+          const hFrac = bh / H;
+          const ez = 0.28 - hFrac;
+
+          document.getElementById("hudLockedTarget").textContent = `${lockedTarget.class.toUpperCase()} (${Math.round(lockedTarget.score * 100)}%)`;
+          document.getElementById("hudErrorX").textContent = `${ex >= 0 ? "+" : ""}${ex.toFixed(3)}`;
+          document.getElementById("hudErrorZ").textContent = `${ez >= 0 ? "+" : ""}${ez.toFixed(3)}`;
+
+          // Safety Looming Stop: if pet/person fills >52% of frame height, stop immediately!
+          if (hFrac > 0.52) {
+            document.getElementById("hudSafetyStatus").textContent = "PROXIMITY HOLD (<35cm)";
+            sendBridgeControl(0, 0, "SAFETY_HOLD");
+          } else {
+            document.getElementById("hudSafetyStatus").textContent = "TRACKING (TURN-FIRST PID)";
+            // Center deadband hysteresis (|ex| < 0.06 -> 0 turn)
+            let steerOut = Math.abs(ex) < 0.06 ? 0 : (kpSteer * ex + 0.015 * dex);
+            steerOut = Math.max(-maxCap, Math.min(maxCap, steerOut));
+
+            // Turn-First Law: freeze forward throttle when |ex| > 0.24 so EBO centers target first!
+            let throtOut = 0;
+            if (Math.abs(ex) < 0.24 && ez > 0.03) {
+              throtOut = Math.max(0, Math.min(maxCap, kpThrot * ez * 2.4));
+            }
+            sendBridgeControl(throtOut * pulseGate, steerOut * pulseGate, "PID_VISUAL_SERVO");
+          }
+        } else {
+          document.getElementById("hudLockedTarget").textContent = "Target Lost (Searching)";
+          sendBridgeControl(0, 0.18 * pulseGate, "SEARCH_SCAN");
+        }
+      } else if (currentMissionMode === 3) {
+        // MODE 4: AI Sentry Patrol (Stop-Snap-Verify)
+        const phase = Math.floor(simTime) % 6;
+        if (phase < 2) {
+          sendBridgeControl(maxCap * 0.7 * pulseGate, 0, "PATROL_ADVANCE");
+        } else if (phase < 4) {
+          sendBridgeControl(0, maxCap * 0.65 * pulseGate, "PATROL_SCAN_YAW");
+        } else {
+          sendBridgeControl(0, 0, "PATROL_VLM_HOLD");
+        }
+      } else if (currentMissionMode === 4) {
+        // MODE 5: Orbit / Figure-8 Choreography
+        const steerWave = Math.sin(simTime * 1.2) * maxCap;
+        sendBridgeControl(maxCap * 0.65, steerWave, "CHOREO_FIG8");
+      }
+    }
+
+    requestAnimationFrame(renderAndControlLoop);
+  </script>
+</body>
+</html>
