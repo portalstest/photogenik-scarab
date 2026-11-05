@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scarab1 Brooklyn Weekend DIY MVP — Interactive 3D Assembly &amp; Live Winch Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      background-color: #030711;
+      color: #e2e8f0;
+      font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+      overflow-x: hidden;
+    }
+    .cad-panel {
+      background: linear-gradient(180deg, rgba(8, 20, 40, 0.96) 0%, rgba(3, 10, 22, 0.99) 100%);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      box-shadow: 0 0 32px rgba(16, 185, 129, 0.08), inset 0 0 20px rgba(56, 189, 248, 0.04);
+    }
+    .step-card {
+      background: rgba(9, 24, 46, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .step-card:hover {
+      border-color: rgba(52, 211, 153, 0.65);
+      transform: translateY(-1px);
+    }
+    .step-card-active {
+      background: linear-gradient(135deg, rgba(6, 95, 70, 0.48) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid #34d399;
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.28);
+    }
+    .cad-grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(52, 211, 153, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(52, 211, 153, 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-2.5 sm:p-5 selection:bg-emerald-500/30 selection:text-emerald-200">
+  <div class="max-w-[1600px] mx-auto space-y-4">
+
+    <!-- TOP TITLE BLOCK -->
+    <header class="cad-panel rounded-xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2 text-[10px] sm:text-[11px]">
+          <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 font-semibold">DWG NO. PG-BROOKLYN-MVP-V1</span>
+          <span class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/40 text-sky-300">BASE AIRFRAME: M5STACK STAMPFLY (81.5×81.5mm · 36.8g)</span>
+          <span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300">ALL-UP DIY MASS: 44.6g (65% OF 68g THRUST)</span>
+          <span class="px-2 py-0.5 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300">MICRO CENTER 850 3RD AVE + TACKLE SHOP BOM: $165</span>
+        </div>
+        <h1 class="text-base sm:text-xl font-bold text-white font-sans tracking-tight">
+          SCARAB1 BROOKLYN WEEKEND DIY MVP — 3D STEP-BY-STEP ASSEMBLY &amp; LIVE SPIDER-SILK WINCH SIMULATOR
+        </h1>
+        <p class="text-[11px] sm:text-xs text-slate-300 font-sans max-w-4xl">
+          Interactive 7-Step 3D build guide using real off-the-shelf parts (<strong class="text-sky-300">M5Stamp Fly</strong> + <strong class="text-emerald-300">Seeed XIAO ESP32S3 Sense</strong> + <strong class="text-amber-300">1.7g Linear Servo</strong> + <strong class="text-rose-300">6mm Worm/Planetary Winch</strong> + <strong class="text-emerald-300">3.0m 0.12mm PowerPro Spectra Fishing Line</strong> + <strong class="text-purple-300">N52 Ceiling Command Disc</strong>). Click any step below or press <code class="text-emerald-300">▶ Auto-Play Assembly</code> to watch each component fly into place and run a live ceiling-dock &amp; 5× Yo-Yo hoist mission.
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800/90 text-slate-200 border border-slate-600 hover:bg-slate-700 transition">
+          ← Main Proposal
+        </a>
+        <a href="forms.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-400/50 hover:bg-cyan-500/30 transition">
+          🪼 6-Form 3D Studio
+        </a>
+        <a href="blueprint.html" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/50 hover:bg-sky-500/30 transition">
+          📐 2D Blueprint
+        </a>
+        <button id="btnAutoPlay" onclick="toggleAutoPlay()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-200 border border-emerald-400 hover:bg-emerald-500/35 transition">
+          ⏸ Auto-Play 7-Step Build: ON
+        </button>
+      </div>
+    </header>
+
+    <!-- 7-STEP INTERACTIVE ASSEMBLY SELECTOR BAR -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+      <button id="step-btn-0" onclick="selectStep(0)" class="step-card step-card-active text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-sky-300">
+          <span class="font-bold">STEP 01</span>
+          <span>36.80 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">🛸 StampFly Base</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          81.5mm 4-duct quad + 1S 300mAh LiPo + Flow/ToF
+        </div>
+      </button>
+
+      <button id="step-btn-1" onclick="selectStep(1)" class="step-card text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-emerald-300">
+          <span class="font-bold">STEP 02</span>
+          <span>+2.40 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">📷 XIAO S3 Sense</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          OV2640 cam + mic → 4-pin Grove UART header
+        </div>
+      </button>
+
+      <button id="step-btn-2" onclick="selectStep(2)" class="step-card text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-amber-300">
+          <span class="font-bold">STEP 03</span>
+          <span>+1.80 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">⚙️ 1.7g Linear Servo</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          Spektrum A2010 servo + DRV8837 H-bridge
+        </div>
+      </button>
+
+      <button id="step-btn-3" onclick="selectStep(3)" class="step-card text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-rose-300">
+          <span class="font-bold">STEP 04</span>
+          <span>+1.40 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">🕸️ Spectra Winch</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          6mm gearmotor + 3m 0.12mm PowerPro braid
+        </div>
+      </button>
+
+      <button id="step-btn-4" onclick="selectStep(4)" class="step-card text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-purple-300">
+          <span class="font-bold">STEP 05</span>
+          <span>+0.80 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">🧲 N52 Ceiling Disc</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          10mm N52 ferrule + 3M Command ceiling washer
+        </div>
+      </button>
+
+      <button id="step-btn-5" onclick="selectStep(5)" class="step-card text-left p-2.5 rounded-xl">
+        <div class="flex items-center justify-between text-[10px] text-cyan-300">
+          <span class="font-bold">STEP 06</span>
+          <span>+1.40 g</span>
+        </div>
+        <div class="text-xs font-bold text-white font-sans mt-0.5">🏮 Vase-Mode Shell</div>
+        <div class="text-[10px] text-slate-300 font-sans mt-0.5 leading-tight">
+          0.4mm single-wall PLA elytra / Kōrō lantern
+        </div>
+      </button>
+
+      <button id="step-btn-6" onclick="selectStep(6)" class="step-card text-left p-2.5 rounded-xl border-emerald-400/60">
+        <div class="flex items-center justify-between text-[10px] text-emerald-300">
+          <span class="font-bold">STEP 07 • LIVE</span>
+          <span>44.60 g</span>
+        </div>
+        <div class="text-xs font-bold text-emerald-300 font-sans mt-0.5">🚀 Fly, Dock &amp; Hoist!</div>
+        <div class="text-[10px] text-slate-200 font-sans mt-0.5 leading-tight">
+          3s Ascent → 0W Ceiling Hang → 5× Keyring Hoist
+        </div>
+      </button>
+    </section>
+
+    <!-- MAIN WORKSTATION GRID: 3D WEBGL ASSEMBLY VIEWPORT (LEFT 7 COLS) + WIRING & STEP GUIDE (RIGHT 5 COLS) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- LEFT 7 COLS: 3D WEBGL VIEWPORT -->
+      <div class="lg:col-span-7 cad-panel rounded-xl overflow-hidden flex flex-col justify-between relative min-h-[540px] sm:min-h-[640px]">
+        <!-- Top HUD inside 3D Viewport -->
+        <div class="p-3.5 flex flex-wrap items-start justify-between gap-2 pointer-events-none z-10 bg-gradient-to-b from-slate-950/95 via-slate-950/50 to-transparent">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="hudStepBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 border border-emerald-400/50 text-emerald-300">
+                ASSEMBLY STEP 01 OF 07
+              </span>
+              <span id="hudTimeBadge" class="px-2 py-0.5 rounded text-[10px] bg-sky-500/20 border border-sky-400/40 text-sky-300">
+                EST. BENCH TIME: 5 MIN (NO SOLDERING)
+              </span>
+            </div>
+            <h2 id="hudTitle" class="text-base sm:text-lg font-bold text-white font-sans mt-1">
+              Step 1: Unbox M5Stack StampFly (81.5×81.5mm) &amp; Slide In 1S 300mAh HV LiPo
+            </h2>
+            <p id="hudSubtitle" class="text-[11px] text-slate-300 font-sans max-w-xl">
+              The StampFly gives you an open-source ESP32-S3 flight controller, 4 shrouded ducts, PMW3901 Optical Flow, and VL53L3CX laser ToF pre-assembled out of the box.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-1 pointer-events-auto">
+            <button onclick="setCamView('iso')" class="px-2 py-1 rounded bg-slate-900/90 border border-emerald-500/40 text-[10px] text-emerald-300 hover:bg-emerald-500/20">ISO 3D</button>
+            <button onclick="setCamView('top')" class="px-2 py-1 rounded bg-slate-900/90 border border-sky-500/40 text-[10px] text-sky-300 hover:bg-sky-500/20">TOP PINOUT</button>
+            <button onclick="setCamView('side')" class="px-2 py-1 rounded bg-slate-900/90 border border-amber-500/40 text-[10px] text-amber-300 hover:bg-amber-500/20">WINCH SIDE</button>
+            <button onclick="setCamView('room')" class="px-2 py-1 rounded bg-slate-900/90 border border-purple-500/40 text-[10px] text-purple-300 hover:bg-purple-500/20">ROOM HOIST</button>
+          </div>
+        </div>
+
+        <!-- 3D WebGL Canvas -->
+        <div id="webgl-mvp-container" class="w-full flex-1 relative cad-grid-bg cursor-grab active:cursor-grabbing" style="min-height: 420px;"></div>
+
+        <!-- Bottom Live Controls & Mass/Power Telemetry Bar -->
+        <div class="p-3 bg-slate-950/95 border-t border-emerald-500/25 space-y-2.5 z-10">
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2 flex-1 min-w-[220px]">
+              <span class="text-emerald-300 font-semibold whitespace-nowrap">STEP PROGRESS:</span>
+              <input id="stepScrubber" type="range" min="0" max="100" value="100" class="w-full accent-emerald-400" oninput="onManualScrub(this.value)" />
+              <span id="scrubberPct" class="text-amber-300 font-mono w-10 text-right">100%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="prevStep()" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-emerald-400">◀ Prev Step</button>
+              <button onclick="nextStep()" class="px-2.5 py-1 rounded bg-emerald-500/20 border border-emerald-400 text-emerald-200 hover:bg-emerald-500/30 font-semibold">Next Step ▶</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <div class="text-[9px] text-slate-400">CUMULATIVE MASS</div>
+              <div id="statMass" class="font-bold text-emerald-300 mt-0.5">36.80 g / 44.60 g</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <div class="text-[9px] text-slate-400">THRUST MARGIN (68g MAX)</div>
+              <div id="statThrust" class="font-bold text-sky-300 mt-0.5">1.85:1 TWR (54% Throttle)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <div class="text-[9px] text-slate-400">WINCH TETHER</div>
+              <div id="statWinch" class="font-bold text-amber-300 mt-0.5">3.0m PowerPro (0.035g)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800">
+              <div class="text-[9px] text-slate-400">MOTOR DRAW</div>
+              <div id="statPower" class="font-bold text-purple-300 mt-0.5">0.0 W (Standby)</div>
+            </div>
+            <div class="bg-slate-900/90 p-2 rounded border border-slate-800 col-span-2 sm:col-span-1">
+              <div class="text-[9px] text-slate-400">CUMULATIVE BOM COST</div>
+              <div id="statCost" class="font-bold text-rose-300 mt-0.5">$67.94 / $126.90</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT 5 COLS: SYNCHRONIZED WIRING DIAGRAM, STEP INSTRUCTIONS & BROOKLYN SHOPPING LIST -->
+      <div class="lg:col-span-5 flex flex-col gap-3.5">
+
+        <!-- PANE A: SYNCHRONIZED PINOUT & SOLDERLESS WIRING SCHEMATIC -->
+        <div class="cad-panel rounded-xl p-3 flex flex-col">
+          <div class="flex items-center justify-between text-[11px] mb-1.5">
+            <span class="font-bold text-emerald-300">PANE A • LIVE PINOUT &amp; SOLDERLESS PLUG SCHEMATIC</span>
+            <span id="wiringStatusBadge" class="text-[10px] text-sky-300">STAMPFLY GROVE PORT A &amp; B</span>
+          </div>
+          <canvas id="canvasWiring" width="540" height="225" class="w-full rounded-lg bg-[#020710] border border-emerald-500/25"></canvas>
+        </div>
+
+        <!-- PANE B: CURRENT STEP BENCH ACTION & TOOL CALLOUT -->
+        <div class="cad-panel rounded-xl p-3.5 space-y-2.5 font-sans">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-mono font-bold text-amber-300 uppercase" id="benchStepHeader">BENCH INSTRUCTION // STEP 01</span>
+            <span class="text-[11px] font-mono text-emerald-300" id="benchToolsNeeded">Tools: Hand Snap-In Only</span>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2 text-xs">
+            <div class="font-bold text-white text-sm" id="benchActionTitle">1. Prepare the M5Stack StampFly Base Airframe</div>
+            <p class="text-slate-300 leading-relaxed" id="benchActionBody">
+              Slide the 3.7V 300mAh 1S HV LiPo battery into the StampFly's ventral battery bay and plug in the 2-pin Molex Picoblade power lead. Verify that the bottom PMW3901 Optical Flow lens and VL53L3CX laser ToF window are clean and unobstructed.
+            </p>
+            <div class="pt-1 flex flex-wrap gap-2 text-[11px] font-mono">
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/30 text-sky-300" id="benchSpecPill1">Footprint: 81.5 × 81.5 mm</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/30 text-emerald-300" id="benchSpecPill2">MCU: ESP32-S3 @ 240MHz</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANE C: BROOKLYN LOCAL SOURCING CHECKLIST (CLICK TO HIGHLIGHT STEP) -->
+        <div class="cad-panel rounded-xl p-3.5 flex-1 flex flex-col justify-between space-y-2">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-bold text-sky-300">PANE C • BROOKLYN SAME-DAY / WEEKEND SHOPPING BOM</span>
+            <span class="text-[10px] text-emerald-300">TOTAL FLYING MVP: $126.90</span>
+          </div>
+          <div class="overflow-y-auto max-h-[210px] pr-1">
+            <table class="w-full text-left border-collapse text-[11px] font-sans">
+              <thead>
+                <tr class="border-b border-slate-700 text-[9px] text-slate-400 uppercase font-mono">
+                  <th class="py-1 px-1.5">Step / Part</th>
+                  <th class="py-1 px-1.5">Brooklyn Source</th>
+                  <th class="py-1 px-1.5 text-right">Mass</th>
+                  <th class="py-1 px-1.5 text-right">Cost</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80">
+                <tr onclick="selectStep(0)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-sky-300">01. M5Stack StampFly + 1S LiPo</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">M5Stack / DigiKey / Amazon</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">36.8g</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$67.94</td>
+                </tr>
+                <tr onclick="selectStep(1)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-emerald-300">02. XIAO ESP32S3 Sense Cam</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">Micro Center (850 3rd Ave)</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">+2.4g*</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$13.99</td>
+                </tr>
+                <tr onclick="selectStep(2)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-amber-300">03. 1.7g Linear Servo + DRV8837</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">Micro Center / Adafruit NYC</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">+1.8g</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$13.99</td>
+                </tr>
+                <tr onclick="selectStep(3)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-rose-300">04. 6mm Winch + 3m PowerPro</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">Brooklyn Tackle Shop / Amzn</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">+1.4g</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$19.99</td>
+                </tr>
+                <tr onclick="selectStep(4)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-purple-300">05. N52 Ring Magnet + Ceiling Disc</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">Home Depot Gowanus / MC</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">+0.8g</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$5.99</td>
+                </tr>
+                <tr onclick="selectStep(5)" class="hover:bg-emerald-500/10 cursor-pointer">
+                  <td class="py-1.5 px-1.5 font-semibold text-cyan-300">06. 0.4mm Vase-Mode PLA Shell</td>
+                  <td class="py-1.5 px-1.5 text-slate-300">Makelab Bklyn / Bambu A1 Mini</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono">+1.4g</td>
+                  <td class="py-1.5 px-1.5 text-right font-mono text-emerald-300">$5.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-[10px] text-slate-400 font-sans">
+            *Note: Using bare OV2640 flex camera on StampFly SPI header adds +2.4g (or +5.0g with full standalone XIAO ESP32S3 Sense carrier).
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ============================================================================
+    // 1. 7-STEP BROOKLYN DIY MVP ASSEMBLY SPECIFICATION DATABASE
+    // ============================================================================
+    const STEPS = [
+      {
+        idx: 0,
+        badge: "ASSEMBLY STEP 01 OF 07",
+        time: "EST. BENCH TIME: 5 MIN (NO SOLDERING)",
+        title: "Step 1: Unbox M5Stack StampFly (81.5×81.5mm) & Slide In 1S 300mAh LiPo",
+        subtitle: "The StampFly gives you an open-source ESP32-S3 flight controller, 4 shrouded ducts, PMW3901 Optical Flow, and VL53L3CX laser ToF pre-assembled out of the box.",
+        mass: "36.80 g / 44.60 g",
+        thrust: "1.85:1 TWR (54% Hover)",
+        winch: "Not Mounted Yet",
+        power: "0.15 W (ESP32 Idle)",
+        cost: "$67.94 / $126.90",
+        tools: "Tools: Hand Snap-In Only",
+        benchTitle: "1. Prepare the M5Stack StampFly Base Airframe",
+        benchBody: "Slide the 3.7V 300mAh 1S HV LiPo battery into the StampFly's ventral slot and plug in the 2-pin Molex Picoblade lead. The 4 shrouded coreless/brushless rotors and bottom optical flow + ToF sensors are already calibrated from the factory.",
+        pill1: "Footprint: 81.5 × 81.5 mm",
+        pill2: "Belly: PMW3901 + VL53L3CX"
+      },
+      {
+        idx: 1,
+        badge: "ASSEMBLY STEP 02 OF 07",
+        time: "EST. BENCH TIME: 8 MIN (PLUG GROVE CABLE)",
+        title: "Step 2: Snap On Seeed XIAO ESP32S3 Sense Camera + Mic Module (+2.4g–5.0g)",
+        subtitle: "Mount the thumb-sized XIAO ESP32S3 Sense (from Micro Center Sunset Park) onto the front nose clip and plug its 4-wire cable into the StampFly's top Grove HY2.0-4P port.",
+        mass: "39.20 g / 44.60 g",
+        thrust: "1.73:1 TWR (58% Hover)",
+        winch: "Not Mounted Yet",
+        power: "0.45 W (Wi-Fi MJPEG Stream)",
+        cost: "$81.93 / $126.90",
+        tools: "Tools: 4-Pin Grove Cable + Double-Sided Foam Tape",
+        benchTitle: "2. Connect XIAO ESP32S3 Sense to StampFly Grove Port A",
+        benchBody: "Plug the 4-pin HY2.0-4P Grove jumper from StampFly Port A (5V, GND, G1/TX, G2/RX) into the XIAO ESP32S3 Sense header. This powers the camera + mic directly from the drone's 1S boost rail and links telemetry to join-garden.com/ebo.",
+        pill1: "Camera: OV2640/OV5640 1600×1200",
+        pill2: "Wiring: 5V · GND · TX · RX"
+      },
+      {
+        idx: 2,
+        badge: "ASSEMBLY STEP 03 OF 07",
+        time: "EST. BENCH TIME: 10 MIN (PLUG PWM + H-BRIDGE)",
+        title: "Step 3: Mount 1.7g Linear Micro-Servo & DRV8837 Winch H-Bridge (+1.8g)",
+        subtitle: "Adhere the 1.7g Spektrum A2010 linear micro-servo and tiny DRV8837 dual H-bridge driver onto the central dorsal spine bridge.",
+        mass: "41.00 g / 44.60 g",
+        thrust: "1.66:1 TWR (60% Hover)",
+        winch: "Driver Wired (GPIO 4/5)",
+        power: "0.48 W (Servo Idle)",
+        cost: "$95.92 / $126.90",
+        tools: "Tools: Precision Tweezers + 3-Pin JST Plug",
+        benchTitle: "3. Wire Linear Servo (PWM) & DRV8837 Winch Driver",
+        benchBody: "Plug the 1.7g linear servo into Grove Port B's PWM pin (GPIO 7) to drive the shell opening linkage. Connect the 0.1g DRV8837 motor driver IN1/IN2 pins to XIAO GPIO 4 & GPIO 5 to control winch spooling direction.",
+        pill1: "Servo: 1.7g Linear (6mm Stroke)",
+        pill2: "Winch IC: TI DRV8837 (1.8A)"
+      },
+      {
+        idx: 3,
+        badge: "ASSEMBLY STEP 04 OF 07",
+        time: "EST. BENCH TIME: 12 MIN (WIND 3.0m SPECTRA LINE)",
+        title: "Step 4: Install 6mm Gearmotor Winch & 3.0m PowerPro 0.12mm Spectra Braid (+1.4g)",
+        subtitle: "Wind 3.0 meters of 15lb (0.12mm) green PowerPro braided Spectra fishing line (only 0.035 grams!) onto the 8mm 3D-printed bobbin and press-fit onto the 6mm gearmotor shaft.",
+        mass: "42.40 g / 44.60 g",
+        thrust: "1.60:1 TWR (62% Hover)",
+        winch: "3.0m × 0.12mm Spectra (15lb)",
+        power: "0.00 W Static Hold Brake",
+        cost: "$115.91 / $126.90",
+        tools: "Tools: Scissors + Arbor Knot on Bobbin",
+        benchTitle: "4. Wind the 3.0m PowerPro Spectra Spider-Silk Spool",
+        benchBody: "Tie the 0.12mm PowerPro Spectra fishing braid to the 8mm bobbin with a simple arbor knot and wind 3.0 meters onto the drum. Mount the 6mm planetary/worm micro-gearmotor dead-center at the dorsal CG so Scarab1 hangs dead-level.",
+        pill1: "Line Mass: 0.035g for 3.0m!",
+        pill2: "Breaking Strength: 6.8–18.0 kg"
+      },
+      {
+        idx: 4,
+        badge: "ASSEMBLY STEP 05 OF 07",
+        time: "EST. BENCH TIME: 5 MIN (TIE ANCHOR + STICK CEILING DISC)",
+        title: "Step 5: Tie On N52 Magnetic/Gel Anchor Ferrule & Stick Ceiling Command Disc (+0.8g)",
+        subtitle: "Tie the free end of the Spectra braid to the 10mm N52 Neodymium ring magnet + silicone gel skirt ferrule, and stick a 25mm steel washer to your ceiling with a 3M Command Strip.",
+        mass: "43.20 g / 44.60 g",
+        thrust: "1.57:1 TWR (64% Hover)",
+        winch: "Dorsal Ferrule Docked",
+        power: "0.00 W Magnetic Latch",
+        cost: "$121.90 / $126.90",
+        tools: "Tools: 3M Command Strip + 25mm Steel Washer",
+        benchTitle: "5. Install Dorsal N52 Anchor Ferrule & Ceiling Target Washer",
+        benchBody: "Thread the Spectra line through the dorsal spinneret guide and tie it to the 10mm × 1.5mm N52 ring magnet ferrule. Press a 25mm steel washer onto your ceiling (or use any metal AC vent / doorframe) for 100% reliable 12N magnetic docking.",
+        pill1: "Ceiling Hold: 12.0 N (1.2 kg)",
+        pill2: "Static Hold Power: 0.0 mW"
+      },
+      {
+        idx: 5,
+        badge: "ASSEMBLY STEP 06 OF 07",
+        time: "EST. BENCH TIME: 6 MIN (SNAP HINGES & LINKAGE)",
+        title: "Step 6: Snap On 0.4mm Vase-Mode PLA Split Elytra / Kōrō Lantern Shells (+1.4g)",
+        subtitle: "Snap the ultra-thin 0.4mm single-wall 3D-printed translucent shells onto the front hinge pins and hook the Y-pushrod to the 1.7g linear servo horn.",
+        mass: "44.60 g / 44.60 g",
+        thrust: "1.52:1 TWR (65% Hover)",
+        winch: "Ready for Launch",
+        power: "0.00 W Docked Sanctuary",
+        cost: "$126.90 Total BOM",
+        tools: "Tools: 0.5mm Carbon Hinge Pin",
+        benchTitle: "6. Snap On the 0.4mm Vase-Mode Translucent Shells",
+        benchBody: "Print the two shells in 'Spiralize Outer Contour' (Vase Mode, 0.4mm nozzle, 1 bottom layer, PLA/PETG) so each half weighs only 0.70g! Snap onto the front pronotum hinge and connect to the linear servo.",
+        pill1: "Shell Wall: 0.40 mm Vase PLA",
+        pill2: "All-Up Flying Mass: 44.60 g"
+      },
+      {
+        idx: 6,
+        badge: "STEP 07 • LIVE BROOKLYN TEST MISSION",
+        time: "MISSION: 3s ASCENT → 0W CEILING HANG → 5× YO-YO HOIST",
+        title: "Step 7: Live Test — Fly 3s to Ceiling Disc, Cut Props (0W) & Hoist 65g Keys!",
+        subtitle: "Watch the completed 44.6g Brooklyn MVP fly up to the ceiling washer, snap its N52 anchor magnet, shut all 4 flight motors OFF (0.0W), rappel on the green PowerPro line, and winch a 65g keyring off the floor!",
+        mass: "44.60 g (+65g Hoisted Keys!)",
+        thrust: "5× Geared Winch Advantage",
+        winch: "ACTIVE: Yo-Yo Rappel & Hoist",
+        power: "0.0 W Hover / 0.9 W Winch",
+        cost: "$126.90 Complete MVP",
+        tools: "Control via https://join-garden.com/ebo",
+        benchTitle: "7. Execute Ceiling Dock, 0W Chandelier Hang & 5× Yo-Yo Hoist",
+        benchBody: "1) Take off and fly straight up for 3 seconds until the dorsal N52 magnet clicks onto the ceiling washer. 2) Disarm flight motors (0.0W!). 3) Command XIAO ESP32S3 to unspool 1.5m of PowerPro Spectra line, pendulum-swing, and hoist 65g keys!",
+        pill1: "Hover Draw While Hanging: 0.0 W",
+        pill2: "Winch Hoist Payload: 65g–150g"
+      }
+    ];
+
+    let currentStep = 0;
+    let stepProgress = 1.0; // 0..1 animation progress of the current step's part flying into place
+    let autoPlay = true;
+    let clockTime = 0;
+
+    // ============================================================================
+    // 2. THREE.JS 3D WEBGL SCENE & COMPONENT GROUPS
+    // ============================================================================
+    const container = document.getElementById("webgl-mvp-container");
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x030711, 0.025);
+
+    const camera = new THREE.PerspectiveCamera(38, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(5.8, 4.4, 6.6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.target.set(0, 0.1, 0);
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0x94a3b8, 0.8));
+    const keyLight = new THREE.DirectionalLight(0xf8fafc, 1.4);
+    keyLight.position.set(7, 12, 9);
+    scene.add(keyLight);
+    const rimLight = new THREE.DirectionalLight(0x34d399, 0.95);
+    rimLight.position.set(-8, 5, -7);
+    scene.add(rimLight);
+
+    const gridHelper = new THREE.GridHelper(14, 28, 0x10b981, 0x0f2942);
+    gridHelper.position.y = -2.2;
+    scene.add(gridHelper);
+
+    function addEdges(mesh, hex = 0x38bdf8) {
+      const edges = new THREE.EdgesGeometry(mesh.geometry, 20);
+      const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: 0.45 }));
+      mesh.add(line);
+    }
+
+    // Master Robot Root Group (moves during Step 7 flight/winch test)
+    const mvpRoot = new THREE.Group();
+    scene.add(mvpRoot);
+
+    // Environment Group (Ceiling Washer Disc, Spectra Tether Line, Hoisted Keyring)
+    const envRoot = new THREE.Group();
+    scene.add(envRoot);
+
+    // --- GROUP 0 (STEP 1): M5STACK STAMPFLY 81.5×81.5mm BASE + 1S 300mAh LIPO ---
+    const step0Group = new THREE.Group();
+    mvpRoot.add(step0Group);
+
+    const matPcbGreen = new THREE.MeshStandardMaterial({ color: 0x0f5132, metalness: 0.35, roughness: 0.4 });
+    const matShroudWhite = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.3, roughness: 0.45 });
+    const matPropOrange = new THREE.MeshStandardMaterial({ color: 0xf97316, metalness: 0.2, roughness: 0.3, transparent: true, opacity: 0.85 });
+    const matLipoSilver = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.75, roughness: 0.25 });
+
+    // Central StampFly Flight Controller PCB
+    const fcBoard = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.08, 1.35), matPcbGreen);
+    addEdges(fcBoard, 0x34d399);
+    step0Group.add(fcBoard);
+
+    // M5Stamp S3 Orange/Red MCU Module on top of FC
+    const stampS3 = new THREE.Mesh(
+      new THREE.BoxGeometry(0.52, 0.12, 0.68),
+      new THREE.MeshStandardMaterial({ color: 0xea580c, metalness: 0.3, roughness: 0.4 })
+    );
+    stampS3.position.set(0, 0.08, -0.1);
+    addEdges(stampS3, 0xfbbf24);
+    step0Group.add(stampS3);
+
+    // Two White Grove HY2.0-4P Headers on StampFly
+    const grovePortA = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.12, 0.16), new THREE.MeshStandardMaterial({ color: 0xf8fafc }));
+    grovePortA.position.set(0, 0.08, 0.48);
+    step0Group.add(grovePortA);
+
+    // 4 Shrouded Rotor Ducts (81.5 x 81.5 mm square frame)
+    const propMeshes = [];
+    const ductOffsets = [[-0.82, -0.82], [0.82, -0.82], [-0.82, 0.82], [0.82, 0.82]];
+    ductOffsets.forEach(([dx, dz], idx) => {
+      const duct = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.055, 12, 28), matShroudWhite);
+      duct.rotation.x = Math.PI / 2;
+      duct.position.set(dx, 0, dz);
+      addEdges(duct, 0x38bdf8);
+      step0Group.add(duct);
+
+      // Motor hub
+      const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.22, 12), matLipoSilver);
+      hub.position.set(dx, 0.02, dz);
+      step0Group.add(hub);
+
+      // 3-blade prop
+      const pGroup = new THREE.Group();
+      pGroup.position.set(dx, 0.09, dz);
+      for (let b = 0; b < 3; b++) {
+        const blade = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.015, 0.09), matPropOrange);
+        blade.rotation.y = (b * Math.PI * 2) / 3;
+        blade.position.x = Math.cos((b * Math.PI * 2) / 3) * 0.26;
+        blade.position.z = -Math.sin((b * Math.PI * 2) / 3) * 0.26;
+        pGroup.add(blade);
+      }
+      step0Group.add(pGroup);
+      propMeshes.push(pGroup);
+    });
+
+    // 1S 300mAh HV LiPo Battery (slides into ventral bay in Step 1)
+    const lipoMesh = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.18, 1.15), matLipoSilver);
+    addEdges(lipoMesh, 0x38bdf8);
+    step0Group.add(lipoMesh);
+
+    // --- GROUP 1 (STEP 2): SEEED STUDIO XIAO ESP32S3 SENSE CAMERA + MIC + GROVE WIRE ---
+    const step1Group = new THREE.Group();
+    mvpRoot.add(step1Group);
+
+    const xiaoPcb = new THREE.Mesh(
+      new THREE.BoxGeometry(0.46, 0.08, 0.54),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.5, roughness: 0.3 })
+    );
+    xiaoPcb.position.set(0, 0.18, 0.88);
+    xiaoPcb.rotation.x = 0.25;
+    addEdges(xiaoPcb, 0x34d399);
+    step1Group.add(xiaoPcb);
+
+    const ovCamBarrel = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.16, 0.18, 0.16, 16),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.2 })
+    );
+    ovCamBarrel.rotation.x = Math.PI / 2 + 0.25;
+    ovCamBarrel.position.set(0, 0.24, 1.04);
+    addEdges(ovCamBarrel, 0xfbbf24);
+    step1Group.add(ovCamBarrel);
+
+    // 4-Wire Grove Ribbon (Red/Black/Yellow/White) connecting StampFly Grove Port A to XIAO
+    const groveWire = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.035, 0.035, 0.42, 8),
+      new THREE.MeshBasicMaterial({ color: 0xfbbf24 })
+    );
+    groveWire.rotation.x = Math.PI / 2;
+    groveWire.position.set(0, 0.15, 0.66);
+    step1Group.add(groveWire);
+
+    // --- GROUP 2 (STEP 3): 1.7g LINEAR MICRO-SERVO (SPEKTRUM A2010) + DRV8837 H-BRIDGE ---
+    const step2Group = new THREE.Group();
+    mvpRoot.add(step2Group);
+
+    const linearServoBody = new THREE.Mesh(
+      new THREE.BoxGeometry(0.38, 0.28, 0.48),
+      new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.4, roughness: 0.35 })
+    );
+    linearServoBody.position.set(-0.34, 0.24, -0.05);
+    addEdges(linearServoBody, 0x38bdf8);
+    step2Group.add(linearServoBody);
+
+    const drvBreakout = new THREE.Mesh(
+      new THREE.BoxGeometry(0.28, 0.06, 0.28),
+      new THREE.MeshStandardMaterial({ color: 0x7c2d12, metalness: 0.4, roughness: 0.4 })
+    );
+    drvBreakout.position.set(0.34, 0.17, -0.15);
+    addEdges(drvBreakout, 0xfb7185);
+    step2Group.add(drvBreakout);
+
+    // --- GROUP 3 (STEP 4): 6mm PLANETARY/WORM WINCH MOTOR + 8mm BOBBIN + 3.0m POWERPRO SPECTRA ---
+    const step3Group = new THREE.Group();
+    mvpRoot.add(step3Group);
+
+    // 6mm x 12mm Micro Gearmotor cylinder
+    const winchMotor = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.14, 0.14, 0.46, 16),
+      new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.8, roughness: 0.2 })
+    );
+    winchMotor.rotation.z = Math.PI / 2;
+    winchMotor.position.set(0.08, 0.36, -0.05);
+    addEdges(winchMotor, 0xfbbf24);
+    step3Group.add(winchMotor);
+
+    // 8mm Bobbin wound with Emerald Green 0.12mm PowerPro Spectra Braid
+    const spectraBobbin = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.24, 0.24, 0.22, 20),
+      new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x047857, emissiveIntensity: 0.35, roughness: 0.3 })
+    );
+    spectraBobbin.position.set(0, 0.52, -0.05);
+    addEdges(spectraBobbin, 0x34d399);
+    step3Group.add(spectraBobbin);
+
+    // --- GROUP 4 (STEP 5): DORSAL N52 MAGNETIC + GEL SUCTION FERRULE & CEILING COMMAND WASHER ---
+    const step4Group = new THREE.Group();
+    mvpRoot.add(step4Group);
+
+    const n52Ferrule = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.28, 0.18, 0.12, 20),
+      new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9, roughness: 0.15 })
+    );
+    n52Ferrule.position.set(0, 0.72, -0.05);
+    addEdges(n52Ferrule, 0xa855f7);
+    step4Group.add(n52Ferrule);
+
+    // Ceiling 3M Command Strip + 25mm Steel Target Washer (in envRoot at y = +2.45)
+    const ceilingWasherGroup = new THREE.Group();
+    ceilingWasherGroup.position.set(0, 2.45, -0.05);
+    envRoot.add(ceilingWasherGroup);
+
+    const commandStripTab = new THREE.Mesh(
+      new THREE.BoxGeometry(0.95, 0.05, 0.42),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc })
+    );
+    commandStripTab.position.y = 0.06;
+    ceilingWasherGroup.add(commandStripTab);
+
+    const steelWasher = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.55, 0.55, 0.07, 28),
+      new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.85, roughness: 0.2 })
+    );
+    addEdges(steelWasher, 0x34d399);
+    ceilingWasherGroup.add(steelWasher);
+
+    // --- GROUP 5 (STEP 6): 0.4mm VASE-MODE PLA TRANSLUCENT SPLIT SHELLS (ELYTRA / KŌRŌ) ---
+    const step5Group = new THREE.Group();
+    mvpRoot.add(step5Group);
+
+    const matVasePla = new THREE.MeshPhysicalMaterial({
+      color: 0xa7f3d0,
+      emissive: 0x059669,
+      emissiveIntensity: 0.15,
+      roughness: 0.22,
+      metalness: 0.1,
+      transmission: 0.62,
+      transparent: true,
+      opacity: 0.82,
+      side: THREE.DoubleSide
+    });
+
+    const vaseShellHalves = [];
+    [-1, 1].forEach(side => {
+      const pivot = new THREE.Group();
+      pivot.position.set(0, 0.32, 0.75);
+      step5Group.add(pivot);
+
+      const shellGeo = new THREE.SphereGeometry(
+        1.15,
+        20,
+        16,
+        side > 0 ? 0 : Math.PI * 0.5,
+        Math.PI * 0.5,
+        0.06,
+        Math.PI * 0.52
+      );
+      shellGeo.scale(0.92, 0.52, 1.15);
+      const shellMesh = new THREE.Mesh(shellGeo, matVasePla);
+      shellMesh.position.set(0, -0.15, -0.75);
+      shellMesh.rotation.y = side > 0 ? -Math.PI * 0.25 : Math.PI * 0.25;
+      addEdges(shellMesh, 0x34d399);
+      pivot.add(shellMesh);
+      vaseShellHalves.push({ pivot, side });
+    });
+
+    // --- STEP 7 LIVE PROPS: DYNAMIC 0.12mm POWERPRO SPECTRA LINE + 65g HOISTED KEYRING ---
+    const spectraLineGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 2.45, -0.05),
+      new THREE.Vector3(0, 0.72, -0.05)
+    ]);
+    const spectraLine = new THREE.Line(
+      spectraLineGeo,
+      new THREE.LineBasicMaterial({ color: 0x34d399, linewidth: 2 })
+    );
+    envRoot.add(spectraLine);
+
+    const hoistLineGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, -1.5, 0)
+    ]);
+    const hoistLine = new THREE.Line(
+      hoistLineGeo,
+      new THREE.LineBasicMaterial({ color: 0xfbbf24, linewidth: 2 })
+    );
+    envRoot.add(hoistLine);
+
+    // 65g Keyring / AirPods Case Payload on Floor
+    const payloadGroup = new THREE.Group();
+    envRoot.add(payloadGroup);
+    const keyRingTorus = new THREE.Mesh(
+      new THREE.TorusGeometry(0.22, 0.04, 12, 24),
+      new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.85, roughness: 0.2 })
+    );
+    const airpodsBox = new THREE.Mesh(
+      new THREE.BoxGeometry(0.48, 0.42, 0.22),
+      new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 })
+    );
+    airpodsBox.position.y = -0.32;
+    addEdges(airpodsBox, 0x38bdf8);
+    payloadGroup.add(keyRingTorus, airpodsBox);
+
+    // ============================================================================
+    // 3. UI & STEP CONTROLLERS
+    // ============================================================================
+    function syncUI() {
+      const s = STEPS[currentStep];
+      document.getElementById("hudStepBadge").textContent = s.badge;
+      document.getElementById("hudTimeBadge").textContent = s.time;
+      document.getElementById("hudTitle").textContent = s.title;
+      document.getElementById("hudSubtitle").textContent = s.subtitle;
+
+      document.getElementById("statMass").textContent = s.mass;
+      document.getElementById("statThrust").textContent = s.thrust;
+      document.getElementById("statWinch").textContent = s.winch;
+      document.getElementById("statPower").textContent = s.power;
+      document.getElementById("statCost").textContent = s.cost;
+
+      document.getElementById("benchStepHeader").textContent = `BENCH INSTRUCTION // STEP 0${currentStep + 1}`;
+      document.getElementById("benchToolsNeeded").textContent = s.tools;
+      document.getElementById("benchActionTitle").textContent = s.benchTitle;
+      document.getElementById("benchActionBody").textContent = s.benchBody;
+      document.getElementById("benchSpecPill1").textContent = s.pill1;
+      document.getElementById("benchSpecPill2").textContent = s.pill2;
+
+      for (let i = 0; i < 7; i++) {
+        const b = document.getElementById(`step-btn-${i}`);
+        if (i === currentStep) b.classList.add("step-card-active");
+        else b.classList.remove("step-card-active");
+      }
+    }
+
+    window.selectStep = function(idx) {
+      currentStep = Math.max(0, Math.min(6, idx));
+      stepProgress = 0.0;
+      syncUI();
+    };
+
+    window.prevStep = function() {
+      autoPlay = false;
+      document.getElementById("btnAutoPlay").textContent = "▶ Auto-Play 7-Step Build: PAUSED";
+      selectStep((currentStep + 6) % 7);
+    };
+
+    window.nextStep = function() {
+      autoPlay = false;
+      document.getElementById("btnAutoPlay").textContent = "▶ Auto-Play 7-Step Build: PAUSED";
+      selectStep((currentStep + 1) % 7);
+    };
+
+    window.toggleAutoPlay = function() {
+      autoPlay = !autoPlay;
+      document.getElementById("btnAutoPlay").textContent = autoPlay
+        ? "⏸ Auto-Play 7-Step Build: ON"
+        : "▶ Auto-Play 7-Step Build: PAUSED";
+    };
+
+    window.onManualScrub = function(val) {
+      autoPlay = false;
+      document.getElementById("btnAutoPlay").textContent = "▶ Auto-Play 7-Step Build: PAUSED";
+      stepProgress = parseFloat(val) / 100;
+      document.getElementById("scrubberPct").textContent = `${Math.round(val)}%`;
+    };
+
+    window.setCamView = function(preset) {
+      if (preset === "iso") camera.position.set(5.8, 4.4, 6.6);
+      else if (preset === "top") camera.position.set(0.01, 8.5, 0.01);
+      else if (preset === "side") camera.position.set(6.5, 1.2, 0.01);
+      else if (preset === "room") camera.position.set(0, 0.8, 9.2);
+      controls.target.set(0, 0.2, 0);
+      controls.update();
+    };
+
+    // ============================================================================
+    // 4. 3D ASSEMBLY ANIMATION & STEP 7 LIVE FLIGHT/WINCH SOLVER
+    // ============================================================================
+    function easeOutCubic(t) {
+      const c = Math.max(0, Math.min(1, t));
+      return 1 - Math.pow(1 - c, 3);
+    }
+
+    function updateSceneKinematics(dt) {
+      clockTime += dt;
+
+      if (autoPlay) {
+        const speed = currentStep === 6 ? 0.14 : 0.32;
+        stepProgress += dt * speed;
+        if (stepProgress >= 1.0) {
+          stepProgress = 0.0;
+          currentStep = (currentStep + 1) % 7;
+          syncUI();
+        }
+        document.getElementById("stepScrubber").value = Math.round(stepProgress * 100);
+        document.getElementById("scrubberPct").textContent = `${Math.round(stepProgress * 100)}%`;
+      }
+
+      const e = easeOutCubic(stepProgress);
+
+      // Visibility of cumulative steps
+      step0Group.visible = true;
+      step1Group.visible = currentStep >= 1;
+      step2Group.visible = currentStep >= 2;
+      step3Group.visible = currentStep >= 3;
+      step4Group.visible = currentStep >= 4;
+      step5Group.visible = currentStep >= 5;
+      ceilingWasherGroup.visible = currentStep >= 4;
+      spectraLine.visible = currentStep >= 4;
+      payloadGroup.visible = currentStep === 6;
+      hoistLine.visible = currentStep === 6 && stepProgress > 0.55;
+
+      // Reset baseline positions before applying current step fly-in animation
+      mvpRoot.position.set(0, -0.6, 0);
+      mvpRoot.rotation.set(0, 0, 0);
+      lipoMesh.position.set(0, -0.14, 0);
+      step1Group.position.set(0, 0, 0);
+      step2Group.position.set(0, 0, 0);
+      step3Group.position.set(0, 0, 0);
+      n52Ferrule.position.set(0, 0.72, -0.05);
+      step5Group.position.set(0, 0, 0);
+
+      // Shell opening angle
+      const shellOpen = currentStep === 5 ? Math.sin(stepProgress * Math.PI) * 0.45 : (currentStep === 6 ? 0.38 : 0.12);
+      vaseShellHalves.forEach(h => {
+        h.pivot.rotation.y = h.side * shellOpen;
+        h.pivot.rotation.x = shellOpen * 0.5;
+      });
+
+      // Animate the active step's component flying into place!
+      if (currentStep === 0) {
+        // Step 1: 1S LiPo slides into StampFly belly slot from behind
+        lipoMesh.position.set(0, -0.14, -1.8 * (1 - e));
+      } else if (currentStep === 1) {
+        // Step 2: XIAO ESP32S3 Sense drops onto front nose clip & plugs Grove cable
+        step1Group.position.set(0, 1.6 * (1 - e), 1.2 * (1 - e));
+      } else if (currentStep === 2) {
+        // Step 3: 1.7g Linear Servo & DRV8837 drop onto dorsal bridge
+        step2Group.position.set(0, 1.8 * (1 - e), 0);
+      } else if (currentStep === 3) {
+        // Step 4: 6mm Gearmotor Winch + 3m Green PowerPro Bobbin lowers onto CG apex & spins
+        step3Group.position.set(0, 1.8 * (1 - e), 0);
+        spectraBobbin.rotation.y = clockTime * 6;
+      } else if (currentStep === 4) {
+        // Step 5: N52 Ferrule docks & Ceiling Washer sticks at y = +2.45
+        n52Ferrule.position.set(0, 0.72 + (1 - e) * 1.4, -0.05);
+      } else if (currentStep === 5) {
+        // Step 6: 0.4mm Vase-Mode PLA Shells descend onto front hinge pins
+        step5Group.position.set(0, 1.8 * (1 - e), 0);
+      }
+
+      // Spin propellers only during Step 7 Phase 1 (3s Ceiling Ascent)
+      let rotorsSpinning = false;
+
+      if (currentStep === 6) {
+        // STEP 7 LIVE TEST MISSION:
+        // 0.00 -> 0.28: Take off & fly up to Ceiling Washer until N52 magnet clicks!
+        // 0.28 -> 0.60: Flight Motors OFF (0.0W!), lower down on green PowerPro Spectra line & pendulum swing
+        // 0.60 -> 1.00: 5x Geared Winch hoists 65g Keyring + AirPods case off floor!
+        if (stepProgress < 0.28) {
+          const k = easeOutCubic(stepProgress / 0.28);
+          rotorsSpinning = true;
+          mvpRoot.position.set(0, -1.2 + k * 2.92, 0);
+          n52Ferrule.position.set(0, 0.72, -0.05);
+          payloadGroup.position.set(0.3, -1.85, 0);
+        } else if (stepProgress < 0.60) {
+          const k = (stepProgress - 0.28) / 0.32;
+          rotorsSpinning = false; // 0.0W Hover Draw!
+          const tetherLen = 0.3 + k * 1.45;
+          const swingAng = Math.sin(k * Math.PI * 2) * 0.32;
+          const rx = Math.sin(swingAng) * tetherLen;
+          const ry = 2.45 - Math.cos(swingAng) * tetherLen;
+          mvpRoot.position.set(rx, ry, 0);
+          mvpRoot.rotation.z = -swingAng;
+          // Ferrule stays locked to ceiling washer!
+          n52Ferrule.position.set(-rx, 2.40 - ry, -0.05);
+          spectraBobbin.rotation.y = clockTime * 8;
+          payloadGroup.position.set(0, -1.85, 0);
+        } else {
+          const k = easeOutCubic((stepProgress - 0.60) / 0.40);
+          rotorsSpinning = false; // 0.0W Flight Motors — Winch does the hoisting!
+          const ry = 1.0 + k * 0.55;
+          mvpRoot.position.set(0, ry, 0);
+          n52Ferrule.position.set(0, 2.40 - ry, -0.05);
+          spectraBobbin.rotation.y = -clockTime * 8;
+
+          // Hoist 65g Keyring + AirPods from y = -1.85 up to y = -0.35
+          const py = -1.85 + k * 1.45;
+          payloadGroup.position.set(0, py, 0);
+
+          const hPts = hoistLineGeo.attributes.position.array;
+          hPts[0] = 0; hPts[1] = ry - 0.15; hPts[2] = 0;
+          hPts[3] = 0; hPts[4] = py + 0.22; hPts[5] = 0;
+          hoistLineGeo.attributes.position.needsUpdate = true;
+        }
+      }
+
+      if (rotorsSpinning) {
+        propMeshes.forEach((p, i) => {
+          p.rotation.y += (i % 2 === 0 ? 1 : -1) * 0.65;
+        });
+      }
+
+      // Update green PowerPro Spectra Tether Line
+      if (spectraLine.visible) {
+        const sPts = spectraLineGeo.attributes.position.array;
+        sPts[0] = 0; sPts[1] = 2.42; sPts[2] = -0.05;
+        sPts[3] = mvpRoot.position.x;
+        sPts[4] = mvpRoot.position.y + 0.55;
+        sPts[5] = -0.05;
+        spectraLineGeo.attributes.position.needsUpdate = true;
+      }
+    }
+
+    // ============================================================================
+    // 5. PANE A: 2D SOLDERLESS PINOUT & WIRING SCHEMATIC RENDERER
+    // ============================================================================
+    const canvasW = document.getElementById("canvasWiring");
+    const ctxW = canvasW.getContext("2d");
+
+    function drawWiringSchematic() {
+      const w = canvasW.width, h = canvasW.height;
+      ctxW.clearRect(0, 0, w, h);
+
+      // Blueprint grid
+      ctxW.strokeStyle = "rgba(52, 211, 153, 0.07)";
+      ctxW.lineWidth = 1;
+      for (let x = 0; x < w; x += 22) { ctxW.beginPath(); ctxW.moveTo(x, 0); ctxW.lineTo(x, h); ctxW.stroke(); }
+      for (let y = 0; y < h; y += 22) { ctxW.beginPath(); ctxW.moveTo(0, y); ctxW.lineTo(w, y); ctxW.stroke(); }
+
+      // 1. M5Stack StampFly Block (Left-Center)
+      ctxW.fillStyle = "rgba(6, 78, 59, 0.45)";
+      ctxW.strokeStyle = currentStep === 0 ? "#34d399" : "#0ea5e9";
+      ctxW.lineWidth = currentStep === 0 ? 2.5 : 1.5;
+      ctxW.fillRect(20, 26, 175, 172);
+      ctxW.strokeRect(20, 26, 175, 172);
+
+      ctxW.fillStyle = "#fff";
+      ctxW.font = "bold 11px JetBrains Mono, monospace";
+      ctxW.fillText("M5STACK STAMPFLY", 32, 46);
+      ctxW.fillStyle = "#94a3b8";
+      ctxW.font = "9px JetBrains Mono, monospace";
+      ctxW.fillText("ESP32-S3 · 81.5×81.5mm", 32, 60);
+      ctxW.fillText("✔ PMW3901 Optical Flow", 32, 78);
+      ctxW.fillText("✔ VL53L3CX Laser ToF", 32, 92);
+      ctxW.fillText("✔ 1S 300mAh LiPo (36.8g)", 32, 106);
+
+      // Grove Port A & B boxes inside StampFly
+      ctxW.fillStyle = "#0f172a";
+      ctxW.strokeStyle = "#fbbf24";
+      ctxW.fillRect(118, 122, 68, 28);
+      ctxW.strokeRect(118, 122, 68, 28);
+      ctxW.fillStyle = "#fde047";
+      ctxW.fillText("GROVE A", 126, 139);
+
+      ctxW.fillStyle = "#0f172a";
+      ctxW.strokeStyle = "#38bdf8";
+      ctxW.fillRect(118, 158, 68, 28);
+      ctxW.strokeRect(118, 158, 68, 28);
+      ctxW.fillStyle = "#7dd3fc";
+      ctxW.fillText("GROVE B", 126, 175);
+
+      // 2. Seeed XIAO ESP32S3 Sense Block (Top Right)
+      const xiaoActive = currentStep >= 1;
+      ctxW.fillStyle = xiaoActive ? "rgba(15, 23, 42, 0.95)" : "rgba(15, 23, 42, 0.4)";
+      ctxW.strokeStyle = currentStep === 1 ? "#34d399" : (xiaoActive ? "#38bdf8" : "#334155");
+      ctxW.lineWidth = currentStep === 1 ? 2.5 : 1.5;
+      ctxW.fillRect(255, 22, 265, 68);
+      ctxW.strokeRect(255, 22, 265, 68);
+
+      ctxW.fillStyle = xiaoActive ? "#34d399" : "#64748b";
+      ctxW.font = "bold 10px JetBrains Mono, monospace";
+      ctxW.fillText("STEP 2: XIAO ESP32S3 SENSE (+2.4g)", 266, 40);
+      ctxW.fillStyle = "#cbd5e1";
+      ctxW.font = "9px JetBrains Mono, monospace";
+      ctxW.fillText("OV2640 Cam + Mic · Streams to /ebo", 266, 56);
+      ctxW.fillStyle = "#fbbf24";
+      ctxW.fillText("Pins: 5V | GND | GPIO1(TX) | GPIO2(RX)", 266, 74);
+
+      // Wire from Grove A to XIAO
+      if (xiaoActive) {
+        ctxW.strokeStyle = "#fbbf24";
+        ctxW.lineWidth = 2;
+        ctxW.beginPath();
+        ctxW.moveTo(186, 136);
+        ctxW.lineTo(222, 136);
+        ctxW.lineTo(222, 56);
+        ctxW.lineTo(255, 56);
+        ctxW.stroke();
+      }
+
+      // 3. DRV8837 H-Bridge + 6mm Spectra Winch Block (Middle Right)
+      const winchActive = currentStep >= 3;
+      ctxW.fillStyle = winchActive ? "rgba(15, 23, 42, 0.95)" : "rgba(15, 23, 42, 0.4)";
+      ctxW.strokeStyle = (currentStep === 3 || currentStep === 4) ? "#f43f5e" : (winchActive ? "#34d399" : "#334155");
+      ctxW.lineWidth = (currentStep === 3 || currentStep === 4) ? 2.5 : 1.5;
+      ctxW.fillRect(255, 100, 265, 56);
+      ctxW.strokeRect(255, 100, 265, 56);
+
+      ctxW.fillStyle = winchActive ? "#fb7185" : "#64748b";
+      ctxW.font = "bold 10px JetBrains Mono, monospace";
+      ctxW.fillText("STEP 3–5: DRV8837 + 6mm SPECTRA WINCH", 266, 118);
+      ctxW.fillStyle = "#cbd5e1";
+      ctxW.font = "9px JetBrains Mono, monospace";
+      ctxW.fillText("XIAO GPIO 4/5 → DRV8837 → 6mm Gearmotor", 266, 133);
+      ctxW.fillStyle = "#34d399";
+      ctxW.fillText("3.0m × 0.12mm PowerPro (0.035g) + N52 Disc", 266, 147);
+
+      if (currentStep >= 2) {
+        ctxW.strokeStyle = "#fb7185";
+        ctxW.lineWidth = 1.8;
+        ctxW.beginPath();
+        ctxW.moveTo(380, 90);
+        ctxW.lineTo(380, 100);
+        ctxW.stroke();
+      }
+
+      // 4. 1.7g Linear Servo + 0.4mm Vase-Mode PLA Shell Block (Bottom Right)
+      const servoActive = currentStep >= 2;
+      ctxW.fillStyle = servoActive ? "rgba(15, 23, 42, 0.95)" : "rgba(15, 23, 42, 0.4)";
+      ctxW.strokeStyle = (currentStep === 2 || currentStep === 5) ? "#38bdf8" : (servoActive ? "#38bdf8" : "#334155");
+      ctxW.lineWidth = (currentStep === 2 || currentStep === 5) ? 2.5 : 1.5;
+      ctxW.fillRect(255, 166, 265, 48);
+      ctxW.strokeRect(255, 166, 265, 48);
+
+      ctxW.fillStyle = servoActive ? "#38bdf8" : "#64748b";
+      ctxW.font = "bold 10px JetBrains Mono, monospace";
+      ctxW.fillText("STEP 3 & 6: 1.7g SERVO + 0.4mm PLA SHELL", 266, 184);
+      ctxW.fillStyle = "#cbd5e1";
+      ctxW.font = "9px JetBrains Mono, monospace";
+      ctxW.fillText("Grove B PWM (GPIO 7) → 6mm Stroke → 2.8g Shell", 266, 200);
+
+      if (servoActive) {
+        ctxW.strokeStyle = "#38bdf8";
+        ctxW.lineWidth = 2;
+        ctxW.beginPath();
+        ctxW.moveTo(186, 172);
+        ctxW.lineTo(222, 172);
+        ctxW.lineTo(222, 190);
+        ctxW.lineTo(255, 190);
+        ctxW.stroke();
+      }
+    }
+
+    // Main Render Loop
+    let lastNow = performance.now();
+    function animate(now) {
+      requestAnimationFrame(animate);
+      const dt = Math.min(0.05, (now - lastNow) / 1000);
+      lastNow = now;
+
+      updateSceneKinematics(dt);
+      controls.update();
+      renderer.render(scene, camera);
+      drawWiringSchematic();
+    }
+
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    syncUI();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
