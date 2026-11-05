@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-05 05:32:32 UTC",
-  "state_sha256": "9fc992856c8bdebf71b46337a5506f1f3424e5156ff1b49e2d3d667f0d42f9ba",
+  "updated_at_utc": "2026-11-05 06:23:16 UTC",
+  "state_sha256": "5a962353369cff08272f0afe5fdba9dbf9fe96c07a0ffbbaaac60ac623335ed3",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -12,6 +12,12 @@
     "live_state_json": "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
   },
   "canonical_memories": [
+    {
+      "entity_key": "robotics/photogenik_brooklyn_diy_mvp_bom",
+      "kind": "state",
+      "content": "3-Model Triad Opus 5.5 + Sol 6.1 MAX + Argon 4 High engineered the Brooklyn Weekend DIY MVP Bill of Materials & Assembly Guide for Photogenik Scarab1: (1) Local Brooklyn Sourcing: Micro Center Brooklyn (850 3rd Ave, Sunset Park / Industry City), Adafruit NYC (Manhattan courier), local fishing tackle shop (PowerPro 0.12mm Spectra/Dyneema braid), and Amazon Same-Day; (2) Tier 1 ( ceiling winch + AI camera MVP, 2-hour build): Seeed Studio XIAO ESP32S3 Sense (.99, 5.0g camera+mic+Wi-Fi) + 6mm/N20 self-locking worm-gear micro-motor () + DRV8833 H-bridge () + 15lb 0.12mm PowerPro Spectra braided line () + N52 ceiling magnet/3M Command steel disc + 80mm frosted Koro lantern/vase-mode PLA shell; (3) Tier 2 ( full flying + perching + silk-winch MVP): M5Stack StampFly 81.5x81.5mm 36.8g open-source ESP32-S3 shrouded quadcopter (.95, built-in PMW3901 Optical Flow + VL53L3CX ToF) + 1.1g 6mm coreless planetary gearmotor spool (+1.4g with 3m Spectra line) + 1.7g linear micro-servo () + 2.8g vase-mode PLA shells + dorsal N52/suction ceiling anchor (44.5g all-up flying mass).",
+      "created_at": "2026-11-05T06:23:14Z"
+    },
     {
       "entity_key": "robotics/photogenik_form06_sericoptera_spider_silk_winch",
       "kind": "state",
