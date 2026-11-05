@@ -41,6 +41,27 @@
   </style>
 </head>
 <body class="min-h-screen p-3 sm:p-4">
+  <!-- 🔒 PASSWORD GATE OVERLAY -->
+  <div id="eboAuthGate" class="fixed inset-0 z-50 bg-[#030712]/95 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="card rounded-2xl p-6 max-w-md w-full space-y-4 border border-sky-500/40 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/50 flex items-center justify-center text-xl">🔒</div>
+        <div>
+          <h2 class="text-lg font-bold text-white">EBO-962 Protected Channel</h2>
+          <p class="text-xs text-slate-400">Enter access password to unlock live camera & robot controls</p>
+        </div>
+      </div>
+      <form onsubmit="return unlockEboChannel(event)" class="space-y-3">
+        <input id="eboPwInput" type="password" placeholder="Enter channel password..." autocomplete="current-password"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:border-sky-400 outline-none" autofocus />
+        <div id="eboPwError" class="hidden text-xs font-semibold text-rose-400">Invalid password. Access denied.</div>
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition">
+          🔓 Unlock EBO-962 Channel
+        </button>
+      </form>
+    </div>
+  </div>
+
   <div class="max-w-[1480px] mx-auto space-y-3.5">
 
     <!-- TOP BAR -->
@@ -70,6 +91,9 @@
         </button>
         <button onclick="emergencyStop()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-500 transition">
           🛑 STOP (Space)
+        </button>
+        <button onclick="lockEboChannel()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-amber-300 border border-amber-500/40 hover:bg-slate-800 transition">
+          🔒 Lock
         </button>
       </div>
     </header>
@@ -267,6 +291,37 @@
       ? "http://127.0.0.1:8795/api/android"
       : "/api/ebo";
 
+    let eboUnlocked = document.cookie.split(";").some(c => c.trim() === "ebo_auth=scarab1") || sessionStorage.getItem("ebo_auth") === "scarab1";
+    const authGateEl = document.getElementById("eboAuthGate");
+    if (eboUnlocked && authGateEl) {
+      authGateEl.classList.add("hidden");
+    }
+
+    window.unlockEboChannel = function(e) {
+      if (e) e.preventDefault();
+      const val = (document.getElementById("eboPwInput").value || "").trim();
+      const errEl = document.getElementById("eboPwError");
+      if (val === "scarab1") {
+        document.cookie = "ebo_auth=scarab1; path=/; max-age=2592000; SameSite=Lax";
+        sessionStorage.setItem("ebo_auth", "scarab1");
+        eboUnlocked = true;
+        if (errEl) errEl.classList.add("hidden");
+        if (authGateEl) authGateEl.classList.add("hidden");
+      } else {
+        if (errEl) errEl.classList.remove("hidden");
+      }
+      return false;
+    };
+
+    window.lockEboChannel = function() {
+      document.cookie = "ebo_auth=; path=/; max-age=0; SameSite=Lax";
+      sessionStorage.removeItem("ebo_auth");
+      eboUnlocked = false;
+      if (authGateEl) authGateEl.classList.remove("hidden");
+      const inp = document.getElementById("eboPwInput");
+      if (inp) { inp.value = ""; inp.focus(); }
+    };
+
     (async function probeLocalFastPath() {
       try {
         const r = await fetch("http://127.0.0.1:8795/api/android/status", { method: "GET" });
@@ -340,7 +395,7 @@
     })();
 
     async function fetchNextFrame(now) {
-      if (frameInFlight || (now - lastFrameFetchTs) < 52) return;
+      if (!eboUnlocked || frameInFlight || (now - lastFrameFetchTs) < 52) return;
       frameInFlight = true;
       lastFrameFetchTs = now;
       const endpoint = viewMode === "camera" ? "camera.jpg" : "frame.jpg";
@@ -368,6 +423,7 @@
 
     // Poll server status & live closed-loop VLM chat stream every 700ms
     async function pollServerState() {
+      if (!eboUnlocked) return;
       try {
         const r = await fetch(`${API_BASE}/status`, { cache: "no-store" });
         if (!r.ok) return;
