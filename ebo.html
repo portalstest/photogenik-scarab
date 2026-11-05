@@ -195,7 +195,7 @@
           <!-- 1-CLICK ANDROID ROLA ACCOUNT LOGIN BAR (Types directly into emulator-5580 via ADB) -->
           <div class="flex flex-wrap items-center gap-2 pt-1.5 border-t border-slate-800/90">
             <span class="text-emerald-300 font-bold">🔑 ROLA Android Sign-In:</span>
-            <input id="androidRolaEmail" type="text" placeholder="ROLA Email or Phone" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-white text-xs w-48 focus:border-emerald-400 outline-none" />
+            <input id="androidRolaEmail" type="text" value="harsha.g0101@gmail.com" placeholder="ROLA Email or Phone" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-white text-xs w-48 focus:border-emerald-400 outline-none" />
             <input id="androidRolaPass" type="password" placeholder="ROLA Password" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-white text-xs w-40 focus:border-emerald-400 outline-none" />
             <button onclick="triggerAndroidRolaLogin()" class="px-3 py-1 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/40">
               🚀 Auto-Fill &amp; Log In on Android ROLA
@@ -369,7 +369,7 @@
     // 1. STATE & CONFIGURATION
     // ============================================================================
     const BRIDGE_URL = "http://127.0.0.1:8795";
-    const ANDROID_ADB_URL = "http://100.109.202.44:8796";
+    const ANDROID_ADB_URL = "http://127.0.0.1:8795/api/android";
     let bridgeOnline = false;
     let androidOnline = false;
     let cocoModel = null;
@@ -414,7 +414,7 @@
         if ((now - lastBridgeFrameTs) < 95) return; // ~10.5 FPS crisp ADB framebuffer stream
         bridgeFrameInFlight = true;
         lastBridgeFrameTs = now;
-        bridgeImg.src = `${ANDROID_ADB_URL}/api/frame.jpg?t=${Date.now()}`;
+        bridgeImg.src = `${ANDROID_ADB_URL}/frame.jpg?t=${Date.now()}`;
         return;
       }
       if (feedMode !== "bridge" || !bridgeOnline) return;
@@ -494,20 +494,20 @@
       }
       logEvent(`Sending ROLA credentials (${email}) to Android emulator-5580 via ADB...`, "text-emerald-300 font-bold");
       try {
-        await fetch(`${ANDROID_ADB_URL}/api/login`, {
+        await fetch(`${ANDROID_ADB_URL}/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password, type: email.includes("@") ? "email" : "phone" })
         });
         logEvent("Auto-typing Email & Password + ticking Terms + tapping Confirm on Android ROLA (watch screen below)!", "text-emerald-300");
       } catch (e) {
-        logEvent("Failed to reach Android ADB daemon on 100.109.202.44:8796", "text-rose-400");
+        logEvent("Failed to reach Android ADB bridge on 127.0.0.1:8795/api/android", "text-rose-400");
       }
     };
 
     window.sendAndroidKey = async function(keyCode) {
       try {
-        await fetch(`${ANDROID_ADB_URL}/api/key`, {
+        await fetch(`${ANDROID_ADB_URL}/key`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ key: keyCode })
@@ -561,7 +561,7 @@
     window.startLiveCameraFeed = async function() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+          video: true,
           audio: false
         });
         videoEl.srcObject = stream;
@@ -571,14 +571,8 @@
         updateFeedBadge("📷 LIVE OPTICAL CAMERA (WEBRTC)", true);
         logEvent("Connected live optical camera (iPhone Continuity / FaceTime HD)!", "text-emerald-300");
       } catch (err) {
-        logEvent("Camera blocked inside IDE preview iframe — opening Chrome with live camera...", "text-amber-300");
-        if (bridgeOnline) {
-          await fetch(`${BRIDGE_URL}/api/open_app`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: "https://join-garden.com/ebo?autoconnect=camera" })
-          });
-        }
+        logEvent(`Camera access denied (${err.name}) — staying on Standalone Android ROLA (ADB)!`, "text-amber-300");
+        switchFeedMode("android");
       }
     };
 
@@ -627,7 +621,7 @@
 
       if (videoClickCalibActive) {
         if (feedMode === "android") {
-          await fetch(`${ANDROID_ADB_URL}/api/calibrate_uv`, {
+          await fetch(`${ANDROID_ADB_URL}/calibrate_uv`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ u, v })
@@ -648,7 +642,7 @@
       // In Standalone Android ROLA mode, clicking the screen sends a direct ADB tap to emulator-5580!
       if (feedMode === "android") {
         try {
-          const res = await fetch(`${ANDROID_ADB_URL}/api/tap`, {
+          const res = await fetch(`${ANDROID_ADB_URL}/tap`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ u, v })
@@ -660,7 +654,7 @@
     });
 
     // ============================================================================
-    // 4. ANDROID ADB CONTAINER (:8796) + LOCAL MAC BRIDGE (:8795) POLLING
+    // 4. ANDROID ADB CONTAINER (:8796 via :8795/api/android) + LOCAL MAC BRIDGE
     // ============================================================================
     async function refreshMacWindowDropdown() {
       const sel = document.getElementById("macWindowSelect");
@@ -685,9 +679,9 @@
     }
 
     async function pollBridgeStatus() {
-      // 1. Check Option 2 Headless Android ROLA ADB Container (100.109.202.44:8796)
+      // 1. Check Option 2 Headless Android ROLA ADB Container via loopback 127.0.0.1:8795/api/android
       try {
-        const aRes = await fetch(`${ANDROID_ADB_URL}/api/status`);
+        const aRes = await fetch(`${ANDROID_ADB_URL}/status`);
         if (aRes.ok) {
           const ast = await aRes.json();
           androidOnline = true;
@@ -739,11 +733,6 @@
     setInterval(refreshMacWindowDropdown, 5000);
     pollBridgeStatus();
 
-    // Auto-connect camera if opened with ?autoconnect=camera
-    if (window.location.search.includes("autoconnect=camera")) {
-      setTimeout(() => startLiveCameraFeed(), 400);
-    }
-
     async function sendBridgeControl(throttle, steering, modeLabel) {
       cmdThrottle = throttle;
       cmdSteering = steering;
@@ -752,7 +741,7 @@
 
       if (feedMode === "android" && androidOnline) {
         try {
-          await fetch(`${ANDROID_ADB_URL}/api/control`, {
+          await fetch(`${ANDROID_ADB_URL}/control`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ vx: steering, vy: throttle, throttle, steering, mode: modeLabel })
