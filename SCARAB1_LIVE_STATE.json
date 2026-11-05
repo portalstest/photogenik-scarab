@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-05 06:23:16 UTC",
-  "state_sha256": "5a962353369cff08272f0afe5fdba9dbf9fe96c07a0ffbbaaac60ac623335ed3",
+  "updated_at_utc": "2026-11-05 06:36:37 UTC",
+  "state_sha256": "8b783752fe81e1f734c7416186f0ce07c0118d740da5948c67bec7c5ec784d4b",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -12,6 +12,12 @@
     "live_state_json": "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
   },
   "canonical_memories": [
+    {
+      "entity_key": "robotics/photogenik_brooklyn_mvp_3d_sim_and_video",
+      "kind": "state",
+      "content": "Delivered Scarab1 Brooklyn Weekend DIY MVP 7-Step Interactive 3D WebGL Assembly & Live Winch Simulator (scarab_brooklyn_mvp_3d_assembly.html / https://portalstest.github.io/photogenik-scarab/mvp.html, Drive ID 1aQc2Mqm2Hlqwr84itYLRr32Wh6N1tV0B) and 24s 720p 30fps Animated 3D Assembly & Winch Guide Video (scarab_brooklyn_mvp_assembly_guide.mp4, Drive ID 1lmRvOUpaij0hOUee4IWYDSANg8W8ildl, commit cf7c5c5).",
+      "created_at": "2026-11-05T06:36:34Z"
+    },
     {
       "entity_key": "robotics/photogenik_brooklyn_diy_mvp_bom",
       "kind": "state",
