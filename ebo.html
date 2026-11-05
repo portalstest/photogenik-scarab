@@ -161,37 +161,46 @@
           </div>
         </div>
 
-        <!-- IN-VIEWPORT FEED SOURCE SELECTOR BAR (Works in Antigravity IDE & Chrome) -->
-        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 p-2 rounded-lg border border-sky-500/30 text-[11px]">
-          <div class="flex flex-wrap items-center gap-1.5">
-            <span class="text-slate-400 font-semibold mr-1">Feed Source:</span>
-            <button onclick="openRolaMacAppStore()" class="px-2.5 py-1 rounded bg-emerald-500/25 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/35" title="Install ROLA - Smart Robot natively on your Apple Silicon Mac (no iPhone Mirroring required)">
-              💻 1. Install/Open Native ROLA on Mac
-            </button>
-            <button id="btnSourceWebRTC" onclick="startRolaScreenCapture()" class="px-2.5 py-1 rounded bg-sky-500/25 border border-sky-400 text-sky-200 font-bold hover:bg-sky-500/35">
-              🪟 2. Stream ROLA Window (Chrome 60 FPS)
-            </button>
-            <button id="btnSourceCam" onclick="startLiveCameraFeed()" class="px-2.5 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-200 font-semibold hover:bg-purple-500/30">
-              📷 Live Camera (iPhone / Mac)
-            </button>
-            <button id="btnSourceBridge" onclick="switchFeedMode('bridge')" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-emerald-400">
-              📱 Mac Bridge Window
-            </button>
-            <select id="macWindowSelect" onchange="selectMacWindow(this.value)" class="bg-slate-900 border border-sky-500/40 rounded px-2 py-1 text-sky-200 text-[11px] max-w-[210px]">
-              <option value="auto">🪟 Auto-Detect: ROLA / Mirroring</option>
-              <option value="0">🖥️ Full macOS Main Display</option>
-            </select>
-            <button onclick="openIphoneMirroringApp()" class="px-2 py-1 rounded bg-slate-800 border border-slate-600 text-slate-300 hover:text-white">
-              📲 iPhone Mirroring
-            </button>
-            <button id="btnSourceSim" onclick="startSyntheticDemoFeed()" class="px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-400 hover:text-white">
-              🧪 Sim Grid
-            </button>
+        <!-- IN-VIEWPORT FEED SOURCE SELECTOR BAR + STANDALONE ANDROID ROLA ADB CONTROLS -->
+        <div class="space-y-2 bg-slate-950/90 p-2.5 rounded-lg border border-emerald-500/40 text-[11px]">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-slate-400 font-semibold mr-1">Feed Source:</span>
+              <button id="btnSourceAndroid" onclick="switchFeedMode('android')" class="px-2.5 py-1 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/40">
+                🤖 Option 2: Standalone Android ROLA (ADB Live)
+              </button>
+              <button id="btnSourceWebRTC" onclick="startRolaScreenCapture()" class="px-2.5 py-1 rounded bg-sky-500/20 border border-sky-400/60 text-sky-200 font-semibold hover:bg-sky-500/30">
+                🪟 Browser Screen Share
+              </button>
+              <button id="btnSourceCam" onclick="startLiveCameraFeed()" class="px-2.5 py-1 rounded bg-purple-500/20 border border-purple-400/50 text-purple-200 font-semibold hover:bg-purple-500/30">
+                📷 Live Camera
+              </button>
+              <button id="btnSourceBridge" onclick="switchFeedMode('bridge')" class="px-2 py-1 rounded bg-slate-800 border border-slate-600 text-slate-300 hover:border-emerald-400">
+                📱 Mac Window
+              </button>
+              <button id="btnSourceSim" onclick="startSyntheticDemoFeed()" class="px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-400 hover:text-white">
+                🧪 Sim Grid
+              </button>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="sendAndroidKey('4')" class="px-2 py-1 rounded bg-slate-800 border border-slate-600 text-slate-200 hover:border-sky-400" title="Send Android Back Key">
+                ◀ Back
+              </button>
+              <button id="btnClickCalib" onclick="toggleVideoClickCalibration()" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/60 text-amber-200 font-semibold hover:bg-amber-500/30">
+                🎯 Set Stick Pos
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-1.5">
-            <button id="btnClickCalib" onclick="toggleVideoClickCalibration()" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/60 text-amber-200 font-semibold hover:bg-amber-500/30">
-              🎯 Click Stick on Video
+
+          <!-- 1-CLICK ANDROID ROLA ACCOUNT LOGIN BAR (Types directly into emulator-5580 via ADB) -->
+          <div class="flex flex-wrap items-center gap-2 pt-1.5 border-t border-slate-800/90">
+            <span class="text-emerald-300 font-bold">🔑 ROLA Android Sign-In:</span>
+            <input id="androidRolaEmail" type="text" placeholder="ROLA Email or Phone" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-white text-xs w-48 focus:border-emerald-400 outline-none" />
+            <input id="androidRolaPass" type="password" placeholder="ROLA Password" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-white text-xs w-40 focus:border-emerald-400 outline-none" />
+            <button onclick="triggerAndroidRolaLogin()" class="px-3 py-1 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-bold hover:bg-emerald-500/40">
+              🚀 Auto-Fill &amp; Log In on Android ROLA
             </button>
+            <span class="text-[10px] text-slate-400 ml-auto">💡 Tip: Click anywhere on the Android ROLA screen below to tap buttons directly!</span>
           </div>
         </div>
 
@@ -360,18 +369,21 @@
     // 1. STATE & CONFIGURATION
     // ============================================================================
     const BRIDGE_URL = "http://127.0.0.1:8795";
+    const ANDROID_ADB_URL = "http://100.109.202.44:8796";
     let bridgeOnline = false;
+    let androidOnline = false;
     let cocoModel = null;
     let currentMissionMode = 0; // 0=Manual, 1=Follow, 2=LostItem, 3=Patrol, 4=Orbit, 5=Dock
-    // feedMode: 'bridge' (default auto-stream from Mac 127.0.0.1:8795/api/frame.jpg), 'webrtc' (camera/screen), 'sim'
-    let feedMode = "bridge";
+    // feedMode: 'android' (Option 2: Headless Android ROLA on emulator-5580 via ADB), 'bridge' (Mac window), 'webrtc', 'sim'
+    let feedMode = "android";
     let useSyntheticFeed = false;
     let selectedMacWindowId = "auto";
-    let bridgeWindowOwner = "iPhone Mirroring / ROLA";
-    let bridgeWindowBounds = { X: 400, Y: 108, Width: 640, Height: 663 };
-    let bridgeStickCenter = { x: 720, y: 560 };
-    let bridgeStickRadius = 68;
+    let bridgeWindowOwner = "ROLA Android v2.1.3.3 (emulator-5580)";
+    let bridgeWindowBounds = { X: 0, Y: 0, Width: 1080, Height: 2400 };
+    let bridgeStickCenter = { x: 540, y: 1872 };
+    let bridgeStickRadius = 180;
     let videoClickCalibActive = false;
+    let lastRenderedRect = { dx: 311, dy: 0, dw: 337, dh: 600 };
     let detections = [];
     let lockedTarget = null;
     let cmdThrottle = 0.0;
@@ -381,7 +393,7 @@
     let keysHeld = {};
     let pulseTick = 0;
 
-    // Live In-RAM Bridge Frame Loader (Streams iPhone Mirroring / ROLA window with zero browser popups)
+    // Live Frame Loader (Streams Option 2 Headless Android ROLA or Mac Bridge Window with zero popups)
     const bridgeImg = new Image();
     bridgeImg.crossOrigin = "anonymous";
     let bridgeFrameReady = false;
@@ -397,8 +409,16 @@
     };
 
     function requestNextBridgeFrame(now) {
-      if (feedMode !== "bridge" || !bridgeOnline || bridgeFrameInFlight) return;
-      if ((now - lastBridgeFrameTs) < 42) return; // ~24 FPS smooth window stream
+      if (bridgeFrameInFlight) return;
+      if (feedMode === "android") {
+        if ((now - lastBridgeFrameTs) < 95) return; // ~10.5 FPS crisp ADB framebuffer stream
+        bridgeFrameInFlight = true;
+        lastBridgeFrameTs = now;
+        bridgeImg.src = `${ANDROID_ADB_URL}/api/frame.jpg?t=${Date.now()}`;
+        return;
+      }
+      if (feedMode !== "bridge" || !bridgeOnline) return;
+      if ((now - lastBridgeFrameTs) < 42) return;
       bridgeFrameInFlight = true;
       lastBridgeFrameTs = now;
       const widParam = (selectedMacWindowId !== "auto") ? `&window_id=${selectedMacWindowId}` : "";
@@ -444,7 +464,7 @@
     initCocoModel();
 
     // ============================================================================
-    // 3. MULTI-SOURCE VIDEO INGESTION (MAC BRIDGE IN-RAM / CAMERA / WEBRTC / SIM)
+    // 3. MULTI-SOURCE VIDEO INGESTION (ANDROID ADB / MAC BRIDGE / CAMERA / WEBRTC)
     // ============================================================================
     const videoEl = document.getElementById("rolaVideo");
     const canvas = document.getElementById("visionCanvas");
@@ -453,13 +473,47 @@
     window.switchFeedMode = function(mode) {
       feedMode = mode;
       useSyntheticFeed = (mode === "sim");
-      if (mode === "bridge") {
+      if (mode === "android") {
+        updateFeedBadge("🤖 LIVE ANDROID ROLA (emulator-5580 • ADB)", true);
+        logEvent("Switched to Standalone Android ROLA v2.1.3.3 (emulator-5580 via ADB).", "text-emerald-300 font-bold");
+      } else if (mode === "bridge") {
         updateFeedBadge(`📱 LIVE MAC BRIDGE: ${bridgeWindowOwner}`, true);
         logEvent(`Switched to Live Mac Bridge Window Stream (${bridgeWindowOwner}).`, "text-emerald-300");
       } else if (mode === "sim") {
         updateFeedBadge("🧪 SYNTHETIC SIM GRID", false);
         logEvent("Switched to Simulated EBO SE Living-Room Pet & Object Feed.", "text-sky-300");
       }
+    };
+
+    window.triggerAndroidRolaLogin = async function() {
+      const email = (document.getElementById("androidRolaEmail").value || "").trim();
+      const password = (document.getElementById("androidRolaPass").value || "").trim();
+      if (!email) {
+        logEvent("Enter your ROLA Email or Phone in the green bar above first!", "text-amber-300 font-bold");
+        return;
+      }
+      logEvent(`Sending ROLA credentials (${email}) to Android emulator-5580 via ADB...`, "text-emerald-300 font-bold");
+      try {
+        await fetch(`${ANDROID_ADB_URL}/api/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, type: email.includes("@") ? "email" : "phone" })
+        });
+        logEvent("Auto-typing Email & Password + ticking Terms + tapping Confirm on Android ROLA (watch screen below)!", "text-emerald-300");
+      } catch (e) {
+        logEvent("Failed to reach Android ADB daemon on 100.109.202.44:8796", "text-rose-400");
+      }
+    };
+
+    window.sendAndroidKey = async function(keyCode) {
+      try {
+        await fetch(`${ANDROID_ADB_URL}/api/key`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key: keyCode })
+        });
+        logEvent(`Sent Android keyevent (${keyCode}) to ROLA container.`, "text-sky-300");
+      } catch (e) {}
     };
 
     window.selectMacWindow = async function(val) {
@@ -484,18 +538,7 @@
     };
 
     window.openRolaMacAppStore = async function() {
-      logEvent("Opening ROLA - Smart Robot (id1478722613) on Mac App Store for native Apple Silicon execution...", "text-emerald-300 font-bold");
-      if (bridgeOnline) {
-        try {
-          await fetch(`${BRIDGE_URL}/api/open_app`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ store_url: "macappstore://apps.apple.com/us/app/rola-smart-robot/id1478722613" })
-          });
-          return;
-        } catch (e) {}
-      }
-      window.open("https://apps.apple.com/us/app/rola-smart-robot/id1478722613", "_blank");
+      switchFeedMode("android");
     };
 
     window.openIphoneMirroringApp = async function() {
@@ -552,8 +595,8 @@
         updateFeedBadge("🪟 LIVE WEBRTC WINDOW STREAM", true);
         logEvent("Connected live ROLA / iPhone Mirroring WebRTC stream!", "text-emerald-300");
       } catch (err) {
-        logEvent("Browser screen picker blocked in IDE iframe — using Automatic Mac Bridge Window Stream instead!", "text-emerald-300");
-        switchFeedMode("bridge");
+        logEvent("Browser screen picker canceled — switching to Standalone Android ROLA (ADB)!", "text-emerald-300");
+        switchFeedMode("android");
       }
     };
 
@@ -566,47 +609,66 @@
       const btn = document.getElementById("btnClickCalib");
       if (videoClickCalibActive) {
         btn.className = "px-2.5 py-1 rounded bg-rose-500/30 border border-rose-400 text-rose-200 font-bold animate-pulse";
-        btn.textContent = "🎯 Click ROLA Stick on Video Now...";
-        logEvent("Click directly on the ROLA joystick center inside the video feed below to calibrate!", "text-amber-300 font-bold");
+        btn.textContent = "🎯 Click Stick on Screen...";
+        logEvent("Click on the ROLA joystick center inside the video feed below to calibrate!", "text-amber-300 font-bold");
       } else {
         btn.className = "px-2.5 py-1 rounded bg-amber-500/20 border border-amber-400/60 text-amber-200 font-semibold hover:bg-amber-500/30";
-        btn.textContent = "🎯 Click Stick on Video";
+        btn.textContent = "🎯 Set Stick Pos";
       }
     };
 
     canvas.addEventListener("click", async (e) => {
       const rect = canvas.getBoundingClientRect();
-      const u = (e.clientX - rect.left) / rect.width;
-      const v = (e.clientY - rect.top) / rect.height;
-      if (videoClickCalibActive && bridgeOnline) {
-        try {
-          const res = await fetch(`${BRIDGE_URL}/api/calibrate_uv`, {
+      const cx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const cy = (e.clientY - rect.top) * (canvas.height / rect.height);
+      const { dx, dy, dw, dh } = lastRenderedRect;
+      const u = Math.max(0, Math.min(1, (cx - dx) / (dw || canvas.width)));
+      const v = Math.max(0, Math.min(1, (cy - dy) / (dh || canvas.height)));
+
+      if (videoClickCalibActive) {
+        if (feedMode === "android") {
+          await fetch(`${ANDROID_ADB_URL}/api/calibrate_uv`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ u, v })
+          });
+          logEvent(`Calibrated Android ROLA Stick Center at (${Math.round(u*1080)}, ${Math.round(v*2400)})!`, "text-emerald-300 font-bold");
+        } else if (bridgeOnline) {
+          await fetch(`${BRIDGE_URL}/api/calibrate_uv`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ u, v, target: "stick_center" })
           });
-          const st = await res.json();
-          if (st.stick_center) {
-            bridgeStickCenter = st.stick_center;
-            document.getElementById("calJoyX").value = st.stick_center.x;
-            document.getElementById("calJoyY").value = st.stick_center.y;
-            logEvent(`Calibrated ROLA Stick Center at Mac coords (${st.stick_center.x}, ${st.stick_center.y})!`, "text-emerald-300 font-bold");
-          }
-        } catch (err) {}
+          logEvent("Calibrated Mac ROLA Stick Center!", "text-emerald-300 font-bold");
+        }
         toggleVideoClickCalibration();
+        return;
+      }
+
+      // In Standalone Android ROLA mode, clicking the screen sends a direct ADB tap to emulator-5580!
+      if (feedMode === "android") {
+        try {
+          const res = await fetch(`${ANDROID_ADB_URL}/api/tap`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ u, v })
+          });
+          const data = await res.json();
+          logEvent(`📱 Tapped Android ROLA screen at (${data.x}, ${data.y})`, "text-sky-300");
+        } catch (err) {}
       }
     });
 
     // ============================================================================
-    // 4. LOCAL MAC BRIDGE (127.0.0.1:8795) COMMUNICATION
+    // 4. ANDROID ADB CONTAINER (:8796) + LOCAL MAC BRIDGE (:8795) POLLING
     // ============================================================================
     async function refreshMacWindowDropdown() {
-      if (!bridgeOnline) return;
+      const sel = document.getElementById("macWindowSelect");
+      if (!sel || !bridgeOnline) return;
       try {
         const res = await fetch(`${BRIDGE_URL}/api/windows`);
         if (!res.ok) return;
         const data = await res.json();
-        const sel = document.getElementById("macWindowSelect");
         const prevVal = sel.value;
         sel.innerHTML = `<option value="auto">🪟 Auto: ${data.active_window_owner || "iPhone Mirroring / ROLA"}</option><option value="0">🖥️ Full macOS Main Display</option>`;
         (data.windows || []).forEach(w => {
@@ -623,6 +685,24 @@
     }
 
     async function pollBridgeStatus() {
+      // 1. Check Option 2 Headless Android ROLA ADB Container (100.109.202.44:8796)
+      try {
+        const aRes = await fetch(`${ANDROID_ADB_URL}/api/status`);
+        if (aRes.ok) {
+          const ast = await aRes.json();
+          androidOnline = true;
+          if (feedMode === "android") {
+            updateFeedBadge(`🤖 LIVE ANDROID ROLA (emulator-5580 • ${ast.w}×${ast.h})`, true);
+            const badge = document.getElementById("bridgeBadge");
+            badge.textContent = `🟢 ANDROID ROLA ADB (emulator-5580): LIVE (${ast.state?.cmd_count || 0} cmds)`;
+            badge.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
+          }
+        }
+      } catch (e) {
+        androidOnline = false;
+      }
+
+      // 2. Check Local Mac Bridge (127.0.0.1:8795)
       try {
         const res = await fetch(`${BRIDGE_URL}/api/status`, { method: "GET" });
         if (res.ok) {
@@ -636,9 +716,11 @@
           if (st.stick_center) bridgeStickCenter = st.stick_center;
           if (st.stick_radius) bridgeStickRadius = st.stick_radius;
 
-          const badge = document.getElementById("bridgeBadge");
-          badge.textContent = `🟢 MAC BRIDGE (127.0.0.1:8795): LIVE (${cmdCount} cmds)`;
-          badge.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
+          if (feedMode !== "android") {
+            const badge = document.getElementById("bridgeBadge");
+            badge.textContent = `🟢 MAC BRIDGE (127.0.0.1:8795): LIVE (${cmdCount} cmds)`;
+            badge.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 font-bold";
+          }
           if (cursor) {
             document.getElementById("calibCursorReadout").textContent = `Mac Cursor: (${cursor.x}, ${cursor.y})`;
           }
@@ -651,9 +733,6 @@
         }
       } catch (e) {
         bridgeOnline = false;
-        const badge = document.getElementById("bridgeBadge");
-        badge.textContent = "🟡 MAC BRIDGE: RUN rola_bridge_daemon.py ON MAC";
-        badge.className = "px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300";
       }
     }
     setInterval(pollBridgeStatus, 1000);
@@ -670,6 +749,17 @@
       cmdSteering = steering;
       updateJoystickKnobVisual(steering, throttle);
       document.getElementById("hudCmdVector").textContent = `T: ${throttle.toFixed(2)} | S: ${steering.toFixed(2)}`;
+
+      if (feedMode === "android" && androidOnline) {
+        try {
+          await fetch(`${ANDROID_ADB_URL}/api/control`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ vx: steering, vy: throttle, throttle, steering, mode: modeLabel })
+          });
+        } catch (e) {}
+        return;
+      }
 
       if (!bridgeOnline) return;
       try {
@@ -849,8 +939,8 @@
             detections = await cocoModel.detect(videoEl);
           } catch (e) {}
         }
-      } else if (feedMode === "bridge" && bridgeOnline && bridgeFrameReady && bridgeImg.naturalWidth > 0) {
-        // Draw dark letterbox background + preserve aspect ratio or fill cleanly
+      } else if ((feedMode === "android" || (feedMode === "bridge" && bridgeOnline)) && bridgeFrameReady && bridgeImg.naturalWidth > 0) {
+        // Draw dark letterbox background + preserve aspect ratio cleanly
         ctx.fillStyle = "#02060d";
         ctx.fillRect(0, 0, W, H);
         const iw = bridgeImg.naturalWidth;
@@ -860,19 +950,23 @@
         const dh = ih * scale;
         const dx = (W - dw) / 2;
         const dy = (H - dh) / 2;
+        lastRenderedRect = { dx, dy, dw, dh };
         ctx.drawImage(bridgeImg, dx, dy, dw, dh);
 
         // Draw top-left live source pill on canvas
-        ctx.fillStyle = "rgba(2, 6, 23, 0.82)";
-        ctx.fillRect(12, 12, 460, 28);
+        ctx.fillStyle = "rgba(2, 6, 23, 0.85)";
+        ctx.fillRect(12, 12, 500, 28);
         ctx.strokeStyle = "rgba(52, 211, 153, 0.7)";
         ctx.lineWidth = 1;
-        ctx.strokeRect(12, 12, 460, 28);
+        ctx.strokeRect(12, 12, 500, 28);
         ctx.fillStyle = "#34d399";
         ctx.font = "bold 12px JetBrains Mono, monospace";
-        ctx.fillText(`🟢 LIVE MAC WINDOW: ${bridgeWindowOwner.slice(0, 38)}`, 22, 30);
+        const pillText = (feedMode === "android")
+          ? "🤖 LIVE ANDROID ROLA (emulator-5580 • Click screen to tap)"
+          : `🟢 LIVE MAC WINDOW: ${bridgeWindowOwner.slice(0, 38)}`;
+        ctx.fillText(pillText, 22, 30);
 
-        // Run real-time COCO-SSD AI detection on the live window frame!
+        // Run real-time COCO-SSD AI detection on the live frame!
         if (cocoModel && (now - lastDetectTs) > 120) {
           lastDetectTs = now;
           try {
