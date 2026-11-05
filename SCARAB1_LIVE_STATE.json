@@ -1,11 +1,15 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-05 06:36:37 UTC",
+  "updated_at_utc": "2026-11-05 06:53:45 UTC",
   "state_sha256": "8b783752fe81e1f734c7416186f0ce07c0118d740da5948c67bec7c5ec784d4b",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
+    "forms_3d_cad_studio": "https://portalstest.github.io/photogenik-scarab/forms.html",
     "cad_blueprint_and_swiss_army_configurator": "https://portalstest.github.io/photogenik-scarab/blueprint.html",
+    "brooklyn_mvp_3d_assembly_simulator": "https://portalstest.github.io/photogenik-scarab/mvp.html",
+    "brooklyn_mvp_assembly_guide_mp4": "https://portalstest.github.io/photogenik-scarab/scarab_brooklyn_mvp_assembly_guide.mp4",
+    "brooklyn_mvp_build_plan_markdown": "https://portalstest.github.io/photogenik-scarab/SCARAB1_BROOKLYN_WEEKEND_MVP_BUILD_PLAN.md",
     "interactive_3d_cinema": "https://portalstest.github.io/photogenik-scarab/cinema.html",
     "demo_film_mp4": "https://portalstest.github.io/photogenik-scarab/scarab_product_demo_26s.mp4",
     "master_context_markdown": "https://portalstest.github.io/photogenik-scarab/SCARAB1_MASTER_CONTEXT.md",

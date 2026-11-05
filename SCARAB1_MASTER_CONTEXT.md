@@ -3,11 +3,14 @@ schema_version: "1.0"
 project: "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)"
 google_drive_space: "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0"
 canonical_web_proposal: "https://portalstest.github.io/photogenik-scarab/"
+canonical_6forms_3d_studio: "https://portalstest.github.io/photogenik-scarab/forms.html"
 canonical_cad_blueprint: "https://portalstest.github.io/photogenik-scarab/blueprint.html"
+canonical_brooklyn_mvp_3d_sim: "https://portalstest.github.io/photogenik-scarab/mvp.html"
+canonical_brooklyn_mvp_video: "https://portalstest.github.io/photogenik-scarab/scarab_brooklyn_mvp_assembly_guide.mp4"
 canonical_3d_cinema: "https://portalstest.github.io/photogenik-scarab/cinema.html"
 live_markdown_mirror: "https://portalstest.github.io/photogenik-scarab/SCARAB1_MASTER_CONTEXT.md"
 live_state_json: "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
-active_phase: "Phase 1 — StampFly + XIAO ESP32S3 Bench De-Risking (Gate 1 & Gate 2)"
+active_phase: "Phase 1 — Brooklyn Weekend DIY MVP (Form 06 Sericoptera + Spider-Silk Winch) & UCLA Gate 1/2 Bench Bring-Up"
 hard_budgets:
   closed_dimensions_mm: "81.0 x 81.0 x 24.0"
   deployed_wingspan_mm: 180.0
@@ -29,9 +32,12 @@ owners:
 
 > [!IMPORTANT]
 > **Purpose of This Document**: This is the single canonical onboarding and live-state handoff file for **Harsha**, **Prashanth (UCLA)**, and **all collaborating AI Agents** (Google Drive `Scarab1` Gemini Workspace agents, Claude/Cursor/Antigravity agents, and the 3-Model Robotics Swarm Triad: `Claude Opus 5.5 + Sol 6.1 MAX + Gemini 4 Argon High`).
-> - **Google Drive Project Space (`Scarab1`)**: https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0
+> - **Google Drive Project Space (`Scarab1`)**: https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0 (Folder: https://drive.google.com/drive/folders/1N7eXUW2lRcgNYZYLpvEsXKXg5YAiGsLp)
 > - **Live Interactive Proposal & 26s 3D Film**: https://portalstest.github.io/photogenik-scarab/
-> - **Live 3-Pane CAD Blueprint & Swiss-Army Sensor Configurator**: https://portalstest.github.io/photogenik-scarab/blueprint.html
+> - **Live 6-Form 3D CAD Studio (`01 Aurelia` → `06 Sericoptera / Kōrō Lantern`)**: https://portalstest.github.io/photogenik-scarab/forms.html
+> - **Live 7-Mode CAD Blueprint & Swiss-Army Sensor Configurator**: https://portalstest.github.io/photogenik-scarab/blueprint.html
+> - **Live Brooklyn Weekend DIY MVP 7-Step 3D Assembly & Winch Simulator**: https://portalstest.github.io/photogenik-scarab/mvp.html
+> - **Animated 24s 720p 3D Step-by-Step Assembly & Winch Video (`.mp4`)**: https://portalstest.github.io/photogenik-scarab/scarab_brooklyn_mvp_assembly_guide.mp4
 > - **Live Interactive 3D Fortiche Cinema**: https://portalstest.github.io/photogenik-scarab/cinema.html
 > - **Auto-Synced Public Markdown Mirror**: https://portalstest.github.io/photogenik-scarab/SCARAB1_MASTER_CONTEXT.md
 > - **Auto-Synced Machine-Readable State JSON**: https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json
@@ -113,21 +119,43 @@ flowchart TD
      3. **Wall Perching**: Suction cups foul with dust after `10` landings and fail on porous drywall $\rightarrow$ make **`0.3 g` `N52` magnetic perching onto adhesive brushed-steel wall target discs primary**, plus a sticky silicone lint-roller cleaning pad inside the Nest throat.
      4. **End-Effector**: Pogo-pin chin-pod carousels add `1.5 g` dead weight $\rightarrow$ use a **fixed `1.1 g` integrated bimodal compliant jaw** (combined ball-scoop + card-suction + conductive capacitive `Beetle Tarsi` tip).
      5. **FCC Part 15.521 UWB Compliance**: FCC prohibits active UWB transmitters on flying aircraft $\rightarrow$ put the **UWB Transmitter (`TX`) in the stationary Desk Charging Nest**, run the Scarab's `DW3110` in **passive `RX-only` mode** while airborne, and use **`BLE 6.0` Channel Sounding** for active tag finding.
+8. **Step 8 — Spider-Silk Ceiling Winch (`+1.85 g`), Tri-Modal Ceiling Anchor & Form 06 (`🕸️ SERICOPTERA / 🏮 KŌRŌ LANTERN`, `42.85 g`)**:
+   - *Biological Precedents Combining True Flight + Structural Silk Suspension*:
+     1. ***Embioptera* (Webspinners)** — winged flyers with `200+` silk-ejector glands in enlarged globular front basitarsi.
+     2. ***Chrysopidae* (Golden-Eyed Green Lacewings)** — emerald/gold-veined flyers that extrude fast-curing tensile silk stalks + ultrasonic wing ears.
+     3. ***Arachnocampa luminosa* (Bioluminescent Glowworm Flies)** — winged Diptera that suspend crystal-beaded vertical silk chandelier threads from cave ceilings with `488 nm` bioluminescence.
+     4. ***Geometridae / Bombycidae* (Silk-Moth Loopers)** — drop on a self-braking silk lifeline (`0 W` hold) and winch back up.
+   - *Hardware Architecture (`+1.85 g` Module)*:
+     - **Tether (`0.035 g`)**: `3.0 m` of `0.12 mm` braided `Dyneema SK99` / `PowerPro Spectra` (`18 kg` / `180 N` breaking strength = `400×` safety factor).
+     - **Self-Locking Winch (`1.10 g`)**: `6 mm` coreless planetary + miniature `M0.3` brass worm-gear brake (`0.0 mW` static hold power when unpowered; `1.1 W` active reel-in at `15 cm/s`).
+     - **Tri-Modal Ceiling Anchor Ferrule (`0.70 g`)**: Combines a `15 N` Electro-Permanent Magnet (`EPM`, `0 mW` steady hold on steel vents/drywall corner beads/target washers), `8.5 N` viscoelastic gecko-silicone gel ring (painted drywall/glass/wood), and `4.2 N` 12 opposed tungsten micro-spines (popcorn ceiling/plaster/timbers) with a `12 N` sacrificial breakaway link.
+   - *4 New Physical Unlocks (`Mode 7`)*:
+     1. **`0 W` Chandelier Overwatch & Floating Kōrō Lantern**: Flies to ceiling, docks (`0 W` rotors), and rappels `0.8–2.0 m` down on a nearly invisible thread as a `360°` room camera + `2200 K` pendant light for `8–48 hours`.
+     2. **`5×–10×` Yo-Yo Crane Hoist (`50–150 g` Floor Retrieval)**: While anchored to the ceiling (`14–15 N` hold), lowers the magnetic/hook ferrule to the floor and winches up a **`65 g` keyring or AirPods case** (`1.4×` the robot's own weight) without spinning the flight rotors.
+     3. **Vertical Behind-Furniture Drop**: Hovers over a narrow `10 cm` gap behind a couch/bed and lowers the tether `2.5 m` straight down to fish out dropped items.
+     4. **Pendulum Brachiation Swing**: Uses a `180 ms` rotor pulse on a `1.2 m` tether to swing silently across a room arc or around doorway corners.
+9. **Step 9 — Brooklyn Weekend DIY MVP Build Plan (`46.5 g`, `$141.70`), Interactive 3D Assembly Simulator (`mvp.html`) & 24s 720p Animated 3D Video**:
+   - Engineered a 100% COTS, zero-PCB-fabrication weekend build using parts available locally in Brooklyn (**Micro Center Brooklyn** at 850 3rd Ave Sunset Park, **Dream Fishing Tackle** in Greenpoint for `0.12 mm` `PowerPro` Spectra line, and home/library `0.4 mm` Spiral Vase Mode PLA printing).
+   - Delivered the interactive 7-step 3D WebGL Assembly & Live Winch Simulator (`https://portalstest.github.io/photogenik-scarab/mvp.html`, Drive ID `1aQc2Mqm2Hlqwr84itYLRr32Wh6N1tV0B`) and the 24-second `1280×720` `30 fps` animated 3D instructional video (`https://portalstest.github.io/photogenik-scarab/scarab_brooklyn_mvp_assembly_guide.mp4`, Drive ID `1lmRvOUpaij0hOUee4IWYDSANg8W8ildl`).
 
 ---
 
 ## 3. Complete File, Code & Artifact Index
 
-All files are mirrored across **Dorian**, **Halkenburg (`100.109.202.44`)**, and **GitHub Pages (`portalstest/photogenik-scarab`)**:
+All files are mirrored across **Dorian**, **Halkenburg (`100.109.202.44`)**, **GitHub Pages (`portalstest/photogenik-scarab`)**, and **Google Drive (`1N7eXUW2lRcgNYZYLpvEsXKXg5YAiGsLp`)**:
 
-| Resource / File | Public Web URL / Local Path | Purpose |
+| Resource / File | Public Web URL / Google Drive ID | Purpose |
 | :--- | :--- | :--- |
-| **Main Interactive Proposal & 26s Film** | https://portalstest.github.io/photogenik-scarab/<br/>`projects/snitchcam/output/html/photogenik-scarab-proposal.html` | Full proposal, 5-stage animated flight breakdown, embedded CAD blueprint, Swiss-Army configurator, and BOM. |
-| **3-Pane CAD Blueprint & Sensor Configurator** | https://portalstest.github.io/photogenik-scarab/blueprint.html<br/>`projects/snitchcam/output/html/scarab_indoor_utility_blueprint.html` | Synchronized Side Cross-Section, Top-Down Orthographic Plan, 5:1 Cam Multiplexer, and 10-Sensor/Chin-Pod Loadout Configurator. |
+| **Main Interactive Proposal & 26s Film** | https://portalstest.github.io/photogenik-scarab/<br/>`projects/snitchcam/output/html/photogenik-scarab-proposal.html` | Full proposal, 6-stage animated flight breakdown, embedded CAD blueprint, Swiss-Army configurator, and BOM. |
+| **6-Form 3D CAD Studio (`01 Aurelia` → `06 Sericoptera`)** | https://portalstest.github.io/photogenik-scarab/forms.html<br/>Google Drive ID: `1BxV7ssVdoVnMoRvz_OQB2McEByAGYEx_` | Interactive Three.js PBR 3D studio + 3-pane orthographic CAD comparing all 6 forms (including `06 Sericoptera / Kōrō Lantern`) and all 7 operational modes (including `Mode 7 Spider-Silk Winch`). |
+| **7-Mode CAD Blueprint & Sensor Configurator** | https://portalstest.github.io/photogenik-scarab/blueprint.html<br/>Google Drive ID: `1W7cEga7ceVH4uIs0uNV-gnihs4_B3za0` | Synchronized Side Cross-Section, Top-Down Orthographic Plan, 5:1 Cam Multiplexer, Mode 7 Winch/Pendulum/Yo-Yo Hoist, and 10-Sensor Configurator. |
+| **Brooklyn Weekend DIY MVP 3D Assembly & Winch Simulator** | https://portalstest.github.io/photogenik-scarab/mvp.html<br/>Google Drive ID: `1aQc2Mqm2Hlqwr84itYLRr32Wh6N1tV0B` | Interactive 7-step 3D WebGL build guide (`StampFly + XIAO + 1.7g Servo + 6mm Worm Winch + 3m Spectra + N52 Ferrule + Vase Shells`), live ceiling dock/rappel/pendulum/65g hoist physics, and 2D solderless wiring schematic. |
+| **Brooklyn Weekend DIY MVP 24s 720p 3D Assembly Video** | https://portalstest.github.io/photogenik-scarab/scarab_brooklyn_mvp_assembly_guide.mp4<br/>Google Drive ID: `1lmRvOUpaij0hOUee4IWYDSANg8W8ildl` | 24-second `1280×720` `30 fps` H.264 animated 3D instructional assembly & live spider-silk winch operation video. |
+| **Brooklyn Weekend DIY MVP Build Plan & BOM Doc** | `SCARAB1_BROOKLYN_WEEKEND_MVP_BUILD_PLAN.md`<br/>(Native Google Doc & Markdown in Drive Folder `1N7eXUW2lRcgNYZYLpvEsXKXg5YAiGsLp`) | Complete local Brooklyn shopping list (Micro Center Sunset Park, Greenpoint tackle shop), `$85` vs `$141.70` BOM, solderless pinout, and 7-step build instructions. |
 | **Interactive 3D Fortiche WebGL Cinema** | https://portalstest.github.io/photogenik-scarab/cinema.html | Real-time Three.js 12 fps stepped Fortiche shader scene with procedural audio. |
 | **26s Product Demo Film (`.mp4`)** | https://portalstest.github.io/photogenik-scarab/scarab_product_demo_26s.mp4 | Rendered `1280×720` H.264/AAC product demo reel. |
-| **UCLA Brother Step-by-Step Build Manual** | `docs/UCLA_BROTHER_SCARAB_BLUEPRINT.md` | Prashanth's step-by-step hardware build checklist (`StampFly + XIAO + 0.4mm shells + servo cam`). |
-| **14 Triad Research JSONs (`Opus + Sol + Argon`)** | `projects/snitchcam/research/*.json` | Complete 3-model deliberation logs covering patentability, Claim 1, size floor, Swiss-Army sensors, combinatorial unlocks, and DFM scaling. |
+| **UCLA Brother Step-by-Step Build Manual** | `docs/UCLA_BROTHER_SCARAB_BLUEPRINT.md`<br/>Google Drive ID: `1HV2qyzZ8gy3XRGMNNnAGgr5GrovnplUcFCFMnXakhaE` | Prashanth's step-by-step hardware build checklist (`StampFly + XIAO + 0.4mm shells + servo cam`). |
+| **39 Triad Research JSONs (`Opus + Sol + Argon`)** | `projects/snitchcam/research/*.json`<br/>Google Drive Folder: `1Z-5KXo-gRyMvDpE1DM15cKssp9dTVDP9` | Complete 3-model deliberation logs covering patentability, Claim 1, size floor, Swiss-Army sensors, 6 sanctuary forms, spider-silk winch, and DFM scaling. |
 
 ---
 
@@ -154,6 +182,15 @@ To collaborate seamlessly across **Google Drive (`Scarab1`)**, **UCLA Makerspace
    - Firmware for the ESP32-S3 (`30 Hz` Optical Flow/ToF EKF + IR beacon homing) paired with off-board room navigation and `Sense → Relocate → Test → Act → Verify` state machines.
 3. **USPTO Provisional Patent Filing Prep**:
    - Formal drawings and specification for Claim Clusters 1, 2, and 3 + Design Patents prior to the Nov 2, 2027 grace-period deadline.
+4. **Brooklyn Weekend DIY MVP Build (`Form 06 Sericoptera / Kōrō Lantern`, `46.5 g`, `$141.70`)**:
+   - **Local Brooklyn Sourcing**:
+     - **Micro Center Brooklyn** (850 3rd Ave, Sunset Park / Industry City): `Seeed Studio XIAO ESP32S3 Sense` (`$13.99`, `1.4 g` net), `Pololu DRV8837` H-bridge (`$4.95`), `Inland Translucent Natural PLA` (`$16.99`), `WS2812B` warm LEDs, `3M Command` strips.
+     - **Greenpoint / Bay Ridge Tackle Shop**: `PowerPro 10–15 lb` (`0.12 mm`) braided Spectra line (`$14.99`, `0.035 g` for `3.0 m`, `9 kg` breaking strength).
+     - **Base & Actuators**: `M5Stack StampFly v1.1` (`$49.95`, `36.8 g`), `Spektrum A2010` `1.7 g` linear micro-servo (`$11.99`), `6 mm` coreless planetary + self-locking worm-gear winch (`$9.99`, `1.5 g`), `10 mm × 1.5 mm` `N52` ceiling ring magnet + steel washer (`$8.99`, `0.8 g`).
+   - **7-Step Solderless Assembly & Pinout (`mvp.html`)**:
+     - `StampFly Grove HY2.0-4P` (`5V / GND / GPIO1 / GPIO2`) $\rightarrow$ `XIAO ESP32S3 Sense`.
+     - `XIAO GPIO4 (D3)` $\rightarrow$ `1.7 g` Linear Wing Servo (`0°` closed shutter, `15°` visor peek, `60°` flight/lantern open).
+     - `XIAO GPIO5 / GPIO6 (D4 / D5)` $\rightarrow$ `DRV8837 IN1 / IN2` $\rightarrow$ `6 mm` Worm-Gear Winch (`0.0 mW` static ceiling hold, `0.0 W` chandelier rappel, pendulum swing, and `65 g` keyring/AirPods floor hoist).
 
 ### Canonical Append-Only Event & Telemetry JSON Schema (For All Collaborating Agents)
 Neither Track H nor Track P overwrites `SCARAB1_MASTER_CONTEXT_AND_COLLAB_HANDOFF.md` by hand. Instead, whenever an agent or human completes a bench test, CAD revision, or research round, drop an append-only JSON file into `projects/snitchcam/research/` (or upload it to the Google Drive `Scarab1` folder) using this schema:
@@ -192,7 +229,7 @@ An autonomous sync script (`/Users/cerberus/FleetMaintenance/robotics-swarm/proj
 
 <!-- AUTOSYNC_START -->
 ## 6. Autonomous Research & Telemetry Digest (Auto-Updated by `scarab1_autosync.py`)
-- **Last Auto-Synced**: `2026-11-05 06:36:37 UTC`
+- **Last Auto-Synced**: `2026-11-05 06:53:45 UTC`
 - **State Fingerprint (`SHA-256`)**: `8b783752fe81e1f7`
 - **Verified 3-Model Triad Research Rounds**: `39` JSON deliberations
 - **Active Supermemory Graph Entities (`robotics/photogenik_*`)**: `29` canonical nodes
