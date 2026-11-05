@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EBO-962 Control Center | Garden Robotics</title>
+  <title>EBO-962 AI Control Center | Garden Robotics</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
@@ -17,7 +17,7 @@
     }
     .card {
       background: rgba(11, 22, 38, 0.95);
-      border: 1px solid rgba(56, 189, 248, 0.22);
+      border: 1px solid rgba(56, 189, 248, 0.24);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
     }
     .mode-btn {
@@ -26,34 +26,34 @@
       transition: all 0.15s ease;
     }
     .mode-btn:hover {
-      border-color: rgba(56, 189, 248, 0.6);
+      border-color: rgba(56, 189, 248, 0.65);
     }
     .mode-btn-active {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.28) 0%, rgba(16, 185, 129, 0.22) 100%);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.32) 0%, rgba(16, 185, 129, 0.25) 100%);
       border: 1px solid #38bdf8;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.28);
     }
     .joy-pad {
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.20) 0%, rgba(6, 14, 26, 0.96) 72%);
-      border: 2px solid rgba(56, 189, 248, 0.45);
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, rgba(6, 14, 26, 0.96) 72%);
+      border: 2px solid rgba(56, 189, 248, 0.48);
       touch-action: none;
     }
   </style>
 </head>
-<body class="min-h-screen p-3 sm:p-5">
-  <div class="max-w-[1440px] mx-auto space-y-4">
+<body class="min-h-screen p-3 sm:p-4">
+  <div class="max-w-[1460px] mx-auto space-y-3.5">
 
-    <!-- SIMPLIFIED TOP BAR -->
-    <header class="card rounded-2xl px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex flex-wrap items-center gap-3">
+    <!-- TOP BAR -->
+    <header class="card rounded-2xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-2.5">
         <div class="flex items-center gap-2">
-          <span id="connDot" class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-base sm:text-lg font-bold tracking-tight text-white">🤖 EBO-962 Live Control Center</span>
+          <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-base sm:text-lg font-bold tracking-tight text-white">🤖 EBO-962 AI Control Center</span>
         </div>
-        <span id="statusBadge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 border border-emerald-400/50 text-emerald-300">
-          🟢 Connected • harsha.g0101@gmail.com
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 border border-emerald-400/50 text-emerald-300">
+          🟢 EBO-962 Live • Fast ADB Shell
         </span>
-        <span id="aiBadge" class="px-2.5 py-1 rounded-full text-xs font-medium bg-sky-500/15 border border-sky-400/40 text-sky-300">
+        <span id="aiBadge" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-500/15 border border-sky-400/40 text-sky-300">
           🧠 AI Vision: Loading...
         </span>
       </div>
@@ -63,7 +63,7 @@
           📹 EBO Camera (16:9)
         </button>
         <button id="btnViewPhone" onclick="setViewMode('phone')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-600 hover:border-sky-400 transition">
-          📱 Full ROLA App Screen
+          📱 Full ROLA App
         </button>
         <button onclick="wakeRolaStream()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-emerald-300 border border-emerald-500/40 hover:bg-slate-700 transition">
           🔄 Wake Stream
@@ -74,65 +74,114 @@
       </div>
     </header>
 
-    <!-- MAIN 2-COLUMN CONTROL CENTER -->
+    <!-- MAIN 2-COLUMN WORKSPACE -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-      <!-- LEFT 8 COLS: LIVE EBO-962 CAMERA FEED + AI VISION OVERLAY -->
-      <div class="lg:col-span-8 card rounded-2xl p-4 flex flex-col justify-between space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2 text-xs">
-            <span id="viewLabel" class="font-bold text-sky-300 uppercase tracking-wider">📹 Live EBO-962 Optical / IR Camera</span>
-            <span id="fpsLabel" class="text-slate-400 font-mono text-[11px]">Streaming...</span>
+      <!-- LEFT 7 COLS: LIVE LOW-LATENCY CAMERA + NATURAL-LANGUAGE AI CHATBOX COMMANDER -->
+      <div class="lg:col-span-7 flex flex-col gap-3.5">
+
+        <!-- VIDEO CARD -->
+        <div class="card rounded-2xl p-3.5 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span id="viewLabel" class="font-bold text-sky-300 uppercase tracking-wider">📹 Live EBO-962 Camera (Low-Latency 640×360)</span>
+              <span id="fpsLabel" class="text-emerald-300 font-mono text-[11px] font-semibold">Connecting...</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="obstaclePill" class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[11px] text-slate-300">
+                Path: Scanning...
+              </span>
+              <label class="flex items-center gap-1 text-slate-300 cursor-pointer">
+                <input id="aiOverlayToggle" type="checkbox" checked class="accent-sky-400" />
+                <span>AI Boxes</span>
+              </label>
+            </div>
           </div>
-          <div class="flex items-center gap-2 text-xs">
-            <label class="text-slate-400">AI Track Target:</label>
-            <select id="targetSelect" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-sky-300 text-xs outline-none">
-              <option value="any">Any (Cat / Dog / Person)</option>
-              <option value="cat">🐱 Cat</option>
-              <option value="dog">🐶 Dog</option>
-              <option value="person">🧑 Person</option>
-              <option value="cell phone">📱 Phone</option>
-            </select>
-            <label class="flex items-center gap-1.5 text-slate-300 cursor-pointer ml-1">
-              <input id="aiOverlayToggle" type="checkbox" checked class="accent-sky-400" />
-              <span>AI Boxes</span>
-            </label>
+
+          <div class="relative w-full rounded-xl overflow-hidden bg-[#02050a] border border-slate-800 flex items-center justify-center" style="aspect-ratio: 16/9;">
+            <canvas id="liveCanvas" width="640" height="360" class="w-full h-full block cursor-pointer"></canvas>
+          </div>
+
+          <!-- 3-PILL TELEMETRY -->
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase">Active Mode</div>
+              <div id="hudMode" class="font-bold text-white mt-0.5 truncate">🕹️ Manual Drive</div>
+            </div>
+            <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase">AI Vision Target</div>
+              <div id="hudTarget" class="font-bold text-emerald-300 mt-0.5 truncate">Scanning room...</div>
+            </div>
+            <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase">Live Status</div>
+              <div id="hudEvent" class="font-bold text-sky-300 mt-0.5 truncate">Ready for commands</div>
+            </div>
           </div>
         </div>
 
-        <!-- LIVE VIDEO CANVAS -->
-        <div class="relative w-full rounded-xl overflow-hidden bg-[#02050a] border border-slate-800 flex items-center justify-center" style="aspect-ratio: 16/9;">
-          <canvas id="liveCanvas" width="987" height="555" class="w-full h-full block cursor-pointer"></canvas>
+        <!-- 💬 NATURAL-LANGUAGE AI CHATBOX COMMANDER -->
+        <div class="card rounded-2xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">💬 Prompt EBO-962 (Natural-Language AI Command Box)</span>
+            <span class="text-[11px] text-slate-400">Type any movement, sequence, or question</span>
+          </div>
+
+          <!-- Chat History -->
+          <div id="chatMessages" class="bg-slate-950/90 rounded-xl p-3 border border-slate-800 h-32 overflow-y-auto space-y-2 text-xs">
+            <div class="text-emerald-300">
+              <strong>🤖 EBO-962:</strong> Online and ready! Tell me what to do — e.g. <em>"get out from under the table"</em>, <em>"back up 2 seconds then turn left"</em>, <em>"find my cat"</em>, <em>"do a spin dance"</em>, or <em>"what do you see?"</em>
+            </div>
+          </div>
+
+          <!-- Quick 1-Tap Prompt Chips -->
+          <div class="flex flex-wrap gap-1.5 text-[11px]">
+            <button onclick="sendChatPrompt('get out from under the table')" class="px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-200 hover:bg-amber-500/30 font-medium">
+              🛟 Get out from under table
+            </button>
+            <button onclick="sendChatPrompt('find my cat and follow')" class="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 hover:bg-emerald-500/30 font-medium">
+              🐾 Find &amp; follow my cat
+            </button>
+            <button onclick="sendChatPrompt('patrol the room and avoid obstacles')" class="px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-400/50 text-purple-200 hover:bg-purple-500/30 font-medium">
+              🛰️ Smart Room Patrol
+            </button>
+            <button onclick="sendChatPrompt('back up 1.5 seconds then turn left and go forward')" class="px-2.5 py-1 rounded-full bg-sky-500/20 border border-sky-400/50 text-sky-200 hover:bg-sky-500/30 font-medium">
+              ↩️ Back up + Turn Left + Go
+            </button>
+            <button onclick="sendChatPrompt('do a 360 spin dance')" class="px-2.5 py-1 rounded-full bg-pink-500/20 border border-pink-400/50 text-pink-200 hover:bg-pink-500/30 font-medium">
+              💃 360° Spin Dance
+            </button>
+            <button onclick="sendChatPrompt('what do you see right now?')" class="px-2.5 py-1 rounded-full bg-slate-800 border border-slate-600 text-slate-200 hover:border-sky-400 font-medium">
+              👁️ What do you see?
+            </button>
+          </div>
+
+          <!-- Input Row -->
+          <form onsubmit="handleChatSubmit(event)" class="flex gap-2">
+            <input
+              id="chatInput"
+              type="text"
+              placeholder="Ask EBO-962 anything (e.g. 'back up 2s then spin right and snap photo')..."
+              class="flex-1 bg-slate-900 border border-slate-700 focus:border-sky-400 rounded-xl px-3.5 py-2 text-xs text-white outline-none"
+            />
+            <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition">
+              Send 🚀
+            </button>
+          </form>
         </div>
 
-        <!-- SIMPLE 3-PILL STATUS BAR -->
-        <div class="grid grid-cols-3 gap-2.5 text-xs">
-          <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
-            <div class="text-[10px] text-slate-400 uppercase">Active Mode</div>
-            <div id="hudMode" class="font-bold text-white mt-0.5">🕹️ Manual Drive (WASD / Stick)</div>
-          </div>
-          <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
-            <div class="text-[10px] text-slate-400 uppercase">AI Vision Target</div>
-            <div id="hudTarget" class="font-bold text-emerald-300 mt-0.5">Scanning room...</div>
-          </div>
-          <div class="bg-slate-900/90 px-3 py-2 rounded-xl border border-slate-800">
-            <div class="text-[10px] text-slate-400 uppercase">Motor Command</div>
-            <div id="hudMotor" class="font-bold text-sky-300 font-mono mt-0.5">Standby (0, 0)</div>
-          </div>
-        </div>
       </div>
 
-      <!-- RIGHT 4 COLS: DRIVE JOYSTICK + 4 AUTONOMOUS MODES + ROLA BUTTONS -->
-      <div class="lg:col-span-4 flex flex-col gap-4">
+      <!-- RIGHT 5 COLS: FULL-THROW DRIVE PAD + SERVER-SIDE AUTONOMOUS MODES + ROLA ACTIONS -->
+      <div class="lg:col-span-5 flex flex-col gap-3.5">
 
-        <!-- 1. VIRTUAL THUMBSTICK + SPEED SELECTOR -->
+        <!-- 1. DRIVE JOYSTICK + STRONG DIRECTION PULSES -->
         <div class="card rounded-2xl p-4 flex flex-col items-center space-y-3">
           <div class="w-full flex items-center justify-between text-xs">
-            <span class="font-bold text-white">🕹️ Drive EBO-962</span>
-            <span class="text-slate-400 text-[11px]">Drag Stick or Press W A S D / Arrows</span>
+            <span class="font-bold text-white">🕹️ Direct Drive (Full-Deflection Hold)</span>
+            <span class="text-slate-400 text-[11px]">Drag Stick or Hold W A S D / Arrows</span>
           </div>
 
-          <div id="joyZone" class="joy-pad w-48 h-48 rounded-full relative flex items-center justify-center cursor-pointer select-none my-1">
+          <div id="joyZone" class="joy-pad w-44 h-44 rounded-full relative flex items-center justify-center cursor-pointer select-none">
             <div class="w-full h-[1px] bg-sky-500/20 absolute"></div>
             <div class="h-full w-[1px] bg-sky-500/20 absolute"></div>
             <div id="joyKnob" class="w-14 h-14 rounded-full bg-sky-500/35 border-2 border-sky-300 shadow-lg shadow-sky-500/30 flex items-center justify-center text-xs font-bold text-white pointer-events-none">
@@ -140,68 +189,66 @@
             </div>
           </div>
 
-          <!-- D-Pad Quick Tap Buttons for discrete nudges -->
+          <!-- Strong 800ms Directional Drive Buttons -->
           <div class="grid grid-cols-4 gap-2 w-full text-xs">
-            <button onclick="nudge(0, 0.85, 'FORWARD')" class="py-2 rounded-lg bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-semibold text-white">▲ Fwd (W)</button>
-            <button onclick="nudge(0, -0.85, 'BACK')" class="py-2 rounded-lg bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-semibold text-white">▼ Back (S)</button>
-            <button onclick="nudge(-0.85, 0, 'LEFT')" class="py-2 rounded-lg bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-semibold text-white">◀ Left (A)</button>
-            <button onclick="nudge(0.85, 0, 'RIGHT')" class="py-2 rounded-lg bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-semibold text-white">▶ Right (D)</button>
+            <button onclick="nudge(0, 1.0, 'FORWARD', 800)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-bold text-white">▲ Fwd (W)</button>
+            <button onclick="nudge(0, -1.0, 'BACK', 800)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-bold text-white">▼ Back (S)</button>
+            <button onclick="nudge(-1.0, 0, 'LEFT', 700)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-bold text-white">◀ Left (A)</button>
+            <button onclick="nudge(1.0, 0, 'RIGHT', 700)" class="py-2.5 rounded-xl bg-slate-800 hover:bg-sky-500/30 border border-slate-700 font-bold text-white">▶ Right (D)</button>
           </div>
 
-          <!-- Speed Selector -->
           <div class="w-full flex items-center justify-between pt-1 text-xs">
-            <span class="text-slate-400">EBO Movement Speed:</span>
+            <span class="text-slate-400">EBO Wheel Speed:</span>
             <div class="flex gap-1.5">
-              <button onclick="triggerMacro('speed_low')" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 hover:border-sky-400 text-slate-200">🐢 Slow</button>
-              <button onclick="triggerMacro('speed_med')" class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700 hover:border-sky-400 text-slate-200">🚶 Med</button>
-              <button onclick="triggerMacro('speed_high')" class="px-2.5 py-1 rounded bg-sky-500/25 border border-sky-400 text-sky-200 font-bold">⚡ Fast (100)</button>
+              <button onclick="triggerMacro('speed_low')" class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 hover:border-sky-400 text-slate-200">🐢 Slow</button>
+              <button onclick="triggerMacro('speed_med')" class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 hover:border-sky-400 text-slate-200">🚶 Med</button>
+              <button onclick="triggerMacro('speed_high')" class="px-2.5 py-1 rounded-lg bg-sky-500/25 border border-sky-400 text-sky-200 font-bold">⚡ Fast (100)</button>
             </div>
           </div>
         </div>
 
-        <!-- 2. AUTONOMOUS AI MODES -->
+        <!-- 2. ROBUST SERVER-BACKED AUTONOMOUS AI MODES -->
         <div class="card rounded-2xl p-4 space-y-2.5">
-          <div class="text-xs font-bold text-white">🧠 Autonomous AI Modes</div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white">🧠 Autonomous AI Missions (24/7 Server Loop)</span>
+            <span class="text-[10px] text-emerald-300 font-semibold">Auto-Obstacle Escape Armed</span>
+          </div>
           <div class="grid grid-cols-2 gap-2">
-            <button id="modeBtn-0" onclick="setMode(0)" class="mode-btn mode-btn-active p-3 rounded-xl text-left">
-              <div class="text-xs font-bold text-white">🕹️ Manual Drive</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">WASD, arrows, or thumbstick</div>
+            <button id="modeBtn-manual" onclick="setAutonomyMode('manual')" class="mode-btn mode-btn-active p-3 rounded-xl text-left">
+              <div class="text-xs font-bold text-white">🕹️ Manual Control</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Direct WASD, buttons, or stick</div>
             </button>
-            <button id="modeBtn-1" onclick="setMode(1)" class="mode-btn p-3 rounded-xl text-left">
-              <div class="text-xs font-bold text-emerald-300">🐾 Auto-Follow</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">AI locks onto pet or person</div>
+            <button id="modeBtn-follow" onclick="setAutonomyMode('follow')" class="mode-btn p-3 rounded-xl text-left">
+              <div class="text-xs font-bold text-emerald-300">🐾 Find &amp; Follow Cat</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Scans room &amp; tracks cat/person</div>
             </button>
-            <button id="modeBtn-2" onclick="setMode(2)" class="mode-btn p-3 rounded-xl text-left">
-              <div class="text-xs font-bold text-purple-300">🛰️ Room Patrol</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">Autonomous step-and-scan</div>
+            <button id="modeBtn-patrol" onclick="setAutonomyMode('patrol')" class="mode-btn p-3 rounded-xl text-left">
+              <div class="text-xs font-bold text-purple-300">🛰️ Smart Room Patrol</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Optical-flow stall &amp; IR avoidance</div>
             </button>
-            <button id="modeBtn-3" onclick="setMode(3)" class="mode-btn p-3 rounded-xl text-left">
-              <div class="text-xs font-bold text-amber-300">🏠 Auto-Dock</div>
-              <div class="text-[11px] text-slate-400 mt-0.5">Return EBO-962 to charger</div>
+            <button id="modeBtn-escape" onclick="setAutonomyMode('escape')" class="mode-btn p-3 rounded-xl text-left">
+              <div class="text-xs font-bold text-amber-300">🛟 Unstuck / Escape</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">Backs out &amp; turns to open floor</div>
             </button>
           </div>
         </div>
 
-        <!-- 3. ROLA QUICK ACTIONS + COMPACT LOG -->
+        <!-- 3. ROLA QUICK ACTIONS -->
         <div class="card rounded-2xl p-4 space-y-2.5">
-          <div class="text-xs font-bold text-white">⚡ ROLA App Actions</div>
+          <div class="text-xs font-bold text-white">⚡ ROLA Hardware &amp; App Actions</div>
           <div class="grid grid-cols-2 gap-2 text-xs">
             <button onclick="triggerMacro('dock')" class="p-2.5 rounded-xl bg-slate-900 border border-emerald-500/40 hover:bg-emerald-500/20 text-emerald-200 font-semibold text-left">
-              🏠 Return to Dock
+              🏠 Return to Charger
             </button>
-            <button onclick="triggerMacro('play')" class="p-2.5 rounded-xl bg-slate-900 border border-sky-500/40 hover:bg-sky-500/20 text-sky-200 font-semibold text-left">
-              ❤️ Play / Tricks
+            <button onclick="setAutonomyMode('dance')" class="p-2.5 rounded-xl bg-slate-900 border border-pink-500/40 hover:bg-pink-500/20 text-pink-200 font-semibold text-left">
+              💃 360° Spin Dance
             </button>
             <button onclick="triggerMacro('photo')" class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/40 hover:bg-amber-500/20 text-amber-200 font-semibold text-left">
               📸 Snap Photo
             </button>
             <button onclick="triggerMacro('ir_toggle')" class="p-2.5 rounded-xl bg-slate-900 border border-purple-500/40 hover:bg-purple-500/20 text-purple-200 font-semibold text-left">
-              🌙 Toggle IR Night
+              🌙 Toggle IR Night Vision
             </button>
-          </div>
-
-          <div id="logBox" class="bg-slate-950/90 rounded-xl p-2.5 border border-slate-800/90 h-20 overflow-y-auto text-[11px] font-mono space-y-1 text-slate-300">
-            <div class="text-emerald-300">[READY] Connected to EBO-962 (harsha.g0101@gmail.com).</div>
           </div>
         </div>
 
@@ -212,21 +259,17 @@
 
   <script>
     // ============================================================================
-    // 1. ENDPOINT AUTO-DISCOVERY (HTTPS First-Party /api/ebo + Local 127.0.0.1:8795)
+    // 1. ENDPOINT AUTO-DISCOVERY (Local 127.0.0.1:8795 or First-Party /api/ebo)
     // ============================================================================
-    // Works on https://join-garden.com/ebo (via /api/ebo HTTPS rewrite),
-    // http://127.0.0.1:8795/ebo (via /api/android), and GitHub Pages!
-    let API_BASE = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+    let API_BASE = (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost")
       ? "http://127.0.0.1:8795/api/android"
       : "/api/ebo";
 
-    // Also probe local 127.0.0.1:8795/api/android via fetch() (which sends PNA preflight) for lowest latency
-    (async function detectFastestEndpoint() {
+    (async function probeLocalFastPath() {
       try {
         const r = await fetch("http://127.0.0.1:8795/api/android/status", { method: "GET" });
         if (r.ok) {
           API_BASE = "http://127.0.0.1:8795/api/android";
-          log("Using low-latency local ADB bridge (127.0.0.1:8795).", "text-emerald-300");
         }
       } catch (e) {
         if (window.location.hostname.includes("github.io")) {
@@ -235,14 +278,13 @@
       }
     })();
 
-    let viewMode = "camera"; // 'camera' (16:9 cropped EBO-962 camera) or 'phone' (full 540x1200 ROLA screen)
-    let currentMode = 0;     // 0=Manual, 1=Follow, 2=Patrol, 3=Dock
+    let viewMode = "camera";
+    let autonomyMode = "manual";
     let cocoModel = null;
     let detections = [];
     let frameCount = 0;
-    let lastFpsCheck = performance.now();
+    let lastFpsTs = performance.now();
     let keysHeld = {};
-    let lastKeyCmdTs = 0;
 
     const canvas = document.getElementById("liveCanvas");
     const ctx = canvas.getContext("2d");
@@ -251,33 +293,39 @@
     let frameInFlight = false;
     let lastFrameFetchTs = 0;
     let lastDetectTs = 0;
-    let lastDrawRect = { dx: 0, dy: 0, dw: 987, dh: 555 };
+    let lastVisionPushTs = 0;
+    let lastDrawRect = { dx: 0, dy: 0, dw: 640, dh: 360 };
 
-    function log(msg, cls = "text-slate-300") {
-      const box = document.getElementById("logBox");
-      const el = document.createElement("div");
-      el.className = cls;
-      el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-      box.prepend(el);
+    function appendChat(role, text) {
+      const box = document.getElementById("chatMessages");
+      const div = document.createElement("div");
+      if (role === "user") {
+        div.className = "text-sky-300 text-right";
+        div.innerHTML = `<span class="inline-block bg-sky-500/20 border border-sky-400/40 rounded-xl px-3 py-1.5"><strong>You:</strong> ${text}</span>`;
+      } else {
+        div.className = "text-emerald-300";
+        div.innerHTML = `<span class="inline-block bg-emerald-500/15 border border-emerald-400/30 rounded-xl px-3 py-1.5"><strong>🤖 EBO-962:</strong> ${text}</span>`;
+      }
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
     }
 
-    // Load TensorFlow.js COCO-SSD for pet/person detection
-    (async function loadAi() {
+    (async function loadCoco() {
       try {
         cocoModel = await cocoSsd.load({ base: "lite_mobilenet_v2" });
         const b = document.getElementById("aiBadge");
         b.textContent = "🧠 AI Vision: Active";
-        b.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 border border-emerald-400/50 text-emerald-300";
+        b.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 border border-emerald-400/50 text-emerald-300";
       } catch (e) {
-        document.getElementById("aiBadge").textContent = "🧠 AI Vision: Standby";
+        document.getElementById("aiBadge").textContent = "🧠 AI Vision: Server Mode";
       }
     })();
 
     // ============================================================================
-    // 2. MIXED-CONTENT-SAFE BLOB FRAME STREAMER (Works on HTTPS & HTTP)
+    // 2. LOW-LATENCY 640x360 BLOB STREAMER (~14 KB/frame, ~14-18 FPS)
     // ============================================================================
     async function fetchNextFrame(now) {
-      if (frameInFlight || (now - lastFrameFetchTs) < 85) return;
+      if (frameInFlight || (now - lastFrameFetchTs) < 52) return;
       frameInFlight = true;
       lastFrameFetchTs = now;
       const endpoint = viewMode === "camera" ? "camera.jpg" : "frame.jpg";
@@ -298,13 +346,37 @@
         };
         frameImg.src = nextUrl;
       } catch (err) {
-        // Fallback to join-garden.com HTTPS proxy if local failed
         if (API_BASE.startsWith("http://127.0.0.1")) {
           API_BASE = "/api/ebo";
         }
         frameInFlight = false;
       }
     }
+
+    // Poll server status every 800ms so UI reflects autonomous obstacle escapes & telemetry
+    async function pollServerState() {
+      try {
+        const r = await fetch(`${API_BASE}/status`, { cache: "no-store" });
+        if (!r.ok) return;
+        const d = await r.json();
+        const st = d.state || {};
+        if (st.last_ai_event) {
+          document.getElementById("hudEvent").textContent = st.last_ai_event;
+        }
+        if (st.autonomy_mode && st.autonomy_mode !== autonomyMode) {
+          updateAutonomyButtons(st.autonomy_mode);
+        }
+        const pill = document.getElementById("obstaclePill");
+        if (st.ir_obstacle_near) {
+          pill.textContent = `⚠️ Close Obstacle (Open: ${st.open_side})`;
+          pill.className = "px-2 py-0.5 rounded bg-amber-500/25 border border-amber-400 text-[11px] text-amber-200 font-bold";
+        } else {
+          pill.textContent = `🟢 Path Clear (Motion: ${st.motion_score ?? 0})`;
+          pill.className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-[11px] text-emerald-200";
+        }
+      } catch (e) {}
+    }
+    setInterval(pollServerState, 800);
 
     window.setViewMode = function(mode) {
       viewMode = mode;
@@ -314,7 +386,7 @@
       if (mode === "camera") {
         bCam.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition";
         bPhone.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-600 hover:border-sky-400 transition";
-        lbl.textContent = "📹 Live EBO-962 Optical / IR Camera (16:9)";
+        lbl.textContent = "📹 Live EBO-962 Camera (Low-Latency 640×360)";
       } else {
         bPhone.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition";
         bCam.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-600 hover:border-sky-400 transition";
@@ -322,8 +394,6 @@
       }
     };
 
-    // Click on canvas -> In 'phone' mode, taps exact (u, v) on Android ROLA screen;
-    // In 'camera' mode, taps inside the video box (46..1033, 300..855) on Android ROLA screen!
     canvas.addEventListener("click", async (e) => {
       const rect = canvas.getBoundingClientRect();
       const cx = (e.clientX - rect.left) * (canvas.width / rect.width);
@@ -331,58 +401,97 @@
       const { dx, dy, dw, dh } = lastDrawRect;
       const relU = Math.max(0, Math.min(1, (cx - dx) / (dw || canvas.width)));
       const relV = Math.max(0, Math.min(1, (cy - dy) / (dh || canvas.height)));
-
       let u = relU, v = relV;
       if (viewMode === "camera") {
         u = (46 + relU * (1033 - 46)) / 1080;
         v = (300 + relV * (855 - 300)) / 2400;
       }
       try {
-        const r = await fetch(`${API_BASE}/tap`, {
+        await fetch(`${API_BASE}/tap`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ u, v })
         });
-        const d = await r.json();
-        log(`Tapped ROLA screen at (${d.x}, ${d.y})`, "text-sky-300");
       } catch (err) {}
     });
 
     // ============================================================================
-    // 3. MOTOR CONTROL, JOYSTICK, KEYBOARD & MACROS
+    // 3. NATURAL-LANGUAGE AI CHATBOX HANDLER
+    // ============================================================================
+    function getNormalizedDetections() {
+      const W = canvas.width, H = canvas.height;
+      return detections.map(d => {
+        const [bx, by, bw, bh] = d.bbox;
+        return {
+          class: d.class,
+          score: d.score,
+          ex: ((bx + bw / 2) - W / 2) / (W / 2),
+          hFrac: bh / H
+        };
+      });
+    }
+
+    window.sendChatPrompt = async function(promptText) {
+      const text = (promptText || "").trim();
+      if (!text) return;
+      appendChat("user", text);
+      try {
+        const r = await fetch(`${API_BASE}/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: text, detections: getNormalizedDetections() })
+        });
+        const d = await r.json();
+        if (d.reply) appendChat("bot", d.reply);
+        if (d.state && d.state.autonomy_mode) {
+          updateAutonomyButtons(d.state.autonomy_mode);
+        }
+      } catch (e) {
+        appendChat("bot", "⚠️ Connection hiccup sending command — retrying...");
+      }
+    };
+
+    window.handleChatSubmit = function(e) {
+      e.preventDefault();
+      const input = document.getElementById("chatInput");
+      const val = input.value.trim();
+      if (!val) return;
+      input.value = "";
+      sendChatPrompt(val);
+    };
+
+    // ============================================================================
+    // 4. FULL-THROW JOYSTICK, WASD & SERVER AUTONOMY MODES
     // ============================================================================
     const joyZone = document.getElementById("joyZone");
     const joyKnob = document.getElementById("joyKnob");
     let dragging = false;
-    let lastControlSent = 0;
+    let lastDriveSent = 0;
 
     function moveKnob(vx, vy) {
-      const maxPx = 60;
+      const maxPx = 56;
       joyKnob.style.transform = `translate(${vx * maxPx}px, ${-vy * maxPx}px)`;
-      document.getElementById("hudMotor").textContent = (Math.abs(vx) < 0.04 && Math.abs(vy) < 0.04)
-        ? "Standby (0, 0)"
-        : `Steer: ${vx.toFixed(2)} | Drive: ${vy.toFixed(2)}`;
     }
 
-    async function sendDrive(vx, vy, label = "MANUAL", force = false) {
+    async function sendDrive(vx, vy, label = "MANUAL", durationMs = 720, force = false) {
       moveKnob(vx, vy);
       const now = performance.now();
-      if (!force && (now - lastControlSent) < 220) return;
-      lastControlSent = now;
+      if (!force && (now - lastDriveSent) < 420) return;
+      lastDriveSent = now;
       try {
         await fetch(`${API_BASE}/control`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ vx, vy, mode: label, duration_ms: 250 })
+          body: JSON.stringify({ vx, vy, mode: label, duration_ms: durationMs })
         });
       } catch (e) {}
     }
 
-    window.nudge = function(vx, vy, label) {
-      setMode(0);
-      sendDrive(vx, vy, label, true);
-      log(`Drive pulse: ${label}`, "text-sky-300");
-      setTimeout(() => moveKnob(0, 0), 280);
+    window.nudge = function(vx, vy, label, dur = 800) {
+      updateAutonomyButtons("manual");
+      sendDrive(vx, vy, label, dur, true);
+      document.getElementById("hudEvent").textContent = `Drive: ${label} (${dur}ms)`;
+      setTimeout(() => moveKnob(0, 0), dur);
     };
 
     function handlePointer(e) {
@@ -394,8 +503,8 @@
       let vy = -(e.clientY - cy) / maxR;
       const mag = Math.hypot(vx, vy);
       if (mag > 1) { vx /= mag; vy /= mag; }
-      if (currentMode !== 0) setMode(0);
-      sendDrive(vx, vy, "THUMBSTICK");
+      updateAutonomyButtons("manual");
+      sendDrive(vx, vy, "THUMBSTICK", 700);
     }
 
     joyZone.addEventListener("pointerdown", e => {
@@ -412,6 +521,7 @@
     });
 
     window.addEventListener("keydown", e => {
+      if (document.activeElement && document.activeElement.tagName === "INPUT") return;
       if (e.code === "Space") {
         e.preventDefault();
         emergencyStop();
@@ -424,8 +534,37 @@
       if (!Object.keys(keysHeld).length) moveKnob(0, 0);
     });
 
+    function updateAutonomyButtons(mode) {
+      autonomyMode = mode;
+      ["manual", "follow", "patrol", "escape"].forEach(m => {
+        const b = document.getElementById(`modeBtn-${m}`);
+        if (!b) return;
+        if (m === mode) b.classList.add("mode-btn-active");
+        else b.classList.remove("mode-btn-active");
+      });
+      const names = {
+        manual: "🕹️ Manual Drive",
+        follow: "🐾 AI Cat / Person Follower",
+        patrol: "🛰️ Obstacle-Aware Smart Patrol",
+        escape: "🛟 Auto-Unstuck Escape",
+        dance: "💃 360° Spin Dance"
+      };
+      document.getElementById("hudMode").textContent = names[mode] || mode;
+    }
+
+    window.setAutonomyMode = async function(mode) {
+      updateAutonomyButtons(mode);
+      try {
+        await fetch(`${API_BASE}/autonomy`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode, detections: getNormalizedDetections() })
+        });
+      } catch (e) {}
+    };
+
     window.triggerMacro = async function(action) {
-      log(`Triggered EBO-962 action: ${action.toUpperCase()}`, "text-emerald-300");
+      document.getElementById("hudEvent").textContent = `Action: ${action.toUpperCase()}`;
       try {
         await fetch(`${API_BASE}/macro`, {
           method: "POST",
@@ -438,48 +577,25 @@
     window.wakeRolaStream = async function() {
       await triggerMacro("wake");
       await triggerMacro("remote");
-      log("Sent wake & focus signal to EBO-962 stream.", "text-emerald-300");
     };
 
     window.emergencyStop = function() {
-      setMode(0);
+      setAutonomyMode("manual");
       moveKnob(0, 0);
-      log("🛑 STOP triggered — joystick neutralized.", "text-rose-400 font-bold");
-    };
-
-    window.setMode = function(m) {
-      currentMode = m;
-      for (let i = 0; i < 4; i++) {
-        const b = document.getElementById(`modeBtn-${i}`);
-        if (i === m) b.classList.add("mode-btn-active");
-        else b.classList.remove("mode-btn-active");
-      }
-      const labels = [
-        "🕹️ Manual Drive (WASD / Stick)",
-        "🐾 Auto-Follow Pet / Person (AI Servo)",
-        "🛰️ Autonomous Room Patrol",
-        "🏠 Returning to Charging Dock"
-      ];
-      document.getElementById("hudMode").textContent = labels[m];
-      log(`Mode -> ${labels[m]}`, "text-sky-300");
-      if (m === 3) {
-        triggerMacro("dock");
-      }
+      sendChatPrompt("stop");
     };
 
     // ============================================================================
-    // 4. MAIN RENDER + AI VISION + AUTONOMOUS SERVO LOOP
+    // 5. MAIN RENDER & AI VISION LOOP
     // ============================================================================
-    let patrolStep = 0;
-
     async function mainLoop(now) {
       requestAnimationFrame(mainLoop);
       fetchNextFrame(now);
 
-      if ((now - lastFpsCheck) >= 1000) {
-        document.getElementById("fpsLabel").textContent = frameCount > 0 ? `🟢 LIVE (${frameCount} fps)` : "Connecting...";
+      if ((now - lastFpsTs) >= 1000) {
+        document.getElementById("fpsLabel").textContent = frameCount > 0 ? `🟢 ${frameCount} FPS` : "Streaming...";
         frameCount = 0;
-        lastFpsCheck = now;
+        lastFpsTs = now;
       }
 
       const W = canvas.width, H = canvas.height;
@@ -494,80 +610,55 @@
         lastDrawRect = { dx, dy, dw, dh };
         ctx.drawImage(frameImg, dx, dy, dw, dh);
 
-        if (cocoModel && document.getElementById("aiOverlayToggle").checked && (now - lastDetectTs) > 160) {
+        if (cocoModel && document.getElementById("aiOverlayToggle").checked && (now - lastDetectTs) > 180) {
           lastDetectTs = now;
           try {
             detections = await cocoModel.detect(canvas);
+            // Push detections to server when in follow mode
+            if (autonomyMode === "follow" && (now - lastVisionPushTs) > 400) {
+              lastVisionPushTs = now;
+              fetch(`${API_BASE}/vision`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ detections: getNormalizedDetections() })
+              }).catch(() => {});
+            }
           } catch (e) {}
         }
       } else {
         ctx.fillStyle = "#38bdf8";
-        ctx.font = "bold 16px sans-serif";
-        ctx.fillText("Connecting to EBO-962 Live Feed...", W / 2 - 130, H / 2);
-      }
-
-      // Draw AI Vision Detections
-      const targetFilter = document.getElementById("targetSelect").value;
-      let locked = null;
-      for (const d of detections) {
-        if (targetFilter === "any" || d.class === targetFilter) {
-          locked = d;
-          break;
-        }
+        ctx.font = "bold 15px sans-serif";
+        ctx.fillText("Connecting to EBO-962 Live Stream...", W / 2 - 125, H / 2);
       }
 
       if (document.getElementById("aiOverlayToggle").checked) {
-        detections.forEach(d => {
+        detections.forEach((d, idx) => {
           const [bx, by, bw, bh] = d.bbox;
-          const isLock = (d === locked);
-          ctx.strokeStyle = isLock ? "#34d399" : "#38bdf8";
-          ctx.lineWidth = isLock ? 3 : 1.5;
+          const isPrimary = (idx === 0);
+          ctx.strokeStyle = isPrimary ? "#34d399" : "#38bdf8";
+          ctx.lineWidth = isPrimary ? 2.5 : 1.5;
           ctx.strokeRect(bx, by, bw, bh);
-          ctx.fillStyle = isLock ? "rgba(16, 185, 129, 0.88)" : "rgba(14, 165, 233, 0.78)";
-          ctx.fillRect(bx, Math.max(0, by - 22), 135, 22);
+          ctx.fillStyle = isPrimary ? "rgba(16, 185, 129, 0.88)" : "rgba(14, 165, 233, 0.78)";
+          ctx.fillRect(bx, Math.max(0, by - 20), 120, 20);
           ctx.fillStyle = "#020617";
-          ctx.font = "bold 12px monospace";
-          ctx.fillText(`${d.class.toUpperCase()} ${Math.round(d.score * 100)}%`, bx + 6, Math.max(15, by - 6));
+          ctx.font = "bold 11px monospace";
+          ctx.fillText(`${d.class.toUpperCase()} ${Math.round(d.score * 100)}%`, bx + 5, Math.max(14, by - 5));
         });
       }
 
-      document.getElementById("hudTarget").textContent = locked
-        ? `Locked: ${locked.class.toUpperCase()} (${Math.round(locked.score * 100)}%)`
+      document.getElementById("hudTarget").textContent = detections.length
+        ? `${detections[0].class.toUpperCase()} (${Math.round(detections[0].score * 100)}%)`
         : "Scanning room...";
 
-      // Execute Drive Logic
-      if (currentMode === 0) {
+      // Keyboard WASD manual hold
+      if (autonomyMode === "manual") {
         let vx = 0, vy = 0;
-        if (keysHeld["KeyW"] || keysHeld["ArrowUp"]) vy += 0.85;
-        if (keysHeld["KeyS"] || keysHeld["ArrowDown"]) vy -= 0.85;
-        if (keysHeld["KeyA"] || keysHeld["ArrowLeft"]) vx -= 0.85;
-        if (keysHeld["KeyD"] || keysHeld["ArrowRight"]) vx += 0.85;
+        if (keysHeld["KeyW"] || keysHeld["ArrowUp"]) vy += 1.0;
+        if (keysHeld["KeyS"] || keysHeld["ArrowDown"]) vy -= 1.0;
+        if (keysHeld["KeyA"] || keysHeld["ArrowLeft"]) vx -= 1.0;
+        if (keysHeld["KeyD"] || keysHeld["ArrowRight"]) vx += 1.0;
         if (vx !== 0 || vy !== 0) {
-          sendDrive(vx, vy, "WASD");
-        }
-      } else if (currentMode === 1) {
-        // Auto-Follow Pet/Person
-        if (locked) {
-          const [bx, by, bw, bh] = locked.bbox;
-          const ex = ((bx + bw / 2) - W / 2) / (W / 2);
-          const hFrac = bh / H;
-          if (hFrac > 0.55) {
-            moveKnob(0, 0);
-          } else {
-            const vx = Math.abs(ex) < 0.08 ? 0 : Math.max(-0.75, Math.min(0.75, ex * 0.65));
-            const vy = Math.abs(ex) < 0.25 ? 0.55 : 0;
-            sendDrive(vx, vy, "AI_FOLLOW");
-          }
-        } else {
-          sendDrive(0.45, 0, "AI_SEARCH");
-        }
-      } else if (currentMode === 2) {
-        // Autonomous Room Patrol
-        if ((now - lastControlSent) > 900) {
-          patrolStep = (patrolStep + 1) % 4;
-          if (patrolStep < 2) sendDrive(0, 0.65, "PATROL_FWD", true);
-          else if (patrolStep === 2) sendDrive(0.65, 0, "PATROL_SCAN", true);
-          else moveKnob(0, 0);
+          sendDrive(vx, vy, "WASD", 700);
         }
       }
     }
