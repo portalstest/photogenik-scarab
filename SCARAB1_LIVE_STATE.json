@@ -1,7 +1,7 @@
 {
   "project": "Scarab1 (Photogenik / The Porcelain Scarab / SnitchCam)",
-  "updated_at_utc": "2026-11-05 06:53:45 UTC",
-  "state_sha256": "8b783752fe81e1f734c7416186f0ce07c0118d740da5948c67bec7c5ec784d4b",
+  "updated_at_utc": "2026-11-05 06:55:14 UTC",
+  "state_sha256": "dd76a63cd2f1fc2c4a5e26145fd43b1d7a457be6d7404a7110df794fe378fb65",
   "google_drive_project_url": "https://drive.google.com/drive/project/15PIpPQLPGGdUPlt3WOnljaX2hBilvMc0",
   "live_urls": {
     "main_proposal": "https://portalstest.github.io/photogenik-scarab/",
@@ -16,6 +16,12 @@
     "live_state_json": "https://portalstest.github.io/photogenik-scarab/SCARAB1_LIVE_STATE.json"
   },
   "canonical_memories": [
+    {
+      "entity_key": "robotics/photogenik_scarab1_gdrive_brooklyn_mvp_plan",
+      "kind": "state",
+      "content": "Updated Google Drive Scarab1 Master Workspace (Folder ID: 1N7eXUW2lRcgNYZYLpvEsXKXg5YAiGsLp) with complete Brooklyn Weekend DIY MVP Build Plan, Local Shopping BOM, Solderless Pinout, 7-Step 3D Simulator, and 24s Video: (1) Native Google Doc SCARAB1_BROOKLYN_WEEKEND_MVP_BUILD_PLAN (ID: 1qxrUdNhC3KbO0W23Otx2uaMnTpk12bcZIgVHTVBdaIU); (2) Raw Markdown SCARAB1_BROOKLYN_WEEKEND_MVP_BUILD_PLAN.md (ID: 1JLG8yTMPQAGd4iRZPnobcX9RWbeiWHPf); (3) Master Context Native Google Doc SCARAB1_MASTER_CONTEXT_AND_COLLAB_HANDOFF (ID: 1EsqLW6mqehaU7gBHv6z4IpfdD97cnF0crryd0seubRU) & Markdown (ID: 1SGYDNPd9gxba8fxPgyJlsDt51cxTAIwG) updated with Steps 8 & 9 + Section 4B; (4) SCARAB1_LIVE_STATE.json (ID: 1vNConm9mAanspE8YcRtytWYjYeq6Axm1); (5) Interactive 3D Simulator scarab_brooklyn_mvp_3d_assembly.html (ID: 1aQc2Mqm2Hlqwr84itYLRr32Wh6N1tV0B); (6) 24s 720p Video scarab_brooklyn_mvp_assembly_guide.mp4 (ID: 1lmRvOUpaij0hOUee4IWYDSANg8W8ildl). Wired into /Users/harshagopalakrishnan/bin/scarab1-autosync.",
+      "created_at": "2026-11-05T06:54:13Z"
+    },
     {
       "entity_key": "robotics/photogenik_brooklyn_mvp_3d_sim_and_video",
       "kind": "state",
