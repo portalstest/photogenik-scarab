@@ -75,10 +75,10 @@
           <span class="px-2 py-0.5 rounded bg-purple-500/15 border border-purple-400/40 text-purple-300">3-MODEL TRIAD VERIFIED</span>
         </div>
         <h1 class="text-base sm:text-xl font-bold text-white font-sans tracking-tight">
-          MODULAR BIOMIMETIC &amp; HOROLOGICAL SANCTUARY — 5-FORM INTERACTIVE 3D/CAD KINEMATIC SIMULATOR
+          MODULAR BIOMIMETIC &amp; HOROLOGICAL SANCTUARY — 6-FORM INTERACTIVE 3D/CAD KINEMATIC SIMULATOR
         </h1>
         <p class="text-[11px] sm:text-xs text-slate-300 font-sans max-w-4xl">
-          One identical <strong class="text-sky-300">33.6 g 4-Phase Cam-Drum Mechatronic Skeleton</strong> paired with <strong class="text-amber-300">5 Interchangeable ~8.0 g Magnetic Sanctuary Shells</strong>. Toggle forms, scrub the <code class="text-emerald-300">0°–270°</code> cam drum, X-ray the internal linkage, and test all 6 functional modes in synchronized 3D WebGL + Orthographic CAD projections.
+          One identical <strong class="text-sky-300">33.6 g 4-Phase Cam-Drum Mechatronic Skeleton</strong> paired with <strong class="text-amber-300">6 Interchangeable ~8.0 g Magnetic Sanctuary Shells</strong> (including <strong class="text-emerald-300">Form 06: Sericoptera Silk-Wing / Kōrō Pendulum Lantern</strong> with 3.0m Dyneema Spider-Silk Ceiling Winch). Toggle forms, scrub the <code class="text-emerald-300">0°–270°</code> cam drum, and test all 7 functional modes in synchronized 3D WebGL + Orthographic CAD projections.
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
@@ -94,8 +94,8 @@
       </div>
     </header>
 
-    <!-- 5 UNIQUE FORM FACTOR SELECTOR BAR -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
+    <!-- 6 UNIQUE FORM FACTOR SELECTOR BAR -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2.5">
       <button id="form-btn-0" onclick="selectForm(0)" class="form-card form-card-active text-left p-3 rounded-xl">
         <div class="flex items-center justify-between text-[10px] text-cyan-300">
           <span class="font-bold">FORM 01 • PELAGIC CNIDARIA</span>
@@ -174,9 +174,24 @@
           <span id="scarab-trim-badge" onclick="event.stopPropagation(); toggleTalismanTrim();" class="px-1.5 py-0.5 rounded bg-amber-500/25 border border-amber-400/60 text-amber-200 hover:bg-amber-500/40 cursor-pointer">Trim: Zero-Bug Talisman ⇄</span>
         </div>
       </button>
+
+      <button id="form-btn-5" onclick="selectForm(5)" class="form-card text-left p-3 rounded-xl border-emerald-400/40">
+        <div class="flex items-center justify-between text-[10px] text-emerald-300">
+          <span class="font-bold">FORM 06 • SILK-WING WEAVER</span>
+          <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40">42.85 g</span>
+        </div>
+        <div class="text-sm font-bold text-white font-sans mt-0.5">🕸️ SERICOPTERA / KŌRŌ</div>
+        <div class="text-[11px] text-slate-300 font-sans mt-1 leading-snug">
+          Embioptera/Lacewing silk-weaver + 3.0m Dyneema ceiling winch, 5× Yo-Yo crane &amp; pendulum lantern.
+        </div>
+        <div class="mt-2 flex items-center justify-between text-[10px] text-emerald-300">
+          <span>● 0W Silk Suspension</span>
+          <span id="sericoptera-trim-badge" onclick="event.stopPropagation(); toggleSericopteraTrim();" class="px-1.5 py-0.5 rounded bg-emerald-500/25 border border-emerald-400/60 text-emerald-200 hover:bg-emerald-500/40 cursor-pointer">Trim: Kōrō Lantern ⇄</span>
+        </div>
+      </button>
     </section>
 
-    <!-- 6 FUNCTIONAL MODES & KINEMATIC SCRUBBER BAR -->
+    <!-- 7 FUNCTIONAL MODES & KINEMATIC SCRUBBER BAR -->
     <section class="cad-panel rounded-xl p-3 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
       <div class="flex flex-wrap items-center gap-1.5">
         <span class="text-[10px] text-slate-400 uppercase tracking-wider mr-1">Functional State:</span>
@@ -197,6 +212,9 @@
         </button>
         <button id="mode-btn-5" onclick="selectMode(5)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold">
           6. 🤲 Cup-in-Hands Palm Landing
+        </button>
+        <button id="mode-btn-6" onclick="selectMode(6)" class="mode-pill px-2.5 py-1.5 rounded-lg text-xs font-semibold border-emerald-400/50 text-emerald-200">
+          7. 🕸️ Spider-Silk Winch, Yo-Yo Hoist &amp; Pendulum
         </button>
       </div>
 
@@ -396,6 +414,16 @@
               <td class="py-2 px-2.5">Concealed Ventral Soft V-Pad</td>
               <td class="py-2 px-2.5 font-bold text-purple-300">9.0/10 (Abstract Stone)</td>
             </tr>
+            <tr onclick="selectForm(5)" class="hover:bg-emerald-500/15 cursor-pointer transition bg-emerald-950/20">
+              <td class="py-2 px-2.5 font-bold text-emerald-300">06. 🕸️ SERICOPTERA / KŌRŌ</td>
+              <td class="py-2 px-2.5 text-emerald-300">Silk-Wing Weaver / Lantern</td>
+              <td class="py-2 px-2.5 font-mono">80×56 mm → 184 mm</td>
+              <td class="py-2 px-2.5 font-mono text-emerald-300">42.85 g (+1.20g Winch)</td>
+              <td class="py-2 px-2.5 text-emerald-300">100% (Filigree Lattice)</td>
+              <td class="py-2 px-2.5 font-bold text-emerald-300">3.0m Dyneema Silk Suspension (0W)</td>
+              <td class="py-2 px-2.5 font-bold text-amber-300">5×–10× Yo-Yo Crane (50–150g Hoist)</td>
+              <td class="py-2 px-2.5 font-bold text-emerald-300">10/10 (Floating Lantern)</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -405,7 +433,7 @@
 
   <script>
     // ============================================================================
-    // 1. CANONICAL 5-FORM KINEMATIC & ENGINEERING SPECIFICATION DATABASE
+    // 1. CANONICAL 6-FORM KINEMATIC & ENGINEERING SPECIFICATION DATABASE
     // ============================================================================
     const FORMS = [
       {
@@ -502,6 +530,25 @@
         openSpan: 180,
         perchType: "wall",
         momentArmMm: 16.0
+      },
+      {
+        id: 5,
+        code: "SERICOPTERA",
+        badge: "FORM 06: SERICOPTERA / KŌRŌ (SILK-WING WEAVER)",
+        symmetry: "SYMMETRY: OCTAGONAL LANTERN / LACEWING",
+        title: "🕸️ SERICOPTERA / KŌRŌ — Silk-Winged Weaver & 3.0m Dyneema Ceiling Pendulum",
+        subtitle: "Inspired by flying Embioptera webspinners, golden-eyed Chrysopidae lacewings & Arachnocampa glowworm chandeliers. Combines 3s flight ascent with a 0.035g (3.0m) 18kg-test Dyneema SK99 self-locking worm-gear winch, Tri-Modal Ceiling Anchor, and 5× Yo-Yo Crane.",
+        spanText: "Ø80.0 × 56.0 → 184.0 mm",
+        massText: "42.85 g (+1.85g Silk Winch)",
+        clearanceText: "100% (Filigree Silk Vanes)",
+        perchText: "3.0m Dyneema Ceiling Suspension",
+        fetchText: "5× Yo-Yo Crane Hoist (50–150g)",
+        accentHex: "#34d399",
+        closedDia: 80,
+        closedHeight: 56,
+        openSpan: 184,
+        perchType: "ceiling",
+        momentArmMm: 0.0
       }
     ];
 
@@ -803,14 +850,28 @@
     sensorBeamsGroup.add(doeStarCone);
 
     // ----------------------------------------------------------------------------
-    // BUILD THE 5 INTERCHANGEABLE SANCTUARY SHELLS & Φ4 FETCH MECHANISMS
+    // BUILD THE 6 INTERCHANGEABLE SANCTUARY SHELLS & Φ4 FETCH MECHANISMS
     // ----------------------------------------------------------------------------
+    const matSericopteraWing = new THREE.MeshPhysicalMaterial({
+      color: 0xfef3c7,
+      emissive: 0x059669,
+      emissiveIntensity: 0.22,
+      roughness: 0.2,
+      metalness: 0.35,
+      transmission: 0.55,
+      transparent: true,
+      opacity: 0.9,
+      side: THREE.DoubleSide
+    });
+    let sericopteraInsectTrim = false;
+
     const shellGroups = [
       new THREE.Group(), // 0: AURELIA (Moon-Jelly Bell)
       new THREE.Group(), // 1: LOTUS (4-Petal Seed Pod)
       new THREE.Group(), // 2: ASTROLABE (3-Ring Armillary Orb)
       new THREE.Group(), // 3: MANTA (Origami Pelagic Ray)
-      new THREE.Group()  // 4: TALISMAN / SCARAB (Dual-Valve Stone)
+      new THREE.Group(), // 4: TALISMAN / SCARAB (Dual-Valve Stone)
+      new THREE.Group()  // 5: SERICOPTERA / KŌRŌ (Silk-Wing Weaver & Lantern)
     ];
     shellGroups.forEach(g => robotRoot.add(g));
 
@@ -1010,8 +1071,52 @@
       talismanJaws.push({ mesh: vPad, side });
     });
 
+    // === FORM 06: SERICOPTERA / KŌRŌ (Silk-Winged Weaver & Pendulum Lantern + Dorsal Dyneema Winch) ===
+    const sericopteraVanes = [];
+    for (let i = 0; i < 4; i++) {
+      const vanePivot = new THREE.Group();
+      vanePivot.rotation.y = (i * Math.PI) / 2;
+      shellGroups[5].add(vanePivot);
+
+      // Filigree Lacewing / Kōrō Lantern Lattice Panel
+      const vaneGeo = new THREE.SphereGeometry(
+        1.10,
+        18,
+        14,
+        -Math.PI * 0.22,
+        Math.PI * 0.44,
+        0.10,
+        Math.PI * 0.56
+      );
+      vaneGeo.scale(0.95, 1.08, 0.95);
+      const vaneMesh = new THREE.Mesh(vaneGeo, matSericopteraWing);
+      addCadEdges(vaneMesh, 0x34d399);
+      vanePivot.add(vaneMesh);
+      sericopteraVanes.push(vanePivot);
+    }
+    // Dorsal Self-Locking Worm-Gear Dyneema Winch Spool + Spinneret Guide Collet
+    const sericopteraWinchHousing = new THREE.Group();
+    sericopteraWinchHousing.position.y = 0.88;
+    shellGroups[5].add(sericopteraWinchHousing);
+    const winchSpoolMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.26, 0.30, 0.22, 20),
+      matBrass
+    );
+    addCadEdges(winchSpoolMesh, 0x34d399);
+    sericopteraWinchHousing.add(winchSpoolMesh);
+
+    // Ventral Embioptera Silk-Guide & 5x Yo-Yo Crane Hook
+    const sericopteraCraneGroup = new THREE.Group();
+    shellGroups[5].add(sericopteraCraneGroup);
+    const craneHookMesh = new THREE.Mesh(
+      new THREE.TorusGeometry(0.14, 0.032, 10, 20, Math.PI * 1.45),
+      matBrass
+    );
+    craneHookMesh.rotation.z = Math.PI * 0.75;
+    sericopteraCraneGroup.add(craneHookMesh);
+
     // ----------------------------------------------------------------------------
-    // ENVIRONMENT PROPS: Qi2 Dock, Ceiling/Wall Disc, Target Gold Ring, Human Palm
+    // ENVIRONMENT PROPS: Qi2 Dock, Ceiling/Wall Disc, Target Gold Ring, Human Palm, Spider-Silk Ceiling Rig
     // ----------------------------------------------------------------------------
     // 1. Qi2 Sanctuary Charging Pad
     const qi2Dock = new THREE.Mesh(
@@ -1030,7 +1135,7 @@
     addCadEdges(perchDisc, 0xfbbf24);
     envGroup.add(perchDisc);
 
-    // 3. <4g Gold Ring Fetch Target
+    // 3. <4g Gold Ring / 65g Keyring Fetch Target
     const goldRingTarget = new THREE.Mesh(
       new THREE.TorusGeometry(0.18, 0.038, 12, 28),
       matBrass
@@ -1047,6 +1152,37 @@
     palmGroup.add(palmPad);
     envGroup.add(palmGroup);
 
+    // 5. Spider-Silk Ceiling Anchor Pod + 0.12mm Dyneema SK99 Tether + Ventral Yo-Yo Crane Line (Mode 7)
+    const silkRigGroup = new THREE.Group();
+    envGroup.add(silkRigGroup);
+
+    // Tri-Modal Ceiling Anchor Ferrule (EPM + Gel Suction + 12 Opposed Micro-Spines) at y = +2.35
+    const ceilingAnchorPod = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.48, 0.36, 0.14, 24),
+      new THREE.MeshStandardMaterial({ color: 0x10b981, metalness: 0.75, roughness: 0.2 })
+    );
+    ceilingAnchorPod.position.set(0, 2.35, 0);
+    addCadEdges(ceilingAnchorPod, 0xfbbf24);
+    silkRigGroup.add(ceilingAnchorPod);
+
+    // Dynamic 0.12mm Braided Dyneema SK99 Ceiling Tether Line (connects ceilingAnchorPod to robotRoot)
+    const silkLineGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 2.35, 0),
+      new THREE.Vector3(0, 0.5, 0)
+    ]);
+    const silkLineMat = new THREE.LineBasicMaterial({ color: 0x34d399, linewidth: 2 });
+    const silkTetherLine = new THREE.Line(silkLineGeo, silkLineMat);
+    silkRigGroup.add(silkTetherLine);
+
+    // Ventral Yo-Yo Crane Line (connects robot ventral winch to heavy 65g payload)
+    const craneLineGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, -1.2, 0)
+    ]);
+    const craneLineMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, linewidth: 2 });
+    const craneHoistLine = new THREE.Line(craneLineGeo, craneLineMat);
+    silkRigGroup.add(craneHoistLine);
+
     // ============================================================================
     // 3. UI & STATE CONTROLLERS
     // ============================================================================
@@ -1062,15 +1198,17 @@
       document.getElementById("statPerch").textContent = f.perchText;
       document.getElementById("statFetch").textContent = f.fetchText;
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 6; i++) {
         const btn = document.getElementById(`form-btn-${i}`);
+        if (!btn) continue;
         if (i === currentForm) btn.classList.add("form-card-active");
         else btn.classList.remove("form-card-active");
-        shellGroups[i].visible = (i === currentForm);
+        if (shellGroups[i]) shellGroups[i].visible = (i === currentForm);
       }
 
-      for (let m = 0; m < 6; m++) {
+      for (let m = 0; m < 7; m++) {
         const mBtn = document.getElementById(`mode-btn-${m}`);
+        if (!mBtn) continue;
         if (m === currentMode) mBtn.classList.add("mode-pill-active");
         else mBtn.classList.remove("mode-pill-active");
       }
@@ -1078,6 +1216,11 @@
 
     window.selectForm = function(idx) {
       currentForm = idx;
+      if (idx === 5 && currentMode === 2) {
+        // When selecting Form 06 (Sericoptera / Kōrō), showcase Mode 7 (Spider-Silk Winch & Pendulum)
+        currentMode = 6;
+        targetCamDeg = 225;
+      }
       updateHUD();
     };
 
@@ -1098,6 +1241,23 @@
       selectForm(4);
     };
 
+    window.toggleSericopteraTrim = function() {
+      sericopteraInsectTrim = !sericopteraInsectTrim;
+      const badge = document.getElementById("sericoptera-trim-badge");
+      if (sericopteraInsectTrim) {
+        badge.textContent = "Trim: Sericoptera Lacewing ⇄";
+        matSericopteraWing.color.setHex(0x6ee7b7); // Iridescent emerald-gold Chrysopidae lacewing
+        matSericopteraWing.emissive.setHex(0x047857);
+        matSericopteraWing.metalness = 0.45;
+      } else {
+        badge.textContent = "Trim: Kōrō Lantern ⇄";
+        matSericopteraWing.color.setHex(0xfef3c7); // Warm Kyoto gold-porcelain Kumiko thurible lantern
+        matSericopteraWing.emissive.setHex(0xb45309);
+        matSericopteraWing.metalness = 0.35;
+      }
+      selectForm(5);
+    };
+
     window.selectMode = function(modeIdx) {
       currentMode = modeIdx;
       // Set target cam drum angle based on functional mode
@@ -1107,6 +1267,7 @@
       else if (modeIdx === 3) targetCamDeg = 185; // 0W Perch (185 deg)
       else if (modeIdx === 4) targetCamDeg = 265; // <4g Micro-Fetch (265 deg)
       else if (modeIdx === 5) targetCamDeg = 45;  // Cup-in-Hands Palm Landing
+      else if (modeIdx === 6) targetCamDeg = 235; // Spider-Silk Ceiling Winch, Yo-Yo Hoist & Pendulum
       updateHUD();
     };
 
@@ -1125,6 +1286,7 @@
       matAstrolabeRing.opacity = alpha;
       matMantaWing.opacity = alpha;
       matTalismanStone.opacity = alpha;
+      matSericopteraWing.opacity = alpha * 0.9;
     };
 
     window.onExplodeChange = function(val) {
@@ -1173,6 +1335,9 @@
         // Mode 6: Cup-in-Hands Landing smoothly cycles from open flight (200°) down into palm & folds closed (0°)
         const cycle = (Math.sin(clockTime * 1.4) + 1) * 0.5; // 0..1
         targetCamDeg = cycle * 200;
+      } else if (currentMode === 6) {
+        // Mode 7: Spider-Silk Ceiling Winch cycles between Chandelier Overwatch (195°) and 5x Yo-Yo Hoist (265°)
+        targetCamDeg = 225 + Math.sin(clockTime * 1.6) * 35;
       }
 
       // Smooth interpolation of cam angle
@@ -1184,7 +1349,8 @@
 
       // Update Phase Readout Badge
       const phaseEl = document.getElementById("camPhaseReadout");
-      if (camDeg < 35) phaseEl.textContent = "Φ1: PRIVACY SHUTTER SEALED (0°–40°)";
+      if (currentMode === 6) phaseEl.textContent = "Φ4 SILK WINCH: 0W WORM-LOCK + 5× YO-YO HOIST";
+      else if (camDeg < 35) phaseEl.textContent = "Φ1: PRIVACY SHUTTER SEALED (0°–40°)";
       else if (camDeg < 110) phaseEl.textContent = "Φ2: SHELL / PETAL / RING MORPH (40°–130°)";
       else if (camDeg < 210) phaseEl.textContent = "Φ3: OUTBOARD 4-BAR ROTOR LOCK (90°–210°)";
       else phaseEl.textContent = "Φ4: LOST-MOTION MICRO-FETCH & TAP (210°–270°)";
@@ -1197,6 +1363,7 @@
       sensorTurretGroup.position.y = 0.36 + phases.phi2_shell * 0.22 + explodeFactor * 0.65;
 
       // 3. Actuate Φ3 4-Bar Outboard Rotor Arms (81mm closed -> 180-186mm deployed)
+      // In Mode 7 (currentMode === 6), flight motors are OFF (0.0W hover draw!) except brief pendulum pump pulse
       const isSpinning = (phases.phi3_rotors > 0.65) && (currentMode === 2 || currentMode === 4 || (currentMode === 5 && camDeg > 90));
       rotorAssemblies.forEach(r => {
         const radius = 0.48 + phases.phi3_rotors * 0.96 + explodeFactor * 0.45;
@@ -1211,7 +1378,7 @@
       });
 
       // 4. Sensor Cones visibility
-      sensorBeamsGroup.visible = (phases.phi1_eyelid > 0.7) && (currentMode === 2 || currentMode === 3 || currentMode === 4);
+      sensorBeamsGroup.visible = (phases.phi1_eyelid > 0.7) && (currentMode === 2 || currentMode === 3 || currentMode === 4 || currentMode === 6);
       radarCone.rotation.y = Math.sin(clockTime * 1.5) * 0.25;
       doeStarCone.rotation.y = clockTime * 0.4;
 
@@ -1291,12 +1458,24 @@
         j.mesh.position.set(j.side * spread, -drop - expY * 0.4, 0.2);
       });
 
+      // FORM 06: SERICOPTERA / KŌRŌ (4 filigree silk-wing / lantern panels + dorsal winch spool + ventral crane hook)
+      sericopteraVanes.forEach(v => {
+        v.position.y = expY * 0.5;
+        v.children[0].rotation.z = -phases.phi2_shell * 0.92;
+        v.children[0].position.x = phases.phi2_shell * 0.16;
+      });
+      sericopteraWinchHousing.position.y = 0.88 + expY * 0.7;
+      winchSpoolMesh.rotation.y = clockTime * 2.4;
+      const craneDrop = 0.38 + phases.phi4_fetch * 0.72;
+      sericopteraCraneGroup.position.set(0, -craneDrop - expY * 0.4, 0);
+
       // 6. Position Robot Root & Environment Props by Functional Mode
       robotRoot.rotation.set(0, 0, 0);
       qi2Dock.visible = (currentMode === 0 || currentMode === 1);
       perchDisc.visible = (currentMode === 3);
-      goldRingTarget.visible = (currentMode === 4);
+      goldRingTarget.visible = (currentMode === 4 || currentMode === 6);
       palmGroup.visible = (currentMode === 5);
+      silkRigGroup.visible = (currentMode === 6 || currentForm === 5);
 
       if (currentMode === 0) {
         // Resting on Qi2 Sanctuary Dock
@@ -1336,6 +1515,43 @@
         palmGroup.position.set(0, -1.25, 0);
         const heightAbovePalm = -0.65 + (camDeg / 200) * 1.45;
         robotRoot.position.set(0, heightAbovePalm, 0);
+      } else if (currentMode === 6) {
+        // Mode 7: Spider-Silk Ceiling Winch, Pendulum Brachiation & 5x Yo-Yo Crane Hoist (0.0W Flight Motors!)
+        const tetherLen = 1.45 + Math.sin(clockTime * 1.1) * 0.55; // Yo-Yo winch rappelling up & down
+        const pendAngle = Math.sin(clockTime * 1.65) * 0.36;       // Pendulum swing arc
+        const rx = Math.sin(pendAngle) * tetherLen;
+        const ry = 2.35 - Math.cos(pendAngle) * tetherLen;
+        robotRoot.position.set(rx, ry, 0);
+        robotRoot.rotation.z = -pendAngle;
+
+        // Update 0.12mm Dyneema Ceiling Tether Line
+        const silkPts = silkLineGeo.attributes.position.array;
+        silkPts[0] = 0;  silkPts[1] = 2.35; silkPts[2] = 0;
+        silkPts[3] = rx; silkPts[4] = ry + 0.55; silkPts[5] = 0;
+        silkLineGeo.attributes.position.needsUpdate = true;
+
+        // Update Ventral 5x Yo-Yo Crane Line hoisting the payload below the robot
+        const hoistLen = 0.85 + (1 - phases.phi4_fetch) * 0.65;
+        const hx = rx + Math.sin(clockTime * 3.1) * 0.06;
+        const hy = ry - hoistLen;
+        goldRingTarget.position.set(hx, hy, 0);
+        const cranePts = craneLineGeo.attributes.position.array;
+        cranePts[0] = rx; cranePts[1] = ry - 0.32; cranePts[2] = 0;
+        cranePts[3] = hx; cranePts[4] = hy;        cranePts[5] = 0;
+        craneLineGeo.attributes.position.needsUpdate = true;
+      }
+
+      // Keep silk tether updated if Form 06 is viewed in other modes
+      if (currentMode !== 6 && currentForm === 5) {
+        const silkPts = silkLineGeo.attributes.position.array;
+        silkPts[0] = 0; silkPts[1] = 2.35; silkPts[2] = 0;
+        silkPts[3] = robotRoot.position.x;
+        silkPts[4] = robotRoot.position.y + 0.85;
+        silkPts[5] = robotRoot.position.z;
+        silkLineGeo.attributes.position.needsUpdate = true;
+        craneHoistLine.visible = false;
+      } else {
+        craneHoistLine.visible = (currentMode === 6);
       }
     }
 
@@ -1401,8 +1617,8 @@
       ctxTop.strokeStyle = f.accentHex;
       ctxTop.fillStyle = "rgba(56, 189, 248, 0.12)";
       ctxTop.lineWidth = 2;
-      if (currentForm === 0 || currentForm === 1) {
-        // 4-Fold Radial Lappets / Petals (positioned at 0, 90, 180, 270 deg — between the 45-deg rotor arms!)
+      if (currentForm === 0 || currentForm === 1 || currentForm === 5) {
+        // 4-Fold Radial Lappets / Petals / Sericoptera Filigree Vanes (between the 45-deg rotor arms!)
         for (let i = 0; i < 4; i++) {
           const pAng = (i * Math.PI) / 2;
           const pDist = 14 + phases.phi2_shell * 18;
@@ -1410,6 +1626,13 @@
           const py = cy + Math.sin(pAng) * pDist;
           ctxTop.beginPath();
           ctxTop.arc(px, py, 16, pAng - 0.8, pAng + 0.8);
+          ctxTop.stroke();
+        }
+        if (currentForm === 5) {
+          // Dorsal Dyneema Winch Spool & Spinneret Collet in center
+          ctxTop.strokeStyle = "#fbbf24";
+          ctxTop.beginPath();
+          ctxTop.arc(cx, cy, 9, 0, Math.PI * 2);
           ctxTop.stroke();
         }
       } else if (currentForm === 2) {
@@ -1448,12 +1671,18 @@
       ctxTop.fillStyle = "#fbbf24";
       ctxTop.fillText(`✔ Φ1 Lens Seal: ${phases.phi1_eyelid < 0.1 ? "LOCKED" : "OPEN"}`, wT * 0.68, 98);
       ctxTop.fillStyle = "#cbd5e1";
-      ctxTop.fillText(`Pitch Torque Arm:`, wT * 0.68, 124);
+      ctxTop.fillText(currentMode === 6 || currentForm === 5 ? `Silk Tether Line:` : `Pitch Torque Arm:`, wT * 0.68, 124);
       ctxTop.fillStyle = f.accentHex;
-      ctxTop.fillText(`d = ${f.momentArmMm.toFixed(1)} mm (${f.perchType.toUpperCase()})`, wT * 0.68, 140);
+      ctxTop.fillText(
+        currentMode === 6 || currentForm === 5
+          ? `0.12mm Dyneema (18kg)`
+          : `d = ${f.momentArmMm.toFixed(1)} mm (${f.perchType.toUpperCase()})`,
+        wT * 0.68,
+        140
+      );
 
       // --------------------------------------------------------------------------
-      // PANE B: CROSS-SECTION SIDE ELEVATION (DOWNWASH + Φ4 FETCH REACH)
+      // PANE B: CROSS-SECTION SIDE ELEVATION (DOWNWASH + Φ4 FETCH / SILK WINCH)
       // --------------------------------------------------------------------------
       const wS = canvasSide.width, hS = canvasSide.height;
       ctxSide.clearRect(0, 0, wS, hS);
@@ -1466,7 +1695,26 @@
         ctxSide.beginPath(); ctxSide.moveTo(0, y); ctxSide.lineTo(wS, y); ctxSide.stroke();
       }
 
-      const sx = wS * 0.42, sy = hS * 0.44;
+      const pendOffset = currentMode === 6 ? Math.sin(clockTime * 1.65) * 32 : 0;
+      const sx = wS * 0.42 + pendOffset, sy = hS * (currentMode === 6 ? 0.50 : 0.44);
+
+      // If Mode 7 (Spider-Silk Winch) or Form 06 is active, draw Ceiling Anchor Pod & 0.12mm Dyneema Tether
+      if (currentMode === 6 || currentForm === 5) {
+        const anchorX = wS * 0.42, anchorY = 14;
+        ctxSide.fillStyle = "#10b981";
+        ctxSide.strokeStyle = "#fbbf24";
+        ctxSide.lineWidth = 1.5;
+        ctxSide.fillRect(anchorX - 22, anchorY - 6, 44, 10);
+        ctxSide.strokeRect(anchorX - 22, anchorY - 6, 44, 10);
+
+        // Braided Dyneema Tether from ceiling anchor to dorsal winch
+        ctxSide.strokeStyle = "#34d399";
+        ctxSide.lineWidth = 1.8;
+        ctxSide.beginPath();
+        ctxSide.moveTo(anchorX, anchorY + 4);
+        ctxSide.lineTo(sx, sy - 20);
+        ctxSide.stroke();
+      }
 
       // Central 33.6g Core Box & Cam Drum
       ctxSide.fillStyle = "rgba(30, 41, 59, 0.9)";
@@ -1485,8 +1733,8 @@
         ctxSide.strokeStyle = "#34d399";
         ctxSide.strokeRect(rx - 18, sy - 4, 36, 8);
 
-        // Downwash arrows when open
-        if (phases.phi3_rotors > 0.65) {
+        // Downwash arrows when open (off in 0W Silk Suspension Mode 7!)
+        if (phases.phi3_rotors > 0.65 && currentMode !== 6) {
           ctxSide.strokeStyle = "rgba(52, 211, 153, 0.45)";
           ctxSide.beginPath();
           ctxSide.moveTo(rx, sy + 8); ctxSide.lineTo(rx, sy + 42);
@@ -1498,13 +1746,12 @@
       ctxSide.strokeStyle = f.accentHex;
       ctxSide.lineWidth = 2;
       ctxSide.beginPath();
-      const domeH = (f.closedHeight / 80) * 38;
       ctxSide.arc(sx, sy, 34 + phases.phi2_shell * 8, Math.PI, 0);
       ctxSide.stroke();
 
-      // Φ4 Micro-Fetch Tendril / Calyx Extension Downward
+      // Φ4 Micro-Fetch Tendril / 5x Yo-Yo Crane Extension Downward
       const fetchDropPx = 14 + phases.phi4_fetch * 46;
-      ctxSide.strokeStyle = "#fb7185";
+      ctxSide.strokeStyle = currentMode === 6 ? "#fbbf24" : "#fb7185";
       ctxSide.lineWidth = 2.2;
       ctxSide.beginPath();
       ctxSide.moveTo(sx, sy + 14);
@@ -1512,22 +1759,38 @@
       ctxSide.stroke();
       ctxSide.fillStyle = "#fbbf24";
       ctxSide.beginPath();
-      ctxSide.arc(sx, sy + 14 + fetchDropPx, 5, 0, Math.PI * 2);
+      ctxSide.arc(sx, sy + 14 + fetchDropPx, currentMode === 6 ? 7 : 5, 0, Math.PI * 2);
       ctxSide.fill();
 
       // Side Elevation Callouts
       ctxSide.fillStyle = "#e2e8f0";
       ctxSide.font = "bold 11px JetBrains Mono, monospace";
-      ctxSide.fillText(`HEIGHT: ${f.closedHeight} mm`, wS * 0.68, 42);
+      ctxSide.fillText(currentMode === 6 ? `0.0W SILK SUSPENSION` : `HEIGHT: ${f.closedHeight} mm`, wS * 0.66, 42);
       ctxSide.fillStyle = "#fb7185";
       ctxSide.font = "10px JetBrains Mono, monospace";
-      ctxSide.fillText(`Φ4 Fetch Reach: ${Math.round(phases.phi4_fetch * 45)} mm`, wS * 0.68, 64);
+      ctxSide.fillText(
+        currentMode === 6 ? `Yo-Yo Hoist: 50–150g (5×)` : `Φ4 Fetch Reach: ${Math.round(phases.phi4_fetch * 45)} mm`,
+        wS * 0.66,
+        64
+      );
       ctxSide.fillStyle = "#38bdf8";
-      ctxSide.fillText(`60GHz Radar + FIR: ON`, wS * 0.68, 84);
+      ctxSide.fillText(
+        currentMode === 6 ? `Anchor: EPM+Gel+Spines` : `60GHz Radar + FIR: ON`,
+        wS * 0.66,
+        84
+      );
       ctxSide.fillStyle = "#fbbf24";
-      ctxSide.fillText(`DOE Halo: 6 BPM Calm`, wS * 0.68, 104);
+      ctxSide.fillText(
+        currentMode === 6 ? `Worm Brake: 0.0 mW Hold` : `DOE Halo: 6 BPM Calm`,
+        wS * 0.66,
+        104
+      );
       ctxSide.fillStyle = "#34d399";
-      ctxSide.fillText(`Pelagic Hover: 0.4 Hz`, wS * 0.68, 124);
+      ctxSide.fillText(
+        currentMode === 6 ? `Line: 3.0m (0.035g Total)` : `Pelagic Hover: 0.4 Hz`,
+        wS * 0.66,
+        124
+      );
 
       // --------------------------------------------------------------------------
       // PANE C: UNROLLED SINGLE-SERVO 4-PHASE CAM DRUM (θ = 0°..270°)
