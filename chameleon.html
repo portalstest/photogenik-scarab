@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SCARAB Ω³-ELYTRA — Active 36Hz Resonant Flapping Hindwings, Structural-Battery Elytra &amp; Servo-Free Coandă 3D Simulator</title>
+  <title>SCARAB Ω³-ELYTRA × MIXO — Dual-Screen Apple Watch Replacement, Hot-Swap Modular Pods &amp; 36Hz Flapping 3D Simulator</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     :root {
@@ -17,137 +17,152 @@
     body { background-color: #03060f; color: #f8fafc; }
   </style>
 </head>
-<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-3.5 select-none">
-  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2.5">
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2 sm:p-3 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-2.5 sm:p-3.5 shadow-lg space-y-2">
 
-    <!-- Top Header & Wing Flight Mode Switcher -->
+    <!-- Top Header & Flight Mode Switcher -->
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
       <div>
         <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-cyan-400">
-          <span>🪲 SCARAB Ω³-ELYTRA · 36 Hz RESONANT FLAPPING HINDWINGS + STRUCTURAL-BATTERY ELYTRA + 0-SERVO COANDĂ</span>
+          <span>⌚🪲 SCARAB Ω³-ELYTRA × MIXO · DUAL-SCREEN APPLE WATCH REPLACEMENT + 3-AXIS MODULARITY</span>
           <span class="text-[var(--muted-foreground)]">•</span>
           <span class="text-amber-300">⚠️ CONCEPT ANIMATION &amp; KINEMATIC EXPLORER (UNVERIFIED TARGETS)</span>
         </div>
         <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
-          Active ±28° Figure-8 Flapping Hindwings (44mW NiTi Resonance) • Curved Si-C Battery Elytra (+3.0 min Hover) • Coandă Vane Steer (0 Servos)
+          0.28g Curved POLED Elytra + 1.39" Stay-Behind Wrist Viewfinder (28.9g Total vs 61.4g Watch Ultra) • Hot-Swap Nose Pods • 36Hz Flapping
         </h2>
       </div>
-      <!-- 4 Biomimetic Wing States -->
+      <!-- 4 Biomimetic Flight & Watch States -->
       <div class="flex flex-wrap items-center gap-1.5">
         <button id="wbtn-hover" onclick="setWingMode('hover')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition">
-          🚁 1. Hover: Coandă Vanes + 36Hz Flap
+          🚁 1. Hover + Wrist FPV
         </button>
         <button id="wbtn-cruise" onclick="setWingMode('cruise')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🦋 2. Cruise: Full ±28° Figure-8 Flap
+          🦋 2. Cruise: ±28° Flap
         </button>
         <button id="wbtn-bask" onclick="setWingMode('bask')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          ☀️ 3. Perched: Solar Bask &amp; Wing Purr
+          ☀️ 3. Perched: Solar + Purr
         </button>
         <button id="wbtn-stowed" onclick="setWingMode('stowed')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🛡️ 4. Stowed: IP52 Beetle Armor
+          ⌚ 4. Docked Watch (9.4mm)
         </button>
       </div>
     </div>
 
-    <!-- Interactive Unfurl + Wing Flap + Servo-Free Airflow Manipulation Sliders -->
-    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 bg-[var(--secondary)]/50 border border-[var(--border)] rounded-xl p-2.5 text-xs items-center">
-      <!-- Slider 1: Euclidean 2-Hinge Bi-Fold & Wing Unfurl -->
-      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
-        <div class="flex justify-between font-semibold">
-          <span class="text-cyan-300">1. Unfurl (Rotor + Wings):</span>
-          <span id="lblMorph" class="font-mono text-emerald-300">100% Open</span>
-        </div>
-        <input id="rngMorph" type="range" min="0" max="100" value="100" oninput="onMorphSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer mt-1" />
-        <div class="flex justify-between text-[11px] text-slate-400">
-          <span>0%: Ø24.8mm</span>
-          <button onclick="toggleAutoMorph()" id="btnAutoLoop" class="text-cyan-300 underline">Auto-Loop: OFF</button>
-          <span>100%: Ø64mm+120mm</span>
-        </div>
+    <!-- Modularity Bar: Hot-Swap 6-Pin Nose Pods + Quarter-Turn Halbach Mounts + POLED Display Mode -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-2 bg-[#0b1326] border border-cyan-500/25 rounded-xl p-2 text-xs items-center">
+      <!-- Hot-Swap Nose Pod Selector -->
+      <div class="lg:col-span-5 flex flex-wrap items-center gap-1.5">
+        <span class="text-cyan-300 font-bold mr-1">🔌 Nose Pod (6-Pin):</span>
+        <button id="pbtn-cam" onclick="setPod('cam')" class="px-2 py-0.5 rounded-md font-bold bg-cyan-500/25 text-cyan-200 border border-cyan-400/70">
+          📷 4K OIS Cam (0.58g)
+        </button>
+        <button id="pbtn-proj" onclick="setPod('proj')" class="px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]">
+          📽️ JBD 6lm Projector (0.72g)
+        </button>
+        <button id="pbtn-claw" onclick="setPod('claw')" class="px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]">
+          🦞 Stag Mandibles (0.65g)
+        </button>
       </div>
 
-      <!-- Slider 2: 36 Hz Resonant NiTi Wing-Beat Amplitude & Slow-Mo Inspector -->
-      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
-        <div class="flex justify-between font-semibold">
-          <span class="text-emerald-300">2. 🦋 Wing-Beat Stroke:</span>
-          <span id="lblFlap" class="font-mono text-emerald-200">36 Hz (±28°)</span>
-        </div>
-        <input id="rngFlap" type="range" min="0" max="100" value="100" oninput="onFlapSlider(this.value)" class="w-full accent-emerald-400 cursor-pointer mt-1" />
-        <div class="flex justify-between text-[11px] text-slate-400">
-          <span>0%: Fixed Glide</span>
-          <button onclick="toggleSlowMo()" id="btnSlowMo" class="text-emerald-300 underline font-semibold">🔍 Slow-Mo: OFF</button>
-          <span>100%: ±28° Flap</span>
-        </div>
+      <!-- Modular Base Mount Selector -->
+      <div class="lg:col-span-4 flex flex-wrap items-center gap-1.5">
+        <span class="text-amber-300 font-bold mr-1">🧲 Base Dock:</span>
+        <button id="mbtn-wrist" onclick="setMount('wrist')" class="px-2 py-0.5 rounded-md font-bold bg-amber-500/25 text-amber-200 border border-amber-400/70">
+          ⌚ Wrist Watch (16.8g)
+        </button>
+        <button id="mbtn-lapel" onclick="setMount('lapel')" class="px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]">
+          📎 Lapel Clip (3.2g)
+        </button>
+        <button id="mbtn-pendant" onclick="setMount('pendant')" class="px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]">
+          📿 MagSafe/Pendant
+        </button>
       </div>
 
-      <!-- Slider 3: Servo-Free Coanda Slipstream Swirl Vectoring -->
-      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
+      <!-- Flying 0.28g POLED Carapace Trigger -->
+      <div class="lg:col-span-3 flex flex-wrap items-center justify-end gap-1.5">
+        <button onclick="triggerShutterCountdown()" class="px-2.5 py-0.5 rounded-md font-bold bg-rose-500/25 text-rose-200 border border-rose-400/70 hover:bg-rose-500/40">
+          📸 POLED "3-2-1" Shutter
+        </button>
+        <button onclick="toggleSlowMo()" id="btnSlowMo" class="px-2 py-0.5 rounded-md font-semibold bg-emerald-500/25 text-emerald-200 border border-emerald-400/70">
+          🔍 0.15× Slow-Mo: OFF
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 Sliders: Unfurl + 36Hz Flap + Coanda Swirl Steer + Paulos-Yim Dipole Cyclic -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-[var(--secondary)]/50 border border-[var(--border)] rounded-xl p-2 text-xs items-center">
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-1.5 sm:pb-0 sm:pr-2">
         <div class="flex justify-between font-semibold">
-          <span class="text-amber-300">3. Coandă Swirl Steer:</span>
+          <span class="text-cyan-300">1. Launch &amp; Bi-Fold:</span>
+          <span id="lblMorph" class="font-mono text-emerald-300">100% Airborne</span>
+        </div>
+        <input id="rngMorph" type="range" min="0" max="100" value="100" oninput="onMorphSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer mt-0.5" />
+      </div>
+
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-1.5 sm:pb-0 sm:pr-2">
+        <div class="flex justify-between font-semibold">
+          <span class="text-emerald-300">2. 🦋 36Hz Wing-Beat:</span>
+          <span id="lblFlap" class="font-mono text-emerald-200">±28° (44mW)</span>
+        </div>
+        <input id="rngFlap" type="range" min="0" max="100" value="100" oninput="onFlapSlider(this.value)" class="w-full accent-emerald-400 cursor-pointer mt-0.5" />
+      </div>
+
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-1.5 sm:pb-0 sm:pr-2">
+        <div class="flex justify-between font-semibold">
+          <span class="text-amber-300">3. Coandă Vane Steer:</span>
           <span id="lblSwirl" class="font-mono text-amber-200">+35% (+0.29gf)</span>
         </div>
-        <input id="rngSwirl" type="range" min="-100" max="100" value="35" oninput="onSwirlSlider(this.value)" class="w-full accent-amber-400 cursor-pointer mt-1" />
-        <div class="flex justify-between text-[11px] text-slate-400">
-          <span>-0.83gf Left</span>
-          <button onclick="onSwirlSlider(0); document.getElementById('rngSwirl').value=0;" class="text-amber-300 underline">Center</button>
-          <span>+0.83gf Right</span>
-        </div>
+        <input id="rngSwirl" type="range" min="-100" max="100" value="35" oninput="onSwirlSlider(this.value)" class="w-full accent-amber-400 cursor-pointer mt-0.5" />
       </div>
 
-      <!-- Slider 4: Servo-Free Paulos-Yim Antisymmetric Dipole 1/rev Cyclic -->
       <div class="sm:col-span-3 flex flex-col justify-between">
         <div class="flex justify-between font-semibold">
           <span class="text-purple-300">4. Dipole 1/rev Cyclic:</span>
           <span id="lblCyclic" class="font-mono text-purple-200">+0.36 N·mm</span>
         </div>
-        <input id="rngCyclic" type="range" min="-100" max="100" value="25" oninput="onCyclicSlider(this.value)" class="w-full accent-purple-400 cursor-pointer mt-1" />
-        <div class="flex justify-between text-[11px] text-slate-400">
-          <span>-1.42 N·mm</span>
-          <button onclick="onCyclicSlider(0); document.getElementById('rngCyclic').value=0;" class="text-purple-300 underline">Level</button>
-          <span>+1.42 N·mm</span>
-        </div>
+        <input id="rngCyclic" type="range" min="-100" max="100" value="25" oninput="onCyclicSlider(this.value)" class="w-full accent-purple-400 cursor-pointer mt-0.5" />
       </div>
     </div>
 
-    <!-- Main 3D Viewport -->
+    <!-- Main 3D Viewport + Live Circular Watch / Viewfinder PiP -->
     <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#040814]">
-      <canvas id="mainCanvas" class="w-full h-[340px] sm:h-[385px] block cursor-grab active:cursor-grabbing"></canvas>
+      <canvas id="mainCanvas" class="w-full h-[350px] sm:h-[395px] block cursor-grab active:cursor-grabbing"></canvas>
 
-      <!-- Top-Left Live Physics & Wing Battery HUD -->
-      <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none max-w-[95%]">
-        <div id="hudTitle" class="text-emerald-300 font-bold">SCARAB Ω³-ELYTRA (11.85g AUW = 9.85g Core + 2.00g Battery Elytra + 0.35g Flapping Hindwings)</div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Resonant NiTi Wing-Beat:</span><span id="hudFlap" class="text-cyan-300 font-bold">36.0 Hz Figure-8 Stroke (±28° Flap + ±22° Pronation Twist • 44 mW)</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Battery &amp; Hover Target:</span><span id="hudPower" class="text-emerald-300 font-bold">5.00g Si-C (0.929 Wh @80%) • 2.50W → 22.35 min (+3.0m Gain)</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">0-Servo Control + Thrust:</span><span id="hudState" class="text-amber-300 font-bold">COANDĂ VANES: +0.29gf | DIPOLE CYCLIC: +0.36 N·mm | KNOLLER–BETZ: +0.31gf</span></div>
+      <!-- Top-Left Live Physics & Dual-Screen Mass/Endurance HUD -->
+      <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none max-w-[92%] sm:max-w-[64%]">
+        <div id="hudTitle" class="text-emerald-300 font-bold">FLYING CORE: 12.13g (incl. 0.28g POLED + 0.58g 4K Cam) | WRIST BASE: 16.8g (28.9g Total)</div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Dual-Screen State:</span><span id="hudScreens" class="text-cyan-300 font-bold">WRIST: 1.39" 60fps Live FPV Viewfinder | FLYING POLED: Bio-Pet Eyes</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Hover &amp; Daily Total:</span><span id="hudPower" class="text-emerald-300 font-bold">2.60W Hover → 21.41 min/charge • +1.75Wh Wrist Bank = 60+ min/day</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Active Pod &amp; Control:</span><span id="hudState" class="text-amber-300 font-bold">POD: 4K OIS CAM | COANDĂ: +0.29gf | DIPOLE: +0.36 N·mm | FLAP: 36Hz</span></div>
       </div>
 
-      <!-- Top-Right Functional Wing Legend -->
-      <div class="hidden md:block absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-[11px] font-mono space-y-0.5 pointer-events-none">
-        <div class="text-slate-200 font-bold">ZERO-SERVO RESONANT WING-BEAT PHYSICS</div>
-        <div class="text-emerald-300">■ 1. NiTi Root Flexure (k=2.48 N·mm/rad): 85% elastic recovery</div>
-        <div class="text-cyan-300">■ 2. 36 Hz Sub-Harmonic FOC Drive: Only 44 mW total flap power</div>
-        <div class="text-amber-300">■ 3. Knoller–Betz + LEV Lift: +0.31gf thrust + 3.24gf cruise lift</div>
-        <div class="text-yellow-300">■ 4. Curved Si-C Battery Elytra: +1.6g cell → +3.0 min hover</div>
-        <div class="text-purple-300">■ 5. Figure-8 Shimmer: Fuses at &gt;24 Hz into living beetle halo</div>
+      <!-- Bottom-Right Interactive Circular Apple-Watch-Replacement PiP Screen -->
+      <div class="absolute bottom-11 right-2.5 w-[132px] h-[132px] sm:w-[148px] sm:h-[148px] rounded-full bg-[#050b18]/95 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(34,211,238,0.28)] flex flex-col items-center justify-between p-2.5 text-center font-mono pointer-events-auto">
+        <div id="pipHeader" class="text-[9px] font-bold text-cyan-300 tracking-tight uppercase mt-0.5">1.39" WRIST VIEWFINDER</div>
+        <div id="pipCenter" class="flex flex-col items-center justify-center my-auto space-y-0.5">
+          <div id="pipMainText" class="text-xs sm:text-sm font-extrabold text-emerald-300">🎯 LOCKED: HARSHA</div>
+          <div id="pipSubText" class="text-[10px] text-slate-300">4K60 OIS • ♥ 128 BPM</div>
+          <div id="pipThirdText" class="text-[9px] text-amber-300">Wrist Bank: 88% (+1.8×)</div>
+        </div>
+        <button id="pipActionBtn" onclick="toggleDockUndock()" class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/30 text-emerald-200 border border-emerald-400/70 hover:bg-emerald-500/50 mb-0.5">
+          ⏬ Land on Wrist
+        </button>
       </div>
 
-      <!-- Bottom Camera & Quick Action Bar -->
+      <!-- Bottom Camera Bar -->
       <div class="absolute bottom-2 left-2 right-2 flex flex-wrap items-center justify-between gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
         <div class="flex flex-wrap items-center gap-1.5">
           <span class="text-slate-400">Drag 3D Orbit •</span>
-          <button onclick="setCam(-0.46, 0.42, 0.98)" class="hover:text-cyan-300 underline">3D Isometric</button>
+          <button onclick="setCam(-0.46, 0.40, 0.96)" class="hover:text-cyan-300 underline">3D Split-Core View</button>
           <span>·</span>
-          <button onclick="setCam(0.0, 0.10, 1.05)" class="hover:text-cyan-300 underline">Front Flapping Stroke View</button>
+          <button onclick="setCam(0.0, 0.12, 1.05)" class="hover:text-cyan-300 underline">Front Pod &amp; POLED Eyes</button>
           <span>·</span>
-          <button onclick="setCam(-1.52, 0.12, 1.05)" class="hover:text-cyan-300 underline">Side Figure-8 Wingtip Path</button>
-          <span>·</span>
-          <button onclick="setCam(0.0, 1.50, 0.92)" class="hover:text-cyan-300 underline">Top 120mm Span View</button>
+          <button onclick="setCam(0.0, 1.48, 0.94)" class="hover:text-cyan-300 underline">Top Wrist Viewfinder &amp; Span</button>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="toggleSlowMo()" id="btnSlowMoBottom" class="px-2 py-0.5 rounded bg-emerald-500/25 border border-emerald-400/60 text-emerald-200 hover:bg-emerald-500/40 font-semibold">
-            🔍 Toggle 0.15× Slow-Mo Flap
-          </button>
-          <button onclick="triggerPetPurr()" class="px-2 py-0.5 rounded bg-purple-500/25 border border-purple-400/60 text-purple-200 hover:bg-purple-500/40 font-semibold">
-            🪲 Pet Purr Flutter
+          <button onclick="toggleDockUndock()" class="px-2 py-0.5 rounded bg-cyan-500/25 border border-cyan-400/60 text-cyan-200 hover:bg-cyan-500/40 font-semibold">
+            ⌚ Toggle Dock / Launch
           </button>
           <button onclick="triggerWhiskerBrake()" class="px-2 py-0.5 rounded bg-rose-500/25 border border-rose-400/60 text-rose-200 hover:bg-rose-500/40 font-semibold">
             🖐️ 15ms Brake
@@ -167,36 +182,28 @@
     const ctx = canvas.getContext('2d');
 
     let wingMode = 'hover'; // 'hover', 'cruise', 'bask', 'stowed'
-    let autoMorph = false;
+    let podMode  = 'cam';   // 'cam' (0.58g 4K OIS), 'proj' (0.72g JBD 6lm Projector), 'claw' (0.65g Mandibles+Suction)
+    let mountMode = 'wrist';// 'wrist' (16.8g Watch Base), 'lapel' (3.2g Clip), 'pendant' (4.5g MagSafe/Pendant)
     let slowMo = false;
-    let morphVal = 1.0;  // 0.0 (stowed) .. 1.0 (deployed)
-    let flapAmp = 1.0;   // 0.0 (fixed glide) .. 1.0 (±28° resonant 36 Hz figure-8 stroke)
-    let swirlCmd = 0.35; // -1.0 .. +1.0 differential rotor swirl -> Coanda vane steering
-    let cyclicCmd = 0.25;// -1.0 .. +1.0 Paulos-Yim 1/rev dipole cyclic
+    let morphVal = 1.0;     // 0.0 (docked on wrist) .. 1.0 (airborne)
+    let flapAmp = 1.0;      // 0.0 .. 1.0 (±28° resonant 36 Hz figure-8 stroke)
+    let swirlCmd = 0.35;    // -1.0 .. +1.0 Coanda vane swirl steering
+    let cyclicCmd = 0.25;   // -1.0 .. +1.0 Paulos-Yim dipole cyclic
     let whiskerBrakeTimer = 0;
-    let petPurrTimer = 0;
+    let shutterTimer = 0;   // >0 runs "3 - 2 - 1 - SNAP" on the flying POLED carapace!
 
     let simTime = 0;
     let flapPhase = 0;
     let rotorPhase = 0;
 
     let camYaw = -0.46;
-    let camPitch = 0.42;
-    let camZoom = 0.98;
+    let camPitch = 0.40;
+    let camZoom = 0.96;
     let isDragging = false;
     let lastX = 0, lastY = 0;
 
-    const modeDescriptions = {
-      hover: '<strong class="text-emerald-300">🚁 Mode 1 — Stationary Hover with Vertical Coandă Elytra + Active `36 Hz` Resonant Hindwing Beat (`0 Servos`):</strong> The two curved <strong>Structural-Battery Elytra (`+1.60 g` Si-C cell = `22.35 min` target hover)</strong> hang vertically edge-on beneath the slipstream (`<0.8%` blockage) as <strong>Coandă steering vanes (`Slider 3`, `±0.83 gf`)</strong>, while the translucent <strong>`120 mm` Origami Hindwings (`0.14 g` each)</strong> beat in a <strong>`36 Hz`, `±28°` figure-8 stroke</strong> driven by a sub-harmonic FOC motor ripple exciting their <strong>resonant Nitinol (`NiTi`) root flexures (`Q = 6.5`, only `44 mW` total flap power!)</strong>.',
-      cruise: '<strong class="text-cyan-300">🦋 Mode 2 — Forward Cruise (`5.0 m/s`) with Full `±28°` Figure-8 Flapping Hindwings + Lifted Elytra (`-23.9%` Rotor Load + `+0.31 gf` Knoller–Betz Thrust):</strong> The Emerald Structural-Battery Elytra lift into a `22°` cambered forewing posture (with gentle `4 Hz` biomimetic counter-breathing), while the `120 mm` Origami Hindwings execute a full <strong>`±28°` vertical stroke + `±22°` passive pronation/supination pitch twist</strong>. By the <strong>Knoller–Betz flapping-foil effect</strong>, oscillating in the forward airstream generates `+0.31 gf` of direct forward thrust plus `3.24 gf` of aerodynamic lift!',
-      bask: '<strong class="text-amber-300">☀️ Mode 3 — Perched "Basking Beetle" Solar Harvesting (`+180–280 mW`) &amp; `18 Hz` Emotive Wing Purr:</strong> When perched with rotors stopped (`0 W` propulsion), the Scarab fans its curved Elytra open `42°` to expose `14.5 cm²` of Perovskite/GaAs solar skin (`+180–280 mW`), and can flutter its wings at `18 Hz` when it recognizes your face.',
-      stowed: '<strong class="text-purple-300">🛡️ Mode 4 — Stowed Jewel-Beetle Carapace (`Ø 32.5 × 7.6 mm` Wearable Coin):</strong> Both 2-hinge bi-fold rotors (`L1 = 13.0 mm`, `L2 = 12.8 mm`) and the pleated `120 mm` origami hindwings fold completely inside the hard Emerald Structural-Battery Elytra (`IP52` pocket/wrist armor).'
-    };
-
     function setWingMode(m) {
       wingMode = m;
-      autoMorph = false;
-      document.getElementById('btnAutoLoop').textContent = 'Auto-Loop: OFF';
       ['hover', 'cruise', 'bask', 'stowed'].forEach(k => {
         const b = document.getElementById('wbtn-' + k);
         b.className = (k === m)
@@ -206,26 +213,58 @@
       if (m === 'stowed') {
         morphVal = 0.0;
         document.getElementById('rngMorph').value = 0;
-        document.getElementById('lblMorph').textContent = '0% (Stowed)';
+        document.getElementById('lblMorph').textContent = '0% (Docked Watch)';
       } else if (m === 'bask') {
         morphVal = 0.22;
         document.getElementById('rngMorph').value = 22;
         document.getElementById('lblMorph').textContent = '22% (Solar Bask)';
-        petPurrTimer = 2.5;
       } else {
         morphVal = 1.0;
         document.getElementById('rngMorph').value = 100;
-        document.getElementById('lblMorph').textContent = '100% Open';
+        document.getElementById('lblMorph').textContent = '100% Airborne';
       }
-      document.getElementById('laymanBox').innerHTML = modeDescriptions[m];
+      updateHUD();
+    }
+
+    function setPod(p) {
+      podMode = p;
+      ['cam', 'proj', 'claw'].forEach(k => {
+        const b = document.getElementById('pbtn-' + k);
+        b.className = (k === p)
+          ? 'px-2 py-0.5 rounded-md font-bold bg-cyan-500/25 text-cyan-200 border border-cyan-400/70'
+          : 'px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]';
+      });
+      updateHUD();
+    }
+
+    function setMount(m) {
+      mountMode = m;
+      ['wrist', 'lapel', 'pendant'].forEach(k => {
+        const b = document.getElementById('mbtn-' + k);
+        b.className = (k === m)
+          ? 'px-2 py-0.5 rounded-md font-bold bg-amber-500/25 text-amber-200 border border-amber-400/70'
+          : 'px-2 py-0.5 rounded-md font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)]';
+      });
+      updateHUD();
+    }
+
+    function toggleDockUndock() {
+      if (morphVal > 0.3) {
+        setWingMode('stowed');
+      } else {
+        setWingMode('hover');
+      }
+    }
+
+    function triggerShutterCountdown() {
+      if (morphVal < 0.3) setWingMode('hover');
+      shutterTimer = 3.6;
       updateHUD();
     }
 
     function onMorphSlider(v) {
-      autoMorph = false;
-      document.getElementById('btnAutoLoop').textContent = 'Auto-Loop: OFF';
       morphVal = parseFloat(v) / 100.0;
-      document.getElementById('lblMorph').textContent = `${Math.round(morphVal * 100)}% Open`;
+      document.getElementById('lblMorph').textContent = morphVal < 0.08 ? '0% (Docked Watch)' : `${Math.round(morphVal * 100)}% Airborne`;
       if (morphVal < 0.05 && wingMode !== 'stowed') {
         wingMode = 'stowed';
       } else if (morphVal > 0.5 && (wingMode === 'stowed' || wingMode === 'bask')) {
@@ -237,20 +276,14 @@
     function onFlapSlider(v) {
       flapAmp = parseFloat(v) / 100.0;
       const deg = Math.round(flapAmp * 28);
-      document.getElementById('lblFlap').textContent = deg === 0 ? '0 Hz (Glide)' : `36 Hz (±${deg}°)`;
+      document.getElementById('lblFlap').textContent = deg === 0 ? '0 Hz (Glide)' : `±${deg}° (44mW)`;
       updateHUD();
     }
 
     function toggleSlowMo() {
       slowMo = !slowMo;
-      document.getElementById('btnSlowMo').textContent = slowMo ? '🔍 Slow-Mo: 0.15×' : '🔍 Slow-Mo: OFF';
-      document.getElementById('btnSlowMoBottom').textContent = slowMo ? '⚡ Resume 1.0× Real-Time' : '🔍 Toggle 0.15× Slow-Mo Flap';
+      document.getElementById('btnSlowMo').textContent = slowMo ? '🔍 0.15× Slow-Mo: ON' : '🔍 0.15× Slow-Mo: OFF';
       updateHUD();
-    }
-
-    function toggleAutoMorph() {
-      autoMorph = !autoMorph;
-      document.getElementById('btnAutoLoop').textContent = autoMorph ? 'Auto-Loop: ON' : 'Auto-Loop: OFF';
     }
 
     function onSwirlSlider(v) {
@@ -269,19 +302,12 @@
       updateHUD();
     }
 
-    function triggerPetPurr() {
-      petPurrTimer = 3.0;
-      if (wingMode === 'stowed') setWingMode('bask');
-      document.getElementById('laymanBox').innerHTML = '<strong class="text-purple-300">🪲 ZERO-SERVO PET PURR &amp; 18 Hz WING-FLUTTER EXPRESSIVENESS:</strong> Sub-flight FOC micro-pulses excite the resonant NiTi wing hinges and helical spline, making both the Emerald Elytra and translucent Hindwings flutter and shimmer when it recognizes your face!';
-    }
-
     function triggerWhiskerBrake() {
-      autoMorph = false;
       whiskerBrakeTimer = 1.0;
-      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ PERIMETER BUMPER CONTACT → 15 ms REGENERATIVE BRAKE (`1.95 mJ` Rotor Kinetic Energy):</strong> Active reverse-DShot braking halts the coaxial rotors in `15 ms` while driving the 3-start helical spline down to snap both 2-hinge bi-fold rotors, hindwings, and Structural-Battery Elytra shut.';
+      updateHUD();
     }
 
-    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 0.98; }
+    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 0.96; }
 
     canvas.addEventListener('pointerdown', e => {
       isDragging = true;
@@ -312,63 +338,90 @@
     function project(pt, W, H) {
       let p = rotY(pt, camYaw);
       p = rotX(p, camPitch);
-      const fov = 360 * camZoom;
-      const dist = 225;
+      const fov = 355 * camZoom;
+      const dist = 230;
       const z = dist - p[2];
       const s = fov / Math.max(30, z);
-      return [W * 0.50 + p[0] * s, H * 0.55 - p[1] * s, z, s];
+      return [W * 0.48 + p[0] * s, H * 0.54 - p[1] * s, z, s];
     }
 
-    // Exact Euclidean 2-Hinge Bi-Fold Kinematics (Rev 2.0 Verified: R_hub=6.2mm, L1=13.0mm, L2=12.8mm)
     function computeBiFoldGeometry(deployFrac) {
-      const R_hub = 6.20;
-      const L1 = 13.00;
-      const L2 = 12.80;
+      const R_hub = 6.20, L1 = 13.00, L2 = 12.80;
       const th1 = lerp(-118.0, 0.0, deployFrac) * Math.PI / 180.0;
       const th2 = lerp(-102.0, 0.0, deployFrac) * Math.PI / 180.0;
       const root = [R_hub, 0];
       const knee = [R_hub + L1 * Math.cos(th1), L1 * Math.sin(th1)];
       const tip  = [knee[0] + L2 * Math.cos(th1 + th2), knee[1] + L2 * Math.sin(th1 + th2)];
-      let rMax = 0;
-      for (let i = 0; i <= 10; i++) {
-        const u = i / 10;
-        const p1 = [lerp(root[0], knee[0], u), lerp(root[1], knee[1], u)];
-        const p2 = [lerp(knee[0], tip[0], u),  lerp(knee[1], tip[1], u)];
-        rMax = Math.max(rMax, Math.hypot(p1[0], p1[1]) + 0.9, Math.hypot(p2[0], p2[1]) + 0.9);
-      }
-      return { root, knee, tip, rMax, dEnvelope: rMax * 2.0 };
+      return { root, knee, tip };
     }
 
     function updateHUD() {
-      const deg = Math.round(flapAmp * 28 * morphVal);
-      const pwrFlap = Math.round(44 * flapAmp * flapAmp * morphVal);
-      const slowTag = slowMo ? ' [0.15× SLOW-MO INSPECTION]' : '';
-      document.getElementById('hudFlap').textContent =
-        deg > 0 ? `36.0 Hz Figure-8 Stroke (±${deg}° Flap + ±${Math.round(flapAmp*22)}° Twist • ${pwrFlap} mW)${slowTag}`
-                : `0 Hz Fixed Glide (0 mW Flap Power)${slowTag}`;
+      const podMass = podMode === 'cam' ? 0.58 : (podMode === 'proj' ? 0.72 : 0.65);
+      const flyMass = (11.55 + podMass).toFixed(2);
+      const baseMass = mountMode === 'wrist' ? 16.80 : (mountMode === 'lapel' ? 3.20 : 4.50);
+      const totMass = (parseFloat(flyMass) + baseMass).toFixed(2);
+      const mountLabel = mountMode === 'wrist' ? 'WRIST WATCH BASE' : (mountMode === 'lapel' ? 'LAPEL POV CLIP' : 'MAGSAFE/PENDANT');
+      document.getElementById('hudTitle').textContent =
+        `FLYING SCARAB: ${flyMass}g (incl. 0.28g POLED + ${podMass}g Pod) | ${mountLabel}: ${baseMass.toFixed(1)}g (${totMass}g Total)`;
 
-      if (wingMode === 'stowed' || morphVal < 0.05) {
-        document.getElementById('hudPower').textContent = '0.00 W (Docked) • 5.00g Si-C Battery (0.929 Wh @80% DoD)';
-      } else if (wingMode === 'bask') {
-        document.getElementById('hudPower').textContent = '+240 mW Solar Charge (14.5 cm² Elytra) vs 5 mW Sentinel';
-      } else if (wingMode === 'cruise') {
-        document.getElementById('hudPower').textContent = '1.76 W Cruise @ 5m/s (-23.9% Rotor Offload + 44mW Flap) • ~31.5 min';
+      const isDocked = (morphVal < 0.12 || wingMode === 'stowed');
+      const pipHeader = document.getElementById('pipHeader');
+      const pipMain   = document.getElementById('pipMainText');
+      const pipSub    = document.getElementById('pipSubText');
+      const pipThird  = document.getElementById('pipThirdText');
+      const pipBtn    = document.getElementById('pipActionBtn');
+
+      if (isDocked) {
+        document.getElementById('hudScreens').textContent =
+          'DOCKED ON WRIST: Curved 0.28g POLED Carapace = Always-On Watch Face (9.4mm Total Stack)';
+        pipHeader.textContent = '🪲 POLED CARAPACE WATCH';
+        pipMain.textContent   = '10:09 AM';
+        pipSub.textContent    = '♥ 72 BPM • NFC Pay Ready';
+        pipThird.textContent  = '⚡ 2C Pogo Charging (100%)';
+        pipBtn.textContent    = '🚀 Pop Out & Launch';
       } else {
-        document.getElementById('hudPower').textContent = '2.54 W Hover Target (11.85g AUW + 44mW Flap) • 22.0 min (+2.7m vs Bare)';
+        const countdownTxt = shutterTimer > 0
+          ? (shutterTimer > 1.0 ? `COUNTDOWN "${Math.ceil(shutterTimer - 0.6)}"` : '📸 SNAP!')
+          : 'Cyan Bio-Pet Eyes';
+        document.getElementById('hudScreens').textContent =
+          `UNCOVERED WRIST: 1.39" 60fps Live FPV Viewfinder | FLYING 0.28g POLED: ${countdownTxt}`;
+        pipHeader.textContent = mountMode === 'wrist' ? '⌚ 1.39" WRIST VIEWFINDER' : '📱 LIVE FPV FEED';
+        if (podMode === 'cam') {
+          pipMain.textContent  = shutterTimer > 0 ? `📸 ${Math.ceil(shutterTimer)}... SMILE!` : '🎯 TRACKING: HARSHA';
+          pipSub.textContent   = '4K60 OIS • ♥ 128 BPM';
+        } else if (podMode === 'proj') {
+          pipMain.textContent  = '📽️ AR BEAM ACTIVE';
+          pipSub.textContent   = '6.0 lm • 800×600 • 48 nits';
+        } else {
+          pipMain.textContent  = '🦞 MANDIBLE GRIP';
+          pipSub.textContent   = '2.7g Load • Suction Armed';
+        }
+        pipThird.textContent = 'Base Bank: +1.75Wh (60m/day)';
+        pipBtn.textContent   = '⏬ Land on Wrist';
       }
 
+      const hoverMin = podMode === 'proj' ? '21.15 min' : (podMode === 'claw' ? '21.28 min' : '21.41 min');
+      document.getElementById('hudPower').textContent =
+        isDocked ? '0.02W LTPO Watch Face • +1.75Wh Wrist Booster = 60+ min Daily Flight'
+                 : `2.60W Hover → ${hoverMin}/charge • +1.75Wh Wrist Booster = 60+ min/day`;
+
+      const podStr = podMode === 'cam' ? '4K OIS CAM' : (podMode === 'proj' ? 'JBD 6lm PROJECTOR' : 'STAG MANDIBLES');
       const coandaGF = (swirlCmd * 0.83 * morphVal).toFixed(2);
       const cycNmm = (cyclicCmd * 1.42 * morphVal).toFixed(2);
-      const kbGF = (0.31 * flapAmp * morphVal).toFixed(2);
       document.getElementById('hudState').textContent =
-        `COANDĂ VANES: ${swirlCmd>=0?'+':''}${coandaGF}gf | DIPOLE CYCLIC: ${cyclicCmd>=0?'+':''}${cycNmm} N·mm | KNOLLER–BETZ FLAP: +${kbGF}gf`;
+        `POD: ${podStr} | COANDĂ: ${swirlCmd>=0?'+':''}${coandaGF}gf | DIPOLE: ${cyclicCmd>=0?'+':''}${cycNmm} N·mm | 36Hz FLAP`;
+
+      const descMap = {
+        cam: '<strong class="text-cyan-300">⌚🪲 Dual-Screen Split-Core + `0.58 g` 4K OIS Camera Pod (`12.13 g` Flying / `28.9 g` Total Worn vs `61.4 g` Apple Watch Ultra 2):</strong> Instead of flying a heavy `+3.1 g` glass watch screen (`-6.7 min` hover penalty), the flying Scarab carries a <strong>`0.28 g` `65 µm` flexible Polyimide `POLED` laminated onto its curved Beetle Elytra</strong> (`<55 sec` hover cost). When docked (`⌚ 4. Docked Watch`), the curved `POLED` carapace displays your Always-On Watch Face. The instant it launches (`🚁 1. Hover`), the stay-behind wrist base uncovers its <strong>`1.39"` Sapphire LTPO AMOLED Live FPV Viewfinder</strong> (shown in the circular PiP on the right) while keeping `PPG` heart-rate, `NFC` pay, and a `1.75 Wh` (`+1.8×` recharge) booster battery on your wrist!',
+        proj: '<strong class="text-amber-300">📽️ Hot-Swap 6-Pin Nose Pod 2 — `JBD Roadrunner II` `6.0-Lumen` RGB MicroLED Projector (`0.72 g`, `12.27 g` Flying AUW):</strong> Clicks into the front 6-pin micro-pogo bayonet in `<2 seconds`. Projects an `800×600` holographic AR interface (`48.0 nits` / `14 fL` at `25 cm` distance) onto your hand, desk, or wall while the `36 Hz` resonant `NiTi` hindwings and `Ø 64 mm` coaxial rotor hold rock-steady hover.',
+        claw: '<strong class="text-emerald-300">🦞 Hot-Swap 6-Pin Nose Pod 3 — Stag Micro-Mandibles &amp; Chin Suction Pad (`0.65 g`, `12.20 g` Flying AUW):</strong> Adds `25°` forward carbon-wire stag mandibles + a bimodal micro-suction pad so your Scarab can scoop up a ring/note or perch at `0 W` on any vertical mirror or window.'
+      };
+      document.getElementById('laymanBox').innerHTML = descMap[podMode];
     }
 
-    // Initialize labels
     setWingMode('hover');
-    onSwirlSlider(35);
-    onCyclicSlider(25);
-    onFlapSlider(100);
+    setPod('cam');
+    setMount('wrist');
 
     function renderFrame(dt) {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -389,24 +442,19 @@
         morphVal = Math.max(0, morphVal - dt * 8.5);
         document.getElementById('rngMorph').value = Math.round(morphVal * 100);
         updateHUD();
-      } else if (autoMorph) {
-        const cyc = (simTime * 14) % 100;
-        morphVal = smoothstep(10, 32, cyc) * (1 - smoothstep(76, 92, cyc));
-        document.getElementById('rngMorph').value = Math.round(morphVal * 100);
-        updateHUD();
       }
-
-      if (petPurrTimer > 0) {
-        petPurrTimer = Math.max(0, petPurrTimer - dt);
+      if (shutterTimer > 0) {
+        const prevCeil = Math.ceil(shutterTimer);
+        shutterTimer = Math.max(0, shutterTimer - dt);
+        if (Math.ceil(shutterTimer) !== prevCeil) updateHUD();
       }
 
       const spinActive = (wingMode === 'hover' || wingMode === 'cruise') ? morphVal : 0.0;
       rotorPhase += dt * timeScale * 20.0 * spinActive;
-      // 36 Hz resonant wing-beat phase (fast enough in 1.0x to look like a real beating scarab wing, smooth in 0.15x slow-mo!)
-      const activeFlapRate = (wingMode === 'bask' && petPurrTimer > 0) ? 26.0 : 34.0 * spinActive;
+      const activeFlapRate = (wingMode === 'bask') ? 24.0 : 34.0 * spinActive;
       flapPhase += dt * timeScale * activeFlapRate;
 
-      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
+      const grad = ctx.createRadialGradient(W * 0.48, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
       grad.addColorStop(0, '#0f1d3a');
       grad.addColorStop(1, '#03060f');
       ctx.fillStyle = grad;
@@ -414,14 +462,14 @@
 
       const drawList = [];
       const flightLift = (wingMode === 'hover' || wingMode === 'cruise') ? morphVal : 0.0;
-      const altY = flightLift * 24 + (flightLift > 0.5 ? Math.sin(simTime * 3.5) * 1.8 : 0);
+      const altY = flightLift * 27 + (flightLift > 0.5 ? Math.sin(simTime * 3.5) * 1.6 : 0);
       const bodyRoll = cyclicCmd * 0.16 * flightLift + swirlCmd * 0.08 * flightLift;
       const bodyPitch = (wingMode === 'cruise' ? -0.14 * flightLift : 0);
 
       function xformBody(pt) {
         let p = rotZ(pt, bodyRoll);
         p = rotX(p, bodyPitch);
-        return [p[0] + swirlCmd * 4.0 * flightLift, p[1] + altY - 10, p[2]];
+        return [p[0] + swirlCmd * 4.0 * flightLift, p[1] + altY - 12, p[2]];
       }
 
       function qPoly(pts3D, fill, stroke, lw = 1.2) {
@@ -456,15 +504,56 @@
         });
       }
 
-      // 1. WRIST / MAGNETIC DOCK PAD BASE (Y = -16 mm)
-      const wristPts = [];
+      // =========================================================================
+      // 1. STAY-BEHIND MODULAR BASE ("CHAMELEON NEST": WRIST WATCH / LAPEL / PENDANT)
+      // =========================================================================
+      const baseY = -17.0;
+      if (mountMode === 'wrist') {
+        // Fluoroelastomer Wrist Watch Strap Bands (Left & Right)
+        qPoly([[-38, baseY - 2, -9], [-18, baseY, -10], [-18, baseY, 10], [-38, baseY - 2, 9]], 'rgba(30, 41, 59, 0.78)', '#475569', 1.3);
+        qPoly([[ 18, baseY, -10], [ 38, baseY - 2, -9], [ 38, baseY - 2, 9], [ 18, baseY, 10]], 'rgba(30, 41, 59, 0.78)', '#475569', 1.3);
+      } else if (mountMode === 'lapel') {
+        // 3.2g Magnetic Jacket / Backpack Lapel Clip
+        qPoly([[-14, baseY - 3, -14], [14, baseY - 3, -14], [14, baseY - 1, 18], [-14, baseY - 1, 18]], 'rgba(51, 65, 85, 0.82)', '#94a3b8', 1.4);
+      } else {
+        // Necklace Pendant / MagSafe Ring Cord
+        qLine([-12, baseY, -16], [0, baseY + 3, -36], '#cbd5e1', 1.8);
+        qLine([ 12, baseY, -16], [0, baseY + 3, -36], '#cbd5e1', 1.8);
+      }
+
+      // Outer Grade-5 Titanium Halbach Bayonet Bezel Ring (R = 17.5 mm)
+      const bezelPts = [];
       for (let i = 0; i < 24; i++) {
         const a = (i / 24) * Math.PI * 2;
-        wristPts.push([Math.cos(a) * 30, -16, Math.sin(a) * 30]);
+        bezelPts.push([Math.cos(a) * 18.0, baseY + 0.4, Math.sin(a) * 18.0]);
       }
-      qPoly(wristPts, 'rgba(30, 41, 59, 0.42)', 'rgba(100, 116, 139, 0.32)', 1.2);
+      qPoly(bezelPts, 'rgba(15, 23, 42, 0.95)', '#f59e0b', 1.6);
 
-      // 2. UNIVERSAL Ø28.5 × 7.2mm CORE HUB + 3-START HELICAL SPLINE SHAFT
+      // Uncovered 1.39" Round Sapphire LTPO AMOLED Live Viewfinder Screen on Wrist Base (R = 14.5 mm)
+      const screenPts = [];
+      for (let i = 0; i < 24; i++) {
+        const a = (i / 24) * Math.PI * 2;
+        screenPts.push([Math.cos(a) * 14.5, baseY + 0.8, Math.sin(a) * 14.5]);
+      }
+      qPoly(screenPts, morphVal > 0.15 ? 'rgba(6, 78, 59, 0.88)' : 'rgba(15, 23, 42, 0.95)', '#22d3ee', 1.5);
+
+      // Live FPV Target Crosshair & Reticle drawn directly on the 3D Wrist Screen when Scarab is airborne!
+      if (morphVal > 0.15) {
+        qLine([-8, baseY + 1.1, 0], [8, baseY + 1.1, 0], '#34d399', 1.4);
+        qLine([0, baseY + 1.1, -8], [0, baseY + 1.1, 8], '#34d399', 1.4);
+        const boxPts = [[-5, baseY + 1.2, -5], [5, baseY + 1.2, -5], [5, baseY + 1.2, 5], [-5, baseY + 1.2, 5]];
+        for (let i = 0; i < 4; i++) qLine(boxPts[i], boxPts[(i+1)%4], '#22d3ee', 1.4);
+      }
+
+      // 6 Gold Spring-Pogo Charging & Data Pins on the Bayonet Ring
+      for (let p = 0; p < 6; p++) {
+        const a = (p / 6) * Math.PI * 2;
+        qLine([Math.cos(a)*16.0, baseY + 0.6, Math.sin(a)*16.0], [Math.cos(a)*16.0, baseY + 1.6, Math.sin(a)*16.0], '#fbbf24', 2.2);
+      }
+
+      // =========================================================================
+      // 2. UNIVERSAL Ø28.5 × 7.2mm FLYING SCARAB CORE + 3-START HELICAL SPLINE
+      // =========================================================================
       const coreTop = [], coreBot = [];
       for (let i = 0; i < 20; i++) {
         const a = (i / 20) * Math.PI * 2;
@@ -474,11 +563,12 @@
       qPoly(coreBot, 'rgba(15, 23, 42, 0.95)', '#38bdf8', 1.3);
       qPoly(coreTop, 'rgba(16, 185, 129, 0.28)', '#34d399', 1.3);
 
-      // Helical spline extension (slides up 9.0 mm as morphVal 0 -> 1)
       const upperHubLocalY = 1.4 + morphVal * 9.0;
       qLine(xformBody([0, -1.5, 0]), xformBody([0, upperHubLocalY + 2.2, 0]), '#fbbf24', 3.2);
 
-      // 3. TRUE EUCLIDEAN 2-HINGE BI-FOLD COAXIAL ROTORS (L1 = 13.0 mm, L2 = 12.8 mm)
+      // =========================================================================
+      // 3. TRUE EUCLIDEAN 2-HINGE BI-FOLD COAXIAL ROTORS (L1 = 13.0mm, L2 = 12.8mm)
+      // =========================================================================
       const bf = computeBiFoldGeometry(morphVal);
       [
         { y: 1.2,            dir: 1,  phaseOff: 0,           color: '#38bdf8', fill: 'rgba(56, 189, 248, 0.34)', hingeColor: '#f43f5e' },
@@ -498,37 +588,35 @@
           const rRoot = rot2D(bf.root, worldAz);
           const rKnee = rot2D(bf.knee, worldAz);
           const rTip  = rot2D(bf.tip,  worldAz);
-
           const n1Angle = worldAz + Math.PI * 0.5;
-          const halfC1 = 1.45;
-          const seg1Pts = [
+          const halfC1 = 1.45, halfC2 = 1.25;
+
+          qPoly([
             xformBody([rRoot[0] + Math.cos(n1Angle)*halfC1, stage.y + 0.3, rRoot[1] + Math.sin(n1Angle)*halfC1]),
             xformBody([rKnee[0] + Math.cos(n1Angle)*halfC1, stage.y + 0.5 + cyclicFlap*0.5, rKnee[1] + Math.sin(n1Angle)*halfC1]),
             xformBody([rKnee[0] - Math.cos(n1Angle)*halfC1, stage.y - 0.3 + cyclicFlap*0.5, rKnee[1] - Math.sin(n1Angle)*halfC1]),
             xformBody([rRoot[0] - Math.cos(n1Angle)*halfC1, stage.y - 0.2, rRoot[1] - Math.sin(n1Angle)*halfC1])
-          ];
-          qPoly(seg1Pts, stage.fill, stage.color, 1.3);
+          ], stage.fill, stage.color, 1.3);
 
-          const halfC2 = 1.25;
-          const seg2Pts = [
+          qPoly([
             xformBody([rKnee[0] + Math.cos(n1Angle)*halfC2, stage.y + 0.5 + cyclicFlap*0.5, rKnee[1] + Math.sin(n1Angle)*halfC2]),
             xformBody([rTip[0]  + Math.cos(n1Angle)*0.85,   stage.y + 0.7 + cyclicFlap,     rTip[1]  + Math.sin(n1Angle)*0.85]),
             xformBody([rTip[0]  - Math.cos(n1Angle)*0.85,   stage.y - 0.3 + cyclicFlap,     rTip[1]  - Math.sin(n1Angle)*0.85]),
             xformBody([rKnee[0] - Math.cos(n1Angle)*halfC2, stage.y - 0.3 + cyclicFlap*0.5, rKnee[1] - Math.sin(n1Angle)*halfC2])
-          ];
-          qPoly(seg2Pts, stage.fill, stage.color, 1.3);
+          ], stage.fill, stage.color, 1.3);
 
           qLine(
             xformBody([rKnee[0], stage.y - 0.8 + cyclicFlap*0.5, rKnee[1]]),
             xformBody([rKnee[0], stage.y + 0.9 + cyclicFlap*0.5, rKnee[1]]),
-            stage.hingeColor, 2.4
+            stage.hingeColor, 2.3
           );
         }
       });
 
-      // 4. FUNCTIONAL STRUCTURAL-BATTERY + SOLAR BIOMIMETIC SPLIT ELYTRA (With Active Biomimetic Articulation!)
-      const purrWave = (petPurrTimer > 0 || wingMode === 'bask') ? Math.sin(flapPhase * 1.2) * 0.24 : 0;
-      // In flight, the outer Emerald Elytra also have a gentle counter-phase biomimetic breathing / trim oscillation
+      // =========================================================================
+      // 4. STRUCTURAL-BATTERY ELYTRA + CONFORMAL 0.28g FLEXIBLE POLED CARAPACE SCREEN
+      // =========================================================================
+      const purrWave = (wingMode === 'bask') ? Math.sin(flapPhase * 1.2) * 0.24 : 0;
       const flightElytraWave = (wingMode === 'hover' || wingMode === 'cruise')
         ? Math.sin(flapPhase * 0.25) * 0.11 * flapAmp * morphVal
         : 0;
@@ -537,27 +625,31 @@
         let pivotX, pivotY, shellRoll, shellYaw;
         if (wingMode === 'bask') {
           const tBask = clamp01(morphVal / 0.22);
-          pivotX = side * lerp(8.0, 14.5, tBask);
-          pivotY = lerp(3.0, 6.8, tBask);
+          pivotX = side * lerp(7.8, 14.5, tBask);
+          pivotY = lerp(3.2, 6.8, tBask);
           shellRoll = side * (lerp(0.0, 0.74, tBask) + purrWave);
           shellYaw = side * (0.18 * tBask + purrWave * 0.4);
         } else if (wingMode === 'cruise') {
-          // Lifted Beetle Forewing Posture (+26 deg dihedral + active counter-breathing) clear above the flapping hindwings!
-          pivotX = side * lerp(8.0, 24.5, morphVal);
-          pivotY = lerp(3.0, 5.2, morphVal);
+          pivotX = side * lerp(7.8, 24.5, morphVal);
+          pivotY = lerp(3.2, 5.2, morphVal);
           shellRoll = side * (lerp(0.0, 0.45, morphVal) + flightElytraWave * 1.6);
           shellYaw = side * lerp(0.0, 0.32, morphVal);
         } else {
-          // Hover Mode: Vertical Coanda Slipstream Vanes (with subtle Coanda trim feathering + breathing)
-          pivotX = side * lerp(8.0, 26.5, morphVal);
-          pivotY = lerp(3.0, -5.8, morphVal);
+          // Hover Mode (Vertical Coanda Slipstream Vanes) or Stowed Watch Face (morphVal = 0)
+          pivotX = side * lerp(7.8, 26.5, morphVal);
+          pivotY = lerp(3.2, -5.8, morphVal);
           shellRoll = side * (lerp(0.0, Math.PI * 0.47, morphVal) + flightElytraWave);
           shellYaw = swirlCmd * 0.20 * morphVal;
         }
 
-        // Passive 4-bar Scissor-Cam Struts
         qLine(xformBody([side * 11.5, 0.5, -4.0]), xformBody([pivotX, pivotY, -4.0]), '#94a3b8', 1.8);
         qLine(xformBody([side * 11.5, -0.8, 4.0]), xformBody([pivotX, pivotY, 4.0]), '#94a3b8', 1.8);
+
+        function xformElytra(pt) {
+          let p = rotZ(pt, shellRoll);
+          p = rotY(p, shellYaw);
+          return xformBody([p[0] + pivotX, p[1] + pivotY, p[2]]);
+        }
 
         const elytraOuter = [
           [-5.5 * side, 0.8, -13.0],
@@ -566,148 +658,169 @@
           [ 5.0 * side, 0.0,  11.5],
           [-5.5 * side, 0.8,  13.0],
           [-6.0 * side, 1.4,   0.0]
-        ].map(pt => {
-          let p = rotZ(pt, shellRoll);
-          p = rotY(p, shellYaw);
-          return xformBody([p[0] + pivotX, p[1] + pivotY, p[2]]);
-        });
+        ].map(xformElytra);
 
-        const battInlay = [
-          [-3.8 * side, 1.0, -9.5],
-          [ 3.6 * side, 0.3, -8.5],
-          [ 3.8 * side, 0.3,  8.5],
-          [-3.8 * side, 1.0,  9.5]
-        ].map(pt => {
-          let p = rotZ(pt, shellRoll);
-          p = rotY(p, shellYaw);
-          return xformBody([p[0] + pivotX, p[1] + pivotY, p[2]]);
-        });
+        // Conformal 0.28g Flexible Polyimide POLED Screen Laminated onto the Curved Elytra!
+        // Glows Rose-Amber during "3-2-1" Shutter Countdown, or Cyan-Emerald Bio-Pet Eye / Watch Face!
+        const poledGlowFill = shutterTimer > 0
+          ? 'rgba(244, 63, 94, 0.82)'
+          : (morphVal < 0.12 ? 'rgba(6, 182, 212, 0.72)' : 'rgba(56, 189, 248, 0.65)');
+        const poledStroke = shutterTimer > 0 ? '#fda4af' : '#67e8f9';
+
+        const poledScreen = [
+          [-3.8 * side, 1.05, -9.5],
+          [ 3.6 * side, 0.35, -8.5],
+          [ 3.8 * side, 0.35,  8.5],
+          [-3.8 * side, 1.05,  9.5]
+        ].map(xformElytra);
 
         qPoly(elytraOuter, 'rgba(16, 185, 129, 0.56)', '#10b981', 1.8);
-        qPoly(battInlay, 'rgba(245, 158, 11, 0.46)', '#fbbf24', 1.2);
+        qPoly(poledScreen, poledGlowFill, poledStroke, 1.4);
+
+        // Glowing Bio-Pet Eye Pupil / Watch Complication Ring on each POLED Elytra
+        const eyeRing = [
+          [-1.8 * side, 1.2, -5.5],
+          [ 1.8 * side, 0.8, -5.5],
+          [ 1.8 * side, 0.8, -1.5],
+          [-1.8 * side, 1.2, -1.5]
+        ].map(xformElytra);
+        qPoly(eyeRing, shutterTimer > 0 ? '#fef08a' : '#a7f3d0', '#ffffff', 1.2);
       });
 
-      // 5. ACTIVE 36 Hz RESONANT FLAPPING 120mm ORIGAMI HINDWINGS (Active in BOTH Hover & Forward Cruise + Pet Purr!)
-      //    Renders the primary flapping wing PLUS 2 motion-blur ghost stroke positions AND the 3D Figure-8 Wingtip Trajectory!
+      // =========================================================================
+      // 5. ACTIVE 36 Hz RESONANT FLAPPING 120mm ORIGAMI HINDWINGS
+      // =========================================================================
       if (morphVal > 0.15) {
         const hwFrac = smoothstep(0.15, 0.90, morphVal);
         const effAmp = (wingMode === 'bask' ? 0.35 : flapAmp) * hwFrac;
-        const maxFlapRad = 0.49 * effAmp;  // ±28 deg vertical flapping stroke
-        const maxTwistRad = 0.38 * effAmp; // ±22 deg passive pronation/supination pitch twist (90 deg out of phase)
-        const maxSweepRad = 0.22 * effAmp; // ±12.5 deg figure-8 fore-aft sweep (2x harmonic)
+        const maxFlapRad  = 0.49 * effAmp;
+        const maxTwistRad = 0.38 * effAmp;
+        const maxSweepRad = 0.22 * effAmp;
 
         [-1, 1].forEach(side => {
           const rootPivot = [side * 13.5, 0.8, 1.0];
-          const spanLen = 46.5 * hwFrac; // 13.5 + 46.5 = 60mm half-span = 120mm total span!
+          const spanLen = 46.5 * hwFrac;
 
-          // Helper to transform a point in local wing coordinates (u along span [0..spanLen], z along chord)
           function wingPtAtPhase(uSpan, zChord, yCam, ph) {
             const flapAng  = Math.sin(ph) * maxFlapRad;
-            const twistAng = Math.cos(ph) * maxTwistRad * (uSpan / Math.max(1, spanLen)); // twist increases toward tip
-            const sweepAng = Math.sin(2.0 * ph) * maxSweepRad; // Figure-8 harmonic!
-
-            // Start in wing local frame
+            const twistAng = Math.cos(ph) * maxTwistRad * (uSpan / Math.max(1, spanLen));
+            const sweepAng = Math.sin(2.0 * ph) * maxSweepRad;
             let p = [side * uSpan, yCam, zChord];
-            // 1. Pitch twist (pronation on downstroke, supination on upstroke -> Knoller-Betz thrust!)
             p = rotX(p, twistAng);
-            // 2. Vertical flapping dihedral rotation about root
             p = rotZ(p, side * flapAng);
-            // 3. Fore-aft figure-8 sweep
             p = rotY(p, side * sweepAng);
-
             return xformBody([rootPivot[0] + p[0], rootPivot[1] + p[1], rootPivot[2] + p[2]]);
           }
 
-          // Draw 3D Figure-8 Wingtip Path Loop so user clearly sees the resonant figure-8 stroke envelope
           if (effAmp > 0.05) {
-            const pathSegs = 20;
+            const pathSegs = 18;
             for (let k = 0; k < pathSegs; k++) {
               const ph0 = (k / pathSegs) * Math.PI * 2;
               const ph1 = ((k + 1) / pathSegs) * Math.PI * 2;
-              const tip0 = wingPtAtPhase(spanLen, -1.5, 0.8, ph0);
-              const tip1 = wingPtAtPhase(spanLen, -1.5, 0.8, ph1);
-              qLine(tip0, tip1, 'rgba(52, 211, 153, 0.55)', 1.4, [2, 2]);
+              qLine(wingPtAtPhase(spanLen, -1.5, 0.8, ph0), wingPtAtPhase(spanLen, -1.5, 0.8, ph1), 'rgba(52, 211, 153, 0.52)', 1.3, [2, 2]);
             }
           }
 
-          // Draw 2 motion-trail ghost wings behind the main flapping wing + the primary wing
           const ghostOffsets = effAmp > 0.05 ? [-0.95, -0.45, 0.0] : [0.0];
           ghostOffsets.forEach((phOff, gIdx) => {
             const isMain = (gIdx === ghostOffsets.length - 1);
             const ph = flapPhase + phOff;
-            const fillAlpha = isMain ? 0.36 : (gIdx === 1 ? 0.14 : 0.07);
+            const fillAlpha = isMain ? 0.35 : (gIdx === 1 ? 0.14 : 0.07);
             const strokeCol = isMain ? '#38bdf8' : 'rgba(56, 189, 248, 0.28)';
 
-            const hwPoly = [
+            qPoly([
               wingPtAtPhase(0,               -7.0, 0.0, ph),
               wingPtAtPhase(spanLen * 0.52, -10.5, 1.2, ph),
               wingPtAtPhase(spanLen,         -3.5, 1.6, ph),
               wingPtAtPhase(spanLen * 0.90,   7.5, 0.6, ph),
               wingPtAtPhase(spanLen * 0.48,  11.5, 0.2, ph),
               wingPtAtPhase(0,                7.0, 0.0, ph)
-            ];
-            qPoly(hwPoly, `rgba(56, 189, 248, ${fillAlpha})`, strokeCol, isMain ? 1.6 : 0.9);
+            ], `rgba(56, 189, 248, ${fillAlpha})`, strokeCol, isMain ? 1.6 : 0.9);
 
-            // Golden Nitinol / LCP Origami Venation Spar Lines on the main wing
             if (isMain) {
-              qLine(wingPtAtPhase(0, -4.5, 0.1, ph), wingPtAtPhase(spanLen, -3.5, 1.6, ph), '#fde047', 1.6);
+              qLine(wingPtAtPhase(0, -4.5, 0.1, ph), wingPtAtPhase(spanLen, -3.5, 1.6, ph), '#fde047', 1.5);
               qLine(wingPtAtPhase(0,  0.0, 0.1, ph), wingPtAtPhase(spanLen * 0.90, 7.5, 0.6, ph), 'rgba(253, 224, 71, 0.8)', 1.2, [3, 2]);
-              qLine(wingPtAtPhase(spanLen * 0.52, -10.5, 1.2, ph), wingPtAtPhase(spanLen * 0.48, 11.5, 0.2, ph), 'rgba(52, 211, 153, 0.75)', 1.1);
             }
           });
         });
       }
 
-      // 6. SERVO-FREE COANDĂ SLIPSTREAM STREAMLINES & JET VECTORING VISUALIZATION
+      // =========================================================================
+      // 6. HOT-SWAP 6-PIN VENTRAL NOSE PODS (Pod 1: 4K OIS Cam | Pod 2: JBD 6lm Projector | Pod 3: Stag Mandibles)
+      // =========================================================================
+      const podY = upperHubLocalY + 1.8;
+      if (podMode === 'cam') {
+        // Pod 1: OV6946 4K/1080p OIS Camera Pod + Framing Cone
+        const eyePts = [
+          xformBody([-3.2, podY, -3.5]),
+          xformBody([ 3.2, podY, -3.5]),
+          xformBody([ 3.2, podY + 3.4, -5.8]),
+          xformBody([-3.2, podY + 3.4, -5.8])
+        ];
+        qPoly(eyePts, 'rgba(56, 189, 248, 0.92)', '#f59e0b', 1.6);
+        if (morphVal > 0.25) {
+          const coneCol = shutterTimer > 0 ? 'rgba(244, 63, 94, 0.75)' : 'rgba(34, 211, 238, 0.35)';
+          qLine(xformBody([0, podY + 1.5, -5.5]), xformBody([-16, podY - 10, -34]), coneCol, 1.3, [3, 3]);
+          qLine(xformBody([0, podY + 1.5, -5.5]), xformBody([ 16, podY - 10, -34]), coneCol, 1.3, [3, 3]);
+        }
+      } else if (podMode === 'proj') {
+        // Pod 2: JBD Roadrunner II 6.0-Lumen RGB MicroLED Projector Pod + 3D Holographic AR Projection Screen!
+        const projPts = [
+          xformBody([-4.0, podY, -3.8]),
+          xformBody([ 4.0, podY, -3.8]),
+          xformBody([ 4.0, podY + 3.8, -6.5]),
+          xformBody([-4.0, podY + 3.8, -6.5])
+        ];
+        qPoly(projPts, 'rgba(232, 121, 249, 0.92)', '#fde047', 1.8);
+
+        // Project 3D RGB MicroLED Beam & Floating 800x600 AR Display Screen in front of the Scarab!
+        const scrZ = -38.0;
+        const scrPts = [
+          xformBody([-22, podY + 9,  scrZ]),
+          xformBody([ 22, podY + 9,  scrZ]),
+          xformBody([ 22, podY - 13, scrZ]),
+          xformBody([-22, podY - 13, scrZ])
+        ];
+        scrPts.forEach(sp => {
+          qLine(xformBody([0, podY + 2.0, -6.2]), sp, 'rgba(56, 189, 248, 0.55)', 1.4, [3, 2]);
+        });
+        qPoly(scrPts, 'rgba(14, 165, 233, 0.24)', '#38bdf8', 2.0);
+        // Holographic UI Bars inside the projected AR screen
+        qLine(xformBody([-15, podY + 4, scrZ]), xformBody([15, podY + 4, scrZ]), '#34d399', 2.4);
+        qLine(xformBody([-15, podY - 1, scrZ]), xformBody([10, podY - 1, scrZ]), '#fde047', 2.0);
+        qLine(xformBody([-15, podY - 6, scrZ]), xformBody([14, podY - 6, scrZ]), '#e879f9', 2.0);
+      } else {
+        // Pod 3: Stag Carbon-Wire Micro-Mandibles + Bimodal Chin Suction Pad (0.65g)
+        [-1, 1].forEach(side => {
+          qLine(xformBody([side * 4.5, -1.5, -6.0]), xformBody([side * 9.5, -3.5, -18.0]), '#fde047', 2.4);
+          qLine(xformBody([side * 9.5, -3.5, -18.0]), xformBody([side * 3.5, -3.5, -24.5]), '#fde047', 2.4);
+        });
+        // Gold ring / object held in the Stag Mandibles
+        const ringPts = [];
+        for (let i = 0; i < 16; i++) {
+          const a = (i / 16) * Math.PI * 2;
+          ringPts.push(xformBody([Math.cos(a) * 4.5, -3.5, -21.0 + Math.sin(a) * 4.5]));
+        }
+        qPoly(ringPts, 'rgba(251, 191, 36, 0.35)', '#fbbf24', 2.0);
+      }
+
+      // 7. SERVO-FREE COANDĂ SLIPSTREAM STREAMLINES & JET VECTORING
       if ((wingMode === 'hover' || wingMode === 'cruise') && morphVal > 0.35) {
         const jetDeflectX = -swirlCmd * 11.5 * morphVal;
         const cycDeflectZ = cyclicCmd * 8.0 * morphVal;
-        for (let s = 0; s < 10; s++) {
-          const ang = (s / 10) * Math.PI * 2 + simTime * 1.8;
+        for (let s = 0; s < 8; s++) {
+          const ang = (s / 8) * Math.PI * 2 + simTime * 1.8;
           const rTop = 24.5;
           const phase = ((simTime * 2.4 + s * 0.17) % 1.0);
-          const yStart = upperHubLocalY;
-          const yMid   = -3.0;
-          const yEnd   = -21.0;
-
-          const pTop = xformBody([Math.cos(ang) * rTop, lerp(yStart, yMid, phase * 0.5), Math.sin(ang) * rTop]);
+          const pTop = xformBody([Math.cos(ang) * rTop, lerp(upperHubLocalY, -3.0, phase * 0.5), Math.sin(ang) * rTop]);
           const pBot = xformBody([
             Math.cos(ang) * rTop + jetDeflectX * phase,
-            lerp(yMid, yEnd, phase),
+            lerp(-3.0, -19.0, phase),
             Math.sin(ang) * rTop + cycDeflectZ * phase
           ]);
-          const streamCol = Math.abs(swirlCmd) > 0.15 ? 'rgba(251, 191, 36, 0.65)' : 'rgba(56, 189, 248, 0.48)';
-          qLine(pTop, pBot, streamCol, 1.6, [4, 3]);
-        }
-
-        if (Math.abs(swirlCmd) > 0.05) {
-          const fLen = swirlCmd * 26.0 * morphVal;
-          qLine(xformBody([0, -5.5, 0]), xformBody([fLen, -5.5, 0]), '#f59e0b', 3.2);
+          qLine(pTop, pBot, Math.abs(swirlCmd) > 0.15 ? 'rgba(251, 191, 36, 0.62)' : 'rgba(56, 189, 248, 0.45)', 1.5, [4, 3]);
         }
       }
-
-      // 7. SOLAR RAYS WHEN IN BASKING MODE (Mode 3)
-      if (wingMode === 'bask') {
-        for (let r = -2; r <= 2; r++) {
-          const rx = r * 9.0;
-          const pulse = ((simTime * 18 + r * 4) % 14);
-          qLine(
-            xformBody([rx, 24 - pulse, -4]),
-            xformBody([rx * 0.85, 15 - pulse, -2]),
-            'rgba(250, 204, 21, 0.75)', 1.8, [3, 3]
-          );
-        }
-      }
-
-      // 8. SAPPHIRE OIS CAMERA EYE (Front Visor)
-      const eyeY = upperHubLocalY + 1.8;
-      const eyePts = [
-        xformBody([-3.0, eyeY, -3.5]),
-        xformBody([ 3.0, eyeY, -3.5]),
-        xformBody([ 3.0, eyeY + 3.2, -5.2]),
-        xformBody([-3.0, eyeY + 3.2, -5.2])
-      ];
-      qPoly(eyePts, morphVal > 0.12 ? 'rgba(56, 189, 248, 0.88)' : 'rgba(30, 41, 59, 0.95)', '#f59e0b', 1.5);
 
       drawList.sort((a, b) => b.z - a.z);
       drawList.forEach(item => item.fn());
