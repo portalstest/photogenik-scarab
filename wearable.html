@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCARAB 1 — Wearable Flight 3D Simulator (Nature 2024 Origami Flapper vs. Compact Quad Hybrids)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-4 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-4 shadow-lg space-y-2.5">
+
+    <!-- Header & Playback Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div>
+        <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-amber-400">
+          <span>SCARAB 1 • 62×44×25mm WEARABLE SHELL</span>
+          <span class="text-[var(--muted-foreground)]">•</span>
+          <span id="trackBadge" class="text-emerald-400">Arch 1: Nature (2024) Passive Origami Flapper (29.8g · 48gf Thrust)</span>
+        </div>
+        <h2 class="text-[var(--foreground)] font-bold text-base leading-snug">
+          3D Kinematic Sim: Passive Origami Wings vs. Compact Quad Compression
+        </h2>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button id="btnAutoPlay" onclick="togglePlay()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/50 hover:bg-amber-500/30 transition">
+          ⏸ Auto-Morph: ON
+        </button>
+        <button id="btnSlowMo" onclick="toggleSlowMo()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] hover:opacity-90 transition">
+          ⏱️ 0.15× Slow-Mo: OFF
+        </button>
+        <button id="btnXray" onclick="toggleXray()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition">
+          🔬 X-Ray Shell: ON
+        </button>
+      </div>
+    </div>
+
+    <!-- 3-Way Propulsion Architecture Switcher (Answers Flapper vs. Quad Compression!) -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+      <button id="arch-flapper" onclick="setArch('flapper')" class="text-left p-2 rounded-xl border border-emerald-400/80 bg-emerald-500/15 transition">
+        <div class="flex items-center justify-between text-xs font-bold text-emerald-300">
+          <span>🦋 1. Pure Flapper (Nature ’24)</span>
+          <span>48 gf Lift</span>
+        </div>
+        <div class="text-xs text-[var(--muted-foreground)] mt-0.5 leading-snug">
+          <strong>29.8 g</strong> • Whisper 54 dBA • Carries 10 Silicon Sensors + Cam (No Heavy Winch)
+        </div>
+      </button>
+
+      <button id="arch-foldquad" onclick="setArch('foldquad')" class="text-left p-2 rounded-xl border border-[var(--border)] bg-[var(--secondary)]/40 hover:border-sky-400/50 transition">
+        <div class="flex items-center justify-between text-xs font-bold text-sky-300">
+          <span>🛸 2. Switchblade Quad + Wings</span>
+          <span>84 gf Lift</span>
+        </div>
+        <div class="text-xs text-[var(--muted-foreground)] mt-0.5 leading-snug">
+          <strong>38.5 g</strong> • 4× 0802 Arms Tuck Inside 44mm Shell → Pop to 76mm + Carries Winch!
+        </div>
+      </button>
+
+      <button id="arch-coax" onclick="setArch('coax')" class="text-left p-2 rounded-xl border border-[var(--border)] bg-[var(--secondary)]/40 hover:border-amber-400/50 transition">
+        <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+          <span>⚡ 3. Tandem Coaxial + Flapper</span>
+          <span>76 gf Lift</span>
+        </div>
+        <div class="text-xs text-[var(--muted-foreground)] mt-0.5 leading-snug">
+          <strong>36.2 g</strong> • Twin 34mm Oval Ducts Fit Fixed Inside 62×44mm Shell + Origami Wings
+        </div>
+      </button>
+    </div>
+
+    <!-- Main 3D Viewport + Live Telemetry HUD -->
+    <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#070b14]">
+      <canvas id="simCanvas" class="w-full h-[270px] sm:h-[300px] block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Top-Left Dock Selector Pills -->
+      <div class="absolute top-2 left-2 flex flex-wrap gap-1 bg-black/75 backdrop-blur-md p-1 rounded-lg border border-white/10">
+        <button onclick="setDock('wrist')" id="dock-wrist" class="px-2 py-1 rounded text-xs font-semibold bg-amber-500/30 text-amber-200 border border-amber-400/60">
+          ⌚ Wrist Cuff
+        </button>
+        <button onclick="setDock('pendant')" id="dock-pendant" class="px-2 py-1 rounded text-xs font-semibold text-slate-300 hover:text-white">
+          📿 Pendant
+        </button>
+        <button onclick="setDock('belt')" id="dock-belt" class="px-2 py-1 rounded text-xs font-semibold text-slate-300 hover:text-white">
+          🔋 Belt Dock
+        </button>
+        <button onclick="setDock('isolated')" id="dock-isolated" class="px-2 py-1 rounded text-xs font-semibold text-slate-300 hover:text-white">
+          🔬 Close-Up
+        </button>
+      </div>
+
+      <!-- Top-Right Live Physics & Payload Telemetry -->
+      <div class="absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-xs text-slate-200 space-y-0.5 font-mono">
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Closed Width:</span><span id="hudWidth" class="text-amber-300 font-bold">44 mm (Fits Cuff)</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Origami Span:</span><span id="hudSpan" class="text-emerald-300 font-bold">62 → 195 mm</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Max Thrust:</span><span id="hudFlap" class="text-sky-300 font-bold">48.2 gf (1.6×)</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Utility Payload:</span><span id="hudPayload" class="text-purple-300 font-bold">10 Sensors (3.1g)</span></div>
+      </div>
+
+      <!-- Bottom-Left Camera Presets -->
+      <div class="absolute bottom-2 left-2 flex flex-wrap items-center gap-1.5 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 text-xs text-slate-300">
+        <span class="text-slate-400">Drag 3D Orbit •</span>
+        <button onclick="setCam(-0.62, 0.48, 1.0)" class="hover:text-amber-300 underline">Iso</button>
+        <span>·</span>
+        <button onclick="setCam(0, 1.38, 1.05)" class="hover:text-amber-300 underline">Top Compression View</button>
+        <span>·</span>
+        <button onclick="setCam(0, 0.15, 1.15)" class="hover:text-amber-300 underline">Front POV</button>
+        <span>·</span>
+        <button onclick="setCam(-1.45, 0.22, 1.05)" class="hover:text-amber-300 underline">Side Stroke</button>
+      </div>
+    </div>
+
+    <!-- 5-Phase Nature (2024) Kinematic Scrubber -->
+    <div class="space-y-1.5">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xs font-semibold text-[var(--muted-foreground)] whitespace-nowrap">Morph Scrubber:</span>
+        <input id="timelineSlider" type="range" min="0" max="100" value="0" oninput="onScrub(this.value)" class="w-full accent-amber-400 cursor-pointer" />
+        <span id="timelinePct" class="text-xs font-mono font-bold text-amber-400 w-9 text-right">0%</span>
+      </div>
+
+      <div class="grid grid-cols-5 gap-1">
+        <button onclick="jumpPhase(0)" id="phase-0" class="text-left p-1.5 rounded-lg border border-amber-400/70 bg-amber-500/15 transition">
+          <div class="text-xs font-bold text-amber-300">1. CLOSED (44mm)</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Tucked on Dock</div>
+        </button>
+        <button onclick="jumpPhase(1)" id="phase-1" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">2. ELYTRA 68°</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Bronze 4-Bar Pop</div>
+        </button>
+        <button onclick="jumpPhase(2)" id="phase-2" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">3. 195mm UNFOLD</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Centrifugal Snap</div>
+        </button>
+        <button onclick="jumpPhase(3)" id="phase-3" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">4. HOVER FLIGHT</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">EPM 10ms Launch</div>
+        </button>
+        <button onclick="jumpPhase(4)" id="phase-4" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">5. PASSIVE TUCK</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Elytra Sweep-In</div>
+        </button>
+      </div>
+
+      <!-- Live Stage Explanation Banner -->
+      <div id="phaseDescBox" class="rounded-lg bg-[var(--secondary)]/60 border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--foreground)] leading-relaxed">
+        <strong class="text-amber-400">Phase 1 — Closed Wearable Sentinel (62 × 44 × 25 mm):</strong> All 3 architectures compress inside the exact same 62×44 mm carapace on your Wrist Cuff or Pendant! Turn on <strong>🔬 X-Ray Shell</strong> and click <strong>Top Compression View</strong> to see how the 3-fold origami wings and folding/coaxial rotors pack inside.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let progress = 0;
+    let autoPlay = true;
+    let slowMo = false;
+    let xray = true; // default ON so user immediately sees internal folding mechanics!
+    let archMode = 'flapper'; // 'flapper' | 'foldquad' | 'coax'
+    let dockMode = 'wrist';
+
+    let camYaw = -0.62;
+    let camPitch = 0.48;
+    let camZoom = 1.0;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+    let simTime = 0;
+
+    const phaseDescriptions = [
+      '<strong class="text-amber-400">Phase 1 — Closed Wearable Sentinel (62 × 44 × 25 mm):</strong> Docked via a 0 mW Electro-Permanent Magnet (400 gf hold). The 195 mm hindwings are Z-folded into 3 bistable origami panels tucked completely inside the 44 mm-wide carapace while the front OV5640 lens operates at 35 mW.',
+      '<strong class="text-amber-400">Phase 2 — Bronze 4-Bar Elytra Lift (68°) &amp; Arm/Wing Release (Nature 2024 Fig. 2):</strong> A single 1.2 g linear actuator lifts both hard elytra to 68°. In Arch 1, the elastic wing-base springs out 22°; in Arch 2, the 4 switchblade 0802 quad arms pivot outward from 42 mm (tucked) to 76 mm!',
+      '<strong class="text-emerald-400">Phase 3 — Passive Centrifugal Origami Unfolding (Zero Wing Servos! Nature 2024 Fig. 3):</strong> As flapping starts at 32 Hz, centrifugal acceleration (~14 G) snaps the Marginal Joint (MJ) and Medial Vein Crease (MVC) open from 62 mm to a locked 195 mm cambered wingspan in 110 ms!',
+      '<strong class="text-sky-400">Phase 4 — EPM 10 ms Release &amp; Untethered Flight:</strong> Arch 1 (Pure Flapper) generates 48 gf at a whisper-quiet 54 dBA (carries all 10 silicon sensors). Arch 2 (Switchblade Quad) &amp; Arch 3 (Tandem Coaxial) generate 76–84 gf to haul the heavy Spider-Silk Ceiling Winch + Micro-Fetch claws!',
+      '<strong class="text-purple-400">Phase 5 — Return Dock &amp; Passive Elytra-Sweep Retraction (Nature 2024 Fig. 4):</strong> Upon landing back on the Wrist Cuff pogo pads, rotors/flapping stop. Closing the curved elytra mechanically sweeps the origami hindwings (and switchblade quad arms) right back inside the 62 × 44 mm shell!'
+    ];
+
+    function setCam(yaw, pitch, zoom) {
+      camYaw = yaw;
+      camPitch = pitch;
+      camZoom = zoom || 1.0;
+    }
+
+    function setArch(mode) {
+      archMode = mode;
+      const badge = document.getElementById('trackBadge');
+      const map = {
+        flapper: {
+          title: 'Arch 1: Nature (2024) Passive Origami Flapper (29.8g · 48gf Thrust)',
+          cls: 'text-emerald-400',
+          border: 'border-emerald-400/80 bg-emerald-500/15',
+          payload: '10 Sensors + Cam (3.1g)'
+        },
+        foldquad: {
+          title: 'Arch 2: Switchblade Folding-Arm Quad + Origami Wings (38.5g · 84gf Thrust)',
+          cls: 'text-sky-400',
+          border: 'border-sky-400/80 bg-sky-500/15',
+          payload: '10 Sensors + Winch + Fetch (12g)'
+        },
+        coax: {
+          title: 'Arch 3: Tandem Coaxial Oval Ducts + Flapper Hybrid (36.2g · 76gf Thrust)',
+          cls: 'text-amber-400',
+          border: 'border-amber-400/80 bg-amber-500/15',
+          payload: '10 Sensors + Winch + Perch (10g)'
+        }
+      };
+      badge.textContent = map[mode].title;
+      badge.className = map[mode].cls;
+      document.getElementById('hudPayload').textContent = map[mode].payload;
+
+      ['flapper', 'foldquad', 'coax'].forEach(k => {
+        const el = document.getElementById('arch-' + k);
+        if (k === mode) {
+          el.className = 'text-left p-2 rounded-xl border transition ' + map[k].border;
+        } else {
+          el.className = 'text-left p-2 rounded-xl border border-[var(--border)] bg-[var(--secondary)]/40 hover:opacity-90 transition';
+        }
+      });
+    }
+
+    function setDock(mode) {
+      dockMode = mode;
+      ['wrist', 'pendant', 'belt', 'isolated'].forEach(m => {
+        const btn = document.getElementById('dock-' + m);
+        btn.className = (m === mode)
+          ? 'px-2 py-1 rounded text-xs font-semibold bg-amber-500/30 text-amber-200 border border-amber-400/60'
+          : 'px-2 py-1 rounded text-xs font-semibold text-slate-300 hover:text-white';
+      });
+    }
+
+    function togglePlay() {
+      autoPlay = !autoPlay;
+      const btn = document.getElementById('btnAutoPlay');
+      btn.textContent = autoPlay ? '⏸ Auto-Morph: ON' : '▶ Auto-Morph: PAUSED';
+    }
+
+    function toggleSlowMo() {
+      slowMo = !slowMo;
+      const btn = document.getElementById('btnSlowMo');
+      btn.textContent = slowMo ? '⏱️ 0.15× Slow-Mo: ON' : '⏱️ 0.15× Slow-Mo: OFF';
+      btn.className = slowMo
+        ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/25 text-emerald-300 border border-emerald-400/60 transition'
+        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition';
+    }
+
+    function toggleXray() {
+      xray = !xray;
+      const btn = document.getElementById('btnXray');
+      btn.textContent = xray ? '🔬 X-Ray Shell: ON' : '🔬 X-Ray Shell: OFF';
+      btn.className = xray
+        ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition'
+        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition';
+    }
+
+    function onScrub(val) {
+      autoPlay = false;
+      document.getElementById('btnAutoPlay').textContent = '▶ Auto-Morph: PAUSED';
+      progress = parseFloat(val);
+      updatePhaseUI();
+    }
+
+    function jumpPhase(idx) {
+      autoPlay = false;
+      document.getElementById('btnAutoPlay').textContent = '▶ Auto-Morph: PAUSED';
+      const targets = [5, 24, 48, 72, 92];
+      progress = targets[idx];
+      document.getElementById('timelineSlider').value = progress;
+      updatePhaseUI();
+    }
+
+    function updatePhaseUI() {
+      document.getElementById('timelinePct').textContent = Math.round(progress) + '%';
+      let pIdx = 0;
+      if (progress < 16) pIdx = 0;
+      else if (progress < 34) pIdx = 1;
+      else if (progress < 58) pIdx = 2;
+      else if (progress < 84) pIdx = 3;
+      else pIdx = 4;
+
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById('phase-' + i);
+        el.className = (i === pIdx)
+          ? 'text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition'
+          : 'text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition';
+      }
+      document.getElementById('phaseDescBox').innerHTML = phaseDescriptions[pIdx];
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      camYaw += (e.clientX - lastX) * 0.01;
+      camPitch = Math.max(-0.35, Math.min(1.48, camPitch + (e.clientY - lastY) * 0.01));
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { isDragging = false; });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camZoom = Math.max(0.65, Math.min(1.65, camZoom - e.deltaY * 0.001));
+    }, { passive: false });
+
+    function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
+    function rotX(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], p[1]*c - p[2]*s, p[1]*s + p[2]*c]; }
+    function rotZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c - p[1]*s, p[0]*s + p[1]*c, p[2]]; }
+    function add3(a, b) { return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }
+
+    function project(pt, w, h) {
+      let p = rotY(pt, camYaw);
+      p = rotX(p, camPitch);
+      const fov = 340 * camZoom;
+      const dist = 255;
+      const z = dist - p[2];
+      const scale = fov / Math.max(40, z);
+      return [w * 0.5 + p[0] * scale, h * 0.56 - p[1] * scale, z, scale];
+    }
+
+    function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+    function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+
+    function drawPoly3D(pts3D, fillStyle, strokeStyle, lineWidth = 1.2) {
+      const w = canvas.width, h = canvas.height;
+      const proj = pts3D.map(p => project(p, w, h));
+      ctx.beginPath();
+      proj.forEach((p, i) => { if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+      ctx.closePath();
+      if (fillStyle) { ctx.fillStyle = fillStyle; ctx.fill(); }
+      if (strokeStyle) { ctx.strokeStyle = strokeStyle; ctx.lineWidth = lineWidth; ctx.stroke(); }
+    }
+
+    function drawLine3D(a, b, strokeStyle, lineWidth = 1.5, dash = []) {
+      const w = canvas.width, h = canvas.height;
+      const pa = project(a, w, h), pb = project(b, w, h);
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash(dash);
+      ctx.moveTo(pa[0], pa[1]);
+      ctx.lineTo(pb[0], pb[1]);
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = lineWidth;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawLabel3D(pt, text, color = '#f8fafc', bg = 'rgba(15,23,42,0.85)') {
+      const w = canvas.width, h = canvas.height;
+      const p = project(pt, w, h);
+      ctx.save();
+      ctx.font = '600 12px ui-sans-serif, system-ui, sans-serif';
+      const tw = ctx.measureText(text).width;
+      ctx.fillStyle = bg;
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(p[0] - tw/2 - 6, p[1] - 10, tw + 12, 20, 5);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, p[0], p[1]);
+      ctx.restore();
+    }
+
+    function renderFrame(dt) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      if (autoPlay) {
+        progress = (progress + dt * (slowMo ? 3.2 : 9.0)) % 100;
+        document.getElementById('timelineSlider').value = progress;
+        updatePhaseUI();
+      }
+      simTime += dt * (slowMo ? 0.15 : 1.0);
+
+      const elytraOpen = smoothstep(14, 30, progress) * (1 - smoothstep(84, 96, progress));
+      const origamiPre = 0.22 * elytraOpen;
+      const origamiFull = smoothstep(32, 50, progress) * (1 - smoothstep(82, 94, progress));
+      const unfoldRatio = Math.max(origamiPre, origamiFull);
+      const flapEnv = smoothstep(28, 36, progress) * (1 - smoothstep(79, 85, progress));
+      const hoverLift = smoothstep(55, 66, progress) * (1 - smoothstep(76, 86, progress));
+      const altY = hoverLift * 44 + hoverLift * Math.sin(simTime * 5.0) * 3.0;
+
+      // Update HUD
+      const spanMm = Math.round(62 + unfoldRatio * 133);
+      const maxGf = archMode === 'flapper' ? 48.2 : (archMode === 'foldquad' ? 84.0 : 76.5);
+      const curGf = (flapEnv * maxGf * (0.4 + 0.6 * unfoldRatio)).toFixed(1);
+      const bodyW = archMode === 'foldquad' ? Math.round(44 + elytraOpen * 32) : 44;
+      document.getElementById('hudWidth').textContent = bodyW + ' mm ' + (elytraOpen < 0.1 ? '(Fits Cuff)' : (archMode === 'foldquad' ? '(Arms Out)' : '(Oval Fixed)'));
+      document.getElementById('hudSpan').textContent = spanMm + ' mm ' + (unfoldRatio > 0.8 ? '(Locked)' : '(3-Fold Z)');
+      document.getElementById('hudFlap').textContent = curGf + ' / ' + maxGf + ' gf';
+
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.7);
+      grad.addColorStop(0, '#111a2e');
+      grad.addColorStop(1, '#050811');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      for (let g = -120; g <= 120; g += 30) {
+        drawLine3D([g, -28, -120], [g, -28, 120], 'rgba(56,189,248,0.08)', 1);
+        drawLine3D([-120, -28, g], [120, -28, g], 'rgba(56,189,248,0.08)', 1);
+      }
+
+      // 1. Wearable Dock Base
+      if (dockMode === 'wrist') {
+        drawPoly3D([[-38, -14, -75], [38, -14, -75], [42, -14, 75], [-42, -14, 75]], 'rgba(30,27,24,0.9)', 'rgba(217,119,6,0.55)', 1.5);
+        drawPoly3D([[-26, -12, -34], [26, -12, -34], [26, -12, 34], [-26, -12, 34]], 'rgba(120,82,40,0.45)', '#f59e0b', 1.4);
+      } else if (dockMode === 'pendant') {
+        drawLine3D([-24, -12, -35], [-65, 25, -110], 'rgba(217,119,6,0.7)', 2.2);
+        drawLine3D([24, -12, -35], [65, 25, -110], 'rgba(217,119,6,0.7)', 2.2);
+        drawPoly3D([[-28, -13, -36], [28, -13, -36], [32, -13, 36], [-32, -13, 36]], 'rgba(24,24,28,0.92)', '#f59e0b', 1.5);
+      } else if (dockMode === 'belt') {
+        drawPoly3D([[-36, -24, -44], [36, -24, -44], [36, -12, 44], [-36, -12, 44]], 'rgba(20,30,42,0.94)', '#38bdf8', 1.6);
+      }
+
+      if (dockMode !== 'isolated') {
+        const epmColor = hoverLift > 0.05 ? 'rgba(56,189,248,0.35)' : 'rgba(168,85,247,0.75)';
+        drawPoly3D([[-14, -11, -16], [14, -11, -16], [14, -11, 16], [-14, -11, 16]], epmColor, '#e9d5ff', 1.2);
+      }
+
+      // 2. Ventral Thorax Chassis (62 mm long × 44 mm wide)
+      const bodyPts = [
+        [-22, altY - 6, -30], [22, altY - 6, -30],
+        [22, altY - 6, 8], [17, altY - 6, 32], [-17, altY - 6, 32], [-22, altY - 6, 8]
+      ];
+      drawPoly3D(bodyPts, 'rgba(18,22,30,0.95)', 'rgba(148,163,184,0.5)', 1.3);
+
+      // Pronotum + OV5640 AI Lens + Amber Eye Slits
+      drawPoly3D([[-21, altY + 2, -12], [21, altY + 2, -12], [16, altY + 1, -32], [-16, altY + 1, -32]], 'rgba(26,28,34,0.96)', '#d97706', 1.4);
+      drawLine3D([-13, altY + 2, -29], [-6, altY + 2, -31], '#fbbf24', 3.0);
+      drawLine3D([6, altY + 2, -31], [13, altY + 2, -29], '#fbbf24', 3.0);
+      drawPoly3D([[-3, altY + 2, -32], [3, altY + 2, -32], [3, altY - 2, -33], [-3, altY - 2, -33]], '#38bdf8', '#e0f2fe', 1.2);
+
+      // 3. Architecture-Specific Internal Propulsion Core
+      if (archMode === 'flapper') {
+        // Central 0803 Brushless + PEEK 4-Bar Flapping Transmission + 10-Sensor PCB
+        drawPoly3D([[-8, altY + 1, -10], [8, altY + 1, -10], [8, altY + 1, 14], [-8, altY + 1, 14]], 'rgba(16,185,129,0.45)', '#34d399', 1.3);
+      } else if (archMode === 'foldquad') {
+        // 4 Switchblade Folding Quad Arms: Tuck inside ±14mm when closed (44mm shell!), swing out to ±31mm when elytra open!
+        const armOut = elytraOpen; // 0 (tucked inside 44mm shell) -> 1 (deployed 76mm span)
+        const armNodes = [
+          [-1, -1, -10, -14], [1, -1, -10, -14],
+          [-1,  1,  12,  16], [1,  1,  12,  16]
+        ];
+        armNodes.forEach(([sx, sz, pivZ, tipZ]) => {
+          const piv = [sx * 8, altY, pivZ];
+          const rx = sx * (12 + armOut * 19); // 12mm tucked inside 22mm half-width -> 31mm deployed!
+          const rz = tipZ + sz * (armOut * 4);
+          const hub = [rx, altY + 1, rz];
+          // Draw switchblade carbon arm
+          drawLine3D(piv, hub, '#38bdf8', 2.6);
+          // Draw 28mm rotor disk
+          const rPts = [];
+          for (let a = 0; a < 10; a++) {
+            const ang = (a / 10) * Math.PI * 2 + simTime * 28 * flapEnv * sx * sz;
+            rPts.push([hub[0] + Math.cos(ang)*10.5, hub[1], hub[2] + Math.sin(ang)*10.5]);
+          }
+          drawPoly3D(rPts, 'rgba(56,189,248,0.28)', '#38bdf8', 1.2);
+        });
+        // Central Spider-Silk Ceiling Winch Spool in belly
+        drawPoly3D([[-6, altY - 3, -2], [6, altY - 3, -2], [6, altY - 3, 10], [-6, altY - 3, 10]], 'rgba(244,63,94,0.55)', '#fb7185', 1.2);
+      } else if (archMode === 'coax') {
+        // Tandem Coaxial Counter-Rotating Oval Ducts (Front & Rear along the 62mm length, only 34mm diameter -> fits fixed inside 44mm width!)
+        [-8, 15].forEach((dz, idx) => {
+          const dPts = [];
+          for (let a = 0; a < 12; a++) {
+            const ang = (a / 12) * Math.PI * 2 + simTime * 30 * flapEnv * (idx === 0 ? 1 : -1);
+            dPts.push([Math.cos(ang)*14, altY + 0.5, dz + Math.sin(ang)*11]);
+          }
+          drawPoly3D(dPts, 'rgba(245,158,11,0.28)', '#fbbf24', 1.4);
+        });
+      }
+
+      // 4. Nature (2024) 3-Panel Bistable Origami Hindwings (Present on all 3 architectures!)
+      [-1, 1].forEach(side => {
+        const strokePhase = simTime * 28;
+        const flapAmp = archMode === 'foldquad' ? 0.18 : 1.0; // gentle 2Hz/stabilizing flutter on quad, full 32Hz stroke on flapper/coax
+        const strokeSweep = flapEnv * Math.sin(strokePhase) * 0.56 * flapAmp;
+        const strokeHeave = flapEnv * Math.cos(strokePhase) * 0.26 * flapAmp;
+
+        const root = [side * 10, altY + 1, -6];
+        const p1Span = 16 + unfoldRatio * 18;
+        const p1Tip = add3(root, rotY(rotZ([side * p1Span, 2, 4], side * strokeHeave), side * strokeSweep));
+        const p1Trail = add3(root, rotY(rotZ([side * (p1Span * 0.85), 0, 20], side * strokeHeave), side * strokeSweep));
+
+        const foldAngle2 = (1 - unfoldRatio) * 2.35;
+        const p2Vec = rotY([side * (28 * unfoldRatio + 6), 1, (1 - unfoldRatio) * 16], side * (strokeSweep - foldAngle2 * 0.4));
+        const p2Tip = add3(p1Tip, rotZ(p2Vec, side * strokeHeave));
+        const p2Trail = add3(p1Trail, rotZ([p2Vec[0]*0.9, p2Vec[1], p2Vec[2] + 8], side * strokeHeave));
+
+        const p3Vec = rotY([side * (38 * unfoldRatio + 4), 0, (1 - unfoldRatio) * 10], side * strokeSweep);
+        const p3Tip = add3(p2Tip, rotZ(p3Vec, side * strokeHeave * 1.3));
+        const p3Trail = add3(p2Trail, rotZ([p3Vec[0]*0.82, p3Vec[1], p3Vec[2] + 4], side * strokeHeave));
+
+        if (elytraOpen > 0.03 || xray) {
+          drawPoly3D([root, p1Tip, p1Trail, [side * 8, altY, 12]], 'rgba(245, 158, 11, 0.24)', '#fbbf24', 1.2);
+          drawPoly3D([p1Tip, p2Tip, p2Trail, p1Trail], 'rgba(52, 211, 153, 0.22)', '#34d399', 1.2);
+          drawPoly3D([p2Tip, p3Tip, p3Trail, p2Trail], 'rgba(56, 189, 248, 0.24)', '#38bdf8', 1.2);
+          drawLine3D(p1Tip, p1Trail, '#f59e0b', 1.7, [3, 2]);
+          drawLine3D(p2Tip, p2Trail, '#10b981', 1.7, [3, 2]);
+        }
+      });
+
+      // 5. Left & Right Armored Obsidian + Brushed-Bronze Elytra
+      [-1, 1].forEach(side => {
+        const hinge = [side * 12, altY + 3, -10];
+        const liftAng = elytraOpen * 1.18;
+        const sweepAng = elytraOpen * 0.92;
+        const rawElytra = [
+          [0, 0, 0], [side * 14, -1, 0], [side * 16, -2, 24], [side * 10, -1, 42], [0, 1, 42]
+        ];
+        const transformed = rawElytra.map(pt => add3(hinge, rotY(rotZ(pt, side * liftAng), -side * sweepAng)));
+
+        if (elytraOpen > 0.08 || xray) {
+          drawLine3D([side * 6, altY + 1, -6], transformed[1], '#f59e0b', 2.0);
+          drawLine3D([side * 6, altY + 1, 2], transformed[2], '#d97706', 1.6);
+        }
+
+        const shellFill = xray ? 'rgba(30, 41, 59, 0.30)' : 'rgba(23, 25, 32, 0.93)';
+        const shellStroke = xray ? 'rgba(245, 158, 11, 0.85)' : '#d97706';
+        drawPoly3D(transformed, shellFill, shellStroke, 1.5);
+      });
+
+      // 6. Floating 3D Callouts
+      if (archMode === 'foldquad') {
+        drawLabel3D([0, altY + 38, -8], elytraOpen < 0.2 ? '4× 0802 Quad Arms Tucked Inside 44mm Shell!' : 'Switchblade Quad Arms Pop to 76mm (84 gf Lift + Winch!)', '#38bdf8');
+      } else if (archMode === 'coax') {
+        drawLabel3D([0, altY + 38, -8], 'Tandem 34mm Coaxial Oval Ducts Fit Fixed in 62×44mm Shell (76 gf Lift)', '#fcd34d');
+      } else {
+        drawLabel3D([0, altY + 38, -8], unfoldRatio < 0.5 ? 'Nature (2024): 3-Panel Origami Hindwings Unfold via Flapping' : '195mm Flapping Span • 48 gf Lift • Carries All 10 Silicon Sensors!', '#6ee7b7');
+      }
+
+      ctx.restore();
+    }
+
+    let lastTS = performance.now();
+    function loop(ts) {
+      const dt = Math.min(0.1, (ts - lastTS) / 1000);
+      lastTS = ts;
+      renderFrame(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
