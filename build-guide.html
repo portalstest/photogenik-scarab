@@ -60,14 +60,14 @@
             Use the interactive 3D simulator dock below to switch between the <strong>7-Stage 3D Build Mockup</strong>, <strong>1:1 Human Wrist &amp; Cross-Lineup Scale (`38.5 mm → 95 mm`)</strong>, <strong>4-Layer Z-Axis Clamshell DFM Stack</strong>, <strong>Chiral Coandă Flow Explorer</strong>, and <strong>Arch 3 Baseline MVP</strong>—or open any simulator full-screen in its own browser tab.
           </p>
         </div>
-        <div class="flex flex-col gap-1.5 text-xs font-mono bg-slate-900/90 p-3 rounded-xl border border-slate-700/80 min-w-[260px]">
-          <div class="text-amber-300 font-bold">📌 DIRECT FULL-SCREEN SIM LINKS</div>
+        <div class="flex flex-col gap-1.5 text-xs font-mono bg-slate-900/90 p-3 rounded-xl border border-slate-700/80 min-w-[280px]">
+          <div class="text-amber-300 font-bold">📌 DIRECT FULL-SCREEN SIM &amp; CAD LINKS</div>
+          <a href="chameleon.html" target="_blank" class="text-teal-300 font-bold hover:underline flex justify-between gap-3"><span>★ 0. Ω³ Chameleon-Halo (Next-iPhone)</span><span>↗</span></a>
           <a href="omega-scale.html" target="_blank" class="text-emerald-300 hover:underline flex justify-between gap-3"><span>1. Ω² 3D Build + 1:1 Scale + DFM</span><span>↗</span></a>
           <a href="omega.html" target="_blank" class="text-cyan-300 hover:underline flex justify-between gap-3"><span>2. Ω Chiral Coandă + Liner Sim</span><span>↗</span></a>
           <a href="arch3-mvp.html" target="_blank" class="text-sky-300 hover:underline flex justify-between gap-3"><span>3. Arch 3 Step-by-Step MVP Sim</span><span>↗</span></a>
-          <a href="arch23.html" target="_blank" class="text-purple-300 hover:underline flex justify-between gap-3"><span>4. Arch 2 vs Arch 3 Comparison</span><span>↗</span></a>
-          <a href="human-scale.html" target="_blank" class="text-amber-200 hover:underline flex justify-between gap-3"><span>5. Original 1:1 Wrist Scale Sim</span><span>↗</span></a>
-          <a href="forms.html" target="_blank" class="text-rose-300 hover:underline flex justify-between gap-3"><span>6. 5-Forms 3D CAD Studio</span><span>↗</span></a>
+          <a href="scarab_zipper_rotor.scad" target="_blank" class="text-amber-200 hover:underline flex justify-between gap-3"><span>4. 3D-Print Zipper-Rotor (.SCAD)</span><span>⬇</span></a>
+          <a href="SCARAB_OMEGA3_CHAMELEON_HALO_NEXT_IPHONE_MASTER.md" target="_blank" class="text-rose-300 hover:underline flex justify-between gap-3"><span>5. Ω³ Chameleon Master Spec (.MD)</span><span>↗</span></a>
         </div>
       </div>
     </section>
@@ -77,44 +77,44 @@
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
         <div>
           <h2 class="text-base sm:text-lg font-bold text-white">🎮 Interactive 3D Simulator Dock (Click Any Tab Below to Switch Live)</h2>
-          <p class="text-xs text-slate-400">Concept animations &amp; parametric analytical target explorers (`UNVERIFIED DESIGN TARGETS` — pending `$98.40` `20 kSPS` bench coupon validation).</p>
+          <p class="text-xs text-slate-400">Includes the new <strong>SCARAB Ω³ (`CHAMELEON-HALO`) `6.8 mm` 3D-Printed Interlocking Iris-Rotor &amp; Dandelion-Jellyfish Simulator</strong> (`UNVERIFIED DESIGN TARGETS` — pending `$34.60` 3D-print &amp; `$98.40` `20 kSPS` bench coupon validation).</p>
         </div>
-        <a id="btnOpenFull" href="omega-scale.html" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/25 text-cyan-300 border border-cyan-400/60 hover:bg-cyan-500/35 transition">
+        <a id="btnOpenFull" href="chameleon.html" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/25 text-cyan-300 border border-cyan-400/60 hover:bg-cyan-500/35 transition">
           ↗ Open Active 3D Simulator Full-Screen
         </a>
       </div>
 
       <!-- Simulator Selector Buttons -->
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
-        <button onclick="switchIframe('omega-scale.html', 0)" id="simtab-0" class="p-2 rounded-xl border border-emerald-400/80 bg-emerald-500/20 text-left transition">
+        <button onclick="switchIframe('chameleon.html', 0)" id="simtab-0" class="p-2 rounded-xl border border-emerald-400/80 bg-emerald-500/20 text-left transition">
+          <div class="text-xs font-bold text-teal-300">🦎 Ω³ Chameleon-Halo</div>
+          <div class="text-[11px] text-slate-200 truncate">6.8mm Iris-Rotor + Jellyfish</div>
+        </button>
+        <button onclick="switchIframe('omega-scale.html', 1)" id="simtab-1" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
           <div class="text-xs font-bold text-emerald-300">⌚ Ω² Build + 1:1 Scale</div>
           <div class="text-[11px] text-slate-300 truncate">7-Stage + 4 Sizes + DFM</div>
         </button>
-        <button onclick="switchIframe('omega.html', 1)" id="simtab-1" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
+        <button onclick="switchIframe('omega.html', 2)" id="simtab-2" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
           <div class="text-xs font-bold text-cyan-300">🌪️ Ω Coandă &amp; Liner</div>
           <div class="text-[11px] text-slate-400 truncate">Swirl Roll + Acoustic PSD</div>
         </button>
-        <button onclick="switchIframe('arch3-mvp.html', 2)" id="simtab-2" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
+        <button onclick="switchIframe('arch3-mvp.html', 3)" id="simtab-3" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
           <div class="text-xs font-bold text-sky-300">🔧 Arch 3 MVP Build</div>
           <div class="text-[11px] text-slate-400 truncate">8-Step Tandem Coaxial</div>
         </button>
-        <button onclick="switchIframe('arch23.html', 3)" id="simtab-3" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
+        <button onclick="switchIframe('arch23.html', 4)" id="simtab-4" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
           <div class="text-xs font-bold text-purple-300">⚖️ Arch 2 vs Arch 3</div>
           <div class="text-[11px] text-slate-400 truncate">Quad vs Tandem Coaxial</div>
         </button>
-        <button onclick="switchIframe('human-scale.html', 4)" id="simtab-4" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
+        <button onclick="switchIframe('human-scale.html', 5)" id="simtab-5" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
           <div class="text-xs font-bold text-amber-300">📏 Human Scale V1</div>
           <div class="text-[11px] text-slate-400 truncate">Wrist + Palm + Watch</div>
-        </button>
-        <button onclick="switchIframe('forms.html', 5)" id="simtab-5" class="p-2 rounded-xl border border-slate-700 bg-slate-900/60 text-left hover:bg-slate-800 transition">
-          <div class="text-xs font-bold text-rose-300">💎 5-Forms Studio</div>
-          <div class="text-[11px] text-slate-400 truncate">3D WebGL CAD Lineup</div>
         </button>
       </div>
 
       <!-- Embedded Iframe Viewport -->
       <div class="rounded-xl overflow-hidden border border-slate-700/80 bg-[#03060f]">
-        <iframe id="simFrame" src="omega-scale.html" class="w-full h-[660px] sm:h-[640px] border-0"></iframe>
+        <iframe id="simFrame" src="chameleon.html" class="w-full h-[660px] sm:h-[640px] border-0"></iframe>
       </div>
     </section>
 

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCARAB Ω³ / CHAMELEON-HALO — 6.8mm Wafer Wearable, 3D-Printed Interlocking Iris Rotor &amp; Dandelion Crown Explorer</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --card: #070b16;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+      --border: rgba(148, 163, 184, 0.22);
+      --secondary: #121b30;
+      --secondary-foreground: #e2e8f0;
+    }
+    body { background-color: #03060f; color: #f8fafc; }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-3.5 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2.5">
+
+    <!-- Top Header & Shell Switcher -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div>
+        <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-cyan-400">
+          <span>✨ SCARAB Ω³ · "CHAMELEON-HALO" (6.8 mm WAFER WEARABLE)</span>
+          <span class="text-[var(--muted-foreground)]">•</span>
+          <span class="text-amber-300">⚠️ CONCEPT ANIMATION &amp; ANALYTICAL TARGET EXPLORER (UNVERIFIED TARGETS)</span>
+        </div>
+        <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
+          3D-Printed Interlocking Pangolin-Iris Rotors (Ø 25×2.4mm → Ø 64mm) + Dandelion Pappus Vortex Halo + 3 Snap-On Shells
+        </h2>
+      </div>
+      <!-- 3 Snap-On 0.6g Chameleon Shells -->
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button id="sbtn-scarab" onclick="setShell('scarab')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition">
+          🪲 Shell 1: Obsidian Scarab (7.2mm)
+        </button>
+        <button id="sbtn-chrono" onclick="setShell('chrono')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
+          ⌚ Shell 2: Chrono-Bezel Ti (6.8mm)
+        </button>
+        <button id="sbtn-pearl" onclick="setShell('pearl')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
+          🪼 Shell 3: Aurelia Jelly-Pearl (7.5mm)
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive Unfurl / Compression Slider + Action Triggers -->
+    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-[var(--secondary)]/50 border border-[var(--border)] rounded-xl p-2 text-xs items-center">
+      <div class="sm:col-span-5 flex flex-col justify-between">
+        <div class="flex justify-between font-semibold">
+          <span class="text-cyan-300">3D-Printed Iris &amp; Zipper-Nest Morph:</span>
+          <span id="lblMorph" class="font-mono text-emerald-300">Auto-Morph Cycle</span>
+        </div>
+        <input id="rngMorph" type="range" min="0" max="100" value="100" oninput="onMorphSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer mt-1" />
+        <div class="flex justify-between text-[11px] text-slate-400">
+          <span>0%: 6.8mm Coin (100% Privacy)</span>
+          <button onclick="enableAutoMorph()" class="text-cyan-300 underline">Auto-Loop</button>
+          <span>100%: 64mm Halo (4,400 RPM)</span>
+        </div>
+      </div>
+
+      <div class="sm:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+        <button onclick="triggerWhiskerBrake()" class="p-1.5 rounded-lg border border-rose-400/70 bg-rose-500/20 text-left hover:bg-rose-500/30 transition">
+          <div class="text-xs font-bold text-rose-300">🖐️ Touch Whisker!</div>
+          <div class="text-[11px] text-slate-300">15ms Brake+Fold</div>
+        </button>
+        <button onclick="togglePlume()" id="btnPlume" class="p-1.5 rounded-lg border border-amber-400/70 bg-amber-500/20 text-left hover:bg-amber-500/30 transition">
+          <div class="text-xs font-bold text-amber-300">🌡️ Body Plume: ON</div>
+          <div class="text-[11px] text-slate-300">-38% Power + SVR</div>
+        </button>
+        <button onclick="triggerKnuckleTap()" class="p-1.5 rounded-lg border border-purple-400/70 bg-purple-500/20 text-left hover:bg-purple-500/30 transition">
+          <div class="text-xs font-bold text-purple-300">🔔 Knuckle Tap</div>
+          <div class="text-[11px] text-slate-300">9.8g Silent Alert</div>
+        </button>
+        <button onclick="toggleFixedCompare()" id="btnCompare" class="p-1.5 rounded-lg border border-sky-400/70 bg-sky-500/20 text-left hover:bg-sky-500/30 transition">
+          <div class="text-xs font-bold text-sky-300">📏 Old 18mm Box</div>
+          <div class="text-[11px] text-slate-300" id="lblCompare">Ghost Overlay: ON</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main 3D Viewport -->
+    <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#040814]">
+      <canvas id="mainCanvas" class="w-full h-[310px] sm:h-[345px] block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Top-Left Live Physics & Compression HUD -->
+      <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none">
+        <div id="hudTitle" class="text-emerald-300 font-bold">CHAMELEON CORE (28×6.8mm) + SHELL 01: OBSIDIAN SCARAB</div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Rotor Span / Stack:</span><span id="hudSpan" class="text-cyan-300 font-bold">Ø 25.0×2.4mm → Ø 64.0×16.0mm (6.7× Area)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Power / Noise Target:</span><span id="hudPower" class="text-emerald-300 font-bold">1.45 W (4,400 RPM) • ~35 dBA • 24m Flight</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">State / Privacy:</span><span id="hudState" class="text-amber-300 font-bold">UNFURLED HALO + DANDELION SVR CROWN</span></div>
+      </div>
+
+      <!-- Top-Right Why Compressing Rotors Wins Legend -->
+      <div class="hidden sm:block absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-[11px] font-mono space-y-0.5 pointer-events-none">
+        <div class="text-slate-200 font-bold">WHY COMPRESSING ROTOR BEATS FIXED DUCT</div>
+        <div class="text-emerald-300">■ Swept Area: 32.2 cm² vs 4.8 cm² (6.7× larger!)</div>
+        <div class="text-cyan-300">■ Disc Loading: 38 N/m² vs 300 N/m² (7.9× gentler!)</div>
+        <div class="text-amber-300">■ Stowed Height: 6.8 mm vs 17.5 mm (61% thinner!)</div>
+        <div class="text-purple-300">● Dandelion SVR Ring: +16% Lift + Whisker Brake</div>
+      </div>
+
+      <!-- Bottom Camera Controls -->
+      <div class="absolute bottom-2 left-2 flex flex-wrap items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
+        <span class="text-slate-400">Drag 3D Orbit •</span>
+        <button onclick="setCam(-0.52, 0.48, 1.05)" class="hover:text-cyan-300 underline">3D Isometric</button>
+        <span>·</span>
+        <button onclick="setCam(0.0, 1.50, 1.05)" class="hover:text-cyan-300 underline">Top Camera-Iris View</button>
+        <span>·</span>
+        <button onclick="setCam(0.0, 0.06, 1.25)" class="hover:text-cyan-300 underline">Side 6.8mm Wafer Profile</button>
+      </div>
+    </div>
+
+    <!-- Plain-English Layman Explanation Box -->
+    <div id="laymanBox" class="rounded-lg bg-[var(--secondary)]/60 border border-[var(--border)] px-3 py-2 text-xs text-[var(--foreground)] leading-relaxed">
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('mainCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let shellMode = 'scarab'; // 'scarab', 'chrono', 'pearl'
+    let autoMorph = true;
+    let morphVal = 1.0; // 0.0 (stowed 6.8mm coin) .. 1.0 (deployed 64mm halo)
+    let whiskerBrakeTimer = 0;
+    let knuckleTapTimer = 0;
+    let showPlume = true;
+    let showOldBox = true;
+
+    let simTime = 0;
+    let rotorPhase = 0;
+
+    let camYaw = -0.52;
+    let camPitch = 0.48;
+    let camZoom = 1.05;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+
+    const shellDescriptions = {
+      scarab: '<strong class="text-emerald-300">🪲 Shell 01 — The "Obsidian Scarab" Wafer (`34 × 24 × 7.2 mm`, `9.8 g` Target):</strong> Replaces the old `18 mm` tall ducted box with a <strong>`2.4 mm` 3D-printed Zipper-Nested Pangolin-Iris Rotor</strong> inside a `7.2 mm` wafer! When parked on your wrist or iPhone MagSafe back, all 6 dragonfly-corrugated blades coil inside the `25 mm` hub and physically seal over the camera lens (`100%` hardware privacy). On launch, the upper hub climbs `9.5 mm` up a `56.5°` helical spline while centrifugal force unfurls the blades to a <strong>`64 mm` slow-spinning (`4,400 RPM`) halo</strong> ringed by <strong>64 Nitinol Dandelion Pappus whiskers</strong>!',
+      chrono: '<strong class="text-cyan-300">⌚ Shell 02 — The "Chrono-Bezel" Titanium Watch Coin (`Ø 32 × 6.8 mm`, `9.4 g` Target):</strong> Snaps onto the same universal `28 × 6.8 mm` Chameleon Core to look like a precision Grade-5 Titanium smartwatch bezel or Leica camera lens cap—zero insect features! Double-pinch the bezel: it levitates off your watch strap, unfurls its `64 mm` camera-iris blades (`6.7×` larger lift area, `1.38 W` hover power, `< 36 dBA`), and swivels its central sapphire eye `90°` to film you at eye level.',
+      pearl: '<strong class="text-purple-300">🪼 Shell 03 — "Aurelia" Moon-Jelly Opalescent Pearl (`Ø 30 × 7.5 mm`, `9.2 g` Target):</strong> An opalescent frosted cabochon brooch worn on a collar or pendant cord. In flight, 8 translucent petals + the 64-filament <strong>Dandelion Pappus Crown (*Nature* 2018 Separated Vortex Ring)</strong> surf the warm `0.35 m/s` thermal air plume rising naturally off your shoulders—cutting hover power by `-38%` while glowing like a floating deep-sea moon jellyfish!'
+    };
+
+    function setShell(s) {
+      shellMode = s;
+      ['scarab', 'chrono', 'pearl'].forEach(k => {
+        const b = document.getElementById('sbtn-' + k);
+        b.className = (k === s)
+          ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition'
+          : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition';
+      });
+      const titles = {
+        scarab: 'CHAMELEON CORE (28×6.8mm) + SHELL 01: OBSIDIAN SCARAB (9.8g)',
+        chrono: 'CHAMELEON CORE (28×6.8mm) + SHELL 02: CHRONO-BEZEL TI (9.4g)',
+        pearl:  'CHAMELEON CORE (28×6.8mm) + SHELL 03: AURELIA JELLY-PEARL (9.2g)'
+      };
+      document.getElementById('hudTitle').textContent = titles[s];
+      document.getElementById('laymanBox').innerHTML = shellDescriptions[s];
+    }
+    setShell('scarab');
+
+    function onMorphSlider(v) {
+      autoMorph = false;
+      morphVal = parseFloat(v) / 100.0;
+      document.getElementById('lblMorph').textContent = `${Math.round(morphVal * 100)}% Deployed`;
+    }
+
+    function enableAutoMorph() {
+      autoMorph = true;
+      document.getElementById('lblMorph').textContent = 'Auto-Morph Cycle';
+    }
+
+    function triggerWhiskerBrake() {
+      autoMorph = false;
+      whiskerBrakeTimer = 1.0; // triggers rapid 15ms snap-shut animation!
+      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ WHISKER CONTACT DETECTED → 15 ms ACTIVE REGENERATIVE BRAKE + AUTO-FOLD!</strong> One of the 64 hair-thin (`40 µm`) Nitinol Dandelion whiskers sensed finger contact `6 mm` outside the blade tips. The ESC fired a `15 ms` reverse-phase braking pulse ($\dot{\\Omega} = -83,800\\text{ rad/s}^2$): Euler decel torque popped all 6 dragonfly blades out of their `14.5°` pitch detents and coiled them safely back into the smooth `25 mm` coin before your skin could touch a blade!';
+    }
+
+    function togglePlume() {
+      showPlume = !showPlume;
+      document.getElementById('btnPlume').querySelector('div').textContent = showPlume ? '🌡️ Body Plume: ON' : '🌡️ Body Plume: OFF';
+    }
+
+    function triggerKnuckleTap() {
+      knuckleTapTimer = 1.0;
+      document.getElementById('laymanBox').innerHTML = '<strong class="text-purple-300">🔔 TACTILE KNUCKLE-TAP NOTIFICATION (`9.8 g` = Two Nickels):</strong> Instead of buzzing a watch screen or interrupting dinner conversation, your floating Familiar glides down onto the back of your hand, folds its iris blades shut into the `6.8 mm` wafer, and gives a gentle double-tap on your knuckles!';
+    }
+
+    function toggleFixedCompare() {
+      showOldBox = !showOldBox;
+      document.getElementById('lblCompare').textContent = showOldBox ? 'Ghost Overlay: ON' : 'Ghost Overlay: OFF';
+    }
+
+    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 1.05; }
+
+    canvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      camYaw += (e.clientX - lastX) * 0.01;
+      camPitch = Math.max(-1.40, Math.min(1.52, camPitch + (e.clientY - lastY) * 0.01));
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { isDragging = false; });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camZoom = Math.max(0.55, Math.min(1.85, camZoom - e.deltaY * 0.001));
+    }, { passive: false });
+
+    function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
+    function rotX(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], p[1]*c - p[2]*s, p[1]*s + p[2]*c]; }
+    function rotZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c - p[1]*s, p[0]*s + p[1]*c, p[2]]; }
+    function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+    function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function project(pt, W, H) {
+      let p = rotY(pt, camYaw);
+      p = rotX(p, camPitch);
+      const fov = 370 * camZoom;
+      const dist = 210;
+      const z = dist - p[2];
+      const s = fov / Math.max(30, z);
+      return [W * 0.50 + p[0] * s, H * 0.56 - p[1] * s, z, s];
+    }
+
+    function renderFrame(dt) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      simTime += dt;
+
+      if (whiskerBrakeTimer > 0) {
+        whiskerBrakeTimer = Math.max(0, whiskerBrakeTimer - dt * 1.1);
+        // Rapidly collapse morphVal to 0 in first 15%!
+        morphVal = Math.max(0, morphVal - dt * 8.5);
+        document.getElementById('rngMorph').value = Math.round(morphVal * 100);
+      } else if (autoMorph) {
+        // Smooth cycle: stowed coin -> helical pop-up + iris unfurl -> hover -> fold back
+        const cyc = (simTime * 14) % 100;
+        morphVal = smoothstep(10, 32, cyc) * (1 - smoothstep(76, 92, cyc));
+        document.getElementById('rngMorph').value = Math.round(morphVal * 100);
+      }
+
+      if (knuckleTapTimer > 0) {
+        knuckleTapTimer = Math.max(0, knuckleTapTimer - dt * 0.7);
+      }
+
+      // Spin speed proportional to morphVal
+      rotorPhase += dt * 18.0 * morphVal;
+
+      const curSpan = lerp(25.0, 64.0, morphVal);
+      const curStack = lerp(2.4, 16.0, morphVal);
+      const curArea = (Math.PI * 0.25 * (curSpan / 10) * (curSpan / 10)).toFixed(1);
+      document.getElementById('hudSpan').textContent = `Ø ${curSpan.toFixed(1)}×${curStack.toFixed(1)}mm (${curArea} cm² Swept)`;
+
+      const pwr = showPlume ? (morphVal > 0.2 ? '0.98 W (Plume Surf)' : '0.00 W (Docked)') : (morphVal > 0.2 ? '1.45 W (Hover)' : '0.00 W (Docked)');
+      document.getElementById('hudPower').textContent = `${pwr} • 4,400 RPM • ~35 dBA`;
+
+      if (whiskerBrakeTimer > 0.1) {
+        document.getElementById('hudState').textContent = '🛑 WHISKER TOUCH -> 15ms BRAKE & AUTO-FOLD!';
+      } else if (knuckleTapTimer > 0.1) {
+        document.getElementById('hudState').textContent = '🔔 GENTLE KNUCKLE-TAP ALERT ON HAND!';
+      } else if (morphVal < 0.08) {
+        document.getElementById('hudState').textContent = '🔒 6.8mm WAFER COIN (IRIS LOCKED OVER LENS = 100% PRIVACY)';
+      } else if (morphVal < 0.85) {
+        document.getElementById('hudState').textContent = '⚙️ 56.5° HELICAL SPLINE POP-UP + IRIS UNFURLING...';
+      } else {
+        document.getElementById('hudState').textContent = '✨ 64mm FLIGHT HALO + DANDELION SVR VORTEX RING ACTIVE';
+      }
+
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
+      grad.addColorStop(0, '#0f1d3a');
+      grad.addColorStop(1, '#03060f');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      const drawList = [];
+      const altY = morphVal * 26 + (morphVal > 0.5 ? Math.sin(simTime * 3.2) * 2.2 : 0) - (knuckleTapTimer > 0 ? Math.abs(Math.sin(knuckleTapTimer * Math.PI * 4)) * 6 : 0);
+
+      function qPoly(pts3D, fill, stroke, lw = 1.2) {
+        const pr = pts3D.map(p => project(p, W, H));
+        const avgZ = pr.reduce((s, p) => s + p[2], 0) / pr.length;
+        drawList.push({
+          z: avgZ,
+          fn: () => {
+            ctx.beginPath();
+            pr.forEach((p, i) => { if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+            ctx.closePath();
+            if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+            if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+          }
+        });
+      }
+      function qLine(a, b, stroke, lw = 1.5, dash = []) {
+        const pa = project(a, W, H), pb = project(b, W, H);
+        drawList.push({
+          z: (pa[2] + pb[2]) * 0.5,
+          fn: () => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash(dash);
+            ctx.moveTo(pa[0], pa[1]);
+            ctx.lineTo(pb[0], pb[1]);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = lw;
+            ctx.stroke();
+            ctx.restore();
+          }
+        });
+      }
+
+      // 1. WRIST / HAND BASE & MAGNETIC WAFER DOCK (Y = -16 mm)
+      const wristPts = [];
+      for (let i = 0; i < 24; i++) {
+        const a = (i / 24) * Math.PI * 2;
+        wristPts.push([Math.cos(a) * 29, -16, Math.sin(a) * 29]);
+      }
+      qPoly(wristPts, 'rgba(30, 41, 59, 0.45)', 'rgba(100, 116, 139, 0.35)', 1.2);
+
+      // 28 mm Magnetic Dock Ring on Wrist
+      const dockPts = [];
+      for (let i = 0; i < 20; i++) {
+        const a = (i / 20) * Math.PI * 2;
+        dockPts.push([Math.cos(a) * 14, -15.5, Math.sin(a) * 14]);
+      }
+      qPoly(dockPts, 'rgba(15, 23, 42, 0.9)', '#0ea5e9', 1.3);
+
+      // 2. HUMAN BODY THERMAL CONVECTION PLUME ARROWS (0.35 m/s rising warm air)
+      if (showPlume && morphVal > 0.25) {
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2 + simTime * 0.4;
+          const r = 24 + (i % 2) * 10;
+          const py = -14 + ((simTime * 22 + i * 7) % 42);
+          qLine([Math.cos(a)*r, py, Math.sin(a)*r], [Math.cos(a)*(r-3), py + 8, Math.sin(a)*(r-3)], 'rgba(251, 191, 36, 0.45)', 1.6, [3, 3]);
+        }
+      }
+
+      // 3. OLD 18mm FIXED-DUCT BOX GHOST OVERLAY (42.5 × 28.5 × 17.2 mm)
+      if (showOldBox) {
+        const bx = 14.25, bz = 21.25, by0 = altY - 3.4, by1 = by0 + 17.2;
+        const topB = [[-bx, by1, -bz], [bx, by1, -bz], [bx, by1, bz], [-bx, by1, bz]];
+        const botB = [[-bx, by0, -bz], [bx, by0, -bz], [bx, by0, bz], [-bx, by0, bz]];
+        for (let i = 0; i < 4; i++) {
+          qLine(topB[i], topB[(i+1)%4], 'rgba(244, 63, 94, 0.55)', 1.2, [3, 3]);
+          qLine(botB[i], botB[(i+1)%4], 'rgba(244, 63, 94, 0.55)', 1.2, [3, 3]);
+          qLine(topB[i], botB[i], 'rgba(244, 63, 94, 0.45)', 1.1, [3, 3]);
+        }
+      }
+
+      // 4. UNIVERSAL 28 × 6.8 mm CHAMELEON CORE + HELICAL SPLINE TELESCOPING HUB
+      const coreY = altY - 12;
+      const coreDiscTop = [], coreDiscBot = [];
+      for (let i = 0; i < 20; i++) {
+        const a = (i / 20) * Math.PI * 2;
+        coreDiscTop.push([Math.cos(a) * 14, coreY + 2.2, Math.sin(a) * 14]);
+        coreDiscBot.push([Math.cos(a) * 14, coreY - 2.2, Math.sin(a) * 14]);
+      }
+      qPoly(coreDiscBot, 'rgba(15, 23, 42, 0.95)', '#38bdf8', 1.3);
+      qPoly(coreDiscTop, 'rgba(16, 185, 129, 0.35)', '#34d399', 1.4);
+
+      // 56.5° Helical Torque-Cam Telescoping Upper Shaft (slides up 9.5 mm as morphVal 0 -> 1!)
+      const upperHubY = coreY + 1.2 + morphVal * 9.5;
+      qLine([0, coreY, 0], [0, upperHubY + 2.0, 0], '#fbbf24', 3.0);
+
+      // 5. 3D-PRINTED PANGOLIN-IRIS + DRAGONFLY CORRUGATED BLADES (3 Lower + 3 Upper Zipper-Nested!)
+      // When morphVal = 0: all 6 blades coil tightly inside R = 12.5 mm in the SAME 2.4 mm plane!
+      // When morphVal = 1: blades unfurl to R = 32.0 mm (Ø 64.0 mm) with 14.5° pitch and 0.45 mm dragonfly corrugations!
+      [
+        { y: coreY + 0.8, dir: 1, phaseOff: 0, color: '#38bdf8', fill: 'rgba(56, 189, 248, 0.32)' },
+        { y: upperHubY,   dir: -1, phaseOff: Math.PI / 3, color: '#fde047', fill: 'rgba(253, 224, 71, 0.32)' }
+      ].forEach(stage => {
+        for (let b = 0; b < 3; b++) {
+          const baseAng = b * (Math.PI * 2 / 3) + stage.phaseOff + rotorPhase * stage.dir;
+          // Trace Archimedean spiral when stowed vs radial scimitar when deployed
+          const segs = 8;
+          const lePts = [], tePts = [];
+          for (let s = 0; s <= segs; s++) {
+            const f = s / segs;
+            // Stowed: r from 6.5 to 12.2 mm, angle wraps +132°
+            const rStow = lerp(6.5, 12.2, f);
+            const aStow = baseAng + f * 2.30 * stage.dir;
+            // Deployed: r from 6.5 to 32.0 mm, angle sweeps +22° scimitar
+            const rDep = lerp(6.5, 32.0, f);
+            const aDep = baseAng + f * 0.38 * stage.dir;
+
+            const rCur = lerp(rStow, rDep, morphVal);
+            const aCur = lerp(aStow, aDep, morphVal);
+            const chordAngle = lerp(0.14, 0.16 * (1 - 0.35 * f), morphVal);
+            const pitchLift = morphVal * 1.1; // 14.5° collective pitch when deployed, 0° flat when stowed!
+            const corrWave = (s % 2 === 0 ? 0.25 : -0.25) * morphVal; // Dragonfly corrugation ridge
+
+            lePts.push([Math.cos(aCur) * rCur, stage.y + pitchLift + corrWave, Math.sin(aCur) * rCur]);
+            tePts.unshift([Math.cos(aCur - chordAngle * stage.dir) * rCur, stage.y - pitchLift * 0.5 + corrWave, Math.sin(aCur - chordAngle * stage.dir) * rCur]);
+          }
+          qPoly(lePts.concat(tePts), stage.fill, stage.color, 1.3);
+        }
+      });
+
+      // 6. 64-FILAMENT NITINOL DANDELION PAPPUS CROWN + SEPARATED VORTEX RING (SVR)
+      if (morphVal > 0.15) {
+        const pappusR = lerp(13.0, 35.5, morphVal);
+        const pappusY = upperHubY + 1.8;
+        for (let w = 0; w < 32; w++) {
+          const a = (w / 32) * Math.PI * 2;
+          const stroke = whiskerBrakeTimer > 0.1 ? '#f43f5e' : 'rgba(167, 243, 208, 0.65)';
+          qLine([Math.cos(a) * 8.0, pappusY, Math.sin(a) * 8.0], [Math.cos(a) * pappusR, pappusY + 1.5, Math.sin(a) * pappusR], stroke, 1.0);
+        }
+        // Detached Separated Vortex Ring (SVR) hovering above the Dandelion Pappus Crown (Nature 2018)
+        if (morphVal > 0.6) {
+          const svrPts = [];
+          for (let i = 0; i < 24; i++) {
+            const a = (i / 24) * Math.PI * 2;
+            svrPts.push([Math.cos(a) * 22, pappusY + 5.5 + Math.sin(simTime * 5 + i) * 0.6, Math.sin(a) * 22]);
+          }
+          for (let i = 0; i < 24; i++) {
+            qLine(svrPts[i], svrPts[(i+1)%24], 'rgba(192, 132, 252, 0.75)', 1.8, [4, 3]);
+          }
+        }
+      }
+
+      // 7. SNAP-ON 0.6g COSMETIC TOP SHELL (Shell 1: Scarab, Shell 2: Chrono-Bezel, Shell 3: Aurelia Pearl)
+      if (shellMode === 'scarab') {
+        [-1, 1].forEach(side => {
+          const openAng = morphVal * 0.55;
+          const shellPts = [
+            [side * 1.5, upperHubY + 1.5, -17],
+            [side * 12.0, upperHubY + 0.5, -12],
+            [side * 12.0, upperHubY + 0.5, 12],
+            [side * 1.5, upperHubY + 1.5, 17]
+          ].map(p => rotZ(p, side * openAng));
+          qPoly(shellPts, 'rgba(16, 185, 129, 0.42)', '#10b981', 1.5);
+        });
+      } else if (shellMode === 'chrono') {
+        const bezelPts = [];
+        for (let i = 0; i < 24; i++) {
+          const a = (i / 24) * Math.PI * 2;
+          bezelPts.push([Math.cos(a) * 16.0, coreY + 2.4, Math.sin(a) * 16.0]);
+        }
+        qPoly(bezelPts, 'rgba(148, 163, 184, 0.25)', '#cbd5e1', 2.2);
+      } else if (shellMode === 'pearl') {
+        for (let p = 0; p < 8; p++) {
+          const a1 = (p / 8) * Math.PI * 2 + Math.sin(simTime * 4) * 0.04;
+          const a2 = a1 + 0.55;
+          const rOut = lerp(14.5, 28.0, morphVal);
+          const pulseY = morphVal * Math.sin(simTime * 18) * 1.8; // 20Hz medusoid bell pulse!
+          const petal = [
+            [Math.cos(a1)*6, upperHubY + 2, Math.sin(a1)*6],
+            [Math.cos(a1)*rOut, upperHubY - 2 + pulseY, Math.sin(a1)*rOut],
+            [Math.cos(a2)*rOut, upperHubY - 2 + pulseY, Math.sin(a2)*rOut],
+            [Math.cos(a2)*6, upperHubY + 2, Math.sin(a2)*6]
+          ];
+          qPoly(petal, 'rgba(216, 180, 254, 0.28)', '#e879f9', 1.2);
+        }
+      }
+
+      // 8. 90° SWIVELING SAPPHIRE CAMERA EYE (Sealed when morphVal = 0, swivels to horizon when morphVal = 1!)
+      const eyeTilt = morphVal * (Math.PI * 0.5);
+      const eyeY = upperHubY + 2.2;
+      const eyePts = [[-3.2, eyeY, -3.2], [3.2, eyeY, -3.2], [3.2, eyeY + Math.sin(eyeTilt)*4.5, -3.2 - Math.cos(eyeTilt)*2], [-3.2, eyeY + Math.sin(eyeTilt)*4.5, -3.2 - Math.cos(eyeTilt)*2]];
+      qPoly(eyePts, morphVal > 0.15 ? 'rgba(56, 189, 248, 0.85)' : 'rgba(30, 41, 59, 0.95)', '#f59e0b', 1.5);
+
+      drawList.sort((a, b) => b.z - a.z);
+      drawList.forEach(item => item.fn());
+
+      ctx.restore();
+    }
+
+    let lastTS = performance.now();
+    function loop(ts) {
+      const dt = Math.min(0.1, (ts - lastTS) / 1000);
+      lastTS = ts;
+      renderFrame(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
