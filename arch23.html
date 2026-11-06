@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCARAB 1 — Arch 2 (Switchblade Quad) vs. Arch 3 (Tandem Coaxial) 3D Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-3.5 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2.5">
+
+    <!-- Top Header & View Mode Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div>
+        <div class="flex items-center gap-1.5 text-xs font-semibold text-amber-400">
+          <span>SCARAB 1 • 62×44×26mm SHELL COMPRESSION</span>
+          <span class="text-[var(--muted-foreground)]">•</span>
+          <span class="text-sky-400">ARCH 2 (SWITCHBLADE QUAD) vs. ARCH 3 (TANDEM COAXIAL)</span>
+        </div>
+        <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
+          Synchronized 3D Solid &amp; Top-Down CAD Compression Simulator (76–84 gf Heavy-Utility Lift)
+        </h2>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button id="view-split" onclick="setViewMode('split')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/60 transition">
+          ⚖️ Split 3D (Arch 2 + 3)
+        </button>
+        <button id="view-arch2" onclick="setViewMode('arch2')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition">
+          🛸 Arch 2 Focus
+        </button>
+        <button id="view-arch3" onclick="setViewMode('arch3')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition">
+          ⚡ Arch 3 Focus
+        </button>
+        <button id="btnPlay" onclick="togglePlay()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 transition">
+          ⏸ Morph: ON
+        </button>
+        <button id="btnXray" onclick="toggleXray()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition">
+          🔬 X-Ray: ON
+        </button>
+      </div>
+    </div>
+
+    <!-- Synchronized 3D Dual / Single Viewport Container -->
+    <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#060a12]">
+      <canvas id="simCanvas" class="w-full h-[290px] sm:h-[315px] block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Bottom Camera & Layer Bar -->
+      <div class="absolute bottom-2 left-2 right-2 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+        <div class="pointer-events-auto flex flex-wrap items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
+          <span class="text-slate-400">Drag to 3D Orbit Both •</span>
+          <button onclick="setCam(-0.58, 0.52, 1.0)" class="hover:text-amber-300 underline">3D Iso</button>
+          <span>·</span>
+          <button onclick="setCam(0, 1.45, 1.08)" class="hover:text-amber-300 underline font-semibold text-sky-300">Top 44mm Fit</button>
+          <span>·</span>
+          <button onclick="setCam(0, 0.12, 1.12)" class="hover:text-amber-300 underline">Front Winch View</button>
+          <span>·</span>
+          <button onclick="setCam(-1.52, 0.18, 1.05)" class="hover:text-amber-300 underline">Side Z-Stagger</button>
+        </div>
+        <div class="pointer-events-auto flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs">
+          <button id="btnWinch" onclick="toggleWinch()" class="text-rose-300 font-semibold hover:underline">
+            🕸️ Spider-Silk Winch &amp; Fetch Pod: ON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5-Phase Morph Scrubber + Direct Phase Jumps -->
+    <div class="space-y-1.5">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xs font-semibold text-[var(--muted-foreground)] whitespace-nowrap">Deployment Timeline:</span>
+        <input id="timelineSlider" type="range" min="0" max="100" value="0" oninput="onScrub(this.value)" class="w-full accent-amber-400 cursor-pointer" />
+        <span id="timelinePct" class="text-xs font-mono font-bold text-amber-400 w-9 text-right">0%</span>
+      </div>
+
+      <div class="grid grid-cols-5 gap-1">
+        <button onclick="jumpPhase(0)" id="phase-0" class="text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition">
+          <div class="text-xs font-bold text-amber-300">1. STOWED (44mm)</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Fits Wrist Cuff</div>
+        </button>
+        <button onclick="jumpPhase(1)" id="phase-1" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">2. ELYTRA + ARMS</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">4-Bar Bellcrank Pop</div>
+        </button>
+        <button onclick="jumpPhase(2)" id="phase-2" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">3. 195mm ORIGAMI</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">3-Panel Wing Snap</div>
+        </button>
+        <button onclick="jumpPhase(3)" id="phase-3" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">4. 84gf WINCH LIFT</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Hoists 4g Fetch Pod</div>
+        </button>
+        <button onclick="jumpPhase(4)" id="phase-4" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">5. DSHOT BRAKE+TUCK</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Auto-Sweeps to 44mm</div>
+        </button>
+      </div>
+
+      <!-- Engineering Explanation Callout -->
+      <div id="phaseDescBox" class="rounded-lg bg-[var(--secondary)]/60 border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--foreground)] leading-relaxed">
+        <strong class="text-amber-400">Phase 1 — 62 × 44 mm Stowed Compression:</strong> In <strong>Arch 2 (Left)</strong>, the 4 carbon arms pivot inward on bronze bellcranks with a 3.5 mm vertical Z-stagger so the 28 mm props overlap to <strong>38.4 mm width</strong> inside the 44 mm shell. In <strong>Arch 3 (Right)</strong>, two <strong>34 mm coaxial counter-rotating ducts</strong> sit fixed front-to-back along the 62 mm oval axis with 5 mm side channels for the folded origami wings.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let viewMode = 'split'; // 'split' | 'arch2' | 'arch3'
+    let progress = 0;
+    let autoPlay = true;
+    let xray = true;
+    let showWinch = true;
+
+    let camYaw = -0.58;
+    let camPitch = 0.52;
+    let camZoom = 1.0;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+    let simTime = 0;
+
+    const phaseTexts = [
+      '<strong class="text-amber-400">Phase 1 — 62 × 44 mm Stowed Compression:</strong> In <strong>Arch 2 (Left)</strong>, the 4 carbon arms pivot inward on bronze bellcranks with a 3.5 mm vertical Z-stagger so the 28 mm props overlap to <strong>38.4 mm width</strong> inside the 44 mm shell. In <strong>Arch 3 (Right)</strong>, two <strong>34 mm coaxial counter-rotating ducts</strong> sit fixed front-to-back along the 62 mm oval axis with 5 mm side channels for the folded origami wings.',
+      '<strong class="text-sky-400">Phase 2 — Bronze 4-Bar Elytra Lift (68°) + Switchblade Arm / Coaxial Intake Unlock:</strong> One 1.2 g linear actuator lifts both elytra 68°. In <strong>Arch 2</strong>, coupled tie-rods snap the 4× 0802 quad arms outward from 38.4 mm → <strong>76.0 mm X-span</strong>. In <strong>Arch 3</strong>, lifting the elytra uncovers the twin 34 mm top coaxial air intakes!',
+      '<strong class="text-emerald-400">Phase 3 — Passive 195 mm Origami Wing Deployment + Rotor Spool-Up:</strong> Both architectures unfold their 3-panel bistable origami hindwings from 52 mm → <strong>195 mm span</strong> (adding 14 gf cruise lift + roll damping) while the brushless rotors spin up to 28,000 RPM.',
+      '<strong class="text-rose-400">Phase 4 — 76–84 gf Heavy-Utility Flight (Spider-Silk Winch + Micro-Fetch Pod):</strong> With <strong>84.0 gf lift (Arch 2)</strong> and <strong>76.5 gf lift (Arch 3)</strong>, SCARAB 1 has +38 to +45 gf of net excess thrust—effortlessly carrying all 10 silicon sensors + the <strong>6.5 g Spider-Silk Ceiling Winch</strong> + hoisting a <strong>4.0 g Micro-Fetch payload</strong>!',
+      '<strong class="text-purple-400">Phase 5 — DShot Rotor Indexing &amp; Passive Elytra-Sweep Retraction:</strong> On return to the Wrist Cuff, ESC DShot braking aligns Arch 2’s props lengthwise; closing the curved elytra mechanically sweeps the 3-fold origami wings and pulls the 4 switchblade arms back inside the <strong>62 × 44 mm</strong> carapace.'
+    ];
+
+    function setViewMode(m) {
+      viewMode = m;
+      ['split', 'arch2', 'arch3'].forEach(k => {
+        const btn = document.getElementById('view-' + k);
+        btn.className = (k === m)
+          ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/60 transition'
+          : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition';
+      });
+    }
+
+    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 1.0; }
+
+    function togglePlay() {
+      autoPlay = !autoPlay;
+      const btn = document.getElementById('btnPlay');
+      btn.textContent = autoPlay ? '⏸ Morph: ON' : '▶ Morph: PAUSED';
+    }
+
+    function toggleXray() {
+      xray = !xray;
+      const btn = document.getElementById('btnXray');
+      btn.textContent = xray ? '🔬 X-Ray: ON' : '🔬 X-Ray: OFF';
+      btn.className = xray
+        ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition'
+        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition';
+    }
+
+    function toggleWinch() {
+      showWinch = !showWinch;
+      document.getElementById('btnWinch').textContent = showWinch
+        ? '🕸️ Spider-Silk Winch & Fetch Pod: ON'
+        : '🕸️ Spider-Silk Winch & Fetch Pod: OFF';
+    }
+
+    function onScrub(v) {
+      autoPlay = false;
+      document.getElementById('btnPlay').textContent = '▶ Morph: PAUSED';
+      progress = parseFloat(v);
+      updatePhaseUI();
+    }
+
+    function jumpPhase(idx) {
+      autoPlay = false;
+      document.getElementById('btnPlay').textContent = '▶ Morph: PAUSED';
+      const pts = [4, 25, 46, 70, 92];
+      progress = pts[idx];
+      document.getElementById('timelineSlider').value = progress;
+      updatePhaseUI();
+    }
+
+    function updatePhaseUI() {
+      document.getElementById('timelinePct').textContent = Math.round(progress) + '%';
+      let pIdx = 0;
+      if (progress < 16) pIdx = 0;
+      else if (progress < 34) pIdx = 1;
+      else if (progress < 55) pIdx = 2;
+      else if (progress < 84) pIdx = 3;
+      else pIdx = 4;
+
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById('phase-' + i);
+        el.className = (i === pIdx)
+          ? 'text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition'
+          : 'text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition';
+      }
+      document.getElementById('phaseDescBox').innerHTML = phaseTexts[pIdx];
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      camYaw += (e.clientX - lastX) * 0.01;
+      camPitch = Math.max(-0.35, Math.min(1.52, camPitch + (e.clientY - lastY) * 0.01));
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { isDragging = false; });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camZoom = Math.max(0.65, Math.min(1.65, camZoom - e.deltaY * 0.001));
+    }, { passive: false });
+
+    function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
+    function rotX(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], p[1]*c - p[2]*s, p[1]*s + p[2]*c]; }
+    function rotZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c - p[1]*s, p[0]*s + p[1]*c, p[2]]; }
+    function add3(a, b) { return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }
+    function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+    function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+
+    // Depth-sorted 3D scene renderer for a given viewport rect (vx, vy, vw, vh)
+    function renderArchViewport(arch, vx, vy, vw, vh, state) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(vx, vy, vw, vh);
+      ctx.clip();
+
+      const { elytraOpen, unfoldRatio, flapEnv, hoverLift, altY, winchDrop } = state;
+
+      function proj(pt) {
+        let p = rotY(pt, camYaw);
+        p = rotX(p, camPitch);
+        const fov = (viewMode === 'split' ? 255 : 335) * camZoom;
+        const dist = 250;
+        const z = dist - p[2];
+        const s = fov / Math.max(35, z);
+        return [vx + vw * 0.5 + p[0] * s, vy + vh * 0.57 - p[1] * s, z, s];
+      }
+
+      const drawList = []; // { z, fn }
+
+      function queuePoly(pts3D, fill, stroke, lw = 1.2) {
+        const pr = pts3D.map(proj);
+        const avgZ = pr.reduce((acc, p) => acc + p[2], 0) / pr.length;
+        drawList.push({
+          z: avgZ,
+          fn: () => {
+            ctx.beginPath();
+            pr.forEach((p, i) => { if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+            ctx.closePath();
+            if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+            if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+          }
+        });
+      }
+
+      function queueLine(a, b, stroke, lw = 1.5, dash = []) {
+        const pa = proj(a), pb = proj(b);
+        const avgZ = (pa[2] + pb[2]) * 0.5;
+        drawList.push({
+          z: avgZ,
+          fn: () => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash(dash);
+            ctx.moveTo(pa[0], pa[1]);
+            ctx.lineTo(pb[0], pb[1]);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = lw;
+            ctx.stroke();
+            ctx.restore();
+          }
+        });
+      }
+
+      // 1. Floor CAD Grid & Wrist Cuff Base
+      for (let g = -90; g <= 90; g += 30) {
+        queueLine([g, -28, -90], [g, -28, 90], 'rgba(56,189,248,0.07)', 1);
+        queueLine([-90, -28, g], [90, -28, g], 'rgba(56,189,248,0.07)', 1);
+      }
+
+      // Wrist Cuff Bracer & EPM Pad
+      queuePoly([[-30, -14, -52], [30, -14, -52], [34, -14, 52], [-34, -14, 52]], 'rgba(28,25,23,0.9)', 'rgba(217,119,6,0.5)', 1.3);
+      queuePoly([[-22, -12, -31], [22, -12, -31], [22, -12, 31], [-22, -12, 31]], 'rgba(120,82,40,0.35)', '#f59e0b', 1.2);
+      const epmCol = hoverLift > 0.05 ? 'rgba(56,189,248,0.3)' : 'rgba(168,85,247,0.75)';
+      queuePoly([[-11, -11, -14], [11, -11, -14], [11, -11, 14], [-11, -11, 14]], epmCol, '#e9d5ff', 1.1);
+
+      // 2. Spider-Silk Ceiling Winch & Micro-Fetch Claw Pod (When Airborne!)
+      if (showWinch) {
+        // Ventral Winch Drum (6.5g) inside belly
+        queuePoly([[-6, altY - 5, -4], [6, altY - 5, -4], [6, altY - 5, 8], [-6, altY - 5, 8]], 'rgba(244,63,94,0.65)', '#fda4af', 1.2);
+        if (winchDrop > 0.05) {
+          const podY = altY - 6 - winchDrop * 34;
+          // 0.12mm Spectra Spider-Silk Tether
+          queueLine([0, altY - 5, 2], [0, podY + 4, 2], '#34d399', 1.6, [2, 2]);
+          // 4.0g Micro-Fetch Claw + Ring Payload
+          queuePoly([[-5, podY + 3, -3], [5, podY + 3, -3], [4, podY - 3, 5], [-4, podY - 3, 5]], 'rgba(244,63,94,0.85)', '#fecdd3', 1.3);
+          queueLine([-4, podY - 2, 0], [-7, podY - 7, 0], '#fbbf24', 1.8);
+          queueLine([4, podY - 2, 0], [7, podY - 7, 0], '#fbbf24', 1.8);
+        }
+      }
+
+      // 3. Ventral Thorax (Exact 62 mm long × 44 mm wide = ±22 X, ±31 Z)
+      const thoraxPts = [
+        [-20, altY - 5, -28], [20, altY - 5, -28],
+        [22, altY - 5, 0], [18, altY - 5, 31], [-18, altY - 5, 31], [-22, altY - 5, 0]
+      ];
+      queuePoly(thoraxPts, 'rgba(15,23,42,0.94)', 'rgba(148,163,184,0.55)', 1.3);
+
+      // Pronotum Head Shield + OV5640 Lens + Amber Eye Slits
+      queuePoly([[-20, altY + 2.5, -12], [20, altY + 2.5, -12], [15, altY + 1, -31], [-15, altY + 1, -31]], 'rgba(24,26,34,0.96)', '#d97706', 1.4);
+      queueLine([-12, altY + 2.2, -28], [-5, altY + 2.2, -30], '#fbbf24', 2.8);
+      queueLine([5, altY + 2.2, -30], [12, altY + 2.2, -28], '#fbbf24', 2.8);
+      queuePoly([[-3, altY + 2, -31], [3, altY + 2, -31], [3, altY - 1.5, -32], [-3, altY - 1.5, -32]], '#38bdf8', '#e0f2fe', 1.2);
+
+      // 4. ARCHITECTURE-SPECIFIC 3D DRIVETRAIN & ROTORS
+      if (arch === 'arch2') {
+        // ARCH 2: SWITCHBLADE FOLDING-ARM QUAD (4× 0802 Motors + 28mm 5-Blade Toroidal Props + Z-Stagger)
+        // Front pair at Y = altY + 2.0 (Upper plane), Rear pair at Y = altY - 1.5 (Lower plane, 3.5mm Z-stagger so disks can overlap when stowed!)
+        const armDeploy = smoothstep(14, 32, progress) * (1 - smoothstep(83, 95, progress));
+        const armConfigs = [
+          { sx: -1, sz: -1, piv: [-7, altY + 2.0, -8], stowedHub: [-9.2, altY + 2.0, -14], depHub: [-29, altY + 2.0, -19], col: '#38bdf8', zTag: 'Upper' },
+          { sx:  1, sz: -1, piv: [ 7, altY + 2.0, -8], stowedHub: [ 9.2, altY + 2.0, -14], depHub: [ 29, altY + 2.0, -19], col: '#38bdf8', zTag: 'Upper' },
+          { sx: -1, sz:  1, piv: [-7, altY - 1.5,  8], stowedHub: [-9.2, altY - 1.5,  14], depHub: [-29, altY - 1.5,  19], col: '#22d3ee', zTag: 'Lower' },
+          { sx:  1, sz:  1, piv: [ 7, altY - 1.5,  8], stowedHub: [ 9.2, altY - 1.5,  14], depHub: [ 29, altY - 1.5,  19], col: '#22d3ee', zTag: 'Lower' }
+        ];
+
+        // Central Bronze Bellcrank Cam Block
+        queuePoly([[-6, altY + 1, -6], [6, altY + 1, -6], [6, altY + 1, 6], [-6, altY + 1, 6]], 'rgba(217,119,6,0.6)', '#fbbf24', 1.2);
+
+        armConfigs.forEach(ac => {
+          const hx = ac.stowedHub[0] + (ac.depHub[0] - ac.stowedHub[0]) * armDeploy;
+          const hy = ac.stowedHub[1];
+          const hz = ac.stowedHub[2] + (ac.depHub[2] - ac.stowedHub[2]) * armDeploy;
+          const hub = [hx, hy, hz];
+
+          // Carbon Switchblade Arm + Bronze Tie-Rod to Elytra Hinge
+          queueLine(ac.piv, hub, '#e2e8f0', 3.0);
+          queueLine([ac.sx * 10, altY + 3, -6], [ (ac.piv[0]+hx)*0.5, hy, (ac.piv[2]+hz)*0.5 ], '#f59e0b', 1.5);
+
+          // 0802 Brushless Motor Bell
+          queuePoly([[hx-2.5, hy+2, hz-2.5], [hx+2.5, hy+2, hz-2.5], [hx+2.5, hy-2, hz+2.5], [hx-2.5, hy-2, hz+2.5]], '#0284c7', '#bae6fd', 1.1);
+
+          // 28mm (R=10.5 in sim scale) Shrouded/Toroidal Rotor Disk + 3D Spinning Blades
+          const R = 10.0;
+          const ringPts = [];
+          for (let i = 0; i < 14; i++) {
+            const a = (i / 14) * Math.PI * 2;
+            ringPts.push([hx + Math.cos(a)*R, hy + 0.5, hz + Math.sin(a)*R]);
+          }
+          queuePoly(ringPts, 'rgba(56,189,248,0.22)', ac.col, 1.4);
+
+          // 3 spinning toroidal blades per motor
+          const spin = simTime * 32 * flapEnv * ac.sx * ac.sz;
+          for (let b = 0; b < 3; b++) {
+            const ba = spin + (b * Math.PI * 2 / 3);
+            queueLine([hx, hy + 0.8, hz], [hx + Math.cos(ba)*(R-1), hy + 0.8, hz + Math.sin(ba)*(R-1)], '#e0f2fe', 1.8);
+          }
+
+          // Downwash thrust vector arrows when flying
+          if (flapEnv > 0.2) {
+            queueLine([hx, hy - 2, hz], [hx, hy - 14 * flapEnv, hz], 'rgba(56,189,248,0.65)', 1.5, [2, 2]);
+          }
+        });
+      } else {
+        // ARCH 3: TANDEM COAXIAL OVAL DUCTS (2× 34mm Counter-Rotating Shrouds Fixed Along 62mm Spine!)
+        // Front Duct at Z = -5, Rear Duct at Z = +16. Radius X = 15 (30-34mm < 44mm shell width!), Radius Z = 10.5
+        const ducts = [
+          { cz: -4, rx: 14.5, rz: 10.2, colUpper: '#fbbf24', colLower: '#38bdf8', dir: 1 },
+          { cz: 17, rx: 14.5, rz: 10.2, colUpper: '#38bdf8', colLower: '#fbbf24', dir: -1 }
+        ];
+
+        ducts.forEach(d => {
+          const upperPts = [], lowerPts = [];
+          for (let i = 0; i < 16; i++) {
+            const a = (i / 16) * Math.PI * 2;
+            upperPts.push([Math.cos(a)*d.rx, altY + 2.2, d.cz + Math.sin(a)*d.rz]);
+            lowerPts.push([Math.cos(a)*d.rx, altY - 2.2, d.cz + Math.sin(a)*d.rz]);
+          }
+          // Acoustic Foam-Lined Coaxial Shroud Wall
+          queuePoly(upperPts, 'rgba(245,158,11,0.22)', d.colUpper, 1.6);
+          queuePoly(lowerPts, 'rgba(56,189,248,0.18)', d.colLower, 1.3);
+
+          // Upper CW & Lower CCW Counter-Rotating Coaxial Blades inside the duct
+          const spinU = simTime * 34 * flapEnv * d.dir;
+          const spinL = -simTime * 34 * flapEnv * d.dir;
+          for (let b = 0; b < 4; b++) {
+            const au = spinU + (b * Math.PI * 0.5);
+            const al = spinL + (b * Math.PI * 0.5) + 0.3;
+            queueLine([0, altY + 2.0, d.cz], [Math.cos(au)*(d.rx-1.5), altY + 2.0, d.cz + Math.sin(au)*(d.rz-1.5)], '#fef08a', 2.0);
+            queueLine([0, altY - 1.5, d.cz], [Math.cos(al)*(d.rx-1.5), altY - 1.5, d.cz + Math.sin(al)*(d.rz-1.5)], '#bae6fd', 1.8);
+          }
+
+          // Coaxial Jet Plume when flying
+          if (flapEnv > 0.2) {
+            queueLine([-6, altY - 3, d.cz], [-8, altY - 16 * flapEnv, d.cz], 'rgba(251,191,36,0.6)', 1.5, [2, 2]);
+            queueLine([ 6, altY - 3, d.cz], [ 8, altY - 16 * flapEnv, d.cz], 'rgba(56,189,248,0.6)', 1.5, [2, 2]);
+          }
+        });
+      }
+
+      // 5. NATURE (2024) 3-PANEL BISTABLE ORIGAMI HINDWINGS (195 mm Deployed Span, Z-Folded into 5mm Side Channels When Closed!)
+      [-1, 1].forEach(side => {
+        const flapAmp = arch === 'arch2' ? 0.22 : 0.75; // Arch 2 uses gentle stabilizing stroke; Arch 3 uses active 32Hz hybrid cruise stroke!
+        const strokePhase = simTime * 26;
+        const strokeSweep = flapEnv * Math.sin(strokePhase) * 0.52 * flapAmp;
+        const strokeHeave = flapEnv * Math.cos(strokePhase) * 0.25 * flapAmp;
+
+        const root = [side * 15, altY + 1, -4];
+        const p1Span = 12 + unfoldRatio * 18;
+        const p1Tip = add3(root, rotY(rotZ([side * p1Span, 2, 3], side * strokeHeave), side * strokeSweep));
+        const p1Trail = add3(root, rotY(rotZ([side * (p1Span * 0.85), 0, 18], side * strokeHeave), side * strokeSweep));
+
+        const foldAngle2 = (1 - unfoldRatio) * 2.4;
+        const p2Vec = rotY([side * (26 * unfoldRatio + 4), 1, (1 - unfoldRatio) * 14], side * (strokeSweep - foldAngle2 * 0.4));
+        const p2Tip = add3(p1Tip, rotZ(p2Vec, side * strokeHeave));
+        const p2Trail = add3(p1Trail, rotZ([p2Vec[0]*0.9, p2Vec[1], p2Vec[2] + 7], side * strokeHeave));
+
+        const p3Vec = rotY([side * (34 * unfoldRatio + 3), 0, (1 - unfoldRatio) * 9], side * strokeSweep);
+        const p3Tip = add3(p2Tip, rotZ(p3Vec, side * strokeHeave * 1.25));
+        const p3Trail = add3(p2Trail, rotZ([p3Vec[0]*0.82, p3Vec[1], p3Vec[2] + 4], side * strokeHeave));
+
+        if (elytraOpen > 0.03 || xray) {
+          queuePoly([root, p1Tip, p1Trail, [side * 14, altY, 12]], 'rgba(245, 158, 11, 0.24)', '#fbbf24', 1.2);
+          queuePoly([p1Tip, p2Tip, p2Trail, p1Trail], 'rgba(52, 211, 153, 0.22)', '#34d399', 1.2);
+          queuePoly([p2Tip, p3Tip, p3Trail, p2Trail], 'rgba(56, 189, 248, 0.24)', '#38bdf8', 1.2);
+        }
+      });
+
+      // 6. MATTE-OBSIDIAN & BRUSHED-BRONZE SPLIT ELYTRA (4-Bar Linkage Lifts 68°)
+      [-1, 1].forEach(side => {
+        const hinge = [side * 12, altY + 3.2, -10];
+        const liftAng = elytraOpen * 1.18;
+        const sweepAng = elytraOpen * 0.88;
+        const rawElytra = [
+          [0, 0, 0], [side * 11, -0.5, 0], [side * 11.5, -1.5, 22], [side * 8.5, -1, 41], [0, 0.8, 41]
+        ];
+        const transformed = rawElytra.map(pt => add3(hinge, rotY(rotZ(pt, side * liftAng), -side * sweepAng)));
+
+        if (elytraOpen > 0.08 || xray) {
+          queueLine([side * 6, altY + 1, -6], transformed[1], '#f59e0b', 2.0);
+          queueLine([side * 6, altY + 1, 2], transformed[2], '#d97706', 1.6);
+        }
+
+        const shellFill = xray ? 'rgba(30, 41, 59, 0.28)' : 'rgba(20, 22, 29, 0.94)';
+        const shellStroke = xray ? 'rgba(245, 158, 11, 0.85)' : '#d97706';
+        queuePoly(transformed, shellFill, shellStroke, 1.5);
+      });
+
+      // Sort back-to-front by Z depth and paint
+      drawList.sort((a, b) => b.z - a.z);
+      drawList.forEach(item => item.fn());
+
+      // 7. TOP-LEFT TITLE BADGE & TELEMETRY OVERLAY FOR THIS VIEWPORT
+      ctx.fillStyle = 'rgba(7, 12, 22, 0.84)';
+      ctx.strokeStyle = arch === 'arch2' ? 'rgba(56, 189, 248, 0.5)' : 'rgba(251, 191, 36, 0.5)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.roundRect(vx + 8, vy + 8, Math.min(255, vw - 16), 66, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = '700 12px ui-sans-serif, system-ui, sans-serif';
+      ctx.fillStyle = arch === 'arch2' ? '#38bdf8' : '#fbbf24';
+      ctx.fillText(arch === 'arch2' ? '🛸 ARCH 2: SWITCHBLADE QUAD + WINGS' : '⚡ ARCH 3: TANDEM COAXIAL + FLAPPER', vx + 16, vy + 25);
+
+      ctx.font = '500 12px ui-monospace, SFMono-Regular, monospace';
+      ctx.fillStyle = '#e2e8f0';
+      if (arch === 'arch2') {
+        const spanW = Math.round(38.4 + elytraOpen * 37.6);
+        ctx.fillText(`Rotor Span: ${spanW}mm ${elytraOpen < 0.15 ? '(Inside 44mm!)' : '(X-Quad Out)'}`, vx + 16, vy + 43);
+        ctx.fillText(`Lift: 84.0 gf • Mass: 38.5g • Z-Stagger`, vx + 16, vy + 61);
+      } else {
+        ctx.fillText(`Duct Width: 34.0mm Fixed (<44mm Shell!)`, vx + 16, vy + 43);
+        ctx.fillText(`Lift: 76.5 gf • Mass: 36.2g • 0 Fold Arms`, vx + 16, vy + 61);
+      }
+
+      // 8. SYNCHRONIZED TOP-DOWN 62×44mm ORTHOGRAPHIC CAD COMPRESSION GAUGE (Top-Right Inset)
+      const boxW = 92, boxH = 112;
+      const bx = vx + vw - boxW - 8, by = vy + 8;
+      ctx.fillStyle = 'rgba(5, 10, 20, 0.88)';
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, boxW, boxH, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = '600 12px ui-sans-serif, system-ui, sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.textAlign = 'center';
+      ctx.fillText('44×62mm TOP', bx + boxW * 0.5, by + 15);
+
+      // Draw exact 44mm x 62mm Carapace Boundary Box in Top-Down Ortho Inset
+      const cx = bx + boxW * 0.5, cy = by + 64;
+      const shellW = 44 * 0.95, shellL = 62 * 0.95;
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+      ctx.setLineDash([3, 2]);
+      ctx.strokeRect(cx - shellW * 0.5, cy - shellL * 0.5, shellW, shellL);
+      ctx.setLineDash([]);
+
+      if (arch === 'arch2') {
+        // Show the 4 switchblade rotors moving from inside the 44mm box to outside (76mm)!
+        const armD = smoothstep(14, 32, progress) * (1 - smoothstep(83, 95, progress));
+        const rx = 8.5 + armD * 19.5;
+        const rz = 11.5 + armD * 6.0;
+        [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sz]) => {
+          ctx.beginPath();
+          ctx.moveTo(cx + sx * 4, cy + sz * 6);
+          ctx.lineTo(cx + sx * rx, cy + sz * rz);
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(cx + sx * rx, cy + sz * rz, 10.5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.32)';
+          ctx.fill();
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        });
+      } else {
+        // Show the 2 Tandem 34mm Coaxial Oval Ducts fixed inside the 44mm box!
+        [-11, 12].forEach((dz, i) => {
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + dz, 15.5, 11.5, 0, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(251, 191, 36, 0.28)';
+          ctx.fill();
+          ctx.strokeStyle = i === 0 ? '#fbbf24' : '#38bdf8';
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+        });
+        // Show 5mm side channels for folded origami wings
+        ctx.fillStyle = 'rgba(52, 211, 153, 0.55)';
+        ctx.fillRect(cx - shellW * 0.47, cy - 18, 3.5, 36);
+        ctx.fillRect(cx + shellW * 0.47 - 3.5, cy - 18, 3.5, 36);
+      }
+      ctx.textAlign = 'left';
+      ctx.restore();
+    }
+
+    function renderFrame(dt) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      if (autoPlay) {
+        progress = (progress + dt * 8.5) % 100;
+        document.getElementById('timelineSlider').value = progress;
+        updatePhaseUI();
+      }
+      simTime += dt;
+
+      const elytraOpen = smoothstep(14, 30, progress) * (1 - smoothstep(84, 96, progress));
+      const origamiPre = 0.22 * elytraOpen;
+      const origamiFull = smoothstep(32, 50, progress) * (1 - smoothstep(82, 94, progress));
+      const unfoldRatio = Math.max(origamiPre, origamiFull);
+      const flapEnv = smoothstep(28, 36, progress) * (1 - smoothstep(79, 85, progress));
+      const hoverLift = smoothstep(52, 64, progress) * (1 - smoothstep(77, 86, progress));
+      const winchDrop = smoothstep(58, 68, progress) * (1 - smoothstep(74, 82, progress));
+      const altY = hoverLift * 42 + hoverLift * Math.sin(simTime * 5.0) * 2.5;
+
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.7);
+      grad.addColorStop(0, '#10192d');
+      grad.addColorStop(1, '#04070f');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      const state = { elytraOpen, unfoldRatio, flapEnv, hoverLift, altY, winchDrop };
+
+      if (viewMode === 'split') {
+        const halfW = W * 0.5;
+        renderArchViewport('arch2', 0, 0, halfW, H, state);
+        renderArchViewport('arch3', halfW, 0, halfW, H, state);
+        // Center divider line
+        ctx.beginPath();
+        ctx.moveTo(halfW, 0);
+        ctx.lineTo(halfW, H);
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      } else if (viewMode === 'arch2') {
+        renderArchViewport('arch2', 0, 0, W, H, state);
+      } else {
+        renderArchViewport('arch3', 0, 0, W, H, state);
+      }
+
+      ctx.restore();
+    }
+
+    let lastTS = performance.now();
+    function loop(ts) {
+      const dt = Math.min(0.1, (ts - lastTS) / 1000);
+      lastTS = ts;
+      renderFrame(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
