@@ -527,6 +527,18 @@
         qLine([Math.cos(a)*12.0, baseY + 0.2, Math.sin(a)*12.0], [Math.cos(a)*12.0, baseY + 1.6, Math.sin(a)*12.0], '#fbbf24', 2.2);
       }
 
+      // COILED GOLD CONICAL HOROLOGICAL LAUNCH MAINSPRING (0.45mm flat when latched -> springs up 0.10 J on launch!)
+      const springHeight = 0.6 + doorOpenFrac * (1.0 - smoothstep(0.65, 1.0, scarabDeploy) * 0.35) * 14.5;
+      const springTurns = 4.5;
+      const springSegs = 40;
+      for (let s = 0; s < springSegs; s++) {
+        const f0 = s / springSegs, f1 = (s + 1) / springSegs;
+        const a0 = f0 * springTurns * Math.PI * 2, a1 = f1 * springTurns * Math.PI * 2;
+        const r0 = lerp(10.5, 5.2, f0), r1 = lerp(10.5, 5.2, f1);
+        const y0 = baseY + 0.4 + f0 * springHeight, y1 = baseY + 0.4 + f1 * springHeight;
+        qLine([Math.cos(a0)*r0, y0, Math.sin(a0)*r0], [Math.cos(a1)*r1, y1, Math.sin(a1)*r1], '#f59e0b', 2.1);
+      }
+
       // =========================================================================
       // THE HINGED 1.39" SAPPHIRE WATCH-SCREEN LATCH DOOR (Pivots at Rear Hinge Z = +18mm, Y = baseY + 6.2mm)
       // - At doorOpenFrac = 0.0: Sits flat at 0° over the Scarab bay, locking the Scarab inside!
@@ -788,16 +800,28 @@
         qLine(xformBody([-15, podY - 1, scrZ]), xformBody([10, podY - 1, scrZ]), '#fde047', 2.0);
         qLine(xformBody([-15, podY - 6, scrZ]), xformBody([14, podY - 6, scrZ]), '#e879f9', 2.0);
       } else {
+        // Pod 3: Stag Carbon/NiTi Mandible Stirrup Carrying a 40mm (2.70g) ITTF Ping-Pong Ball!
+        // Swings forward when landing beside the ball, then swings under the CG (Y = -14mm) in flight!
+        const ballZ = lerp(-20.0, -4.0, scarabDeploy);
+        const ballY = lerp(-3.5, -13.5, scarabDeploy);
         [-1, 1].forEach(side => {
-          qLine(xformBody([side * 4.5, -1.5, -6.0]), xformBody([side * 9.5, -3.5, -18.0]), '#fde047', 2.4);
-          qLine(xformBody([side * 9.5, -3.5, -18.0]), xformBody([side * 3.5, -3.5, -24.5]), '#fde047', 2.4);
+          qLine(xformBody([side * 5.0, -1.5, -5.0]), xformBody([side * 11.5, ballY + 2.0, ballZ]), '#fde047', 2.4);
+          qLine(xformBody([side * 11.5, ballY + 2.0, ballZ]), xformBody([side * 6.5, ballY - 3.0, ballZ - 6.5]), '#fde047', 2.4);
         });
-        const ringPts = [];
-        for (let i = 0; i < 16; i++) {
-          const a = (i / 16) * Math.PI * 2;
-          ringPts.push(xformBody([Math.cos(a) * 4.5, -3.5, -21.0 + Math.sin(a) * 4.5]));
+        // 40mm (R=10.5 scaled in scene) 3-Star Orange ITTF Ping-Pong Ball (2.70g)
+        const ballR = 10.5;
+        const eqPts = [], merPts1 = [], merPts2 = [];
+        for (let i = 0; i < 20; i++) {
+          const a = (i / 20) * Math.PI * 2;
+          eqPts.push(xformBody([Math.cos(a) * ballR, ballY, ballZ + Math.sin(a) * ballR]));
+          merPts1.push(xformBody([Math.cos(a) * ballR, ballY + Math.sin(a) * ballR, ballZ]));
+          merPts2.push(xformBody([0, ballY + Math.sin(a) * ballR, ballZ + Math.cos(a) * ballR]));
         }
-        qPoly(ringPts, 'rgba(251, 191, 36, 0.35)', '#fbbf24', 2.0);
+        qPoly(eqPts, 'rgba(251, 146, 60, 0.78)', '#fdba74', 2.0);
+        for (let i = 0; i < 20; i++) {
+          qLine(merPts1[i], merPts1[(i+1)%20], 'rgba(255, 255, 255, 0.55)', 1.2);
+          qLine(merPts2[i], merPts2[(i+1)%20], 'rgba(253, 186, 116, 0.65)', 1.2);
+        }
       }
 
       // 7. SERVO-FREE COANDĂ SLIPSTREAM STREAMLINES
