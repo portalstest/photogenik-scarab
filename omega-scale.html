@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SCARAB Ω (ARCH 4) — 3D Build Mockup &amp; 1:1 Live Human-Scale Simulator</title>
+  <title>SCARAB Ω² (ARCH 4.2) — 3D Build Mockup, 1:1 Multi-Scale Lineup &amp; 4-Layer Z-Axis DFM Simulator</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     :root {
@@ -24,101 +24,108 @@
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
       <div>
         <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-cyan-400">
-          <span>💎 SCARAB Ω (ARCH 4) • 3D BUILD MOCKUP + 1:1 HUMAN WRIST SCALE</span>
+          <span>💎 SCARAB Ω² (ARCH 4.2 PARETO LOCK) • 10-ROUND CONVERGED + DFM SCALABLE</span>
           <span class="text-[var(--muted-foreground)]">•</span>
-          <span id="hdrTierTag" class="text-emerald-300">TIER-1: 44×30×18 mm (16.4g) → TIER-2: 40×27×16 mm (12.8g)</span>
+          <span id="hdrTierTag" class="text-emerald-300">TIER-1: 14.85g (10.2m) • TIER-2: 11.40g (14.2m) • 38h PERCH</span>
         </div>
         <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
-          Interactive 7-Stage Build Mockup &amp; 1:1 Live Wearable Scale (vs. 58mm Wrist, 49mm Watch &amp; Quarter)
+          Interactive 7-Stage Build, 1:1 Lineup Scale (38.5mm → 95mm) &amp; 38-Sec 4-Layer Z-Axis Clamshell DFM
         </h2>
       </div>
       <div class="flex flex-wrap items-center gap-1.5">
         <button id="mbtn-scale" onclick="setSimMode('scale')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition">
-          ⌚ 1:1 Human Wrist &amp; Live Launch
+          ⌚ 1:1 Wrist &amp; Lineup Scale
         </button>
         <button id="mbtn-build" onclick="setSimMode('build')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🔧 7-Stage 3D Build Mockup
+          🔧 7-Stage 3D Build
+        </button>
+        <button id="mbtn-dfm" onclick="setSimMode('dfm')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
+          🏭 4-Layer Z-Axis DFM ($0.45 Shell)
         </button>
         <button id="btnRefs" onclick="toggleRefObjects()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/50 transition">
-          📏 49mm Watch + Quarter + Old 52mm Ghost: ON
+          📏 49mm Watch + Quarter: ON
         </button>
       </div>
     </div>
 
-    <!-- Sub-Controls: Scale Mode Bar OR 7-Stage Build Bar -->
-    <div id="barScaleControls" class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+    <!-- Cross-Lineup Dimensional Scaler & Action Controls -->
+    <div id="barScaleControls" class="grid grid-cols-2 sm:grid-cols-6 gap-1.5">
       <button onclick="setTier('t1')" id="tbtn-t1" class="p-1.5 rounded-lg border border-cyan-400/80 bg-cyan-500/20 text-left transition">
-        <div class="text-xs font-bold text-cyan-300">Ω TIER-1 (COTS)</div>
-        <div class="text-[11px] text-slate-300">44×30×18mm • 16.4g</div>
+        <div class="text-xs font-bold text-cyan-300">Ω² TIER-1 (R7)</div>
+        <div class="text-[11px] text-slate-300">42.5×28.5mm • 14.85g</div>
       </button>
       <button onclick="setTier('t2')" id="tbtn-t2" class="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition">
-        <div class="text-xs font-bold text-purple-300">Ω TIER-2 (R&amp;D)</div>
-        <div class="text-[11px] text-slate-400">40×27×16mm • 12.8g</div>
+        <div class="text-xs font-bold text-purple-300">Ω² TIER-2 (R9)</div>
+        <div class="text-[11px] text-slate-400">38.5×25.8mm • 11.40g</div>
+      </button>
+      <button onclick="setTier('pro')" id="tbtn-pro" class="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition">
+        <div class="text-xs font-bold text-amber-300">PRO INDOOR</div>
+        <div class="text-[11px] text-slate-400">62×42mm • 28.5g (18.5m)</div>
+      </button>
+      <button onclick="setTier('scout')" id="tbtn-scout" class="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition">
+        <div class="text-xs font-bold text-rose-300">OUTDOOR SCOUT</div>
+        <div class="text-[11px] text-slate-400">95×64mm • 68.0g (26m)</div>
       </button>
       <button onclick="triggerLaunchNow()" class="p-1.5 rounded-lg border border-emerald-400/70 bg-emerald-500/20 text-left hover:bg-emerald-500/30 transition">
         <div class="text-xs font-bold text-emerald-300">🚀 Spring Leap!</div>
-        <div class="text-[11px] text-slate-300">35cm Apex Snap</div>
+        <div class="text-[11px] text-slate-300">180Hz Coandă ±26.5°</div>
       </button>
       <button onclick="triggerGustTest()" class="p-1.5 rounded-lg border border-sky-400/70 bg-sky-500/20 text-left hover:bg-sky-500/30 transition">
         <div class="text-xs font-bold text-sky-300">💨 2.5m/s Gust!</div>
-        <div class="text-[11px] text-slate-300">3.4ms ESC Reflex</div>
-      </button>
-      <button onclick="toggleXray()" id="btnXray" class="p-1.5 rounded-lg border border-purple-400/70 bg-purple-500/20 text-left transition col-span-2 sm:col-span-1">
-        <div class="text-xs font-bold text-purple-300">🔬 X-Ray Shell</div>
-        <div class="text-[11px] text-slate-300" id="lblXraySub">Internal Ducts: ON</div>
+        <div class="text-[11px] text-slate-300">81% Regen + 3.4ms</div>
       </button>
     </div>
 
-    <!-- 7-Stage Build Bar (Shown in Build Mode, or clickable anytime!) -->
+    <!-- 7-Stage Build Bar -->
     <div class="grid grid-cols-4 sm:grid-cols-7 gap-1">
       <button onclick="selectBuildStage(1)" id="bbtn-1" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-cyan-300">STAGE 1</div>
-        <div class="text-[11px] text-slate-400 truncate">Coandă Scrolls</div>
+        <div class="text-[11px] text-slate-400 truncate">180Hz Coandă</div>
       </button>
       <button onclick="selectBuildStage(2)" id="bbtn-2" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-purple-300">STAGE 2</div>
-        <div class="text-[11px] text-slate-400 truncate">Seashell Maze</div>
+        <div class="text-[11px] text-slate-400 truncate">Split-Gyroid Shell</div>
       </button>
       <button onclick="selectBuildStage(3)" id="bbtn-3" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-amber-300">STAGE 3</div>
-        <div class="text-[11px] text-slate-400 truncate">Cu Vanes+3×5</div>
+        <div class="text-[11px] text-slate-400 truncate">96kHz Wake-Surf</div>
       </button>
       <button onclick="selectBuildStage(4)" id="bbtn-4" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-emerald-300">STAGE 4</div>
-        <div class="text-[11px] text-slate-400 truncate">I-Beam Battery</div>
+        <div class="text-[11px] text-slate-400 truncate">I-Beam + 81% Bus</div>
       </button>
       <button onclick="selectBuildStage(5)" id="bbtn-5" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-sky-300">STAGE 5</div>
-        <div class="text-[11px] text-slate-400 truncate">AI Cam+GustNet</div>
+        <div class="text-[11px] text-slate-400 truncate">1.4mW Fovea+Gust</div>
       </button>
       <button onclick="selectBuildStage(6)" id="bbtn-6" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
         <div class="text-[11px] font-bold text-rose-300">STAGE 6</div>
-        <div class="text-[11px] text-slate-400 truncate">Slap-Shell+TVC</div>
+        <div class="text-[11px] text-slate-400 truncate">Tape-Spring+TVC</div>
       </button>
       <button onclick="selectBuildStage(7)" id="bbtn-7" class="text-left p-1.5 rounded-lg border border-emerald-400/80 bg-emerald-500/20 transition col-span-4 sm:col-span-1">
         <div class="text-[11px] font-bold text-emerald-300">STAGE 7</div>
-        <div class="text-[11px] text-slate-200 truncate">✨ Complete Ω</div>
+        <div class="text-[11px] text-slate-200 truncate">✨ Complete Ω²</div>
       </button>
     </div>
 
     <!-- Main 3D Viewport -->
     <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#040814]">
-      <canvas id="mainCanvas" class="w-full h-[300px] sm:h-[330px] block cursor-grab active:cursor-grabbing"></canvas>
+      <canvas id="mainCanvas" class="w-full h-[305px] sm:h-[340px] block cursor-grab active:cursor-grabbing"></canvas>
 
       <!-- Top-Left Live Scale & Physics Telemetry HUD -->
       <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none">
-        <div id="hudModeTitle" class="text-emerald-300 font-bold">1:1 HUMAN WRIST SCALE (58mm WRIST) • STAGE 7 COMPLETE</div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Envelope / Mass:</span><span id="hudDimMass" class="text-cyan-300 font-bold">44.0 × 30.0 × 18.0 mm • 16.40 g</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Flight Phase:</span><span id="hudPhase" class="text-amber-300 font-bold">HOVER + COANDĂ SWIRL ROLL</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Servos / Wires:</span><span class="text-purple-300 font-bold">0 Servos • 0 Vanes • 0 Wires</span></div>
+        <div id="hudModeTitle" class="text-emerald-300 font-bold">1:1 HUMAN WRIST SCALE (58mm WRIST) • Ω² TIER-1 LOCK</div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Envelope / Mass:</span><span id="hudDimMass" class="text-cyan-300 font-bold">42.5 × 28.5 × 17.2 mm • 14.85 g</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Power / Flight:</span><span id="hudPowerFlight" class="text-emerald-300 font-bold">4.12 W (3.60 gf/W) • 10.2m Fly / 38.1h Perch</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Flight Phase:</span><span id="hudPhase" class="text-amber-300 font-bold">HOVER: 96kHz WAKE-SURF + 180Hz COANDĂ ROLL</span></div>
       </div>
 
       <!-- Top-Right Millimeter Scale Legend -->
       <div class="hidden sm:block absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-[11px] font-mono space-y-0.5 pointer-events-none">
         <div class="text-slate-200 font-bold">1:1 MILLIMETER REFERENCE</div>
-        <div class="text-emerald-300">■ SCARAB Ω: <span id="legScarab">44 × 30 mm</span></div>
+        <div class="text-emerald-300">■ Active Model: <span id="legScarab">42.5 × 28.5 mm (14.85g)</span></div>
         <div class="text-amber-300/90">□ Apple Watch Ultra: 49 × 44 mm</div>
-        <div class="text-rose-300/90">▨ Old Arch 3A Ghost: 52 × 36 mm</div>
+        <div class="text-rose-300/90">▨ Old Arch 3A Ghost: 52 × 36 mm (23.6g)</div>
         <div class="text-sky-300/90">● US Quarter Coin: Ø 24.3 mm</div>
       </div>
 
@@ -130,6 +137,8 @@
         <button onclick="setCam(0.0, 1.48, 1.05)" class="hover:text-cyan-300 underline">1:1 Top Scale Comparison</button>
         <span>·</span>
         <button onclick="setCam(0.0, 0.08, 1.25)" class="hover:text-cyan-300 underline">Front Coandă Nozzle View</button>
+        <span>·</span>
+        <button onclick="toggleXray()" class="text-purple-300 hover:text-purple-200 underline" id="lblXraySub">X-Ray Shell: ON</button>
       </div>
     </div>
 
@@ -143,15 +152,15 @@
     const canvas = document.getElementById('mainCanvas');
     const ctx = canvas.getContext('2d');
 
-    let simMode = 'scale'; // 'scale' or 'build'
-    let tier = 't1'; // 't1' = 44x30x18mm (16.4g), 't2' = 40x27x16mm (12.8g)
+    let simMode = 'scale'; // 'scale', 'build', or 'dfm'
+    let tier = 't1'; // 't1', 't2', 'pro', 'scout'
     let buildStage = 7; // 1..7
     let showRefs = true;
     let xray = true;
 
     let simTime = 0;
     let flightCycle = 22; // 0..100
-    let gustPulse = 0; // decays to 0
+    let gustPulse = 0;
 
     let camYaw = -0.58;
     let camPitch = 0.46;
@@ -159,48 +168,101 @@
     let isDragging = false;
     let lastX = 0, lastY = 0;
 
+    const tierConfigs = {
+      t1: {
+        name: 'Ω² TIER-1 (Round 7 COTS-Hybrid)',
+        dim: '42.5 × 28.5 × 17.2 mm',
+        leg: '42.5 × 28.5 mm (14.85g)',
+        mass: 14.85,
+        cumMass: [0, 0.62, 1.18, 5.34, 11.18, 12.86, 14.85, 14.85],
+        power: '4.12 W (3.60 gf/W) • 10.2m Fly / 38.1h Perch',
+        scaleMul: 42.5 / 44.0
+      },
+      t2: {
+        name: 'Ω² TIER-2 (Round 9 Custom-Silicon)',
+        dim: '38.5 × 25.8 × 15.4 mm',
+        leg: '38.5 × 25.8 mm (11.40g)',
+        mass: 11.40,
+        cumMass: [0, 0.46, 0.88, 3.78, 7.90, 9.04, 11.40, 11.40],
+        power: '2.78 W (4.10 gf/W) • 14.2m Fly / 39.3h Perch',
+        scaleMul: 38.5 / 44.0
+      },
+      pro: {
+        name: '02 SCARAB PRO INDOOR FAMILIAR',
+        dim: '62.0 × 42.0 × 22.0 mm',
+        leg: '62.0 × 42.0 mm (28.50g)',
+        mass: 28.50,
+        cumMass: [0, 1.25, 2.40, 9.80, 21.10, 25.40, 28.50, 28.50],
+        power: '7.40 W (3.85 gf/W) • 18.5m Fly / 72.0h Perch',
+        scaleMul: 62.0 / 44.0
+      },
+      scout: {
+        name: '05 SCARAB OUTDOOR WIND SCOUT (2S)',
+        dim: '95.0 × 64.0 × 28.0 mm',
+        leg: '95.0 × 64.0 mm (68.00g)',
+        mass: 68.00,
+        cumMass: [0, 3.10, 5.90, 22.80, 49.50, 61.20, 68.00, 68.00],
+        power: '16.2 W (4.20 gf/W) • 26.0m Fly / 120h Perch',
+        scaleMul: 95.0 / 44.0
+      }
+    };
+
     const stageExplain = [
       null,
-      '<strong class="text-cyan-300">Stage 1 — The "Spoon-Under-the-Faucet" Steering Nozzles (Opposite-Chirality Coandă Scrolls · 0.95 g):</strong> Instead of using movable plastic flaps and heavy servo motors to tilt sideways, we 3D-print two curved exit nozzles on the belly with <strong>mirror-image twists</strong> (Front twists Right, Back twists Left). Just like water hugging the curved back of a spoon (the <em>Coandă effect</em>), spinning one fan slightly faster than its partner makes the air stream hug the left or right curved cheek—steering the beetle in <strong>2.3 milliseconds with zero moving parts</strong>!',
-      '<strong class="text-purple-300">Stage 2 — The "Seashell-Maze" Sound-Cancelling Shell Wall (16 Coiled Labyrinths · +0.80 g):</strong> Thin foam cannot block drone whine because sound waves at 2,400 Hz are 140 mm long. Instead, we print <strong>16 microscopic folded mazes (like tiny seashells, 24–38 mm long)</strong> coiled inside the 2.2 mm wall. Sound waves enter the tiny slits, travel through the maze, and bounce back out <strong>180° out of step</strong> to cancel the drone whine—while the maze walls act as a <strong>5.4× stiffer honeycomb skeleton</strong>!',
-      '<strong class="text-amber-300">Stage 3 — Copper Fin Motor Mounts + "Owl-Wing" Unequal-Spaced Loop Fans (+3.80 g):</strong> We strip 4 micro-motors down to their bare magnetic cores and press-fit them onto <strong>copper-coated carbon X-fins</strong> right inside the 32 mph air stream. The copper fins carry the electricity (<strong>0 wires!</strong>), straighten the airflow for <strong>+6.4% extra lift</strong>, and cool the motors by <strong>-28.4°C</strong>. Above them spin 3-loop toroidal fans spaced at <strong>uneven angles (0°, 113°, 238°)</strong> over a <strong>5-blade bumpy lower fan</strong> so the blades never clap in rhythm—turning mosquito whine into a <strong>soft leaf rustle</strong>.',
-      '<strong class="text-emerald-300">Stage 4 — The "Skateboard-Deck" Structural Battery I-Beam Spine (+6.90 g):</strong> In a normal drone, a soft battery sits inside a plastic box under a separate circuit board with messy wires and plugs. Here, we glue two paper-thin (0.12 mm) copper-carbon circuit sheets directly to the top and bottom of the 220 mAh battery pouch. Just like an I-beam or skateboard deck, this makes the battery itself <strong>121× stiffer</strong> and deletes <strong>2.40 g of boxes, plugs, and wires</strong>!',
-      '<strong class="text-sky-300">Stage 5 — Front AI Camera Eye + Laser ToF + 1,000 Hz "Wind-Feeling" Brain (+2.30 g):</strong> The nose holds the HD AI camera and amber eye lights, while the belly holds an 8×8 laser radar and optical-flow sensor. Even cooler: a tiny 3-kilobyte neural network (<code>Scarab-GustNet</code>) monitors the electrical current in the 4 spinning fans 1,000 times a second—letting the fans themselves <strong>feel a wind gust in 3.4 milliseconds</strong> (10× faster than waiting for the body to tilt!).',
-      '<strong class="text-rose-300">Stage 6 — The "Slap-Bracelet" Bistable Shell + Tornado-Lip Intake + Origami Wings (+1.65 g):</strong> We delete the 1.2 g shell-opening servo motor and 1.4 g brass hinges! The carbon-kapton outer shells are curved like a <strong>slap bracelet or metal hair clip</strong> that only wants to be 100% closed or 100% snapped open at 68°. When the fans spin up at the top of the wrist-spring jump, their suction snaps the shells open in 11 milliseconds, forming a <strong>curved jet bellmouth with a tiny "tornado groove" (Trapped-Vortex Cavity)</strong> that pulls the beetle upward for <strong>+26.5% extra lift</strong>!',
-      '<strong class="text-emerald-300">Stage 7 — Complete 16.4 g SCARAB Ω on Your 58 mm Wrist (31% Lighter, 35% Smaller Volume):</strong> Compare the finished <strong>44 × 30 × 18 mm (16.4 g)</strong> SCARAB Ω (solid jewel) against the <strong>pink wireframe of our previous 52 × 36 mm (23.6 g) Arch 3A prototype</strong>, an <strong>Apple Watch Ultra (49 × 44 mm, amber outline)</strong>, and a <strong>US Quarter (Ø 24.3 mm, blue coin)</strong>. Click <strong>"🚀 Spring Leap!"</strong> or <strong>"💨 2.5m/s Gust!"</strong> above to test it live!'
+      '<strong class="text-cyan-300">Stage 1 — 180 Hz "Micro-Vibrating" Coandă Steering Scrolls (+31.1% Roll Torque, ±26.5° Vectoring, 0.00g Servos):</strong> We 3D-mold two mirror-image curved exit nozzles on the belly (Front twists Right, Back twists Left). In Pass 2 (<code>SCARAB Ω²</code>), we add a tiny <strong>180 Hz AC speed ripple (±2.8% RPM dither)</strong> that creates microscopic rolling air bearings (Kelvin–Helmholtz rollers), keeping the air glued to the curved cheek out to <strong>±26.5°</strong> and snapping roll in <strong>2.05 ms with zero moving vanes</strong>!',
+      '<strong class="text-purple-300">Stage 2 — Soap-Film "Split-Gyroid" Clamshell &amp; 18.4× Sound-Cancelling Maze (1.18g, +50.9% Crush Strength, $0.45 Mold):</strong> In Pass 2, we replaced flat internal walls with a <strong>Zero-Mean-Curvature Minimal Surface (like a soap film or bird bone)</strong>. Pressing on the shell cannot bend the walls—only stretch them (<strong>9.7× stiffer per gram, 52.8 N crush load</strong>). Even better: a <strong>2.5° draft angle</strong> lets the entire shell pop out of a <strong>simple 2-piece Upper/Lower injection mold at $0.45/unit with zero undercuts</strong>!',
+      '<strong class="text-amber-300">Stage 3 — 96 kHz Electronic "Vortex Wake-Surfing" + Copper Fin Stators (+8.4% Free Lift, -9.2% Power, -4.2 dBA):</strong> Just like geese flying in V-formation, our 96 kHz motor controller locks the phase of the lower 5-blade rotor (within 0.14°) so its blades <strong>surf the rising upwash</strong> just outside the vortex rings shed by the upper 3-loop rotor (at exact spacing <code>Δz/D = 0.215 = 3.76 mm</code>)—giving <strong>+8.4% free lift</strong> and cancelling blade-slap noise by <strong>-13.8 dB</strong>!',
+      '<strong class="text-emerald-300">Stage 4 — Structural Battery I-Beam Spine + 81% "Kinetic Energy Ping-Pong" Bus (-64.1% Turbulence Power):</strong> Top and bottom 0.12 mm copper-carbon circuit skins bonded directly to the battery pouch create a <strong>121× stiffer I-beam</strong>. In Pass 2, all 4 motors share a <strong>47 µF synchronous regenerative DC bus</strong>: when 2 rotors brake to fight a wind gust, <strong>81.0% of their kinetic energy is shuttled directly into the 2 accelerating rotors</strong> in 10.4 microseconds!',
+      '<strong class="text-sky-300">Stage 5 — 1.40 mW "Foveated Eye + Backscatter" Sentinel &amp; 3.4 ms Wind-Feeling Brain (38.1 Hours Perched Watch!):</strong> Instead of burning 250 mW reading all 5 million camera pixels, hardware windowing reads a tiny 18 mW peripheral grid and only wakes a high-res "fovea" on human faces. When perched on drywall or a bookshelf, power drops to <strong>1.40 mW</strong>—enabling <strong>38.1 to 39.3+ hours of room watch</strong> on a single charge!',
+      '<strong class="text-rose-300">Stage 6 — Tape-Measure "Geodesic" Origami Wings (0.77g, 410× Stiffness) + Tornado-Lip TVC Bellmouth (+26.5% Lift):</strong> Thickness-grading the carbon-kapton wing shell from <code>85 µm</code> at the crease to <code>28 µm</code> at the rim (like a carpenter\'s tape measure) cuts shell mass to <strong>0.77 g</strong> while locking open at 68° with <strong>410× stiffness</strong>. The open inner root forms a curved jet bellmouth with a <strong>Ringleb Trapped-Vortex Cavity (TVC)</strong> that generates <strong>26.5% of total lift</strong>!',
+      '<strong class="text-emerald-300">Stage 7 — Converged SCARAB Ω² Across All 4 Lineup Sizes (11.40g Frontier → 14.85g Tier-1 → 28.5g Pro → 68g Scout):</strong> Use the buttons above to switch between <strong>Ω² Tier-1 (14.85g, 42.5mm)</strong>, <strong>Ω² Tier-2 (11.40g, 38.5mm)</strong>, <strong>Pro Indoor (28.5g, 62mm)</strong>, and <strong>Outdoor Scout (68g, 95mm)</strong>, or click <strong>"🏭 4-Layer Z-Axis DFM"</strong> to see how the entire beetle stacks vertically in <strong>38 seconds with zero screws or wires</strong>!'
     ];
+
+    const dfmExplain = '<strong class="text-amber-300">🏭 4-Layer Z-Axis Automated Clamshell Lamination (38 Seconds/Unit @ 100k/yr, $0.45 Molded Shell, $18.40 Total COGS):</strong> Traditional micro-drones require 48 minutes of manual tweezer labor (42 parts, 16 screws, 12 wires). By giving our Split-Gyroid channels a monotonic <strong>≥2.5° draft angle</strong> along the equator, <code>SCARAB Ω²</code> pops out of a <strong>2-piece open/shut steel injection mold with zero side-actions</strong> and stacks vertically in 4 automated pick-and-place layers:<br/>' +
+      '• <span class="text-rose-300 font-semibold">Layer 4 (Top):</span> Roll-to-Roll laser-stamped <code>[CFRP/Kapton]</code> Tape-Spring Geodesic Origami Elytra Cap (snaps onto thoracic dowels).<br/>' +
+      '• <span class="text-purple-300 font-semibold">Layer 3 (Upper Clamshell):</span> Molded Carbon-LCP Upper Split-Gyroid Labyrinth + TVC Bellmouth + Upper Cu-Clad X-Vanes.<br/>' +
+      '• <span class="text-emerald-300 font-semibold">Layer 2 (Core Spine):</span> Vacuum-laminated Structural Battery I-Beam (Top AI/ToF Flex Skin + LiHV Pouch Web + Bottom 81%-Regen ESC Skin).<br/>' +
+      '• <span class="text-cyan-300 font-semibold">Layer 1 (Lower Clamshell):</span> Molded Carbon-LCP Opposite-Chirality Coandă Scrolls + Lower Cu-Clad X-Vanes (all 12 motor tabs reflow-soldered in 1 pass!).';
 
     function setSimMode(m) {
       simMode = m;
-      document.getElementById('mbtn-scale').className = (m === 'scale')
-        ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition'
-        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition';
-      document.getElementById('mbtn-build').className = (m === 'build')
-        ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-500/25 text-cyan-300 border border-cyan-400/70 transition'
-        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition';
+      ['scale', 'build', 'dfm'].forEach(k => {
+        const el = document.getElementById('mbtn-' + k);
+        if (!el) return;
+        el.className = (m === k)
+          ? 'px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition'
+          : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition';
+      });
       if (m === 'build' && buildStage === 7) {
         buildStage = 1;
-      } else if (m === 'scale') {
+      } else if (m === 'scale' || m === 'dfm') {
         buildStage = 7;
+      }
+      if (m === 'dfm') {
+        setCam(-0.48, 0.32, 0.92);
       }
       updateUI();
     }
 
     function setTier(t) {
       tier = t;
-      document.getElementById('tbtn-t1').className = (t === 't1')
-        ? 'p-1.5 rounded-lg border border-cyan-400/80 bg-cyan-500/20 text-left transition'
-        : 'p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition';
-      document.getElementById('tbtn-t2').className = (t === 't2')
-        ? 'p-1.5 rounded-lg border border-purple-400/80 bg-purple-500/20 text-left transition'
-        : 'p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition';
-      document.getElementById('legScarab').textContent = (t === 't1') ? '44 × 30 mm (16.4g)' : '40 × 27 mm (12.8g)';
+      ['t1', 't2', 'pro', 'scout'].forEach(k => {
+        const el = document.getElementById('tbtn-' + k);
+        if (!el) return;
+        el.className = (t === k)
+          ? 'p-1.5 rounded-lg border border-cyan-400/80 bg-cyan-500/20 text-left transition'
+          : 'p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/50 text-left transition';
+      });
+      if (t === 'pro') camZoom = 0.85;
+      else if (t === 'scout') camZoom = 0.65;
+      else camZoom = 1.0;
       updateUI();
     }
 
     function selectBuildStage(s) {
       buildStage = s;
       if (s < 7) simMode = 'build';
+      else if (simMode === 'dfm') simMode = 'scale';
       updateUI();
     }
 
@@ -208,26 +270,26 @@
       showRefs = !showRefs;
       const btn = document.getElementById('btnRefs');
       btn.textContent = showRefs
-        ? '📏 49mm Watch + Quarter + Old 52mm Ghost: ON'
-        : '📏 Scale Reference Overlays: OFF';
+        ? '📏 49mm Watch + Quarter: ON'
+        : '📏 Scale Overlays: OFF';
     }
 
     function toggleXray() {
       xray = !xray;
-      document.getElementById('lblXraySub').textContent = xray ? 'Internal Ducts: ON' : 'Solid Obsidian: ON';
+      document.getElementById('lblXraySub').textContent = xray ? 'X-Ray Shell: ON' : 'X-Ray Shell: OFF';
     }
 
     function triggerLaunchNow() {
       simMode = 'scale';
       buildStage = 7;
-      flightCycle = 8; // start right at spring release!
+      flightCycle = 8;
       updateUI();
     }
 
     function triggerGustTest() {
       simMode = 'scale';
       buildStage = 7;
-      if (flightCycle < 35 || flightCycle > 72) flightCycle = 48; // ensure in hover
+      if (flightCycle < 35 || flightCycle > 72) flightCycle = 48;
       gustPulse = 1.0;
       updateUI();
     }
@@ -237,22 +299,27 @@
     function updateUI() {
       for (let i = 1; i <= 7; i++) {
         const b = document.getElementById('bbtn-' + i);
-        b.className = (i === buildStage)
+        b.className = (i === buildStage && simMode !== 'dfm')
           ? 'text-left p-1.5 rounded-lg border border-cyan-400/80 bg-cyan-500/25 transition' + (i === 7 ? ' col-span-4 sm:col-span-1' : '')
           : 'text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition' + (i === 7 ? ' col-span-4 sm:col-span-1' : '');
       }
-      const isT1 = (tier === 't1');
-      const cumMassT1 = [0, 0.95, 1.75, 5.55, 12.45, 14.75, 16.40, 16.40];
-      const cumMassT2 = [0, 0.75, 1.35, 4.40, 9.75, 11.55, 12.80, 12.80];
-      const mVal = isT1 ? cumMassT1[buildStage] : cumMassT2[buildStage];
-      const mTot = isT1 ? '16.40 g' : '12.80 g';
-      const dimStr = isT1 ? '44.0 × 30.0 × 18.0 mm' : '40.0 × 27.0 × 16.0 mm';
+      const cfg = tierConfigs[tier];
+      const mVal = cfg.cumMass[buildStage];
+      document.getElementById('legScarab').textContent = cfg.leg;
 
-      document.getElementById('hudModeTitle').textContent = (simMode === 'scale')
-        ? `1:1 HUMAN WRIST SCALE (58mm WRIST) • STAGE ${buildStage}/7`
-        : `3D STEP-BY-STEP BUILD MOCKUP • STAGE ${buildStage}/7`;
-      document.getElementById('hudDimMass').textContent = `${dimStr} • ${mVal.toFixed(2)}g / ${mTot}`;
-      document.getElementById('laymanBox').innerHTML = stageExplain[buildStage];
+      if (simMode === 'dfm') {
+        document.getElementById('hudModeTitle').textContent = `4-LAYER Z-AXIS AUTOMATED CLAMSHELL DFM • 38s TACT TIME`;
+        document.getElementById('hudDimMass').textContent = `${cfg.dim} • ${cfg.mass.toFixed(2)}g ($0.45 Shell / $18.40 BOM)`;
+        document.getElementById('hudPowerFlight').textContent = `2.5° Draft Split-Gyroid • 0 Undercuts • 0 Screws • 1-Pass Reflow`;
+        document.getElementById('laymanBox').innerHTML = dfmExplain;
+      } else {
+        document.getElementById('hudModeTitle').textContent = (simMode === 'scale')
+          ? `1:1 WRIST & LINEUP SCALE • ${cfg.name}`
+          : `3D STEP-BY-STEP BUILD • STAGE ${buildStage}/7 (${cfg.name})`;
+        document.getElementById('hudDimMass').textContent = `${cfg.dim} • ${mVal.toFixed(2)}g / ${cfg.mass.toFixed(2)}g`;
+        document.getElementById('hudPowerFlight').textContent = cfg.power;
+        document.getElementById('laymanBox').innerHTML = stageExplain[buildStage];
+      }
     }
     updateUI();
 
@@ -272,7 +339,7 @@
     canvas.addEventListener('pointerup', () => { isDragging = false; });
     canvas.addEventListener('wheel', e => {
       e.preventDefault();
-      camZoom = Math.max(0.60, Math.min(1.75, camZoom - e.deltaY * 0.001));
+      camZoom = Math.max(0.45, Math.min(1.85, camZoom - e.deltaY * 0.001));
     }, { passive: false });
 
     function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
@@ -314,7 +381,15 @@
       let swirlRoll = 0;
       let phaseStr = 'DOCKED JEWEL ON 58mm WRIST';
 
-      if (simMode === 'scale' && buildStage === 7) {
+      // Exploded Z-axis offsets for DFM Mode (Layers 1..4)
+      let dfmExplode = 0;
+      if (simMode === 'dfm') {
+        dfmExplode = 0.55 + 0.45 * Math.sin(simTime * 1.8); // oscillates exploded stack gently
+        altY = 4;
+        openFrac = 0.25;
+        spinEnv = 0.4;
+        phaseStr = '🏭 4-LAYER Z-AXIS PICK & PLACE STACK (0 SCREWS, 0 UNDERCUTS)';
+      } else if (simMode === 'scale' && buildStage === 7) {
         flightCycle = (flightCycle + dt * 13.5) % 100;
         const c = flightCycle;
         const jump = smoothstep(10, 26, c) * (1 - smoothstep(82, 95, c));
@@ -324,21 +399,20 @@
         spinEnv = smoothstep(24, 33, c) * (1 - smoothstep(78, 86, c));
 
         if (c < 10 || c >= 95) {
-          phaseStr = 'STATE 1: CLOSED OBSIDIAN JEWEL (0mW EPM)';
+          phaseStr = 'STATE 1: PERCHED / DOCKED (1.40mW SENTINEL • 38.1h WATCH)';
         } else if (c < 24) {
           phaseStr = '0.14J SPRING LEAP (SILENT CLOSED ASCENT)';
         } else if (c < 35) {
-          phaseStr = '35cm APEX: 11ms SLAP-SHELL SNAP + WING BLOOM!';
+          phaseStr = '35cm APEX: 19.5ms TAPE-SPRING ORIGAMI SNAP + TVC LOCK!';
         } else if (c < 78) {
-          swirlRoll = Math.sin(simTime * 2.8) * 0.65 + gustPulse * 0.95;
+          swirlRoll = Math.sin(simTime * 2.8) * 0.72 + gustPulse * 1.05;
           phaseStr = gustPulse > 0.1
-            ? '💨 2.5m/s GUST -> 3.4ms ESC BACK-EMF REFLEX!'
-            : 'HOVER: SWIRL-COANDĂ FLUIDIC ROLL (0 VANES)';
+            ? '💨 2.5m/s GUST -> 3.4ms GUSTNET + 81% REGEN SHUTTLE!'
+            : 'HOVER: 96kHz WAKE-SURF (+8.4% LIFT) + 180Hz COANDĂ (±26.5°)';
         } else {
           phaseStr = 'MAGNETIC CUFF DOCKING + BISTABLE SNAP SHUT';
         }
       } else {
-        // Build mode static/preview animations
         altY = 10;
         openFrac = (buildStage >= 6) ? (0.55 + 0.45 * Math.sin(simTime * 2.0)) : 0;
         spinEnv = (buildStage >= 3) ? 0.75 : 0;
@@ -347,8 +421,8 @@
       }
       document.getElementById('hudPhase').textContent = phaseStr;
 
-      const scaleMul = (tier === 't1') ? 1.0 : (40.0 / 44.0); // 1 unit = 1 mm!
-      const bodyRoll = -swirlRoll * 0.16 * openFrac;
+      const scaleMul = tierConfigs[tier].scaleMul;
+      const bodyRoll = -swirlRoll * 0.18 * openFrac;
 
       const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
       grad.addColorStop(0, '#0e1b36');
@@ -357,16 +431,15 @@
       ctx.fillRect(0, 0, W, H);
 
       const drawList = [];
-      function sPt(p) {
-        // Scale by tier and apply bodyRoll around [0, altY, 0]
+      function sPt(p, layerOffsetY = 0) {
         const sx = p[0] * scaleMul;
-        const sy = p[1] * scaleMul;
+        const sy = p[1] * scaleMul + layerOffsetY;
         const sz = p[2] * scaleMul;
         const r = rotZ([sx, sy, sz], bodyRoll);
         return [r[0], r[1] + altY, r[2]];
       }
-      function qPoly(pts3D, fill, stroke, lw = 1.2, isDrone = true) {
-        const pts = isDrone ? pts3D.map(sPt) : pts3D;
+      function qPoly(pts3D, fill, stroke, lw = 1.2, isDrone = true, layerOffsetY = 0) {
+        const pts = isDrone ? pts3D.map(p => sPt(p, layerOffsetY)) : pts3D;
         const pr = pts.map(p => project(p, W, H));
         const avgZ = pr.reduce((s, p) => s + p[2], 0) / pr.length;
         drawList.push({
@@ -380,9 +453,9 @@
           }
         });
       }
-      function qLine(a, b, stroke, lw = 1.5, dash = [], isDrone = true) {
-        const pa3 = isDrone ? sPt(a) : a;
-        const pb3 = isDrone ? sPt(b) : b;
+      function qLine(a, b, stroke, lw = 1.5, dash = [], isDrone = true, layerOffsetY = 0) {
+        const pa3 = isDrone ? sPt(a, layerOffsetY) : a;
+        const pb3 = isDrone ? sPt(b, layerOffsetY) : b;
         const pa = project(pa3, W, H), pb = project(pb3, W, H);
         drawList.push({
           z: (pa[2] + pb[2]) * 0.5,
@@ -400,9 +473,14 @@
         });
       }
 
-      // 1. 1:1 MILLIMETER HUMAN FOREARM & 58mm WRIST + SPRING CUFF (1 unit = 1 mm!)
+      // Layer Y offsets for 4-Layer Z-Axis Clamshell DFM mode
+      const yL1 = simMode === 'dfm' ? -24 * dfmExplode : 0; // Layer 1: Lower Chiral Coanda Scroll Clamshell
+      const yL2 = simMode === 'dfm' ?  -6 * dfmExplode : 0; // Layer 2: Structural Battery I-Beam Spine
+      const yL3 = simMode === 'dfm' ? +12 * dfmExplode : 0; // Layer 3: Upper Split-Gyroid Labyrinth Clamshell
+      const yL4 = simMode === 'dfm' ? +30 * dfmExplode : 0; // Layer 4: Tape-Spring Geodesic Origami Cap
+
+      // 1. 1:1 MILLIMETER HUMAN FOREARM & 58mm WRIST + SPRING CUFF
       if (simMode === 'scale') {
-        // 3D Rounded Forearm Cylinder (58 mm width = X from -29 to +29 mm, Z from -85 to +85 mm, Y = -18 to -42 mm)
         const armSegs = 12;
         for (let i = 0; i < armSegs; i++) {
           const a1 = (i / armSegs) * Math.PI * 2;
@@ -411,10 +489,7 @@
           const x2 = Math.cos(a2) * 29, y2 = -30 + Math.sin(a2) * 16;
           qPoly([[x1, y1, -78], [x2, y2, -78], [x2*1.08, y2-2, 78], [x1*1.08, y1-2, 78]], 'rgba(30, 41, 59, 0.52)', 'rgba(100, 116, 139, 0.28)', 1.0, false);
         }
-
-        // Wrist Cuff Strap & Cradle (34 mm wide × 48 mm long × 4 mm deep)
         qPoly([[-18, -13.5, -25], [18, -13.5, -25], [18, -13.5, 25], [-18, -13.5, 25]], 'rgba(20, 24, 34, 0.95)', '#0ea5e9', 1.3, false);
-        // Conical Beryllium-Copper Launch Spring (0.14 J)
         for (let i = 0; i < 18; i++) {
           const t1 = i / 18, t2 = (i + 1) / 18;
           const a1 = t1 * 4 * Math.PI * 2, a2 = t2 * 4 * Math.PI * 2;
@@ -423,18 +498,15 @@
         }
       }
 
-      // 2. 1:1 MILLIMETER REFERENCE OVERLAYS (Apple Watch Ultra 49×44mm, Old Arch 3A 52×36mm, US Quarter Ø24.3mm)
+      // 2. 1:1 MILLIMETER REFERENCE OVERLAYS
       if (showRefs) {
-        // Apple Watch Ultra Ghost Outline (44 mm wide × 49 mm long, Amber Dashed)
         const aw = [[-22, -12, -24.5], [22, -12, -24.5], [22, -12, 24.5], [-22, -12, 24.5]];
         for (let i = 0; i < 4; i++) qLine(aw[i], aw[(i+1)%4], 'rgba(251, 191, 36, 0.65)', 1.4, [4, 3], false);
 
-        // Old Arch 3A Prototype Ghost Outline (36 mm wide × 52 mm long × 19 mm tall, Rose Wireframe around the drone)
         const oldW = 18, oldL = 26;
         const oldBox = [[-oldW, altY + 6, -oldL], [oldW, altY + 6, -oldL], [oldW, altY + 6, oldL], [-oldW, altY + 6, oldL]];
         for (let i = 0; i < 4; i++) qLine(oldBox[i], oldBox[(i+1)%4], 'rgba(244, 63, 94, 0.65)', 1.3, [3, 3], false);
 
-        // US Quarter Coin (Ø 24.26 mm = Radius 12.13 mm) sitting right beside the cuff at X = +42 mm
         const qPts = [];
         for (let i = 0; i < 20; i++) {
           const a = (i / 20) * Math.PI * 2;
@@ -443,12 +515,7 @@
         qPoly(qPts, 'rgba(56, 189, 248, 0.22)', '#38bdf8', 1.4, false);
       }
 
-      // =========================================================================
-      // 3. SCARAB Ω (ARCH 4) 1:1 MILLIMETER-ACCURATE 7-STAGE BUILD (44 × 30 × 18 mm)
-      // =========================================================================
-      // X spans -15.0 to +15.0 mm (30.0 mm width); Z spans -22.0 to +22.0 mm (44.0 mm length)
-
-      // STAGE 1+: OPPOSITE-CHIRALITY HELICAL-COANDĂ SCROLL NOZZLES (Centers at Z = -10.2 mm and +10.2 mm)
+      // STAGE 1 / LAYER 1: OPPOSITE-CHIRALITY 180Hz PULSED COANDĂ SCROLL CLAMSHELL
       if (buildStage >= 1) {
         [-10.2, 10.2].forEach((cz, dIdx) => {
           const ringTop = [], ringBot = [];
@@ -457,91 +524,85 @@
             ringTop.push([Math.cos(a) * 8.8, 3.5, cz + Math.sin(a) * 8.8]);
             ringBot.push([Math.cos(a) * 8.8, -4.5, cz + Math.sin(a) * 8.8]);
           }
-          qPoly(ringTop, 'rgba(8, 20, 42, 0.82)', '#22d3ee', 1.4);
-          qPoly(ringBot, 'rgba(15, 23, 42, 0.85)', '#38bdf8', 1.1);
+          qPoly(ringTop, 'rgba(8, 20, 42, 0.82)', '#22d3ee', 1.4, true, yL3);
+          qPoly(ringBot, 'rgba(15, 23, 42, 0.85)', '#38bdf8', 1.1, true, yL1);
 
-          // Left & Right Convex Coandă Diffuser Cheeks (R_c = 6.2 mm)
           const cheekL = [[-9.2, -4.5, cz - 5.5], [-2.0, -4.5, cz - 5.5], [-6.5, -8.9, cz + 5.5], [-12.5, -8.2, cz + 5.5]];
           const cheekR = [[ 2.0, -4.5, cz - 5.5], [ 9.2, -4.5, cz - 5.5], [ 12.5, -8.2, cz + 5.5], [ 6.5, -8.9, cz + 5.5]];
-          qPoly(cheekL, 'rgba(34, 211, 238, 0.35)', '#22d3ee', 1.3);
-          qPoly(cheekR, 'rgba(34, 211, 238, 0.35)', '#22d3ee', 1.3);
+          qPoly(cheekL, 'rgba(34, 211, 238, 0.35)', '#22d3ee', 1.3, true, yL1);
+          qPoly(cheekR, 'rgba(34, 211, 238, 0.35)', '#22d3ee', 1.3, true, yL1);
 
-          // Fluidic Coandă Jet Streamlines (deflecting ±20° with ZERO moving vanes!)
-          if (spinEnv > 0.2) {
-            const jetX = Math.sin(swirlRoll * 0.45) * 11.5;
+          if (spinEnv > 0.2 && simMode !== 'dfm') {
+            const jetX = Math.sin(swirlRoll * 0.52) * 13.5; // ±26.5° pulsed Coandă deflection!
             for (let s = -1; s <= 1; s++) {
               const sx = s * 3.5;
-              qLine([sx, -5.0, cz], [sx + jetX, -21.0, cz], 'rgba(34, 211, 238, 0.85)', 1.9, [4, 3]);
+              qLine([sx, -5.0, cz], [sx + jetX, -21.5, cz], 'rgba(34, 211, 238, 0.88)', 1.9, [4, 3], true, yL1);
             }
           }
         });
       }
 
-      // STAGE 2+: 16-CHANNEL "SEASHELL-MAZE" LABYRINTHINE ACOUSTIC METAMATERIAL WALL (30 × 44 mm Oval)
+      // STAGE 2 / LAYER 3: SPLIT-GYROID MINIMAL-SURFACE CLAMSHELL (H=0, 18.4x Coiling, 2.5° Draft)
       if (buildStage >= 2) {
         const outerOval = [];
         for (let i = 0; i < 20; i++) {
           const a = (i / 20) * Math.PI * 2;
           outerOval.push([Math.cos(a) * 15.0, 0, Math.sin(a) * 22.0]);
         }
-        qPoly(outerOval, 'rgba(15, 23, 42, 0.72)', '#a855f7', 1.5);
+        qPoly(outerOval, 'rgba(15, 23, 42, 0.72)', '#a855f7', 1.5, true, yL3);
 
-        // 16 Radial Coiled Labyrinth Septa inside the 2.2 mm perimeter wall
+        // Split-Gyroid saddle-curved channels inside perimeter wall
         for (let i = 0; i < 16; i++) {
           const a = (i / 16) * Math.PI * 2;
-          qLine([Math.cos(a)*12.2, 3.2, Math.sin(a)*18.5], [Math.cos(a)*14.8, 3.2, Math.sin(a)*21.6], 'rgba(192, 132, 252, 0.8)', 1.2);
+          const aTwist = a + 0.14;
+          qLine([Math.cos(a)*12.0, 2.8, Math.sin(a)*18.2], [Math.cos(aTwist)*14.8, 3.6, Math.sin(aTwist)*21.6], 'rgba(192, 132, 252, 0.85)', 1.3, [], true, yL3);
         }
       }
 
-      // STAGE 3+: COPPER HEAT-EXCHANGER STATOR X-VANES + UNEQUAL [0°, 113°, 238°] TOROIDAL × 5-BLADE ROTORS
+      // STAGE 3: 96kHz PHASE-LOCKED WAKE-SURFING ROTORS (Δz/D = 0.215) + CU X-VANES
       if (buildStage >= 3) {
         [-10.2, 10.2].forEach((cz, dIdx) => {
-          // Copper-Clad Carbon Stator X-Vanes (Carry 3-phase power + cool motors by -28.4°C)
-          qLine([-8.2, 0, cz - 5.5], [8.2, 0, cz + 5.5], '#f59e0b', 2.0);
-          qLine([-8.2, 0, cz + 5.5], [8.2, 0, cz - 5.5], '#f59e0b', 2.0);
+          qLine([-8.2, 0, cz - 5.5], [8.2, 0, cz + 5.5], '#f59e0b', 2.0, [], true, yL3);
+          qLine([-8.2, 0, cz + 5.5], [8.2, 0, cz - 5.5], '#f59e0b', 2.0, [], true, yL1);
 
           const dir = dIdx === 0 ? 1 : -1;
           const uSpin = simTime * 30 * spinEnv * dir;
-          const lSpin = -simTime * 30 * spinEnv * dir;
+          const lSpin = -simTime * 30 * spinEnv * dir + 0.22; // Phase-locked PLL offset!
 
-          // Upper 3-Loop Toroidal Rotor at [0°, 113°, 238°]
           [0, 113 * Math.PI / 180, 238 * Math.PI / 180].forEach(ba => {
             const a1 = uSpin + ba;
             const a2 = a1 + 0.50;
             const p1 = [Math.cos(a1)*8.0, 2.2, cz + Math.sin(a1)*8.0];
             const p2 = [Math.cos(a2)*6.0, 1.6, cz + Math.sin(a2)*6.0];
-            qLine([0, 2.2, cz], p1, '#fde047', 2.1);
-            qLine(p1, p2, '#f59e0b', 1.7);
-            qLine(p2, [0, 1.6, cz], '#fbbf24', 1.4);
+            qLine([0, 2.2, cz], p1, '#fde047', 2.1, [], true, yL3);
+            qLine(p1, p2, '#f59e0b', 1.7, [], true, yL3);
+            qLine(p2, [0, 1.6, cz], '#fbbf24', 1.4, [], true, yL3);
           });
 
-          // Lower 5-Blade Tubercle Rotor
           for (let b = 0; b < 5; b++) {
             const a = lSpin + (b * Math.PI * 2 / 5);
-            qLine([0, -2.0, cz], [Math.cos(a)*7.8, -2.0, cz + Math.sin(a)*7.8], '#38bdf8', 1.7);
+            qLine([0, -2.0, cz], [Math.cos(a)*7.8, -2.0, cz + Math.sin(a)*7.8], '#38bdf8', 1.7, [], true, yL1);
           }
         });
       }
 
-      // STAGE 4+: "SKATEBOARD-DECK" STRUCTURAL BATTERY I-BEAM SPINE (121× Stiffer, 0 Wires)
+      // STAGE 4 / LAYER 2: STRUCTURAL BATTERY I-BEAM SPINE + 81% REGEN SHARED DC BUS
       if (buildStage >= 4) {
-        // Central LiHV Pouch Shear Web + Top/Bottom 0.12mm Polyimide-Copper Flex Flanges
-        qPoly([[-4.5, 4.2, -16], [4.5, 4.2, -16], [4.5, 4.2, 16], [-4.5, 4.2, 16]], 'rgba(16, 185, 129, 0.72)', '#34d399', 1.4);
-        qPoly([[-5.5, 4.6, -16], [5.5, 4.6, -16], [5.5, 4.6, 16], [-5.5, 4.6, 16]], 'rgba(245, 158, 11, 0.55)', '#fbbf24', 1.2);
+        qPoly([[-4.5, 4.2, -16], [4.5, 4.2, -16], [4.5, 4.2, 16], [-4.5, 4.2, 16]], 'rgba(16, 185, 129, 0.76)', '#34d399', 1.4, true, yL2);
+        qPoly([[-5.5, 4.6, -16], [5.5, 4.6, -16], [5.5, 4.6, 16], [-5.5, 4.6, 16]], 'rgba(245, 158, 11, 0.58)', '#fbbf24', 1.2, true, yL2);
       }
 
-      // STAGE 5+: FRONT AI CAMERA EYE + DOWNWARD 8×8 TOF + 1kHz SCARAB-GUSTNET REFLEX
+      // STAGE 5 / LAYER 2: FOVEATED 1.4mW SENTINEL EYE + 1kHz SCARAB-GUSTNET
       if (buildStage >= 5) {
-        qPoly([[-11, 3.8, -14], [11, 3.8, -14], [8.5, 2.0, -22], [-8.5, 2.0, -22]], 'rgba(20, 24, 36, 0.96)', '#d97706', 1.4);
-        qLine([-7.5, 3.6, -19.5], [-3.5, 3.6, -21], '#fbbf24', 2.4);
-        qLine([ 3.5, 3.6, -21], [ 7.5, 3.6, -19.5], '#fbbf24', 2.4);
-        qPoly([[-2.2, 3.0, -22], [2.2, 3.0, -22], [2.2, 0.0, -22.5], [-2.2, 0.0, -22.5]], '#38bdf8', '#e0f2fe', 1.2);
+        qPoly([[-11, 3.8, -14], [11, 3.8, -14], [8.5, 2.0, -22], [-8.5, 2.0, -22]], 'rgba(20, 24, 36, 0.96)', '#d97706', 1.4, true, yL2);
+        qLine([-7.5, 3.6, -19.5], [-3.5, 3.6, -21], '#fbbf24', 2.4, [], true, yL2);
+        qLine([ 3.5, 3.6, -21], [ 7.5, 3.6, -19.5], '#fbbf24', 2.4, [], true, yL2);
+        qPoly([[-2.2, 3.0, -22], [2.2, 3.0, -22], [2.2, 0.0, -22.5], [-2.2, 0.0, -22.5]], '#38bdf8', '#e0f2fe', 1.2, true, yL2);
       }
 
-      // STAGE 6+: "SLAP-BRACELET" ZERO-SERVO BISTABLE ELYTRA + TORNADO-LIP TVC + NATURE (2024) WINGS
+      // STAGE 6 / LAYER 4: TAPE-SPRING GEODESIC ORIGAMI CAP + TVC BELLMOUTH
       if (buildStage >= 6) {
         [-1, 1].forEach(side => {
-          // Nature (2024) 3-Panel Passive Origami Wings (unfold when openFrac > 0.05)
           if (openFrac > 0.05) {
             const flutter = openFrac * Math.sin(simTime * 26) * 0.32;
             const u = openFrac;
@@ -549,17 +610,15 @@
             const r1 = add3(r0, rotY([side * (8 + u * 14), 2, 2], side * flutter));
             const r2 = add3(r1, rotY([side * (u * 20), 1.5, (1 - u) * 8], side * flutter));
             const r3 = add3(r2, rotY([side * (u * 22), 1.0, (1 - u) * 6], side * flutter));
-            qPoly([r0, r1, [r1[0], r1[1]-1, r1[2]+12], [side * 10, 2.5, 9]], 'rgba(245, 158, 11, 0.25)', '#fbbf24', 1.1);
-            qPoly([r1, r2, [r2[0]*0.92, r2[1]-1, r2[2]+10], [r1[0], r1[1]-1, r1[2]+12]], 'rgba(52, 211, 153, 0.22)', '#34d399', 1.1);
-            qPoly([r2, r3, [r3[0]*0.88, r3[1]-1, r3[2]+8], [r2[0]*0.92, r2[1]-1, r2[2]+10]], 'rgba(34, 211, 238, 0.26)', '#22d3ee', 1.1);
+            qPoly([r0, r1, [r1[0], r1[1]-1, r1[2]+12], [side * 10, 2.5, 9]], 'rgba(245, 158, 11, 0.25)', '#fbbf24', 1.1, true, yL4);
+            qPoly([r1, r2, [r2[0]*0.92, r2[1]-1, r2[2]+10], [r1[0], r1[1]-1, r1[2]+12]], 'rgba(52, 211, 153, 0.22)', '#34d399', 1.1, true, yL4);
+            qPoly([r2, r3, [r3[0]*0.88, r3[1]-1, r3[2]+8], [r2[0]*0.92, r2[1]-1, r2[2]+10]], 'rgba(34, 211, 238, 0.26)', '#22d3ee', 1.1, true, yL4);
           }
 
-          // Trapped-Vortex Cavity (TVC) Standing Vortex Ring at the 68° Elytra Bellmouth Lip
           if (openFrac > 0.45) {
-            qLine([side * 10.5, 6.2, -13], [side * 10.5, 6.2, 14], '#f43f5e', 2.2, [3, 2]);
+            qLine([side * 10.5, 6.2, -13], [side * 10.5, 6.2, 14], '#f43f5e', 2.2, [3, 2], true, yL3);
           }
 
-          // Zero-Servo Bistable Carbon-Kapton Elytra Shell (44 × 30 mm closed dome)
           const hinge = [side * 8.5, 4.5, -14];
           const lift = openFrac * 1.18;
           const sweep = openFrac * 0.80;
@@ -567,15 +626,20 @@
             [-side * 8.5, 0.5, 0], [side * 6.5, -0.5, 0], [side * 6.5, -1.8, 20], [side * 4.0, -1.0, 35], [-side * 8.5, 0.8, 35]
           ];
           const tr = raw.map(pt => add3(hinge, rotY(rotZ(pt, side * lift), -side * sweep)));
-          // Bistable S-Flexure Strut (Green — 0.00g servo!)
-          qLine([side * 3.5, 4.2, -8], tr[1], '#10b981', 2.3);
+          qLine([side * 3.5, 4.2, -8], tr[1], '#10b981', 2.3, [], true, yL4);
           const fill = xray ? 'rgba(15, 23, 42, 0.34)' : 'rgba(12, 16, 26, 0.96)';
           const stroke = xray ? '#38bdf8' : '#f59e0b';
-          qPoly(tr, fill, stroke, 1.5);
+          qPoly(tr, fill, stroke, 1.5, true, yL4);
         });
       }
 
-      // GUST VISUALIZATION ARROWS (when 2.5 m/s Gust button clicked)
+      // Vertical Z-Axis Assembly Alignment Guide Lines in DFM Mode
+      if (simMode === 'dfm') {
+        [[-12, -16], [12, -16], [-12, 16], [12, 16]].forEach(([gx, gz]) => {
+          qLine([gx, -6, gz], [gx, 8, gz], 'rgba(251, 191, 36, 0.55)', 1.2, [3, 3], true, 0);
+        });
+      }
+
       if (gustPulse > 0.05) {
         for (let g = -1; g <= 1; g++) {
           const gz = g * 12;
