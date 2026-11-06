@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photogenik — The Porcelain Scarab (SnitchCam Engineering Proposal)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #0b0f17;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      backdrop-filter: blur(12px);
+    }
+    .gold-pill {
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+    .emerald-pill {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-500/30 selection:text-amber-200">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10">
+
+    <!-- Minimal Editorial Header -->
+    <header class="space-y-3 border-b border-slate-800 pb-7">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="gold-pill text-xs font-semibold px-2.5 py-1 rounded-full tracking-wide uppercase">Photogenik · SnitchCam V1</span>
+        <span class="emerald-pill text-xs font-mono px-2.5 py-1 rounded-full">8.1 cm Palm Pebble → 18.0 cm Flight</span>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-500/35">+0.95g Stag Mandibles &amp; Suction Grip</span>
+        <a href="blueprint.html" class="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/45 hover:bg-cyan-500/30 transition">📐 Interactive 6-Utility CAD Blueprint</a>
+        <span class="text-xs font-mono px-2.5 py-1 rounded-full bg-slate-800/80 text-slate-300 border border-slate-700">~$90 UCLA Makerspace Build</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white">
+        The Porcelain Scarab: Quiet Micro-Companion, Wall Sentinel & Micro-Fetcher
+      </h1>
+      <p class="text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+        An owned autonomous flying digital pet that rests as an <strong class="text-slate-200">8.1 cm sculpted pebble</strong>, leaps smoothly into hover via a <strong class="text-amber-300">spring-loaded desk nest</strong>, unfolds <strong class="text-slate-200">18.0 cm watch-movement beetle wings</strong>, clings silently to walls (<strong class="text-emerald-300">0 W · 0 dB</strong>), and scoops up <strong class="text-sky-300">ping-pong balls, rings, or flat cards</strong> using hair-thin <strong class="text-slate-200">carbon-wire mandibles + dual-use suction</strong>.
+      </p>
+    </header>
+
+    <!-- NEW: 26-Second Fortiche-Style 3D Product Demo Animation Reel -->
+    <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-3.5 shadow-2xl border border-amber-500/35">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="gold-pill text-xs font-mono px-2.5 py-0.5 rounded-full uppercase">New · 26s Product Demo Film</span>
+            <span class="text-xs font-mono text-sky-300">Fortiche Painted 3D · Animated on 2s (12 fps) · Procedural Synth Audio</span>
+          </div>
+          <h2 class="text-base sm:text-lg font-bold text-white mt-1">
+            🎬 Watch: "The Porcelain Scarab" — 26-Second 3D Workbench & Fetch Demo
+          </h2>
+          <p class="text-xs text-slate-400">
+            Co-designed by the 3-Model Swarm Triad (<code class="text-amber-300">Opus 5.5 + Sol 6.1 MAX + Argon 4 High</code>): procedural gouache/porcelain-crackle textures, stepped 12 fps poses, 2D grease-pencil FX, and synthesized clockwork/220Hz audio.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="const v=document.getElementById('heroDemoVideo'); v.muted=!v.muted; this.textContent=v.muted?'🔇 Unmute Synth Audio':'🔊 Audio ON';" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/45 hover:bg-amber-500/30 transition">
+            🔇 Unmute Synth Audio
+          </button>
+          <a href="cinema.html" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/40 hover:bg-sky-500/30 transition">
+            🕹️ Open Live 3D Interactive Cinema
+          </a>
+          <a href="scarab_product_demo_26s.mp4" download class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
+            ⬇ Download MP4 (8.4 MB)
+          </a>
+        </div>
+      </div>
+
+      <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-[#07090e]">
+        <video id="heroDemoVideo" src="scarab_product_demo_26s.mp4" controls autoplay muted loop playsinline class="w-full aspect-video block"></video>
+      </div>
+    </section>
+
+    <!-- Interactive Animated Breakdown Card -->
+    <section class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-semibold text-white">Interactive 5-Stage Indoor Flight &amp; Fetch Breakdown</h2>
+          <p class="text-xs text-slate-400">Tap any stage below (including <strong class="text-amber-300">Stage 5: Ping-Pong &amp; Suction Fetch</strong>) or scroll down for the <strong class="text-sky-300">3-Pane CAD Blueprint Animator</strong></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button id="btn-auto" onclick="toggleAutoPlay()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition">
+            ⏸ Auto-Story: ON
+          </button>
+          <button id="btn-grip-mode" onclick="toggleGripSubMode()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-sky-500/15 text-sky-300 border border-sky-500/35 hover:bg-sky-500/25 transition">
+            🏓 Stage 5 Payload: 2.7g Ping-Pong (Mandibles)
+          </button>
+          <button id="btn-xray" onclick="toggleXray()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
+            🔍 X-Ray: ON
+          </button>
+          <button id="btn-cad" onclick="toggleCadMode()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 transition">
+            📐 View: Flight Scene
+          </button>
+        </div>
+      </div>
+
+      <!-- 5-Stage Selector Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <button id="stage-0" onclick="selectStage(0)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-amber-400">STAGE 1 · 8.1 cm</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪹 Perched Pebble</div>
+          <div class="text-xs text-slate-400 mt-0.5">Coiled 0.18 J nest spring</div>
+        </button>
+        <button id="stage-1" onclick="selectStage(1)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-amber-400">STAGE 2 · 2.8 m/s</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🚀 Spring Jump-Start</div>
+          <div class="text-xs text-slate-400 mt-0.5">40 cm leap + 18 cm unfold</div>
+        </button>
+        <button id="stage-2" onclick="selectStage(2)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-emerald-400">STAGE 3 · 2 Hz Pose</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">✨ Shrouded Hover</div>
+          <div class="text-xs text-slate-400 mt-0.5">Duct lift + louver sidestep</div>
+        </button>
+        <button id="stage-3" onclick="selectStage(3)" class="text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-sky-400">STAGE 4 · 0 W / 0 dB</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪞 Wall-Sit &amp; Stare</div>
+          <div class="text-xs text-slate-400 mt-0.5">Suction lock + eye peek</div>
+        </button>
+        <button id="stage-4" onclick="selectStage(4)" class="col-span-2 sm:col-span-1 text-left p-2.5 rounded-xl border transition">
+          <div class="text-xs font-mono text-rose-400">STAGE 5 · &lt;4g Fetch</div>
+          <div class="text-xs sm:text-sm font-semibold text-white mt-0.5">🪲 Scoop, Suction &amp; Drop</div>
+          <div class="text-xs text-slate-400 mt-0.5">0.5mm mandibles + suction</div>
+        </button>
+      </div>
+
+      <!-- High-DPI Canvas Viewport -->
+      <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-[#070a10]">
+        <canvas id="scarabCanvas" width="840" height="370" class="w-full h-[290px] sm:h-[360px] block"></canvas>
+
+        <!-- Live Stage Callout Overlay (Bottom Left) -->
+        <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md bg-slate-950/85 border border-slate-800/90 rounded-lg px-3.5 py-2.5 backdrop-blur-md">
+          <div class="flex items-center justify-between gap-2">
+            <span id="overlay-title" class="text-xs font-semibold text-amber-300">STAGE 2: Spring Jump-Start + Watch-Movement Unfold</span>
+            <span id="overlay-badge" class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-300">0.18 J Dock Piston</span>
+          </div>
+          <p id="overlay-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+            The desk nest's damped spring launches the 40 g Scarab 40 cm upward while the 1.7 g linear servo splits the 0.4 mm PLA elytra and fans out Mylar sub-wings to 18.0 cm—catching hover at apex with zero takeoff rotor scream.
+          </p>
+        </div>
+      </div>
+
+      <!-- Manual Unfold / Servo Scrubber -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pt-1 text-xs text-slate-400">
+        <div class="flex items-center gap-3 flex-1 min-w-[220px]">
+          <span class="whitespace-nowrap font-medium text-slate-300">Manual Wing / Servo Scrub (8.1 → 18.0 cm):</span>
+          <input id="manualSlider" type="range" min="0" max="1" step="0.01" value="1" class="w-full accent-amber-400 cursor-pointer" oninput="onManualScrub(this.value)" />
+          <span id="manualSpanLabel" class="font-mono text-amber-300 w-16 text-right">18.0 cm</span>
+        </div>
+        <div class="font-mono text-slate-400">
+          Total Flying Mass: <strong class="text-white">41.6 g</strong> (35.8 g StampFly + 4.9 g Shell/Suction + 0.95 g Mandibles)
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: The 3 Selected Propulsion & Perching Unlocks -->
+    <section class="space-y-4">
+      <div class="space-y-1">
+        <h2 class="text-lg sm:text-xl font-bold text-white">1. Core Propulsion & Perching Architecture</h2>
+        <p class="text-xs sm:text-sm text-slate-400">
+          Why we reject onboard compressed-gas tanks (<code class="text-amber-300">0.8 g/s</code> propellant burn + <code class="text-amber-300">105 dBA</code> supersonic hiss) and instead package <strong class="text-slate-200">spring launch in the nest</strong>, <strong class="text-slate-200">quiet shrouded lift in the core</strong>, and <strong class="text-slate-200">zero-power suction perching on walls</strong>:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-amber-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-amber-400 uppercase">Unlock 1 · Zero-Scream Takeoff</span>
+            <span class="text-xs font-mono bg-amber-500/15 text-amber-300 px-2 py-0.5 rounded">+0 g on Drone</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🚀 Spring Jump-Start Nest</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Lifting a <code class="text-white">41 g</code> Scarab <code class="text-white">40 cm</code> straight into the air only takes <code class="text-amber-300">0.18 Joules</code> (<code class="text-white">~2.8 m/s</code> exit speed). A damped coil spring inside the desk Charging Nest pops the Scarab up to eye level; the shrouded rotors smoothly catch it at the top of the arc, skipping the loud ground-effect spin-up scream.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-sky-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-sky-400 uppercase">Unlock 2 · All-Day Sentinel</span>
+            <span class="text-xs font-mono bg-sky-500/15 text-sky-300 px-2 py-0.5 rounded">0 W · 0 dB Perched</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🪞 Wall-Sitting & Staring</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Instead of burning battery to hover for 5 minutes, the Scarab uses a 1-second rotor push to press a <code class="text-sky-300">0.8 g TPU-gimbaled micro-suction / gecko pad</code> (or magnet) onto a mirror, window, or wall spot—then <strong class="text-white">cuts all motors to 0 W</strong>. It cracks its golden shell <code class="text-white">15°</code> so the hidden camera eye can quietly watch and snap portraits for hours.
+          </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2 border-t-2 border-t-emerald-400">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-emerald-400 uppercase">Unlock 3 · Decoupled Charm</span>
+            <span class="text-xs font-mono bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded">8.1 → 18.0 cm</span>
+          </div>
+          <h3 class="text-base font-semibold text-white">🦋 Shrouded Core + Breathing Shell</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            High-speed flapping wings at <code class="text-white">20 cm</code> buzz loudly and carry almost zero camera weight (<code class="text-white">1–3 g</code>). Instead, a foam-baffled <code class="text-emerald-300">8.1 cm shrouded quad</code> handles lift & level-horizon sidesteps while ultra-light <code class="text-white">0.4 mm</code> beetle shells open to <code class="text-white">18.0 cm</code> and gently breathe at <code class="text-white">2 Hz</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW Section 2: Ultra-Thin Operational Arms + Dual-Use Suction Gripper & Multi-Utility -->
+    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-5 border border-sky-500/25">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3.5">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono uppercase px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30">New · Micro-Manipulation & Double-Duty Utility</span>
+            <span class="text-xs font-mono text-sky-300">+0.95 g Net Added Mass · 0 Extra Motors</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
+            2. Ultra-Thin Stag-Beetle Mandibles + Dual-Use Suction Gripper
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5">
+            How an <code class="text-white">8.1 cm</code> Scarab picks up a <strong class="text-amber-300">2.7 g (40 mm) ping-pong ball</strong>, rings, or flat Instax photos without blinding its belly sensors or adding a second servo.
+          </p>
+        </div>
+        <button onclick="selectStage(4); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30 transition">
+          ▶ Watch Stage 5 Fetch Simulation Above
+        </button>
+      </div>
+
+      <!-- Why Belly Claws Fail vs Forward Chin Architecture -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-rose-400 uppercase">3D Curved / Spherical Grip</span>
+            <span class="font-mono text-slate-300 bg-slate-800 px-2 py-0.5 rounded">+0.95 g</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🪲 25°–30° Carbon-Wire Stag Mandibles</h3>
+          <p class="text-slate-300 leading-relaxed">
+            Hanging a <code class="text-white">40 mm</code> ball under the center belly blocks the <code class="text-amber-300">PMW3901 Optical Flow (42°)</code> and <code class="text-amber-300">VL53L3CX ToF laser (27°)</code>, causing an instant crash, while hovering overhead blows a <code class="text-white">2.7 g</code> ball away. Instead, two hair-thin <code class="text-emerald-300">0.5 mm carbon-fiber rods</code> project <code class="text-white">30 mm</code> forward at a <code class="text-white">25°–30°</code> chin angle. The Scarab <strong class="text-white">lands 6 cm behind the ball and scoots forward</strong>, snapping the ball passively past its equator (<code class="text-white">0 W</code> holding power, 100% clear sensor & prop cones).
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-sky-400 uppercase">2D Flat / Smooth Surface Grip</span>
+            <span class="font-mono text-sky-300 bg-sky-500/15 px-2 py-0.5 rounded">+0.0 g (Already Onboard!)</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🧲 Dual-Use Wall + Pickup Suction Cup</h3>
+          <p class="text-slate-300 leading-relaxed">
+            The <code class="text-sky-300">0.8 g TPU-gimbaled micro-suction cup</code> on the front chin sits on a <code class="text-white">90° passive flip-detent hinge</code>: angled forward, it locks onto vertical walls/mirrors; flipped down <code class="text-white">90°</code>, the Scarab lands gently on flat smooth items (<strong class="text-white">1.2 g Instax Mini photo, 1.8 g playing card, 0.8 g guitar pick, ID badge, or sticky note</strong>) to seal a passive vacuum grip and carry them across the room.
+          </p>
+        </div>
+
+        <div class="rounded-xl p-4 bg-slate-900/75 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-amber-400 uppercase">Zero-Motor Mid-Air Release</span>
+            <span class="font-mono text-amber-300 bg-amber-500/15 px-2 py-0.5 rounded">0.02 g Dyneema Thread</span>
+          </div>
+          <h3 class="text-sm font-semibold text-white">🪽 85° Wing-Flare "Lost-Motion" Drop</h3>
+          <p class="text-slate-300 leading-relaxed">
+            One <code class="text-amber-300">0.1 mm Dyneema tendon</code> links the existing <code class="text-white">1.7 g</code> wing servo to both grippers via a slotted cam. During normal flight (<code class="text-white">0°–65°</code> wing angle), the thread stays slack. Commanding an <strong class="text-white">85° Full Wing Flare</strong> over a target cup or hand pulls the tendon <code class="text-white">3 mm</code>—<strong class="text-emerald-300">simultaneously spreading the carbon mandibles to drop a ping-pong ball AND lifting a 1 mm edge-peel tab on the suction cup lip to break vacuum and drop a card!</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Double-Duty Utility Matrix (Zero or Sub-Gram Added Hardware) -->
+      <div class="pt-2 space-y-2.5">
+        <h3 class="text-xs sm:text-sm font-semibold text-slate-200 uppercase tracking-wider font-mono">
+          Double-Duty Physical & Ambient Utilities Unlocked (&lt; 4.0 g Payload Ceiling)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-amber-300">🏓 Cup-Pong & "Goblin Fetch"</div>
+            <p class="text-slate-400 leading-relaxed">
+              Scoop a <code class="text-slate-200">2.7 g</code> ping-pong ball off the desk and drop it into a cup across the room, or retrieve dropped <code class="text-slate-200">&lt;4 g</code> items (rings <code class="text-slate-200">2.5 g</code>, single AirPod <code class="text-slate-200">4.0 g</code>, SD card, guitar pick) from behind a desk.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-sky-300">💌 Suction Photo & Note Courier</div>
+            <p class="text-slate-400 leading-relaxed">
+              Vacuum-pick a fresh <code class="text-slate-200">1.2 g</code> Instax print, playing card, tea bag, or handwritten note with the front suction cup, fly to a roommate's desk, flare wings to <code class="text-slate-200">85°</code>, and peel-drop it into their palm.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-emerald-300">💨 9 m/s Precision Desk Air-Duster</div>
+            <p class="text-slate-400 leading-relaxed">
+              Double-duty rotor downwash: a low <code class="text-slate-200">6 cm</code> hover pass over a mechanical keyboard or desk mat uses the focused 4-duct slipstream to blow away crumbs and dust before returning to its nest.
+            </p>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/90 space-y-1">
+            <div class="font-semibold text-purple-300">🚨 High-Wall Alarm &amp; Stove Sentinel</div>
+            <p class="text-slate-400 leading-relaxed">
+              Flies to a high mirror out of arm's reach at 7:00 AM so you must stand up to dismiss your alarm, or hops upstairs to check if the stove/iron was left on (<code class="text-slate-200">+0.05 g</code> FIR thermal + <code class="text-slate-200">+0.09 g</code> BME688 VOC nose).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW Section 2B: Interactive 3-Pane CAD Blueprint & 6-Utility Kinematic Animator (Palm-Sized Indoor Scarab) -->
+    <section id="indoor-blueprint-section" class="glass-card rounded-2xl p-4 sm:p-6 space-y-4 border border-sky-500/40 shadow-2xl" style="background: linear-gradient(180deg, rgba(6, 18, 36, 0.95) 0%, rgba(4, 12, 24, 0.98) 100%);">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-sky-500/25 pb-3.5">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-mono uppercase px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40">New · Interactive CAD Blueprint &amp; 6-Utility Simulator</span>
+            <span class="text-xs font-mono text-amber-300">DWG NO. PG-SCARAB-INDOOR-V1 · 81 × 81 × 24 mm · 41.65 g</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-bold text-white mt-1">
+            📐 Interactive Blueprint Mockup: All 6 Indoor Capabilities &amp; Single-Servo Kinematics
+          </h2>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Click any of the <strong class="text-white">6 Indoor Utility Modes</strong> below (<strong class="text-rose-300">🏓 3D Ball &amp; Ring Fetch</strong>, <strong class="text-sky-300">💌 2D Suction Courier</strong>, <strong class="text-emerald-300">🪞 0W Wall-Sit Sentinel</strong>, <strong class="text-amber-300">🚀 0.18J Nest Jump-Start</strong>, <strong class="text-cyan-300">💨 9 m/s Desk Air-Duster</strong>, <strong class="text-purple-300">🚨 7AM High-Wall Alarm &amp; Stove Patrol</strong>) or drag the <strong class="text-sky-300">Maneuver Timeline Scrubber</strong> to inspect the synchronized Side Cross-Section, Top-Down Orthographic Plan, and 5:1 Slotted-Cam Multiplexer.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btnAutoCycle" onclick="toggleAutoCycle()" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-sky-500/20 text-sky-300 border border-sky-400/50 hover:bg-sky-500/30 transition">
+            ⏸ Auto-Cycle: ON
+          </button>
+          <button id="btnCallouts" onclick="toggleCallouts()" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/50 hover:bg-amber-500/30 transition">
+            📏 Leader Lines: ON
+          </button>
+          <a href="blueprint.html" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-sky-200 border border-sky-400/40 hover:bg-slate-700 transition whitespace-nowrap">
+            🔍 Full-Screen CAD ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- 6 Interactive Indoor Utility Mode Selector Buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <button id="mode-btn-0" onclick="selectBpMode(0)" class="text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-rose-300"><span>UTILITY 01</span><span>+0.95g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🏓 3D Ball &amp; Ring Fetch</div>
+          <div class="text-[11px] text-slate-300 mt-0.5">Scoot-scoop &amp; 85° drop</div>
+        </button>
+        <button id="mode-btn-1" onclick="selectBpMode(1)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-sky-300"><span>UTILITY 02</span><span>+0.0g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">💌 2D Suction Courier</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Instax photo &amp; card pickup</div>
+        </button>
+        <button id="mode-btn-2" onclick="selectBpMode(2)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-emerald-300"><span>UTILITY 03</span><span>0 W · 0 dB</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🪞 Wall-Sit &amp; Stare</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Mirror perch + 15° eye peek</div>
+        </button>
+        <button id="mode-btn-3" onclick="selectBpMode(3)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-amber-300"><span>UTILITY 04</span><span>0.18 J</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🚀 Nest Jump-Start</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">40 cm leap + 18 cm unfold</div>
+        </button>
+        <button id="mode-btn-4" onclick="selectBpMode(4)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-cyan-300"><span>UTILITY 05</span><span>9.2 m/s</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">💨 Desk Air-Duster</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Flat louver keyboard sweep</div>
+        </button>
+        <button id="mode-btn-5" onclick="selectBpMode(5)" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition">
+          <div class="flex items-center justify-between text-[10px] font-mono text-purple-300"><span>UTILITY 06</span><span>+0.14g</span></div>
+          <div class="text-xs font-bold text-white mt-0.5">🚨 Alarm &amp; Stove Patrol</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">2.2m perch &amp; FIR check</div>
+        </button>
+      </div>
+
+      <!-- Synchronized 3-Pane CAD Blueprint Canvas -->
+      <div class="relative rounded-xl overflow-hidden border border-sky-500/40 bg-[#040c18]">
+        <canvas id="blueprintCanvas" width="1120" height="540" class="w-full h-[340px] sm:h-[470px] block"></canvas>
+      </div>
+
+      <!-- Interactive Timeline Scrubber + Live Blueprint Telemetry Bar -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-center pt-1 text-xs font-mono">
+        <div class="lg:col-span-5 flex items-center gap-3">
+          <span class="text-sky-300 whitespace-nowrap font-semibold">MANEUVER TIMELINE:</span>
+          <input id="phaseSlider" type="range" min="0" max="1" step="0.005" value="0" class="w-full accent-sky-400 cursor-pointer" oninput="onScrubPhase(this.value)" />
+          <span id="phasePctLabel" class="text-amber-300 w-12 text-right">0%</span>
+        </div>
+
+        <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-sky-500/30">
+            <span class="text-slate-400 block">SERVO CAM / SPAN</span>
+            <span id="tel-span" class="text-sky-300 font-bold">55° · 18.0 cm</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-amber-500/30">
+            <span class="text-slate-400 block">TENDON STATE (L1/L2)</span>
+            <span id="tel-tendon" class="text-amber-300 font-bold">SLACK (0.0 N)</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-emerald-500/30">
+            <span class="text-slate-400 block">BELLY FLOW / ToF</span>
+            <span id="tel-sensors" class="text-emerald-300 font-bold">100% UNOBSTRUCTED</span>
+          </div>
+          <div class="px-2.5 py-1.5 rounded bg-slate-950/90 border border-rose-500/30">
+            <span class="text-slate-400 block">POWER / ACOUSTICS</span>
+            <span id="tel-power" class="text-rose-300 font-bold">14.2 W · 53 dBA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Column Kinematic & Mechanical Engineering Callouts -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1 text-xs">
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-sky-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-sky-400 uppercase" id="card-tag-1">KINEMATIC SEQUENCE</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-1">1. Land-Behind &amp; Scoot-Scoop (0 W Grip)</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-1">
+            Instead of hovering overhead (where 9 m/s downwash blows a 2.7 g ball away), the Scarab lands 6 cm behind the ball and scoots forward. The 0.5 mm carbon-wire mandibles flex open and snap around the 40 mm equator at 0 W holding power.
+          </p>
+        </div>
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-amber-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-amber-400 uppercase" id="card-tag-2">SENSOR &amp; CG GEOMETRY</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-2">2. 100% Clear Belly Optical Flow &amp; ToF</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-2">
+            Positioning the ball 28 mm forward of the front bumper keeps the 42° PMW3901 Optical Flow and 27° VL53L3CX laser cones completely unobstructed while rear rotor differential trims the forward CG shift.
+          </p>
+        </div>
+        <div class="rounded-xl p-3.5 bg-slate-950/75 border border-rose-500/25 space-y-1">
+          <div class="text-[10px] font-mono text-rose-400 uppercase" id="card-tag-3">LOST-MOTION RELEASE</div>
+          <h3 class="text-xs sm:text-sm font-bold text-white" id="card-title-3">3. 85° Wing-Flare Tendon Drop into Cup</h3>
+          <p class="text-slate-300 leading-relaxed" id="card-desc-3">
+            Commanding an 85° over-travel wing flare over the target cup pulls Dyneema tendon branch L2 by 3.0 mm, spreading the carbon mandibles to 45 mm to drop the ping-pong ball or ring cleanly.
+          </p>
+        </div>
+      </div>
+
+      <!-- NEW INLINE: INTERACTIVE SWISS-ARMY SENSOR & CHIN-POD LOADOUT CONFIGURATOR + COMBINATORIAL UNLOCKS -->
+      <div id="swiss-army-configurator" class="rounded-xl p-4 sm:p-5 bg-slate-950/85 border border-emerald-500/35 space-y-4 mt-2">
+        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-sky-500/25 pb-3">
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2 text-[10px] font-mono text-emerald-300">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-400/40 font-semibold">DWG SUB-SHEET PG-SWISS-V2</span>
+              <span class="px-2 py-0.5 rounded bg-sky-500/15 border border-sky-400/40 text-sky-300">10 MILLIGRAM SENSORS (+1.48g SILICON)</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300">TI TPS22994 4-CH I²C GATE (&le;400 mA RAIL)</span>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-white">
+              🛠️ Swiss-Army Sensor &amp; Chin-Pod Loadout Configurator (&ldquo;Sense &rarr; Relocate &rarr; Test &rarr; Act &rarr; Verify&rdquo;)
+            </h3>
+            <p class="text-xs text-slate-300">
+              Click any <strong class="text-emerald-300">Combinatorial Multi-Tool Workflow Preset</strong> or toggle individual sub-gram silicon sensors &amp; magnetic Chin Pods to watch live beams, radar wavefronts, and mass/power telemetry update on the CAD blueprint above.
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="applySwissPreset('all')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 hover:bg-emerald-500/30 transition">
+              ⚡ Full Suite
+            </button>
+            <button onclick="applySwissPreset('minimal')" class="px-2.5 py-1.5 rounded-lg text-xs font-mono font-semibold bg-slate-800 text-slate-300 border border-slate-600 hover:bg-slate-700 transition">
+              ↺ Featherweight
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Combinatorial Multi-Tool Utility Unlock Presets -->
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center justify-between text-[10px] text-sky-400 font-mono gap-2">
+            <span>1-CLICK COMBINATORIAL MULTI-TOOL PRESETS (OPUS 5.5 + SOL 6.1 MAX + ARGON 4 HIGH):</span>
+            <span id="active-combo-badge" class="text-emerald-300 font-bold">ACTIVE PRESET: 06 // MAX SWISS-ARMY SUITE</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            <button id="combo-btn-sleep" onclick="applySwissPreset('sleep')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-indigo-300 font-mono">CHAIN 01 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🌙 Sleep Shepherd</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">60GHz + FIR + CO₂ &rarr; IR AC</div>
+            </button>
+            <button id="combo-btn-kitchen" onclick="applySwissPreset('kitchen')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-rose-300 font-mono">CHAIN 02 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">☕ Kitchen &amp; PCB Bench</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">VOC + FIR &rarr; Spotter + Tarsi</div>
+            </button>
+            <button id="combo-btn-detective" onclick="applySwissPreset('detective')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-amber-300 font-mono">CHAIN 03 · 5 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🕵️ Leak Detective</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">80kHz + FIR + Puff + UV-A</div>
+            </button>
+            <button id="combo-btn-valet" onclick="applySwissPreset('valet')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-emerald-300 font-mono">CHAIN 04 · 4 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">💊 Pill/Ring Valet</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">UWB + Stag Jaw + Spotter</div>
+            </button>
+            <button id="combo-btn-party" onclick="applySwissPreset('party')" class="text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition">
+              <div class="text-[10px] text-purple-300 font-mono">CHAIN 05 · 4 TOOLS</div>
+              <div class="text-xs font-bold text-white mt-0.5">🃏 UV Secret-Ink DM</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">Suction Card + 365nm UV</div>
+            </button>
+            <button id="combo-btn-all" onclick="applySwissPreset('all')" class="text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition">
+              <div class="text-[10px] text-sky-300 font-mono">CHAIN 06 · ALL 10</div>
+              <div class="text-xs font-bold text-white mt-0.5">🛠️ Max Swiss-Army</div>
+              <div class="text-[10px] text-slate-300 mt-0.5">All 10 sensors + Stag Jaw</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Combinatorial Chain State-Machine Banner -->
+        <div class="rounded-xl p-3 bg-slate-900/95 border border-emerald-500/30 grid grid-cols-1 lg:grid-cols-12 gap-3 items-center text-xs">
+          <div class="lg:col-span-4 space-y-0.5">
+            <div class="text-[10px] font-mono text-emerald-400 uppercase" id="combo-stage-tag">CLOSED-LOOP STATE MACHINE // SENSE &rarr; RELOCATE &rarr; TEST &rarr; ACT &rarr; VERIFY</div>
+            <div class="text-xs sm:text-sm font-bold text-white" id="combo-title">6. Full Swiss-Army Loadout (All 10 Silicon Sensors + Stag Mandible Pod)</div>
+          </div>
+          <div class="lg:col-span-8 text-slate-300 leading-relaxed" id="combo-desc">
+            All 10 sub-gram silicon sensors (+1.48 g bare silicon + 0.60 g flex/TPS22994 load-switch bus = +2.08 g permanent overhead) are reflowed onto the nose &amp; belly flex-PCB. While perched, TI TPS22994 hardware-gates sensor rails into mutually exclusive time-slices (35 mW average perched draw vs. 1,323 mW un-gated sensor peak), keeping total flying mass at 44.68 g (50.8% of 88 g thrust ceiling).
+          </div>
+        </div>
+
+        <!-- 3-Column Sensor & Chin-Pod Toggle Matrix -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 text-xs">
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-sky-500/25 space-y-2">
+            <div class="flex items-center justify-between text-[10px] font-mono text-sky-400 border-b border-slate-800 pb-1">
+              <span>A. PHOTONICS &amp; RF WAND</span>
+              <span>CH3 / CH1 GATED</span>
+            </div>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-spotter" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🎯 650nm Class-1 Spotter Beam</span></span>
+              <span class="font-mono text-[10px] text-sky-300">+0.15g · 20mW</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-uv" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🔮 365nm UV-A Blacklight LED</span></span>
+              <span class="font-mono text-[10px] text-purple-300">+0.20g · 350mW pk</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-doe" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>🌌 Micro-DOE Ceiling Halo (6 BPM)</span></span>
+              <span class="font-mono text-[10px] text-indigo-300">+0.25g · 45mW</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-uwb" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>📡 DW3110 UWB + BLE 6.0 Hound</span></span>
+              <span class="font-mono text-[10px] text-emerald-300">+0.22g · 3mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-ir" checked onchange="updateSwissConfig()" class="accent-sky-400" /><span>📺 940nm IR + CC1101 Sub-GHz</span></span>
+              <span class="font-mono text-[10px] text-amber-300">+0.18g · 2mW avg</span>
+            </label>
+          </div>
+
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-amber-500/25 space-y-2">
+            <div class="flex items-center justify-between text-[10px] font-mono text-amber-400 border-b border-slate-800 pb-1">
+              <span>B. SIXTH-SENSE &amp; 60GHz RADAR</span>
+              <span>CH2 DUTY-CYCLED</span>
+            </div>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-fir" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🌡️ HTPA 8&times;8 FIR Thermal + TMOS</span></span>
+              <span class="font-mono text-[10px] text-rose-300">+0.11g · 2mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-voc" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🧪 Bosch BME688 AI VOC Nose</span></span>
+              <span class="font-mono text-[10px] text-amber-300">+0.05g · 3mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-co2" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>💨 Sensirion STCC4 CO₂ Sentinel</span></span>
+              <span class="font-mono text-[10px] text-emerald-300">+0.10g · 4mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-radar" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🫀 BGT60TR13C 60GHz Sleep Radar</span></span>
+              <span class="font-mono text-[10px] text-cyan-300">+0.18g · 15mW avg</span>
+            </label>
+            <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+              <span class="flex items-center gap-2"><input type="checkbox" id="sens-ultra" checked onchange="updateSwissConfig()" class="accent-amber-400" /><span>🦇 2&times; 80kHz Ultrasonic Leak Mics</span></span>
+              <span class="font-mono text-[10px] text-sky-300">+0.04g · 2mW avg</span>
+            </label>
+          </div>
+
+          <div class="rounded-xl p-3 bg-slate-900/75 border border-rose-500/25 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[10px] font-mono text-rose-400 border-b border-slate-800 pb-1">
+                <span>C. NEST CHIN-POD CAROUSEL (PICK 1)</span>
+                <span>N52 + 2-PIN ID</span>
+              </div>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="stag" checked onchange="updateSwissConfig()" class="accent-rose-400" /><span>🏓 Pod A: 3D Carbon Stag Mandibles</span></span>
+                <span class="font-mono text-[10px] text-rose-300">+0.95g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="suction" onchange="updateSwissConfig()" class="accent-rose-400" /><span>💌 Pod B: 2D Suction + Peel Tab</span></span>
+                <span class="font-mono text-[10px] text-sky-300">+0.80g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="tarsi" onchange="updateSwissConfig()" class="accent-rose-400" /><span>📱 Pod C: Capacitive Beetle Tarsi</span></span>
+                <span class="font-mono text-[10px] text-emerald-300">+0.25g</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 p-1.5 rounded bg-slate-950/70 border border-slate-800 cursor-pointer">
+                <span class="flex items-center gap-2"><input type="radio" name="chinPod" value="scent" onchange="updateSwissConfig()" class="accent-rose-400" /><span>🌿 Pod D: Scent-Wick + 9m/s Duster</span></span>
+                <span class="font-mono text-[10px] text-amber-300">+0.20g</span>
+              </label>
+            </div>
+            <div class="rounded-lg p-2.5 bg-slate-950 border border-emerald-500/40 space-y-1 font-mono text-[10px]">
+              <div class="flex justify-between"><span class="text-slate-400">ALL-UP MASS (&le;45.0g):</span><span id="sw-total-mass" class="text-emerald-300 font-bold">44.68 g (50.8% Thrust)</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">TPS22994 RAIL GATE:</span><span id="sw-power-gate" class="text-amber-300 font-bold">1,323 mW pk &rarr; 35 mW Avg</span></div>
+              <div class="flex justify-between"><span class="text-slate-400">ENDURANCE / HOPS:</span><span id="sw-flight-time" class="text-sky-300 font-bold">4.8 min · 22 Room Hops</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: UCLA Freshman ~$90 BOM & Weight Budget -->
+    <section class="glass-card rounded-2xl p-5 sm:p-6 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-white">3. UCLA Freshman Build Blueprint (`~$90` vs. `$524+` Crazyflie)</h2>
+          <p class="text-xs text-slate-400">
+            Skip the $524 RobotShop Crazyflie for V1 — the <strong class="text-white">$49.95 M5Stack StampFly v1.1</strong> already includes an 8.1 cm 4-duct shroud, ESP32-S3, Optical Flow camera, and Laser ToF altitude hold.
+          </p>
+        </div>
+        <span class="emerald-pill text-xs font-mono px-3 py-1 rounded-full">Free 3D Printing @ UCLA Boelter Makerspace</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 font-mono text-xs uppercase">
+              <th class="py-2 pr-3">Component</th>
+              <th class="py-2 px-3">Role in Porcelain Scarab</th>
+              <th class="py-2 px-3 text-right">Mass</th>
+              <th class="py-2 pl-3 text-right">Est. Cost</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/70 text-slate-200">
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">M5Stack StampFly v1.1 + 1S 300mAh LiHV</td>
+              <td class="py-2.5 px-3 text-slate-300">8.1×8.1 cm 4-duct shrouded quad with built-in PMW3901 Optical Flow & VL53L3CX ToF laser</td>
+              <td class="py-2.5 px-3 text-right font-mono">35.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$49.95</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Split Scarab Elytra (0.4 mm Vase-Mode PLA)</td>
+              <td class="py-2.5 px-3 text-slate-300">2 curved beetle domes printed on UCLA Bambu X1C (single wall, 0% infill, 0.9 g each) + U-clip</td>
+              <td class="py-2.5 px-3 text-right font-mono">1.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$0.00 (UCLA)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">1.7 g Micro Linear Servo + Y-Wire Pushrod</td>
+              <td class="py-2.5 px-3 text-slate-300">Active 6 mm throw opens both Elytra 45°, breathes at 2 Hz, & triggers 85° lost-motion drop</td>
+              <td class="py-2.5 px-3 text-right font-mono">1.7 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$11.99</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Iridescent Mylar Sub-Wings + 0.8 mm Carbon Ribs</td>
+              <td class="py-2.5 px-3 text-slate-300">Pulled out passively to 18.0 cm span by threads tied to the opening Elytra shells</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.6 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$6.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Dual-Use 90° Flip Micro-Suction / Gecko Pad</td>
+              <td class="py-2.5 px-3 text-slate-300">0 W vertical wall/mirror perching + flips down 90° to vacuum-pick flat cards/photos + peel-tab release</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.8 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$5.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">0.5 mm Carbon-Wire Stag Mandibles + Dyneema Tendon</td>
+              <td class="py-2.5 px-3 text-slate-300">25°–30° forward chin caliper snaps around 40 mm (2.7 g) ping-pong balls & rings; 85° wing-flare drop</td>
+              <td class="py-2.5 px-3 text-right font-mono">0.95 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$2.50</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-semibold text-white">Seeed XIAO ESP32S3 Sense + Spring Launch Nest</td>
+              <td class="py-2.5 px-3 text-slate-300">Hidden pronotum camera (mount on desk perch for Weekend 1; strip to 3.5g board for Weekend 2) + 0.18 J spring cradle</td>
+              <td class="py-2.5 px-3 text-right font-mono">On Nest / +3.5 g</td>
+              <td class="py-2.5 pl-3 text-right font-mono text-emerald-400">$13.99</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-slate-700 font-semibold text-white">
+              <td class="pt-3 pr-3">TOTAL STAGE-1 PROTOTYPE (WITH ARMS & SUCTION)</td>
+              <td class="pt-3 px-3 text-xs text-slate-400">Carries 2.7 g ping-pong ball or 1.2 g Instax photo inside StampFly thrust margin</td>
+              <td class="pt-3 px-3 text-right font-mono text-amber-300">41.65 g Flying</td>
+              <td class="pt-3 pl-3 text-right font-mono text-emerald-400">~$90.43</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: 2-Weekend Step-by-Step Build Plan -->
+    <section class="space-y-3">
+      <h2 class="text-lg sm:text-xl font-bold text-white">4. Weekend-by-Weekend Build Checklist</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm">
+        <div class="glass-card rounded-xl p-4 space-y-2">
+          <div class="text-xs font-mono text-amber-400 uppercase">Weekend 1 · ~$35 Stage-0 Desk Build</div>
+          <div class="font-semibold text-white">Build the Animatronic Scarab + Spring Nest First</div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-xs leading-relaxed">
+            <li><strong class="text-white">Print at Boelter Makerspace:</strong> Print the two 75×38 mm curved Elytra domes in <code class="text-amber-300">0.4 mm Spiral Vase Mode</code> (0.9 g each) plus the Spring Launch Nest bowl.</li>
+            <li><strong class="text-white">Assemble Y-Linkage:</strong> Mount the 1.7 g linear servo + 0.5 mm music-wire Y-pushrod so a 6 mm slide sweeps both Elytra open 45° and pulls the Mylar sub-wings out to 18.0 cm.</li>
+            <li><strong class="text-white">Wire the Staring Eye:</strong> Put the XIAO ESP32S3 camera under the front pronotum notch so it peeks out and streams Wi-Fi video when the shell cracks open 15°.</li>
+            <li><strong class="text-white">Scale Check:</strong> Weigh the entire clip-on shell assembly on a $12 (0.01 g) pocket scale — verify it is <strong class="text-emerald-300">≤ 4.9 g</strong> before flight.</li>
+          </ol>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 space-y-2">
+          <div class="text-xs font-mono text-emerald-400 uppercase">Weekend 2 · +$50 StampFly Integration</div>
+          <div class="font-semibold text-white">Spring Jump-Start, Hover & Wall-Sit</div>
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300 text-xs leading-relaxed">
+            <li><strong class="text-white">Snap Onto StampFly:</strong> Clip the 4.9 g Scarab shell bridge onto the center X-frame of the 8.1 cm StampFly — keeping all 4 circular air intakes 100% unobstructed.</li>
+            <li><strong class="text-white">Calibrate the 0.18 J Nest Spring:</strong> Set the desk cradle spring compression so releasing the latch tosses the 40.7 g Scarab ~40 cm straight up along two short guide rails.</li>
+            <li><strong class="text-white">Apex Hover Capture:</strong> Trigger the StampFly's IMU + ToF laser to spin up the shrouded rotors as it leaves the cradle and lock a 40 cm hover at zero vertical velocity (tuck shells during transit; unfold to 18 cm in settled hover).</li>
+            <li><strong class="text-white">Press-to-Perch Wall Test:</strong> Press the front TPU-gimbaled micro-suction pad onto a glass/mirror panel (or magnetic wall target), cut motors to <strong class="text-sky-300">0 W</strong>, and crack the shell 15° to watch the room in silence!</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-slate-800/80 pt-5 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
+      <span>Robotics Swarm · 3-Model Team Synthesis (Claude Opus 5.5 · Sol 6.1 MAX · Gemini 4 Argon High)</span>
+      <span>Photogenik / SnitchCam V1 Blueprint</span>
+    </footer>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('scarabCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let currentStage = 1; // 0: Perch, 1: Spring Jump-Start, 2: Shrouded Hover, 3: Wall-Sit & Stare, 4: Scoop, Suction & Drop
+    let gripSubMode = 'pingpong'; // 'pingpong' (3D Mandibles) or 'suction' (2D Flat Suction Pad)
+    let autoPlay = true;
+    let xray = true;
+    let cadMode = false;
+    let stageTimer = 0;
+    let t = 0;
+    let manualUnfold = null;
+
+    const STAGE_META = [
+      {
+        title: 'STAGE 1: Perched Porcelain Pebble (8.1 cm Core on Nest)',
+        badge: 'Coiled 0.18 J Spring · 0 dB',
+        desc: 'Rests on its desk nest as a smooth 8.1 cm porcelain-and-brass pebble. Shells are closed flush over the 4 ducts; the camera eye sleeps beneath the pronotum while the 0.18 J launch spring is latched beneath it.'
+      },
+      {
+        title: 'STAGE 2: Nest Spring Jump-Start + Watch-Movement Unfold (→ 18.0 cm)',
+        badge: '0.18 J Piston · 2.8 m/s Leap',
+        desc: 'Releasing the nest spring launches the 41.6 g Scarab 40 cm straight up while the 1.7 g servo splits the 0.4 mm PLA elytra and fans out translucent Mylar sub-wings to 18.0 cm—catching hover at apex without takeoff rotor scream.'
+      },
+      {
+        title: 'STAGE 3: Shrouded Low-RPM Hover + Micro-Louver Sidestep',
+        badge: '220 Hz Muffled Duct · 2 Hz Breathe',
+        desc: 'The foam-baffled 8.1 cm 4-duct core carries lift and deflects 15% exhaust through bottom louvers for flat, level-horizon sidesteps—while the outer wings gently breathe at 2 Hz (±5°) completely clear of the air intake.'
+      },
+      {
+        title: 'STAGE 4: Wall-Sitting & Staring Sentinel (0 W · 0 dB Silence)',
+        badge: '0 W Motors Off · Silent Eye Peek',
+        desc: 'A 1-second rotor push locks the 0.8 g TPU-gimbaled micro-suction / gecko pad onto a mirror or wall spot. Motors shut completely off (0 W, 0 dB), and the golden shell cracks 15° so the camera eye can quietly watch the room.'
+      },
+      {
+        title: 'STAGE 5: Forward Chin Mandibles & Dual-Use Suction Fetch (< 4 g Payloads)',
+        badge: '0.95g Mandibles + 0.8g Suction · 85° Flare Drop',
+        desc: 'Lands behind a 2.7 g (40 mm) ping-pong ball to scoop it into 25°–30° forward carbon mandibles (or nose-tilts onto a 1.2 g Instax photo with the chin suction cup)—keeping the 42° Optical Flow & 27° ToF belly cones 100% clear—then flares wings to 85° to pull the shared Dyneema release tendon and drop it in!'
+      },
+      {
+        title: 'STAGE 6: Outdoor 2S Wind-Tuck (22°) & Portable 9 cm "Scarab Pocket Nest" Homing',
+        badge: '12 mph Breeze · 50m UWB PDOA · 16 cm Lotus Pad',
+        desc: 'Outdoors in 100,000 lux sun & 12 mph wind, 2S brushless motors + 22° Wind-Tuck Elytra cut crosswind sail drag by >70%. The 9.0×9.0×1.6 cm MagSafe-style Pocket Nest unfolds 16 cm capture petals, guides the Scarab via 6.5 GHz UWB + 38 kHz pulsed IR, and pins touchdown with a 0.15s Reverse-DShot suction kiss for 15-min fast charging!'
+      }
+    ];
+
+    function selectStage(idx) {
+      currentStage = idx;
+      stageTimer = 0;
+      manualUnfold = null;
+      updateStageUI();
+    }
+
+    function toggleGripSubMode() {
+      gripSubMode = gripSubMode === 'pingpong' ? 'suction' : 'pingpong';
+      const btn = document.getElementById('btn-grip-mode');
+      if (gripSubMode === 'pingpong') {
+        btn.textContent = '🏓 Stage 5 Payload: 2.7g Ping-Pong (Mandibles)';
+        btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-sky-500/15 text-sky-300 border border-sky-500/35 hover:bg-sky-500/25 transition';
+      } else {
+        btn.textContent = '💌 Stage 5 Payload: 1.2g Instax Card (Suction Cup)';
+        btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-500/15 text-rose-300 border border-rose-500/35 hover:bg-rose-500/25 transition';
+      }
+      currentStage = 4;
+      stageTimer = 0;
+      updateStageUI();
+    }
+
+    function toggleAutoPlay() {
+      autoPlay = !autoPlay;
+      const btn = document.getElementById('btn-auto');
+      btn.textContent = autoPlay ? '⏸ Auto-Story: ON' : '▶ Auto-Story: PAUSED';
+      btn.className = autoPlay
+        ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 transition'
+        : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700 transition';
+    }
+
+    function toggleXray() {
+      xray = !xray;
+      document.getElementById('btn-xray').textContent = xray ? '🔍 X-Ray: ON' : '🔍 X-Ray: OFF';
+    }
+
+    function toggleCadMode() {
+      cadMode = !cadMode;
+      document.getElementById('btn-cad').textContent = cadMode ? '📐 View: Top-Down CAD' : '📐 View: Flight Scene';
+    }
+
+    function onManualScrub(val) {
+      autoPlay = false;
+      document.getElementById('btn-auto').textContent = '▶ Auto-Story: PAUSED';
+      manualUnfold = parseFloat(val);
+      const span = (8.1 + manualUnfold * (18.0 - 8.1)).toFixed(1);
+      document.getElementById('manualSpanLabel').textContent = span + ' cm';
+    }
+
+    function updateStageUI() {
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById('stage-' + i);
+        if (!el) continue;
+        if (i === currentStage) {
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-amber-400/70 bg-amber-500/10 shadow-sm transition';
+        } else {
+          el.className = (i === 4 ? 'col-span-2 sm:col-span-1 ' : '') + 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/50 hover:border-slate-700 transition';
+        }
+      }
+      const meta = STAGE_META[currentStage];
+      if (currentStage === 4) {
+        document.getElementById('overlay-title').textContent = gripSubMode === 'pingpong'
+          ? 'STAGE 5A: 0.95g Stag Mandibles — Land-Behind, Scoop & 85° Wing-Flare Cup Drop (2.7g Ball)'
+          : 'STAGE 5B: 0.8g Dual-Use Chin Suction — Land-Beside, Nose-Tilt Seal & 75° Peel-Drop (1.2g Photo)';
+        document.getElementById('overlay-badge').textContent = gripSubMode === 'pingpong'
+          ? '3D Grip · 0 W Hold · Sensors 100% Clear'
+          : '2D Vacuum Grip · 1.5mm Edge-Peel Tab';
+      } else {
+        document.getElementById('overlay-title').textContent = meta.title;
+        document.getElementById('overlay-badge').textContent = meta.badge;
+      }
+      document.getElementById('overlay-desc').textContent = meta.desc;
+    }
+
+    function drawBackgroundGrid(w, h) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.07)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 28) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 28) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawScarabUnit(x, y, rotRad, unfold, rotorsSpinning, eyeAwake, wallMode, flareRelease = 0, showBellyCone = false) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotRad);
+
+      // Optional Belly Sensor Cone (PMW3901 42° Optical Flow + VL53L3CX 27° ToF) proving 0% occlusion!
+      if (showBellyCone && rotorsSpinning) {
+        ctx.save();
+        const coneGrad = ctx.createLinearGradient(0, 18, 0, 115);
+        coneGrad.addColorStop(0, 'rgba(16, 185, 129, 0.28)');
+        coneGrad.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+        ctx.fillStyle = coneGrad;
+        ctx.beginPath();
+        ctx.moveTo(-4, 18);
+        ctx.lineTo(-34, 110);
+        ctx.lineTo(24, 110);
+        ctx.lineTo(4, 18);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(52, 211, 153, 0.45)';
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      }
+
+      // Laminar shrouded downwash + micro-louver vectored slipstream when rotors are active
+      if (rotorsSpinning) {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.34)';
+        ctx.lineWidth = 1.5;
+        const louverShift = currentStage === 2 ? Math.sin(t * 2.4) * 9 : 0;
+        for (let i = -2; i <= 2; i++) {
+          const sx = i * 13;
+          const off = (t * 85) % 28;
+          ctx.beginPath();
+          ctx.moveTo(sx, 16 + off);
+          ctx.lineTo(sx + louverShift, 35 + off);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      // Translucent Iridescent Mylar Sub-Wings (fan out to 18.0 cm)
+      const wingMaxPx = 68;
+      const fanExt = unfold * wingMaxPx;
+      const breathe = rotorsSpinning ? Math.sin(t * 4.0) * 0.05 * unfold : 0;
+      const flareBoost = flareRelease * 0.26; // 85° full wing flare over-travel
+
+      if (unfold > 0.04) {
+        [-1, 1].forEach(dir => {
+          ctx.save();
+          ctx.translate(dir * 22, -5);
+          ctx.rotate(dir * (-0.08 - flareBoost + breathe * 0.6));
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.17)';
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.72)';
+          ctx.lineWidth = 1.3;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(dir * (18 + fanExt * 0.6), -12 * unfold, dir * (24 + fanExt), 4);
+          ctx.quadraticCurveTo(dir * (16 + fanExt * 0.5), 16, 0, 10);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+
+      // Split 0.4 mm Vase-Mode Porcelain/Brass Elytra Domes
+      [-1, 1].forEach(dir => {
+        ctx.save();
+        ctx.translate(dir * 16, -15);
+        const liftAng = unfold * 0.62 + flareBoost + breathe;
+        ctx.rotate(dir * (-liftAng));
+        ctx.fillStyle = flareRelease > 0.2 ? 'rgba(251, 113, 133, 0.42)' : 'rgba(245, 158, 11, 0.34)';
+        ctx.strokeStyle = flareRelease > 0.2 ? '#fb7185' : '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(dir * (20 + fanExt * 0.35), -15, dir * (34 + fanExt * 0.5), -2);
+        ctx.quadraticCurveTo(dir * 18, 8, 0, 8);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // 8.1 cm StampFly Shrouded Core Body
+      ctx.fillStyle = xray ? 'rgba(15, 23, 42, 0.85)' : 'rgba(217, 119, 6, 0.88)';
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 32, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      if (xray) {
+        // Foam-baffled annular shroud
+        ctx.strokeStyle = '#10b981';
+        ctx.setLineDash([3, 2]);
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.ellipse(0, 4, 24, 8, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Spinning low-RPM rotor blades
+        const bladeW = rotorsSpinning ? Math.cos(t * 14) * 21 : 21;
+        ctx.strokeStyle = rotorsSpinning ? '#34d399' : '#64748b';
+        ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        ctx.moveTo(-bladeW, 4);
+        ctx.lineTo(bladeW, 4);
+        ctx.stroke();
+
+        // 1.7g Linear Servo Y-Linkage in center
+        ctx.strokeStyle = '#f97316';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(0, 2);
+        ctx.lineTo(-10, -10 - unfold * 4);
+        ctx.moveTo(0, 2);
+        ctx.lineTo(10, -10 - unfold * 4);
+        ctx.stroke();
+      }
+
+      // 25°–30° Forward-Cantilevered 0.5mm Carbon-Wire Stag Mandibles + Bimodal Chin Suction Pad
+      ctx.save();
+      const jawSpread = flareRelease * 7; // Opens jaws on 85° flare
+      ctx.strokeStyle = flareRelease > 0.2 ? '#fb7185' : '#94a3b8';
+      ctx.lineWidth = 2.0;
+      ctx.beginPath();
+      // Upper/Far carbon mandible
+      ctx.moveTo(24, 10);
+      ctx.quadraticCurveTo(42, 16 - jawSpread * 0.5, 52, 22 - jawSpread);
+      // Lower/Near carbon mandible
+      ctx.moveTo(22, 14);
+      ctx.quadraticCurveTo(40, 25 + jawSpread * 0.5, 50, 29 + jawSpread);
+      ctx.stroke();
+
+      // Silicone high-friction mandible tips
+      ctx.fillStyle = '#f43f5e';
+      ctx.beginPath();
+      ctx.arc(52, 22 - jawSpread, 2.2, 0, Math.PI * 2);
+      ctx.arc(50, 29 + jawSpread, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Shared 0.08mm Dyneema Lost-Motion Release Tendon (pulls taut during 85° wing flare)
+      if (xray || flareRelease > 0.1) {
+        ctx.strokeStyle = flareRelease > 0.1 ? '#fbbf24' : 'rgba(251, 191, 36, 0.45)';
+        ctx.setLineDash([2, 2]);
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(6, -6);
+        ctx.lineTo(28, 14);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // 0.8g Bimodal Chin Suction / Gecko Pad (90° flip-detent: forward for walls, ventral for flat cards)
+      ctx.fillStyle = '#38bdf8';
+      if (wallMode) {
+        ctx.fillRect(-10, 20, 20, 4);
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(16, 17);
+        ctx.lineTo(31, 20);
+        ctx.lineTo(29, 25 - flareRelease * 3); // Edge-peel lip lifts when flareRelease > 0!
+        ctx.lineTo(15, 22);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // Pronotum Golden Camera Eye + Silent Staring Vision Cone
+      ctx.fillStyle = eyeAwake ? '#fde047' : '#475569';
+      ctx.beginPath();
+      ctx.arc(0, -11, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (wallMode && eyeAwake) {
+        // Draw warm vision/portrait cone looking out into the room from the wall!
+        const grad = ctx.createLinearGradient(0, -15, -240, -90);
+        grad.addColorStop(0, 'rgba(250, 204, 21, 0.32)');
+        grad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, -12);
+        ctx.lineTo(-240, -125);
+        ctx.lineTo(-240, 15);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function renderSceneView(w, h) {
+      // 1) Draw Desk Surface + Spring-Loaded Charging Nest on the Left/Center-Left
+      const nestX = currentStage === 4 ? 145 : 250;
+      const nestY = 255;
+
+      // Desk surface line
+      ctx.save();
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(40, nestY + 22);
+      ctx.lineTo(740, nestY + 22);
+      ctx.stroke();
+
+      // Right-Side Vertical Mirror / Wall Surface (for Stage 4 Wall-Sitting Sentinel!)
+      const wallX = 720;
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.lineWidth = 3;
+      ctx.fillRect(wallX, 30, 18, 247);
+      ctx.beginPath();
+      ctx.moveTo(wallX, 30);
+      ctx.lineTo(wallX, nestY + 22);
+      ctx.stroke();
+
+      ctx.font = '12px monospace';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText('VERTICAL WALL / MIRROR', wallX - 165, 48);
+
+      // Desk Charging Nest Bowl + Internal 0.18 J Launch Spring Cutaway
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.85)';
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.ellipse(nestX, nestY, 54, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Calculate stage kinematics
+      let sx = nestX;
+      let sy = nestY - 18;
+      let rot = 0;
+      let unfold = 0;
+      let rotorsOn = false;
+      let eyeOn = false;
+      let springCompression = 1.0; // 1.0 = compressed, 0.0 = extended
+      let flareRelease = 0;
+      let showBellyCone = false;
+
+      if (currentStage === 0) {
+        // Perched Pebble
+        sx = nestX;
+        sy = nestY - 16;
+        unfold = 0.0;
+        rotorsOn = false;
+        eyeOn = false;
+        springCompression = 1.0;
+      } else if (currentStage === 1) {
+        // Spring Jump-Start (leaps 40 cm up from nest, unfolds wings mid-leap, catches hover at apex)
+        const cycle = (stageTimer % 3.2) / 3.2;
+        const jumpProgress = Math.min(1, cycle * 1.8);
+        const easeOut = 1 - Math.pow(1 - jumpProgress, 3);
+        sx = nestX;
+        sy = (nestY - 16) - easeOut * 145;
+        unfold = Math.max(0, Math.min(1, (jumpProgress - 0.22) * 1.4));
+        rotorsOn = jumpProgress > 0.45;
+        eyeOn = jumpProgress > 0.3;
+        springCompression = 1.0 - Math.min(1, jumpProgress * 3.0);
+
+        // Draw ballistic trajectory guide arc
+        ctx.save();
+        ctx.strokeStyle = 'rgba(251, 191, 36, 0.35)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(nestX, nestY - 16);
+        ctx.lineTo(nestX, nestY - 161);
+        ctx.stroke();
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '12px monospace';
+        ctx.fillText('40 cm Ballistic Spring Leap (2.8 m/s)', nestX + 46, nestY - 85);
+        ctx.restore();
+      } else if (currentStage === 2) {
+        // Shrouded Hover + Level-Horizon Micro-Louver Sidestep
+        sx = nestX + 145 + Math.sin(t * 1.8) * 42;
+        sy = nestY - 155 + Math.sin(t * 2.6) * 5;
+        rot = 0; // Stays level thanks to duct micro-louvers!
+        unfold = 1.0;
+        rotorsOn = true;
+        eyeOn = true;
+        springCompression = 0.2;
+      } else if (currentStage === 3) {
+        // Wall-Sitting & Staring Sentinel (clings vertically to the wall at wallX, motors OFF, shell cracked 18% so eye stares out!)
+        sx = wallX - 22;
+        sy = 128;
+        rot = -Math.PI / 2; // Pitched 90 deg against vertical wall
+        unfold = 0.22; // Cracked 15 deg so golden camera eye peeks out!
+        rotorsOn = false; // 0 W, 0 dB!
+        eyeOn = true;
+        springCompression = 0.2;
+
+        ctx.save();
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '12px monospace';
+        ctx.fillText('0.8g TPU Suction Locked · Motors 0 W (0 dB)', wallX - 310, 132);
+        ctx.restore();
+      } else if (currentStage === 4) {
+        // STAGE 5: Land-Behind Scoop (3D Ping-Pong Ball) OR Nose-Tilt Suction (2D Instax Card) -> Carry -> 85° Wing-Flare Tendon Drop!
+        const loopDur = 5.6;
+        const p = (stageTimer % loopDur) / loopDur;
+        const pickupX = 290;
+        const cupX = 575;
+        const deskTopY = nestY + 22;
+        springCompression = 0.2;
+        eyeOn = true;
+        showBellyCone = true;
+
+        // Draw Target Red Solo Cup / Catch Tray at cupX
+        ctx.save();
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.24)';
+        ctx.strokeStyle = '#fb7185';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cupX - 28, deskTopY - 48);
+        ctx.lineTo(cupX - 20, deskTopY);
+        ctx.lineTo(cupX + 20, deskTopY);
+        ctx.lineTo(cupX + 28, deskTopY - 48);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#fda4af';
+        ctx.fillText(gripSubMode === 'pingpong' ? 'TARGET CUP' : 'DROP ZONE', cupX - 34, deskTopY + 15);
+        ctx.restore();
+
+        let payloadX = pickupX + 44;
+        let payloadY = deskTopY - 12;
+
+        if (p < 0.25) {
+          // Phase 1: Landed 6 cm behind ball (or beside card), scooting forward / nose-tilting to capture without rotor blow-away!
+          const scoot = p / 0.25;
+          sx = (pickupX - 35) + scoot * 35;
+          sy = deskTopY - 26;
+          rot = gripSubMode === 'suction' && scoot > 0.5 ? 0.14 : 0.04; // Nose-tilt for suction seal
+          unfold = 0.35;
+          rotorsOn = scoot > 0.15;
+          payloadX = pickupX + 44;
+          payloadY = gripSubMode === 'pingpong' ? deskTopY - 13 : deskTopY - 4;
+        } else if (p < 0.65) {
+          // Phase 2: Lift off & carry across desk (Belly Optical Flow + ToF 100% clear!)
+          const fly = (p - 0.25) / 0.40;
+          const smooth = fly * fly * (3 - 2 * fly);
+          sx = pickupX + smooth * (cupX - 44 - pickupX);
+          sy = (deskTopY - 26) - Math.sin(fly * Math.PI * 0.85) * 115 - fly * 25;
+          rot = 0.03;
+          unfold = 0.82; // Normal flight (below 65° lost-motion threshold -> tendon slack!)
+          rotorsOn = true;
+          payloadX = sx + 44;
+          payloadY = sy + 24;
+        } else if (p < 0.80) {
+          // Phase 3: Hover over Target Cup & Execute 85° Full Wing Flare -> Pulls Dyneema Tendon 3mm!
+          const flareP = (p - 0.65) / 0.15;
+          sx = cupX - 44;
+          sy = deskTopY - 135;
+          rot = -0.04;
+          unfold = 1.0;
+          flareRelease = Math.min(1, flareP * 1.5);
+          rotorsOn = true;
+          payloadX = sx + 44;
+          payloadY = (sy + 24) + Math.pow(flareP, 2) * 35;
+        } else {
+          // Phase 4: Payload drops cleanly into the cup while Scarab holds hover!
+          const dropP = (p - 0.80) / 0.20;
+          sx = cupX - 44;
+          sy = deskTopY - 135;
+          rot = 0;
+          unfold = 0.85;
+          flareRelease = Math.max(0, 1 - dropP * 2);
+          rotorsOn = true;
+          payloadX = cupX;
+          payloadY = Math.min(deskTopY - 14, (deskTopY - 76) + dropP * 95);
+        }
+
+        // Draw the Payload (40mm 2.7g Ping-Pong Ball OR 1.2g Flat Instax Photo/Card)
+        ctx.save();
+        if (gripSubMode === 'pingpong') {
+          ctx.fillStyle = '#fb923c';
+          ctx.strokeStyle = '#fff7ed';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.arc(payloadX, payloadY, 12, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#fdba74';
+          ctx.fillText('40mm · 2.7g', payloadX - 28, payloadY - 17);
+        } else {
+          ctx.translate(payloadX - 6, payloadY);
+          ctx.fillStyle = '#f8fafc';
+          ctx.strokeStyle = '#38bdf8';
+          ctx.lineWidth = 1.5;
+          ctx.fillRect(-16, -3, 34, 7);
+          ctx.strokeRect(-16, -3, 34, 7);
+          ctx.fillStyle = '#0ea5e9';
+          ctx.fillRect(-10, -2, 22, 4);
+          ctx.font = '10px monospace';
+          ctx.fillStyle = '#7dd3fc';
+          ctx.fillText('1.2g Instax / Card', -36, -10);
+        }
+        ctx.restore();
+
+        // Live Phase Status Callout on Canvas
+        ctx.save();
+        ctx.font = '12px monospace';
+        ctx.fillStyle = flareRelease > 0.2 ? '#fb7185' : '#34d399';
+        const statusMsg = p < 0.25
+          ? (gripSubMode === 'pingpong' ? '1. Land 6cm Behind & Scoot Forward (0 W Snap-In)' : '1. Land Beside, Idle & Nose-Tilt (3.8N Vacuum Seal)')
+          : p < 0.65
+          ? '2. Forward Carry: 42° Optical Flow & 27° ToF Cone 100% Clear!'
+          : '3. 85° Wing Flare -> Pulls Dyneema Tendon 3mm -> Mid-Air Drop!';
+        ctx.fillText(statusMsg, 225, 52);
+        ctx.restore();
+      } else if (currentStage === 5) {
+        // STAGE 6: Outdoor 2S Wind-Tuck (22°) & Portable 9.0 cm "Scarab Pocket Nest" Homing Pad
+        const p = (stageTimer % 6.0) / 6.0;
+        const padX = 560;
+        const padY = nestY + 12;
+        showBellyCone = true;
+
+        // 1) Draw 100,000 Lux Outdoor Sun + Animated 12 mph Crosswind Streamlines + Blowing Grass
+        ctx.save();
+        // Sun orb
+        const sunGrad = ctx.createRadialGradient(88, 52, 4, 88, 52, 42);
+        sunGrad.addColorStop(0, 'rgba(250, 204, 21, 0.95)');
+        sunGrad.addColorStop(0.5, 'rgba(250, 204, 21, 0.28)');
+        sunGrad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+        ctx.fillStyle = sunGrad;
+        ctx.beginPath();
+        ctx.arc(88, 52, 42, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#fde047';
+        ctx.fillText('☀️ 100,000 LUX DIRECT SUN (ToF Washed Out -> UWB + Baro Active)', 135, 36);
+
+        // Animated 12 mph (5.4 m/s) headwind ribbons blowing right-to-left
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.lineWidth = 1.5;
+        for (let wLine = 0; wLine < 5; wLine++) {
+          const wy = 72 + wLine * 34;
+          const wxOff = ((t * 210 + wLine * 130) % 660);
+          const wx = 700 - wxOff;
+          ctx.beginPath();
+          ctx.moveTo(wx, wy);
+          ctx.lineTo(wx - 75, wy + Math.sin(t * 6 + wLine) * 4);
+          ctx.stroke();
+          // Arrowhead
+          ctx.beginPath();
+          ctx.moveTo(wx - 75, wy + Math.sin(t * 6 + wLine) * 4);
+          ctx.lineTo(wx - 66, wy - 4);
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText('🌬️ 12 mph (5.4 m/s · Beaufort 3) Outdoor Breeze -> 22° Elytra Wind-Tuck (-72% Sail Area)', 135, 55);
+
+        // Blowing outdoor grass blades along ground
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)';
+        ctx.lineWidth = 1.6;
+        for (let gx = 65; gx < 690; gx += 22) {
+          if (Math.abs(gx - padX) < 88 || Math.abs(gx - nestX) < 65) continue;
+          const sway = -7 - Math.sin(t * 7 + gx * 0.05) * 4;
+          ctx.beginPath();
+          ctx.moveTo(gx, nestY + 22);
+          ctx.quadraticCurveTo(gx + sway * 0.5, nestY + 12, gx + sway, nestY + 5);
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // 2) Draw the Portable 9.0×9.0×1.6 cm "Scarab Pocket Nest" (10,000 mAh / 37 Wh MagSafe Power Bank)
+        const petalOpen = p < 0.2 ? p / 0.2 : 1.0; // Unfolds 9.0 cm -> 16.0 cm capture petals!
+        ctx.save();
+        // 38 kHz Pulsed 940nm IR + AprilTag Terminal Landing Funnel
+        const irGrad = ctx.createLinearGradient(padX, padY - 145, padX, padY);
+        irGrad.addColorStop(0, 'rgba(34, 211, 238, 0.02)');
+        irGrad.addColorStop(1, 'rgba(34, 211, 238, 0.26)');
+        ctx.fillStyle = irGrad;
+        ctx.beginPath();
+        ctx.moveTo(padX - 75 * petalOpen, padY - 135);
+        ctx.lineTo(padX + 75 * petalOpen, padY - 135);
+        ctx.lineTo(padX + 44, padY - 4);
+        ctx.lineTo(padX - 44, padY - 4);
+        ctx.closePath();
+        ctx.fill();
+
+        // Unfolding 16.0 cm Origami Capture Petals (25° self-centering bevels on left & right)
+        ctx.strokeStyle = '#22d3ee';
+        ctx.fillStyle = 'rgba(8, 145, 178, 0.35)';
+        ctx.lineWidth = 2.2;
+        [-1, 1].forEach(dir => {
+          ctx.beginPath();
+          ctx.moveTo(padX + dir * 36, padY - 2);
+          ctx.lineTo(padX + dir * (36 + 34 * petalOpen), padY - 12 * petalOpen);
+          ctx.lineTo(padX + dir * (36 + 34 * petalOpen), padY + 4);
+          ctx.lineTo(padX + dir * 36, padY + 8);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        });
+
+        // Core 9.0 x 9.0 x 1.6 cm Power-Bank Body
+        ctx.fillStyle = '#0f172a';
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 2;
+        ctx.fillRect(padX - 38, padY - 4, 76, 14);
+        ctx.strokeRect(padX - 38, padY - 4, 76, 14);
+
+        // Halbach-shielded N52 Magnetic Ring + 4-Pin Gold Balance Pogo Contacts
+        ctx.fillStyle = '#fbbf24';
+        [-18, -6, 6, 18].forEach(px => {
+          ctx.fillRect(padX + px - 2, padY - 6, 4, 3);
+        });
+        ctx.font = '11px monospace';
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillText('🔋 9cm POCKET NEST (10Ah · 16cm Petals · UWB)', padX - 115, padY + 26);
+        ctx.restore();
+
+        // 3) Scarab Flight Trajectory: Upwind 2S Approach (22° Wind-Tuck) -> UWB/IR Lock -> Reverse-DShot Kiss
+        if (p < 0.55) {
+          const k = p / 0.55;
+          sx = 175 + k * (padX - 175);
+          sy = 122 + Math.sin(k * Math.PI) * (-14) + Math.pow(k, 2) * 48;
+          rot = 0.24 * (1 - k * 0.5); // 2S brushless forward pitch into headwind
+          unfold = 0.24; // 22° Outdoor Wind-Tuck Mode!
+          rotorsOn = true;
+          eyeOn = true;
+        } else if (p < 0.78) {
+          const k = (p - 0.55) / 0.23;
+          sx = padX + Math.sin(t * 14) * (1 - k) * 5;
+          sy = 170 + k * (padY - 22 - 170);
+          rot = 0.08 * (1 - k);
+          unfold = 0.24 * (1 - k);
+          rotorsOn = true;
+          eyeOn = true;
+        } else {
+          // Touchdown + 0.15s Reverse-DShot Suction Kiss (40 gf downward hold-down pulse) + 3C Fast Charge!
+          sx = padX;
+          sy = padY - 20;
+          rot = 0;
+          unfold = 0.0;
+          const kissPhase = p < 0.88;
+          rotorsOn = kissPhase;
+          eyeOn = true;
+
+          ctx.save();
+          if (kissPhase) {
+            // Draw upward reverse-thrust slipstream arrows pinning Scarab to the Pocket Nest
+            ctx.strokeStyle = '#f43f5e';
+            ctx.fillStyle = '#fb7185';
+            ctx.lineWidth = 2;
+            [-24, 24].forEach(dx => {
+              ctx.beginPath();
+              ctx.moveTo(sx + dx, sy - 6);
+              ctx.lineTo(sx + dx, sy - 34);
+              ctx.stroke();
+            });
+            ctx.font = '11px monospace';
+            ctx.fillText('⚡ 0.15s Reverse-DShot Kiss (40 gf Downforce Lock!)', padX - 135, sy - 42);
+          } else {
+            ctx.font = '11px monospace';
+            ctx.fillStyle = '#34d399';
+            ctx.fillText('🔌 3C Fast-Charging on Pocket Nest (20%→80% in 15m · 14× Flights)', padX - 165, sy - 34);
+          }
+          ctx.restore();
+        }
+
+        // Draw 6.5 GHz UWB PDOA 3D Vector Tether Line between Pocket Nest & Scarab
+        if (p < 0.78) {
+          ctx.save();
+          ctx.strokeStyle = '#22d3ee';
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(padX, padY - 4);
+          ctx.lineTo(sx, sy + 10);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#67e8f9';
+          ctx.font = '11px monospace';
+          ctx.fillText('📡 6.5 GHz UWB PDOA Vector (±6 cm · 50m Range)', (padX + sx) * 0.5 - 95, (padY + sy) * 0.5 + 16);
+          ctx.restore();
+        }
+      }
+
+      if (manualUnfold !== null) {
+        unfold = manualUnfold;
+      } else {
+        document.getElementById('manualSlider').value = unfold;
+        const span = (8.1 + unfold * (18.0 - 8.1)).toFixed(1);
+        document.getElementById('manualSpanLabel').textContent = span + ' cm';
+      }
+
+      // Draw 0.18 J Coil Spring inside the Desk Nest
+      if (xray) {
+        ctx.save();
+        ctx.strokeStyle = springCompression > 0.6 ? '#f59e0b' : '#10b981';
+        ctx.lineWidth = 2.2;
+        const springTop = nestY - 4 - (1 - springCompression) * 24;
+        const coils = 5;
+        ctx.beginPath();
+        ctx.moveTo(nestX, nestY + 14);
+        for (let k = 1; k <= coils; k++) {
+          const py = nestY + 14 - (k / coils) * (nestY + 14 - springTop);
+          const px = nestX + (k % 2 === 0 ? -12 : 12);
+          ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.font = '12px monospace';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('0.18 J Spring Nest', nestX - 55, nestY + 38);
+        ctx.restore();
+      }
+
+      ctx.restore();
+
+      // Draw the Scarab Unit at its current stage pose
+      drawScarabUnit(sx, sy, rot, unfold, rotorsOn, eyeOn, currentStage === 3, flareRelease, showBellyCone);
+    }
+
+    function renderCadBlueprintView(w, h) {
+      const cx = w / 2;
+      const cy = h / 2 + 18;
+      const d = manualUnfold !== null ? manualUnfold : (currentStage === 0 ? 0.0 : currentStage === 3 ? 0.25 : 1.0);
+      const pxPerCm = 22.0;
+      const totalSpanCm = 8.1 + d * (18.0 - 8.1);
+      const halfSpanPx = (totalSpanCm * pxPerCm) / 2;
+
+      ctx.save();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.fillStyle = '#38bdf8';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(cx - halfSpanPx, 24);
+      ctx.lineTo(cx + halfSpanPx, 24);
+      ctx.moveTo(cx - halfSpanPx, 18); ctx.lineTo(cx - halfSpanPx, 30);
+      ctx.moveTo(cx + halfSpanPx, 18); ctx.lineTo(cx + halfSpanPx, 30);
+      ctx.stroke();
+      ctx.font = '12px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`TOP-DOWN CAD BLUEPRINT · SPAN: ${totalSpanCm.toFixed(1)} cm (Core: 8.1cm · Forward Chin Mandibles + Suction Pad)`, cx, 15);
+
+      // 8.1 x 8.1 cm StampFly Quad Frame
+      const coreHalf = (8.1 * pxPerCm) / 2;
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.55)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(cx - coreHalf, cy - coreHalf, coreHalf * 2, coreHalf * 2);
+
+      // Forward-Cantilevered 0.5mm Carbon-Wire Stag Mandibles + 40mm Ping-Pong Pocket (Ahead of Front Bumper)
+      const frontY = cy - coreHalf;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2.4;
+      [-1, 1].forEach(dir => {
+        ctx.beginPath();
+        ctx.moveTo(cx + dir * 16, frontY + 4);
+        ctx.quadraticCurveTo(cx + dir * 48, frontY - 26, cx + dir * 40, frontY - 58);
+        ctx.stroke();
+      });
+
+      // 40mm (2.7g) Ping-Pong Ball Capture Pocket (Dashed Circle Ahead of Ducts)
+      ctx.strokeStyle = 'rgba(251, 146, 60, 0.75)';
+      ctx.fillStyle = 'rgba(251, 146, 60, 0.14)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.arc(cx, frontY - 38, 38, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#fdba74';
+      ctx.font = '10px monospace';
+      ctx.fillText('40mm Ball Pocket (Clear of Ducts & Sensors)', cx, frontY - 82);
+
+      // Ø14mm (0.8g) Bimodal Chin Suction Pad
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(cx, frontY - 12, 13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // 4 Ducts
+      const ductOff = 44;
+      const ductR = 36;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => {
+        const rx = cx + dx * ductOff;
+        const ry = cy + dy * ductOff;
+        ctx.beginPath();
+        ctx.strokeStyle = '#10b981';
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+        ctx.arc(rx, ry, ductR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        const ang = t * 10 * (dx * dy);
+        ctx.beginPath();
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 2.5;
+        ctx.moveTo(rx - Math.cos(ang) * (ductR - 5), ry - Math.sin(ang) * (ductR - 5));
+        ctx.lineTo(rx + Math.cos(ang) * (ductR - 5), ry + Math.sin(ang) * (ductR - 5));
+        ctx.stroke();
+      });
+
+      // Center Belly PMW3901 Optical Flow + VL53L3CX ToF Sensor Window (Unobstructed!)
+      ctx.strokeStyle = '#34d399';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.22)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Mylar Sub-Wing Fans
+      if (d > 0.04) {
+        [-1, 1].forEach(dir => {
+          ctx.save();
+          ctx.translate(cx + dir * 26, cy - 12);
+          ctx.rotate(dir * (-0.14 * d));
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+          ctx.strokeStyle = '#38bdf8';
+          const fanW = d * 170;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(dir * fanW * 0.65, -22 * d, dir * fanW, 10);
+          ctx.quadraticCurveTo(dir * fanW * 0.55, 45 * d, 0, 34);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
+
+      // Split 0.4 mm Vase-Mode PLA Elytra Shells
+      [-1, 1].forEach(dir => {
+        ctx.save();
+        ctx.translate(cx + dir * 12, cy - 55);
+        ctx.rotate(dir * (-d * 0.82));
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.35)';
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.quadraticCurveTo(dir * 78, 5, dir * 76, 70);
+        ctx.quadraticCurveTo(dir * 66, 132, 0, 128);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+      });
+
+      // 1.7g Linear Servo Y-Pushrod Linkage + Shared Lost-Motion Dyneema Tendon to Front Chin
+      const servoY = cy + 12 - d * 22;
+      ctx.strokeStyle = '#f97316';
+      ctx.fillStyle = '#f97316';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.arc(cx, servoY, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      [-1, 1].forEach(dir => {
+        ctx.beginPath();
+        ctx.moveTo(cx, servoY);
+        ctx.lineTo(cx + dir * (18 + d * 30), cy - 26 - d * 10);
+        ctx.stroke();
+      });
+      // Shared Dyneema release line to suction peel-tab & mandibles
+      ctx.strokeStyle = '#fbbf24';
+      ctx.setLineDash([3, 2]);
+      ctx.beginPath();
+      ctx.moveTo(cx, servoY);
+      ctx.lineTo(cx, frontY - 12);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.restore();
+    }
+
+    function animate() {
+      t += 0.016;
+      stageTimer += 0.016;
+      const stageDur = currentStage === 4 ? 5.6 : 4.2;
+      if (autoPlay && !cadMode && stageTimer > stageDur) {
+        currentStage = (currentStage + 1) % 5;
+        stageTimer = 0;
+        updateStageUI();
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackgroundGrid(canvas.width, canvas.height);
+      if (cadMode) {
+        renderCadBlueprintView(canvas.width, canvas.height);
+      } else {
+        renderSceneView(canvas.width, canvas.height);
+      }
+      if (typeof tickBlueprint === 'function') {
+        tickBlueprint();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // --- INLINE 3-PANE CAD BLUEPRINT & 6-MODE INDOOR UTILITY ANIMATOR ---
+    const bpCanvas = document.getElementById('blueprintCanvas');
+    const bctx = bpCanvas ? bpCanvas.getContext('2d') : null;
+    let activeBpMode = 0;
+    let bpPhase = 0;
+    let bpAutoCycle = true;
+    let bpShowCallouts = true;
+
+    const BP_MODE_SPECS = [
+      {
+        name: 'UTILITY 01 // 3D PING-PONG & RING FETCH ("GOBLIN FETCH")',
+        dwg: 'SUB-ASSY: 0.5mm CARBON STAG MANDIBLES (+0.95g · 28° CANTILEVER)',
+        c1: ['KINEMATIC SEQUENCE', '1. Land-Behind & Scoot-Scoop (0 W Grip)', 'Instead of hovering overhead (where 9 m/s downwash blows a 2.7 g ball away), the Scarab lands 6 cm behind the ball and scoots forward. The 0.5 mm carbon-wire mandibles flex open and snap around the 40 mm equator at 0 W holding power.'],
+        c2: ['SENSOR & CG GEOMETRY', '2. 100% Clear Belly Optical Flow & ToF', 'Positioning the ball 28 mm forward of the front bumper keeps the 42° PMW3901 Optical Flow and 27° VL53L3CX laser cones completely unobstructed while rear rotor differential trims the forward CG shift.'],
+        c3: ['LOST-MOTION RELEASE', '3. 85° Wing-Flare Tendon Drop into Cup', 'Commanding an 85° over-travel wing flare over the target cup pulls Dyneema tendon branch L2 by 3.0 mm, spreading the carbon mandibles to 45 mm to drop the ping-pong ball or ring cleanly.']
+      },
+      {
+        name: 'UTILITY 02 // 2D INSTAX PHOTO & NOTE COURIER (SUCTION PICKUP)',
+        dwg: 'SUB-ASSY: 0.8g BIMODAL TPU SUCTION PAD (90° FLIP DETENT + 1.5mm PEEL TAB)',
+        c1: ['ANTI-BLOWAWAY MANEUVER', '1. Land-Beside, Idle & 18° Nose-Tilt', 'Approaching a 1.2 g Instax photo or playing card from above blows it off the desk. Instead, the Scarab lands adjacent to the card, idles rotors to 15%, and pitches its nose down 18° to press the flipped chin suction pad onto the surface (3.8 N seal).'],
+        c2: ['FLUTTER CAGING', '2. Mandible Lateral Anti-Flutter Rails', 'During forward flight, the two carbon-wire mandibles rest lightly against the left and right edges of the card, preventing aerodynamic pitch-up flutter while keeping belly sensors 100% clear.'],
+        c3: ['VACUUM PEEL RELEASE', '3. 75° Wing-Flare Edge-Peel Tab Drop', 'At 65°–75° wing flare, shorter tendon branch L1 pulls the 1.5 mm peripheral lip tab on the suction cup, peeling the vacuum seal from the edge in <30 ms (0.35 N force vs 3.8 N axial pull) to drop the note into a hand.']
+      },
+      {
+        name: 'UTILITY 03 // 0W WALL-SITTING & STARING PORTRAIT SENTINEL',
+        dwg: 'SUB-ASSY: VERTICAL SUCTION PERCH + 15° PRONOTUM CAMERA VISOR PEEK',
+        c1: ['PRESS-TO-PERCH', '1. 1.0s Rotor Push onto Mirror or Glass', 'Flies to eye level (1.6 m) on a mirror, window, or smooth wall and uses 1 second of forward pitch thrust to seat the 0.8 g TPU-gimbaled micro-suction pad.'],
+        c2: ['ZERO-POWER SILENCE', '2. 0.0 W Motors Off · 0 dB Room Presence', 'All 4 shrouded motors shut down completely. The Scarab hangs passively like a porcelain-and-brass brooch for hours while its 0.7 g solar elytra film trickle-charges from indoor/window light.'],
+        c3: ['PEEKING EYE VISOR', '3. 15° Cam Crack & Eye-Level Candid Framing', 'Moving the 1.7 g servo into Zone 1 (0°–15°) cracks the golden elytra 4 mm so the hidden XIAO ESP32S3 camera eye peeks out to snap natural eye-level portraits when you smile.']
+      },
+      {
+        name: 'UTILITY 04 // 0.18J NEST SPRING JUMP-START & 18.0cm UNFOLD',
+        dwg: 'SUB-ASSY: DAMPED HELICAL LAUNCH CRADLE + OUTBOARD ELYTRA LINKAGE',
+        c1: ['STORED BALLISTIC ENERGY', '1. 0.18 Joule Coiled Nest Plunger', 'While charging on its desk nest as an 8.1 cm closed pebble, a damped coil spring beneath the cradle stores 0.18 J of mechanical energy—requiring zero extra mass on the flying Scarab.'],
+        c2: ['WATCH-MOVEMENT UNFOLD', '2. 40 cm Vertical Leap & 18.0 cm Wing Sweep', 'Releasing the latch tosses the 41.6 g Scarab 40 cm straight up at 2.8 m/s while the 1.7 g linear servo sweeps the 0.4 mm PLA elytra to 55° and pulls out the iridescent Mylar sub-wings to 18.0 cm.'],
+        c3: ['QUIET APEX CAPTURE', '3. Zero Ground-Effect Rotor Scream', 'Because the rotors spin up in clean mid-air as the Scarab reaches its 40 cm apex (with shells already translated outboard of the 4 duct intakes), takeoff is whisper-smooth.']
+      },
+      {
+        name: 'UTILITY 05 // 9.2 m/s PRECISION KEYBOARD & DESK AIR-DUSTER',
+        dwg: 'SUB-ASSY: 4-DUCT CONCENTRATED DOWNWASH + 15% MICRO-LOUVER SIDESTEP',
+        c1: ['FOCUSED SLIPSTREAM', '1. 9.2 m/s Annular Duct Downwash Jet', 'At a 6 cm hover altitude above a mechanical keyboard, the four 35 mm shrouded ducts project a concentrated 9.2 m/s air curtain that dislodges crumbs, dust, and pet hair from between keycaps.'],
+        c2: ['LEVEL-HORIZON SWEEP', '2. 15% Exhaust Micro-Louver Translation', 'Instead of pitching the body forward (which would angle the air jet away), bottom exhaust micro-louvers deflect 15% of the slipstream to glide the Scarab flat across the desk.'],
+        c3: ['AUTO-RETURN TO NEST', '3. 20-Second Autonomous Desk Sweep', 'Completes a programmed 20-second raster scan across your keyboard and mouse mat before hopping right back onto its charging nest.']
+      },
+      {
+        name: 'UTILITY 06 // HIGH-WALL 7:00 AM ALARM & STOVE THERMAL SENTINEL',
+        dwg: 'SUB-ASSY: +0.05g FIR THERMAL + +0.09g BME688 VOC NOSE + HIGH PERCH',
+        c1: ['UN-SNOOZABLE 7AM ALARM', '1. Perches 2.2 m High Out of Arm\'s Reach', 'At 6:59 AM, the Scarab leaps from its nightstand nest and suction-perches 2.2 m high on the bedroom wall or mirror—chirping gently until you physically stand up out of bed to dismiss it.'],
+        c2: ['KITCHEN STOVE PATROL', '2. +0.14 g Thermal & VOC Safety Check', 'Wondering if you left the stove, oven, or curling iron on? Send a 15-second patrol hop: a 0.05 g far-infrared thermal diode + 0.09 g BME688 gas sensor checks for >60°C hotspots or smoke VOCs.'],
+        c3: ['PRIVACY-BY-PHYSICS', '3. Physical Shell Closure = 100% Camera Shutter', 'When parked in Stage 0 (0° servo position), the opaque 0.4 mm PLA pronotum physically seals over the camera lens—providing a verifiable hardware privacy shutter.']
+      }
+    ];
+
+    function selectBpMode(idx) {
+      activeBpMode = idx;
+      bpPhase = 0;
+      for (let i = 0; i < 6; i++) {
+        const b = document.getElementById('mode-btn-' + i);
+        if (!b) continue;
+        b.className = i === idx
+          ? 'text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 shadow-sm transition'
+          : 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/70 hover:border-sky-500/50 transition';
+      }
+      const spec = BP_MODE_SPECS[idx];
+      document.getElementById('card-tag-1').textContent = spec.c1[0];
+      document.getElementById('card-title-1').textContent = spec.c1[1];
+      document.getElementById('card-desc-1').textContent = spec.c1[2];
+      document.getElementById('card-tag-2').textContent = spec.c2[0];
+      document.getElementById('card-title-2').textContent = spec.c2[1];
+      document.getElementById('card-desc-2').textContent = spec.c2[2];
+      document.getElementById('card-tag-3').textContent = spec.c3[0];
+      document.getElementById('card-title-3').textContent = spec.c3[1];
+      document.getElementById('card-desc-3').textContent = spec.c3[2];
+    }
+
+    function toggleAutoCycle() {
+      bpAutoCycle = !bpAutoCycle;
+      document.getElementById('btnAutoCycle').textContent = bpAutoCycle ? '⏸ Auto-Cycle: ON' : '▶ Auto-Cycle: PAUSED';
+    }
+
+    function toggleCallouts() {
+      bpShowCallouts = !bpShowCallouts;
+      document.getElementById('btnCallouts').textContent = bpShowCallouts ? '📏 Leader Lines: ON' : '📏 Leader Lines: OFF';
+    }
+
+    function onScrubPhase(val) {
+      bpAutoCycle = false;
+      document.getElementById('btnAutoCycle').textContent = '▶ Auto-Cycle: PAUSED';
+      bpPhase = parseFloat(val);
+    }
+
+    function drawSideScarabBp(x, y, pitchRad, shellDeg, rotorsOn, suctionDown, flareBranch, payloadType, holdingPayload) {
+      bctx.save();
+      bctx.translate(x, y);
+      bctx.rotate(pitchRad);
+      const unfoldFrac = Math.min(1, shellDeg / 60);
+
+      if (rotorsOn) {
+        const coneGrad = bctx.createLinearGradient(0, 14, 0, 130);
+        coneGrad.addColorStop(0, 'rgba(16, 185, 129, 0.30)');
+        coneGrad.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+        bctx.fillStyle = coneGrad;
+        bctx.beginPath();
+        bctx.moveTo(-5, 14); bctx.lineTo(-42, 130); bctx.lineTo(30, 130); bctx.lineTo(5, 14);
+        bctx.closePath();
+        bctx.fill();
+        bctx.strokeStyle = 'rgba(52, 211, 153, 0.55)';
+        bctx.setLineDash([3, 3]);
+        bctx.lineWidth = 1;
+        bctx.beginPath();
+        bctx.moveTo(0, 14); bctx.lineTo(-42, 130);
+        bctx.moveTo(0, 14); bctx.lineTo(30, 130);
+        bctx.stroke();
+        bctx.setLineDash([]);
+        if (bpShowCallouts) {
+          bctx.font = '9px monospace';
+          bctx.fillStyle = '#34d399';
+          bctx.fillText('42° FLOW + 27° ToF (0% OCCLUDED)', -62, 112);
+        }
+      }
+
+      if (rotorsOn) {
+        bctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+        bctx.lineWidth = 1.4;
+        [-24, -14, 14, 24].forEach((dx, idx) => {
+          const wave = ((t * 90 + idx * 8) % 28);
+          bctx.beginPath();
+          bctx.moveTo(dx, 14);
+          bctx.lineTo(dx - (activeBpMode === 4 ? 10 : 0), 34 + wave);
+          bctx.stroke();
+        });
+      }
+
+      bctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+      bctx.strokeStyle = '#38bdf8';
+      bctx.lineWidth = 1.8;
+      bctx.beginPath();
+      bctx.roundRect(-42, -8, 84, 22, 6);
+      bctx.fill();
+      bctx.stroke();
+
+      [-22, 22].forEach(dx => {
+        bctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+        bctx.strokeRect(dx - 13, -6, 26, 18);
+        const bladeW = rotorsOn ? Math.sin(t * 45 + dx) * 11 : 11;
+        bctx.strokeStyle = rotorsOn ? '#34d399' : '#64748b';
+        bctx.lineWidth = 2.2;
+        bctx.beginPath();
+        bctx.moveTo(dx - bladeW, 2);
+        bctx.lineTo(dx + bladeW, 2);
+        bctx.stroke();
+      });
+
+      if (shellDeg > 12) {
+        bctx.save();
+        bctx.translate(-8, -8);
+        bctx.rotate(-Math.min(0.68, (shellDeg / 65) * 0.58));
+        bctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
+        bctx.strokeStyle = '#38bdf8';
+        bctx.lineWidth = 1.2;
+        bctx.beginPath();
+        bctx.moveTo(0, 0);
+        bctx.quadraticCurveTo(-48 * unfoldFrac, -24 * unfoldFrac, -78 * unfoldFrac, -4);
+        bctx.quadraticCurveTo(-40 * unfoldFrac, 8, 0, 4);
+        bctx.closePath();
+        bctx.fill();
+        bctx.stroke();
+        bctx.restore();
+      }
+
+      bctx.save();
+      bctx.translate(16, -8);
+      bctx.rotate(-shellDeg * (Math.PI / 180) * 0.72);
+      bctx.fillStyle = 'rgba(245, 158, 11, 0.25)';
+      bctx.strokeStyle = '#fbbf24';
+      bctx.lineWidth = 2;
+      bctx.beginPath();
+      bctx.moveTo(22, 4);
+      bctx.quadraticCurveTo(-18, -24, -60, 4);
+      bctx.lineTo(22, 4);
+      bctx.closePath();
+      bctx.fill();
+      bctx.stroke();
+      if (bpShowCallouts && shellDeg > 20) {
+        bctx.font = '9px monospace';
+        bctx.fillStyle = '#fbbf24';
+        bctx.fillText(`ELYTRA ${Math.round(shellDeg)}°`, -52, -16);
+      }
+      bctx.restore();
+
+      bctx.fillStyle = '#f97316';
+      bctx.beginPath();
+      bctx.arc(0, -2, 3.5, 0, Math.PI * 2);
+      bctx.fill();
+
+      bctx.strokeStyle = flareBranch > 0 ? '#fb7185' : 'rgba(251, 191, 36, 0.55)';
+      bctx.setLineDash(flareBranch > 0 ? [] : [2, 2]);
+      bctx.lineWidth = flareBranch > 0 ? 1.8 : 1.1;
+      bctx.beginPath();
+      bctx.moveTo(0, -2); bctx.lineTo(42, 8); bctx.lineTo(58, 18);
+      bctx.stroke();
+      bctx.setLineDash([]);
+
+      const mandibleSpread = flareBranch === 2 ? -7 : 0;
+      bctx.strokeStyle = '#fb7185';
+      bctx.lineWidth = 2.2;
+      bctx.beginPath();
+      bctx.moveTo(36, 8); bctx.quadraticCurveTo(54, 18 + mandibleSpread, 68, 22 + mandibleSpread);
+      bctx.moveTo(36, 12); bctx.quadraticCurveTo(52, 26 - mandibleSpread, 65, 29 - mandibleSpread);
+      bctx.stroke();
+
+      bctx.fillStyle = '#38bdf8';
+      bctx.strokeStyle = '#7dd3fc';
+      bctx.lineWidth = 1.3;
+      if (suctionDown) {
+        const peelLift = flareBranch >= 1 ? 4 : 0;
+        bctx.beginPath();
+        bctx.moveTo(42, 13); bctx.lineTo(56, 16); bctx.lineTo(55, 21 - peelLift); bctx.lineTo(41, 18);
+        bctx.closePath();
+        bctx.fill();
+        bctx.stroke();
+      } else {
+        bctx.fillRect(42, -2, 5, 14);
+      }
+
+      if (holdingPayload) {
+        if (payloadType === 'ball') {
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.28)';
+          bctx.strokeStyle = '#fb923c';
+          bctx.lineWidth = 2;
+          bctx.beginPath();
+          bctx.arc(64, 24, 15, 0, Math.PI * 2);
+          bctx.fill();
+          bctx.stroke();
+          bctx.fillStyle = '#fed7aa';
+          bctx.font = '9px monospace';
+          bctx.fillText('2.7g Ø40mm', 46, 48);
+        } else if (payloadType === 'card') {
+          bctx.fillStyle = 'rgba(248, 250, 252, 0.9)';
+          bctx.strokeStyle = '#38bdf8';
+          bctx.lineWidth = 1.5;
+          bctx.fillRect(38, 21, 34, 5);
+          bctx.strokeRect(38, 21, 34, 5);
+          bctx.fillStyle = '#7dd3fc';
+          bctx.font = '9px monospace';
+          bctx.fillText('1.2g INSTAX', 40, 36);
+        }
+      }
+
+      bctx.fillStyle = shellDeg >= 12 ? '#fde047' : '#475569';
+      bctx.beginPath();
+      bctx.arc(36, -6, 3.8, 0, Math.PI * 2);
+      bctx.fill();
+
+      if (window.swissState) {
+        if (window.swissState.doe) {
+          const haloPulse = 0.5 + 0.5 * Math.sin(t * 2.2);
+          bctx.strokeStyle = `rgba(129, 140, 248, ${0.35 + haloPulse * 0.4})`;
+          bctx.lineWidth = 1.3;
+          bctx.beginPath();
+          bctx.moveTo(22, -10); bctx.lineTo(6, -68);
+          bctx.moveTo(22, -10); bctx.lineTo(38, -68);
+          bctx.stroke();
+          bctx.beginPath();
+          bctx.ellipse(22, -68, 16 + haloPulse * 6, 4.5, 0, 0, Math.PI * 2);
+          bctx.stroke();
+        }
+        if (window.swissState.spotter) {
+          bctx.strokeStyle = 'rgba(244, 63, 94, 0.85)';
+          bctx.lineWidth = 1.6;
+          bctx.setLineDash([5, 3]);
+          bctx.beginPath();
+          bctx.moveTo(43, 0); bctx.lineTo(135, 34);
+          bctx.stroke();
+          bctx.setLineDash([]);
+          bctx.fillStyle = '#fb7185';
+          bctx.beginPath(); bctx.arc(135, 34, 3.2, 0, Math.PI * 2); bctx.fill();
+        }
+        if (window.swissState.uv) {
+          const uvGrad = bctx.createLinearGradient(42, 4, 110, 48);
+          uvGrad.addColorStop(0, 'rgba(192, 132, 252, 0.34)');
+          uvGrad.addColorStop(1, 'rgba(192, 132, 252, 0.02)');
+          bctx.fillStyle = uvGrad;
+          bctx.beginPath();
+          bctx.moveTo(42, 4); bctx.lineTo(108, 26); bctx.lineTo(96, 52);
+          bctx.closePath(); bctx.fill();
+        }
+        if (window.swissState.radar) {
+          bctx.strokeStyle = 'rgba(34, 211, 238, 0.55)';
+          bctx.lineWidth = 1.2;
+          for (let r = 1; r <= 3; r++) {
+            const rad = 18 * r + ((t * 22) % 18);
+            bctx.beginPath();
+            bctx.arc(44, -2, rad, -0.45, 0.45);
+            bctx.stroke();
+          }
+        }
+      }
+      bctx.restore();
+    }
+
+    function drawTopDownBpPane(shellDeg, rotorsOn, flareBranch, payloadType, holdingPayload) {
+      const cx = 920, cy = 172;
+      const unfold = Math.min(1, shellDeg / 65);
+      const scale = 1.22;
+      const halfCore = 40.5 * scale;
+      bctx.save();
+      const spanCm = (8.1 + unfold * (18.0 - 8.1)).toFixed(1);
+      const halfSpanPx = (parseFloat(spanCm) * 10 * scale) * 0.5;
+      bctx.strokeStyle = '#38bdf8';
+      bctx.fillStyle = '#38bdf8';
+      bctx.lineWidth = 1.2;
+      bctx.beginPath();
+      bctx.moveTo(cx - halfSpanPx, 54); bctx.lineTo(cx + halfSpanPx, 54);
+      bctx.moveTo(cx - halfSpanPx, 49); bctx.lineTo(cx - halfSpanPx, 59);
+      bctx.moveTo(cx + halfSpanPx, 49); bctx.lineTo(cx + halfSpanPx, 59);
+      bctx.stroke();
+      bctx.font = '10px monospace';
+      bctx.textAlign = 'center';
+      bctx.fillText(`SPAN: ${spanCm} cm (CORE: 8.1 cm)`, cx, 47);
+
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+      bctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      bctx.lineWidth = 1.5;
+      bctx.fillRect(cx - halfCore, cy - halfCore, halfCore * 2, halfCore * 2);
+      bctx.strokeRect(cx - halfCore, cy - halfCore, halfCore * 2, halfCore * 2);
+
+      const dOff = 22.5 * scale, dRad = 17.5 * scale;
+      [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([dx, dy]) => {
+        const rx = cx + dx * dOff, ry = cy + dy * dOff;
+        bctx.strokeStyle = '#10b981';
+        bctx.fillStyle = 'rgba(16, 185, 129, 0.10)';
+        bctx.beginPath(); bctx.arc(rx, ry, dRad, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        const ang = rotorsOn ? t * 18 * (dx * dy) : 0.4;
+        bctx.strokeStyle = rotorsOn ? '#34d399' : '#64748b';
+        bctx.lineWidth = 2;
+        bctx.beginPath();
+        bctx.moveTo(rx - Math.cos(ang) * (dRad - 3), ry - Math.sin(ang) * (dRad - 3));
+        bctx.lineTo(rx + Math.cos(ang) * (dRad - 3), ry + Math.sin(ang) * (dRad - 3));
+        bctx.stroke();
+      });
+
+      bctx.fillStyle = 'rgba(16, 185, 129, 0.28)';
+      bctx.strokeStyle = '#34d399';
+      bctx.beginPath(); bctx.arc(cx, cy, 8, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      const frontY = cy - halfCore;
+      const spreadPx = flareBranch === 2 ? 9 : 0;
+      bctx.strokeStyle = '#fb7185';
+      bctx.lineWidth = 2.2;
+      [-1, 1].forEach(dir => {
+        bctx.beginPath();
+        bctx.moveTo(cx + dir * 10, frontY + 2);
+        bctx.quadraticCurveTo(cx + dir * (26 + spreadPx), frontY - 16, cx + dir * (22 + spreadPx), frontY - 36);
+        bctx.stroke();
+      });
+
+      bctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+      bctx.strokeStyle = '#38bdf8';
+      bctx.beginPath(); bctx.arc(cx, frontY - 8, 7.5, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      if (holdingPayload) {
+        if (payloadType === 'ball') {
+          bctx.strokeStyle = '#fb923c';
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.22)';
+          bctx.beginPath(); bctx.arc(cx, frontY - 23, 20, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        } else if (payloadType === 'card') {
+          bctx.strokeStyle = '#38bdf8';
+          bctx.fillStyle = 'rgba(248, 250, 252, 0.35)';
+          bctx.fillRect(cx - 22, frontY - 28, 44, 24);
+          bctx.strokeRect(cx - 22, frontY - 28, 44, 24);
+        }
+      }
+
+      if (unfold > 0.03) {
+        [-1, 1].forEach(dir => {
+          bctx.save();
+          bctx.translate(cx + dir * 14, cy - 10);
+          bctx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+          bctx.strokeStyle = '#38bdf8';
+          const wSpan = unfold * 88;
+          bctx.beginPath();
+          bctx.moveTo(0, 0);
+          bctx.quadraticCurveTo(dir * wSpan * 0.65, -14 * unfold, dir * wSpan, 6);
+          bctx.quadraticCurveTo(dir * wSpan * 0.55, 28 * unfold, 0, 22);
+          bctx.closePath();
+          bctx.fill(); bctx.stroke();
+          bctx.restore();
+        });
+      }
+
+      [-1, 1].forEach(dir => {
+        bctx.save();
+        bctx.translate(cx + dir * 7, cy - 32);
+        bctx.rotate(dir * (-unfold * 0.85));
+        bctx.fillStyle = 'rgba(245, 158, 11, 0.32)';
+        bctx.strokeStyle = '#fbbf24';
+        bctx.lineWidth = 1.6;
+        bctx.beginPath();
+        bctx.moveTo(0, 0);
+        bctx.quadraticCurveTo(dir * 44, 4, dir * 42, 42);
+        bctx.quadraticCurveTo(dir * 38, 76, 0, 74);
+        bctx.closePath();
+        bctx.fill(); bctx.stroke();
+        bctx.restore();
+      });
+      bctx.restore();
+    }
+
+    function drawCamDetailBpPane(shellDeg) {
+      const x0 = 752, y0 = 338, trackW = 330;
+      bctx.save();
+      bctx.font = '10px monospace';
+      bctx.fillStyle = '#cbd5e1';
+      bctx.fillText('1.7g SERVO CAM STROKE (0.0 → 6.0 mm) · 4 MECHANICAL ZONES:', x0, y0);
+      const zones = [
+        { label: 'Z1: 0–15°', sub: 'Eye Peek', w: 0.20, col: '#fde047' },
+        { label: 'Z2: 15–65°', sub: 'Flight Unfold', w: 0.44, col: '#34d399' },
+        { label: 'Z3: 65–75°', sub: 'L1 Suction Peel', w: 0.18, col: '#38bdf8' },
+        { label: 'Z4: 75–85°', sub: 'L2 Jaw Spread', w: 0.18, col: '#fb7185' }
+      ];
+      let curX = x0;
+      zones.forEach(z => {
+        const zw = trackW * z.w;
+        bctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        bctx.strokeStyle = z.col;
+        bctx.lineWidth = 1.4;
+        bctx.fillRect(curX, y0 + 12, zw - 3, 36);
+        bctx.strokeRect(curX, y0 + 12, zw - 3, 36);
+        bctx.fillStyle = z.col;
+        bctx.font = 'bold 9px monospace';
+        bctx.fillText(z.label, curX + 5, y0 + 27);
+        bctx.fillStyle = '#94a3b8';
+        bctx.font = '9px monospace';
+        bctx.fillText(z.sub, curX + 5, y0 + 41);
+        curX += zw;
+      });
+      const normPos = Math.min(1, Math.max(0, shellDeg / 85));
+      const pinX = x0 + normPos * trackW;
+      bctx.fillStyle = '#f97316';
+      bctx.strokeStyle = '#fff';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.arc(pinX, y0 + 30, 7, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+
+      const ty = y0 + 82;
+      bctx.strokeStyle = '#fbbf24';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.moveTo(x0 + 20, ty); bctx.lineTo(pinX, ty); bctx.stroke();
+
+      const l1Taut = shellDeg >= 65;
+      bctx.strokeStyle = l1Taut ? '#38bdf8' : 'rgba(56, 189, 248, 0.35)';
+      bctx.setLineDash(l1Taut ? [] : [3, 3]);
+      bctx.beginPath(); bctx.moveTo(pinX, ty); bctx.lineTo(x0 + 250, ty - 16); bctx.stroke();
+
+      const l2Taut = shellDeg >= 75;
+      bctx.strokeStyle = l2Taut ? '#fb7185' : 'rgba(251, 113, 133, 0.35)';
+      bctx.setLineDash(l2Taut ? [] : [3, 3]);
+      bctx.beginPath(); bctx.moveTo(pinX, ty); bctx.lineTo(x0 + 250, ty + 18); bctx.stroke();
+      bctx.setLineDash([]);
+
+      bctx.font = '10px monospace';
+      bctx.fillStyle = l1Taut ? '#38bdf8' : '#64748b';
+      bctx.fillText(`Branch L1 (Suction Peel): ${l1Taut ? 'TAUT -> PEELING LIP!' : 'SLACK (0 N)'}`, x0 + 15, ty + 44);
+      bctx.fillStyle = l2Taut ? '#fb7185' : '#64748b';
+      bctx.fillText(`Branch L2 (Mandible Drop): ${l2Taut ? 'TAUT -> SPREAD 45mm!' : 'SLACK (0 N)'}`, x0 + 15, ty + 62);
+      bctx.fillStyle = '#34d399';
+      bctx.fillText(`SAFETY GATE: Suction peel locked until Elytra >= 65° (Ducts Clear)`, x0 + 15, ty + 82);
+      bctx.restore();
+    }
+
+    function tickBlueprint() {
+      if (!bctx) return;
+      if (bpAutoCycle) {
+        bpPhase += 0.0028;
+        if (bpPhase >= 1.0) {
+          bpPhase = 0;
+          selectBpMode((activeBpMode + 1) % 6);
+        }
+        document.getElementById('phaseSlider').value = bpPhase;
+      }
+      document.getElementById('phasePctLabel').textContent = Math.round(bpPhase * 100) + '%';
+
+      const w = bpCanvas.width, h = bpCanvas.height;
+      bctx.save();
+      bctx.fillStyle = '#040c18';
+      bctx.fillRect(0, 0, w, h);
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.055)';
+      bctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 14) { bctx.beginPath(); bctx.moveTo(x, 0); bctx.lineTo(x, h); bctx.stroke(); }
+      for (let y = 0; y < h; y += 14) { bctx.beginPath(); bctx.moveTo(0, y); bctx.lineTo(w, y); bctx.stroke(); }
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.13)';
+      for (let x = 0; x < w; x += 70) { bctx.beginPath(); bctx.moveTo(x, 0); bctx.lineTo(x, h); bctx.stroke(); }
+      for (let y = 0; y < h; y += 70) { bctx.beginPath(); bctx.moveTo(0, y); bctx.lineTo(w, y); bctx.stroke(); }
+
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      bctx.lineWidth = 1.5;
+      bctx.strokeRect(10, 10, w - 20, h - 20);
+      bctx.beginPath();
+      bctx.moveTo(730, 10); bctx.lineTo(730, h - 10);
+      bctx.moveTo(730, 285); bctx.lineTo(w - 10, 285);
+      bctx.stroke();
+
+      bctx.fillStyle = 'rgba(8, 28, 54, 0.9)';
+      bctx.fillRect(11, 11, 718, 26);
+      bctx.fillRect(731, 11, w - 742, 26);
+      bctx.fillRect(731, 286, w - 742, 26);
+      bctx.font = 'bold 11px monospace';
+      bctx.fillStyle = '#38bdf8';
+      bctx.fillText(BP_MODE_SPECS[activeBpMode].name, 22, 28);
+      bctx.fillStyle = '#fbbf24';
+      bctx.fillText('PANE B // TOP-DOWN ORTHOGRAPHIC CAD (2.2:1)', 742, 28);
+      bctx.fillStyle = '#fb7185';
+      bctx.fillText('PANE C // 4-STAGE SLOTTED CAM & Y-TENDON (5:1)', 742, 303);
+      bctx.font = '10px monospace';
+      bctx.fillStyle = '#94a3b8';
+      bctx.fillText(BP_MODE_SPECS[activeBpMode].dwg, 22, 52);
+
+      const groundY = 445;
+      bctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+      bctx.lineWidth = 2;
+      bctx.beginPath(); bctx.moveTo(30, groundY); bctx.lineTo(710, groundY); bctx.stroke();
+
+      let sx = 220, sy = 260, pitch = 0, shellDeg = 55, rotorsOn = true, suctionDown = false, flareBranch = 0;
+      let payloadType = 'ball', holdingPayload = false, statusBanner = '';
+      const p = bpPhase;
+
+      if (activeBpMode === 0) {
+        payloadType = 'ball';
+        const pickupX = 240, cupX = 590;
+        bctx.strokeStyle = '#fbbf24';
+        bctx.fillStyle = 'rgba(245, 158, 11, 0.14)';
+        bctx.lineWidth = 2;
+        bctx.beginPath();
+        bctx.moveTo(cupX - 28, groundY - 56); bctx.lineTo(cupX - 20, groundY);
+        bctx.lineTo(cupX + 20, groundY); bctx.lineTo(cupX + 28, groundY - 56);
+        bctx.stroke(); bctx.fill();
+        bctx.font = '10px monospace'; bctx.fillStyle = '#fbbf24';
+        bctx.fillText('TARGET CUP', cupX - 30, groundY + 24);
+
+        if (p < 0.26) {
+          const k = p / 0.26;
+          sx = 140 + k * 42; sy = groundY - 22; pitch = 0.04; shellDeg = 45;
+          rotorsOn = k < 0.35; holdingPayload = k > 0.78;
+          statusBanner = 'PHASE 1: Land 6 cm Behind 40mm Ball & Scoot Forward -> Passive 0 W Equator Snap!';
+          if (!holdingPayload) {
+            bctx.fillStyle = 'rgba(251, 146, 60, 0.28)'; bctx.strokeStyle = '#fb923c';
+            bctx.beginPath(); bctx.arc(pickupX, groundY - 15, 15, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+          }
+        } else if (p < 0.70) {
+          const k = (p - 0.26) / 0.44;
+          sx = 182 + k * (cupX - 64 - 182);
+          sy = (groundY - 22) - Math.sin(k * Math.PI) * 165 - k * 85;
+          pitch = 0.11 * (1 - k); shellDeg = 55; rotorsOn = true; holdingPayload = true;
+          statusBanner = 'PHASE 2: Forward-Cantilever Carry -> 42° Flow & 27° ToF Cones 100% Unobstructed!';
+        } else {
+          const k = (p - 0.70) / 0.30;
+          sx = cupX - 64; sy = groundY - 155; pitch = -0.05; shellDeg = 85;
+          rotorsOn = true; flareBranch = 2; holdingPayload = false;
+          statusBanner = 'PHASE 3: 85° Wing Flare -> Pulls Dyneema Branch L2 (3.0 mm) -> Mandibles Spread 45mm -> Drop!';
+          const ballY = Math.min(groundY - 18, (groundY - 130) + Math.pow(k, 1.7) * 125);
+          bctx.fillStyle = 'rgba(251, 146, 60, 0.35)'; bctx.strokeStyle = '#fb923c';
+          bctx.beginPath(); bctx.arc(cupX, ballY, 15, 0, Math.PI * 2); bctx.fill(); bctx.stroke();
+        }
+      } else if (activeBpMode === 1) {
+        payloadType = 'card'; suctionDown = true;
+        const cardX = 235, handX = 585;
+        bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 2;
+        bctx.strokeRect(handX - 36, groundY - 12, 72, 12);
+        bctx.font = '10px monospace'; bctx.fillStyle = '#38bdf8';
+        bctx.fillText('RECIPIENT DESK / PALM', handX - 58, groundY + 24);
+        if (p < 0.28) {
+          const k = p / 0.28;
+          sx = 175 + k * 12; sy = groundY - 22; pitch = k > 0.45 ? 0.22 : 0.0;
+          shellDeg = 42; rotorsOn = false; holdingPayload = k > 0.75;
+          statusBanner = 'PHASE 1: Land Beside Card, Idle Rotors & Pitch Nose 18° -> 3.8 N Vacuum Seal (Zero Blow-Away)!';
+          if (!holdingPayload) {
+            bctx.fillStyle = '#f8fafc'; bctx.strokeStyle = '#38bdf8';
+            bctx.fillRect(cardX - 17, groundY - 5, 34, 5); bctx.strokeRect(cardX - 17, groundY - 5, 34, 5);
+          }
+        } else if (p < 0.70) {
+          const k = (p - 0.28) / 0.42;
+          sx = 187 + k * (handX - 52 - 187);
+          sy = (groundY - 22) - Math.sin(k * Math.PI) * 155 - k * 80;
+          pitch = 0.08 * (1 - k); shellDeg = 55; rotorsOn = true; holdingPayload = true;
+          statusBanner = 'PHASE 2: Courier Flight -> Carbon Mandibles Cage Lateral Card Edges Against Flutter!';
+        } else {
+          const k = (p - 0.70) / 0.30;
+          sx = handX - 52; sy = groundY - 145; pitch = 0; shellDeg = 74;
+          rotorsOn = true; flareBranch = 1; holdingPayload = false;
+          statusBanner = 'PHASE 3: 75° Wing Flare -> Pulls Branch L1 (1.5mm Lip Peel Tab) -> Breaks Vacuum in <30 ms!';
+          const dropY = Math.min(groundY - 17, (groundY - 122) + k * 112);
+          bctx.fillStyle = '#f8fafc'; bctx.strokeStyle = '#38bdf8';
+          bctx.fillRect(handX - 17, dropY, 34, 5); bctx.strokeRect(handX - 17, dropY, 34, 5);
+        }
+      } else if (activeBpMode === 2) {
+        const wallX = 640;
+        bctx.fillStyle = 'rgba(56, 189, 248, 0.10)'; bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 2.5;
+        bctx.fillRect(wallX, 75, 18, groundY - 75); bctx.strokeRect(wallX, 75, 18, groundY - 75);
+        if (p < 0.35) {
+          const k = p / 0.35;
+          sx = 190 + k * (wallX - 46 - 190); sy = 285 - k * 90; pitch = 0.14;
+          shellDeg = 55 * (1 - k * 0.6); rotorsOn = true;
+          statusBanner = 'PHASE 1: Approach Vertical Mirror at Eye Level (1.6 m) & 1.0s Rotor Push to Seat Suction Pad';
+        } else {
+          sx = wallX - 20; sy = 195; pitch = -Math.PI / 2; shellDeg = 15; rotorsOn = false;
+          statusBanner = 'PHASE 2: 0.0 W Motors OFF (0 dB Silence) · 15° Shell Crack -> Eye-Level Portrait Framing!';
+          const fovGrad = bctx.createLinearGradient(sx, sy, sx - 320, sy + 60);
+          fovGrad.addColorStop(0, 'rgba(250, 204, 21, 0.32)'); fovGrad.addColorStop(1, 'rgba(250, 204, 21, 0.0)');
+          bctx.fillStyle = fovGrad;
+          bctx.beginPath(); bctx.moveTo(sx - 10, sy - 20); bctx.lineTo(sx - 340, sy - 95); bctx.lineTo(sx - 340, sy + 85); bctx.closePath(); bctx.fill();
+        }
+      } else if (activeBpMode === 3) {
+        const nestX = 360;
+        bctx.fillStyle = '#0f172a'; bctx.strokeStyle = '#fbbf24'; bctx.lineWidth = 2;
+        bctx.fillRect(nestX - 52, groundY - 18, 104, 18); bctx.strokeRect(nestX - 52, groundY - 18, 104, 18);
+        if (p < 0.18) {
+          sx = nestX; sy = groundY - 30; shellDeg = 0; rotorsOn = false;
+          statusBanner = 'PHASE 1: Docked 8.1 cm Porcelain Pebble · 0.18 J Nest Spring Coiled (0 dB Standby)';
+        } else if (p < 0.58) {
+          const k = (p - 0.18) / 0.40;
+          sx = nestX; sy = (groundY - 30) - (1 - Math.pow(1 - k, 2)) * 235;
+          shellDeg = k * 58; rotorsOn = k > 0.35;
+          statusBanner = 'PHASE 2: 0.18 J Ballistic Leap (2.8 m/s -> 40 cm Apex) + Outboard Elytra & Mylar Unfold!';
+        } else {
+          sx = nestX + Math.sin(t * 3) * 14; sy = (groundY - 265) + Math.sin(t * 4) * 5;
+          shellDeg = 58 + Math.sin(t * 12) * 4; rotorsOn = true;
+          statusBanner = 'PHASE 3: Smooth Apex Hover Capture (18.0 cm Span · 2 Hz Breathing Elytra · Zero Takeoff Scream)';
+        }
+      } else if (activeBpMode === 4) {
+        const kbX = 210, kbW = 330;
+        bctx.fillStyle = 'rgba(15, 23, 42, 0.95)'; bctx.strokeStyle = '#38bdf8'; bctx.lineWidth = 1.6;
+        bctx.fillRect(kbX, groundY - 14, kbW, 14); bctx.strokeRect(kbX, groundY - 14, kbW, 14);
+        sx = kbX + 30 + p * (kbW - 60); sy = groundY - 78; pitch = 0.0; shellDeg = 52; rotorsOn = true;
+        statusBanner = '9.2 m/s Focused 4-Duct Slipstream + 15% Louver Sidestep -> Sweeps Crumbs & Dust at 0° Body Tilt!';
+      } else {
+        const stoveX = 520;
+        bctx.fillStyle = 'rgba(244, 63, 94, 0.15)'; bctx.strokeStyle = '#fb7185'; bctx.lineWidth = 2;
+        bctx.fillRect(stoveX - 45, groundY - 28, 90, 28); bctx.strokeRect(stoveX - 45, groundY - 28, 90, 28);
+        sx = 210 + Math.sin(p * Math.PI) * 260; sy = 175 + Math.cos(p * Math.PI * 2) * 18;
+        pitch = 0.06; shellDeg = 55; rotorsOn = true;
+        statusBanner = '+0.05g FIR Thermal + +0.09g BME688 VOC Nose -> Patrols Kitchen Hotspot & High-Wall 7AM Alarm!';
+      }
+
+      bctx.font = 'bold 11px monospace';
+      bctx.fillStyle = '#34d399';
+      bctx.fillText(statusBanner, 22, 74);
+      bctx.restore();
+
+      drawSideScarabBp(sx, sy, pitch, shellDeg, rotorsOn, suctionDown, flareBranch, payloadType, holdingPayload);
+      drawTopDownBpPane(shellDeg, rotorsOn, flareBranch, payloadType, holdingPayload);
+      drawCamDetailBpPane(shellDeg);
+
+      const spanVal = (8.1 + Math.min(1, shellDeg / 65) * (18.0 - 8.1)).toFixed(1);
+      document.getElementById('tel-span').textContent = `${Math.round(shellDeg)}° · ${spanVal} cm`;
+      document.getElementById('tel-tendon').textContent =
+        flareBranch === 2 ? 'L2 TAUT (3.0mm DROP)' : flareBranch === 1 ? 'L1 TAUT (1.5mm PEEL)' : 'SLACK (0.0 N)';
+      document.getElementById('tel-sensors').textContent = '100% UNOBSTRUCTED';
+      document.getElementById('tel-power').textContent =
+        rotorsOn ? '14.2 W · 53 dBA' : '0.006 W · 0 dB SILENT';
+    }
+
+    const SWISS_SPECS = {
+      spotter: { g: 0.15, pk: 20, avg: 0 },
+      uv:      { g: 0.20, pk: 350, avg: 0 },
+      doe:     { g: 0.25, pk: 45, avg: 4 },
+      uwb:     { g: 0.22, pk: 280, avg: 3 },
+      ir:      { g: 0.18, pk: 240, avg: 2 },
+      fir:     { g: 0.11, pk: 18, avg: 2 },
+      voc:     { g: 0.05, pk: 38, avg: 3 },
+      co2:     { g: 0.10, pk: 110, avg: 4 },
+      radar:   { g: 0.18, pk: 210, avg: 15 },
+      ultra:   { g: 0.04, pk: 12, avg: 2 }
+    };
+
+    const POD_MASS = { stag: 0.95, suction: 0.80, tarsi: 0.25, scent: 0.20 };
+
+    const COMBO_PRESETS = {
+      sleep: {
+        badge: 'ACTIVE PRESET: 01 // SLEEP & CLIMATE SHEPHERD',
+        tag: 'CHAIN 01 // 60GHz RADAR + FIR THERMAL + STCC4 CO₂ -> ROAMING IR/SUB-GHZ + DOE HALO + SCENT',
+        title: '1. Bedside Environmental & Circadian Sleep Shepherd (0 W Perched)',
+        desc: 'Perched on your bedroom mirror at 0 W motor draw, BGT60TR13C 60 GHz radar tracks contactless respiration (12–18 BPM) through the duvet while FIR distinguishes overheating vs. a kicked-off blanket and STCC4 checks if CO₂ > 1,000 ppm. If stuffy, the Scarab hops for 6 seconds into line-of-sight of the AC/shades, fires a supercap-buffered 940nm IR or 433MHz command, and returns to its perch. At dawn, radar-gated light sleep triggers a 6→12 BPM ceiling DOE halo and a 1.5 µL peppermint plume.',
+        sensors: ['doe', 'ir', 'fir', 'co2', 'radar'],
+        pod: 'scent',
+        modeIdx: 2
+      },
+      kitchen: {
+        badge: 'ACTIVE PRESET: 02 // KITCHEN & PCB BENCH CO-PILOT',
+        tag: 'CHAIN 02 // BME688 VOC + FIR HOTSPOT -> 650nm SPOTTER + CAPACITIVE TARSI + 9.2 m/s DUSTER',
+        title: '2. Proactive Culinary, Pour-Over & Soldering Bench Co-Pilot',
+        desc: 'BME688 AI VOC nose detects rising oil smoke-point aldehydes 45 seconds before a smoke alarm while FIR watches pan/kettle temperature (chiming at 93.0°C for pour-over bloom) or spots a 115°C shorting 0402 IC on a PCB bench. Never flying over hot burner updrafts, it points its Spotter dot at the hotspot, taps an iPad recipe or induction stove capacitive OFF pad with Pod C (Beetle Tarsi), and uses a thermally interlocked (<40°C) 9.2 m/s air-duster on cooled PCBs.',
+        sensors: ['spotter', 'ir', 'fir', 'voc'],
+        pod: 'tarsi',
+        modeIdx: 5
+      },
+      detective: {
+        badge: 'ACTIVE PRESET: 03 // HOME LEAK & DRAFT DETECTIVE',
+        tag: 'CHAIN 03 // 80kHz TDOA MICS + FIR THERMAL + 9.2 m/s PUFF + 365nm UV-A + BME688 AMMONIA',
+        title: '3. Multi-Sensory "Active Perturbation" Home Detective',
+        desc: 'Hops between 3 perched viewpoints (0 W motors off so rotor harmonics never mask ultrasound) to triangulate 25–45 kHz pinhole pipe leaks, radiator hisses, or outlet corona arcing via dual SPU0410 mics. Cross-verifies evaporative wet-drywall cooling (ΔT = -2°C) or warm phantom wall-warts via FIR, puffs a 1s 9.2 m/s air jet to smear and prove window draft direction, confirms UV-A stains with a BME688 ammonia sniff, and locks the Spotter beam onto the fault.',
+        sensors: ['spotter', 'uv', 'fir', 'voc', 'ultra'],
+        pod: 'suction',
+        modeIdx: 5
+      },
+      valet: {
+        badge: 'ACTIVE PRESET: 04 // PILL/RING VALET & WAKER',
+        tag: 'CHAIN 04 // DW3110 UWB + BLE 6.0 HOUND + POD A STAG MANDIBLES + SPOTTER + TARSI',
+        title: '4. Physical Caretaking, Ring/Pill Dish Courier & 4-Stage Waker',
+        desc: 'Using the 0.10g STCC4 CO₂ sensor frees +0.70g of mass margin so Pod A (0.95g Carbon Stag Mandibles) can ferry a 0.6g daily vitamin capsule or lost 3.2g wedding ring to a bedside dish—pulsing the 650nm Spotter dot on the dish until acknowledged. For un-snoozable mornings, it escalates from DOE ceiling halo → 2.2m high-wall perch → physically landing on your nightstand to tap the touch-lamp ON.',
+        sensors: ['spotter', 'uwb', 'radar', 'co2'],
+        pod: 'stag',
+        modeIdx: 0
+      },
+      party: {
+        badge: 'ACTIVE PRESET: 05 // UV SECRET-INK & CARD DEALER',
+        tag: 'CHAIN 05 // POD B SUCTION DEALER + 365nm UV-A CLUE REVEAL + SPOTTER + MANDIBLE DICE DROP',
+        title: '5. Tabletop Dungeon Master, Secret-Ink Clue Reveal & Card Dealer',
+        desc: 'Approaches the card deck from 15 cm (ground-effect-aware descent so downwash never scatters cards), picks up a 1.2g playing card or NFC Seed Card via Pod B suction, and peels the lip tab at 75° wing flare to deal it. Hovers over "blank" UV-ink clue cards to strobe its 365nm blacklight and reveal hidden escape-room maps, or uses Pod A to drop a 1.5g foam d20 from 10 cm for a fair roll.',
+        sensors: ['spotter', 'uv', 'doe', 'uwb'],
+        pod: 'suction',
+        modeIdx: 1
+      },
+      all: {
+        badge: 'ACTIVE PRESET: 06 // MAX SWISS-ARMY SUITE (ALL 10 SENSORS + POD A)',
+        tag: 'CLOSED-LOOP STATE MACHINE // SENSE → RELOCATE → TEST → ACT → VERIFY',
+        title: '6. Full Swiss-Army Loadout (All 10 Silicon Sensors + Stag Mandible Pod)',
+        desc: 'All 10 sub-gram silicon sensors (+1.48 g bare silicon + 0.60 g flex/TPS22994 load-switch bus = +2.08 g permanent overhead) are reflowed onto the nose & belly flex-PCB. While perched, TI TPS22994 hardware-gates sensor rails into mutually exclusive time-slices (35 mW average perched draw vs. 1,323 mW un-gated sensor peak), keeping total flying mass at 44.68 g (50.8% of 88 g thrust ceiling).',
+        sensors: ['spotter', 'uv', 'doe', 'uwb', 'ir', 'fir', 'voc', 'co2', 'radar', 'ultra'],
+        pod: 'stag',
+        modeIdx: 0
+      },
+      minimal: {
+        badge: 'ACTIVE PRESET: BASE FEATHERWEIGHT (0 EXTRA SENSORS)',
+        tag: 'BASELINE PALM SCARAB // 41.65g CORE + SELECTED CHIN POD ONLY',
+        title: 'Base Featherweight Configuration (Core Camera + Optical Flow/ToF Only)',
+        desc: 'Strips the nose flex-PCB down to the baseline XIAO ESP32S3 camera + belly PMW3901 Optical Flow & VL53L3CX ToF sensors, maximizing raw hover endurance at 5.2 minutes (24 room-to-room hops per charge).',
+        sensors: [],
+        pod: 'stag',
+        modeIdx: 0
+      }
+    };
+
+    function updateSwissConfig() {
+      const state = {};
+      let sensMass = 0, peakMw = 0, avgMw = 0, count = 0;
+      Object.keys(SWISS_SPECS).forEach(k => {
+        const el = document.getElementById('sens-' + k);
+        const on = el ? el.checked : false;
+        state[k] = on;
+        if (on) {
+          sensMass += SWISS_SPECS[k].g;
+          peakMw += SWISS_SPECS[k].pk;
+          avgMw += SWISS_SPECS[k].avg;
+          count++;
+        }
+      });
+      const podEl = document.querySelector('input[name="chinPod"]:checked');
+      const podKey = podEl ? podEl.value : 'stag';
+      state.pod = podKey;
+      const podG = POD_MASS[podKey] || 0.95;
+      const busG = count > 0 ? 0.60 : 0.0;
+      const totalMass = 41.65 + busG + sensMass + podG;
+      const thrustPct = ((totalMass / 88.0) * 100).toFixed(1);
+      const hoverMin = (5.2 * Math.pow(41.65 / totalMass, 1.35)).toFixed(1);
+      const hops = Math.round(parseFloat(hoverMin) * 4.6);
+
+      window.swissState = state;
+      document.getElementById('sw-total-mass').textContent = `${totalMass.toFixed(2)} g (${thrustPct}% Thrust)`;
+      document.getElementById('sw-power-gate').textContent = `${peakMw} mW pk → ${avgMw} mW Avg`;
+      document.getElementById('sw-flight-time').textContent = `${hoverMin} min · ${hops} Room Hops`;
+    }
+
+    function applySwissPreset(presetKey) {
+      const p = COMBO_PRESETS[presetKey] || COMBO_PRESETS.all;
+      Object.keys(SWISS_SPECS).forEach(k => {
+        const el = document.getElementById('sens-' + k);
+        if (el) el.checked = p.sensors.includes(k);
+      });
+      const radio = document.querySelector(`input[name="chinPod"][value="${p.pod}"]`);
+      if (radio) radio.checked = true;
+
+      ['sleep', 'kitchen', 'detective', 'valet', 'party', 'all'].forEach(id => {
+        const b = document.getElementById('combo-btn-' + id);
+        if (b) {
+          b.className = (id === presetKey)
+            ? 'text-left p-2.5 rounded-xl border border-sky-400 bg-sky-500/20 transition'
+            : 'text-left p-2.5 rounded-xl border border-slate-800 bg-slate-900/80 hover:border-sky-500/50 transition';
+        }
+      });
+
+      document.getElementById('active-combo-badge').textContent = p.badge;
+      document.getElementById('combo-stage-tag').textContent = p.tag;
+      document.getElementById('combo-title').textContent = p.title;
+      document.getElementById('combo-desc').textContent = p.desc;
+
+      if (typeof p.modeIdx === 'number') {
+        selectBpMode(p.modeIdx);
+      }
+      updateSwissConfig();
+    }
+
+    updateSwissConfig();
+    updateStageUI();
+    animate();
+  </script>
+</body>
+</html>
