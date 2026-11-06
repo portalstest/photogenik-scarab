@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCARAB ARCH 3 NANO MVP — 8-Step Interactive 3D Build &amp; 6-DOF Roll Control Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-3.5 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2.5">
+
+    <!-- Header -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div>
+        <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-emerald-400">
+          <span>ARCH 3 MVP BUILDER • 100% HIDDEN PROPELLERS</span>
+          <span class="text-[var(--muted-foreground)]">•</span>
+          <span id="hdrSubSpec" class="text-amber-300">ARCH 3A: 2×2 HIDDEN QUAD (52×36×19 mm · 23.6g Target)</span>
+        </div>
+        <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
+          Step-by-Step 3D Assembly: Hidden Belly Ducts + 6-DOF Roll Authority + Origami Wings
+        </h2>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button id="btnRollArch" onclick="toggleRollArch()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-500/25 text-sky-300 border border-sky-400/60 transition">
+          🎛️ Roll Mode: Arch 3A (2×2 Hidden Quad)
+        </button>
+        <button id="btnAutoBuild" onclick="toggleAutoBuild()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/25 text-emerald-300 border border-emerald-400/60 transition">
+          ⏸ Auto-Step: ON
+        </button>
+        <button id="btnCutaway" onclick="toggleCutaway()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition">
+          🔬 X-Ray Shell: ON
+        </button>
+      </div>
+    </div>
+
+    <!-- 8-Step Interactive Selector Grid -->
+    <div class="grid grid-cols-4 sm:grid-cols-8 gap-1">
+      <button onclick="selectStep(1)" id="sbtn-1" class="text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition">
+        <div class="text-xs font-bold text-amber-300">STEP 1</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">Belly Ducts</div>
+      </button>
+      <button onclick="selectStep(2)" id="sbtn-2" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 2</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">4×0702+Roll</div>
+      </button>
+      <button onclick="selectStep(3)" id="sbtn-3" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 3</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">AIO + 220mAh</div>
+      </button>
+      <button onclick="selectStep(4)" id="sbtn-4" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 4</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">AI Cam+Winch</div>
+      </button>
+      <button onclick="selectStep(5)" id="sbtn-5" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 5</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">Origami Wings</div>
+      </button>
+      <button onclick="selectStep(6)" id="sbtn-6" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 6</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">4-Bar Elytra</div>
+      </button>
+      <button onclick="selectStep(7)" id="sbtn-7" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-[var(--foreground)]">STEP 7</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">Spring Cuff</div>
+      </button>
+      <button onclick="selectStep(8)" id="sbtn-8" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+        <div class="text-xs font-bold text-emerald-300">STEP 8</div>
+        <div class="text-xs text-[var(--muted-foreground)] truncate">🚀 6-DOF Test</div>
+      </button>
+    </div>
+
+    <!-- Main 3D Assembly & Cutaway Viewport -->
+    <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#050914]">
+      <canvas id="simCanvas" class="w-full h-[275px] sm:h-[300px] block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Top-Left Cumulative Mass, Roll Torque & Acoustic Target Meter -->
+      <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-xs font-mono space-y-0.5">
+        <div id="hudStepTitle" class="text-amber-300 font-bold">STEP 1 / 8: INTERNAL BELLY-TUNNEL SHELL</div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Reconciled Mass:</span><span id="hudMass" class="text-emerald-300 font-bold">2.60 g / 23.60 g (Target)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">6-DOF Roll Axis:</span><span id="hudRoll" class="text-sky-300 font-bold">±10mm Quad Diff (0 Servos)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Acoustic Target:</span><span id="hudNoise" class="text-purple-300 font-bold">55–58 dBA (Bench Test Req)</span></div>
+      </div>
+
+      <!-- Bottom Camera Controls -->
+      <div class="absolute bottom-2 left-2 flex flex-wrap items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
+        <span class="text-slate-400">Drag 3D Orbit •</span>
+        <button onclick="setCam(-0.62, 0.52, 1.0)" class="hover:text-amber-300 underline">3D Iso</button>
+        <span>·</span>
+        <button onclick="setCam(0, 1.48, 1.08)" class="hover:text-amber-300 underline">Top Duct View</button>
+        <span>·</span>
+        <button onclick="setCam(0, -1.35, 1.12)" class="hover:text-amber-300 underline">Ventral Roll View</button>
+      </div>
+    </div>
+
+    <!-- Active Step Instructions & Exact Parts List -->
+    <div id="stepDetailBox" class="rounded-lg bg-[var(--secondary)]/60 border border-[var(--border)] px-3 py-2 text-xs text-[var(--foreground)] leading-relaxed">
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let curStep = 1; // 1..8
+    let rollMode = '3A'; // '3A' = 2x2 Hidden Shrouded Quad-in-Oval; '3B' = Centerline Coaxial + Ventral Roll Vanes
+    let autoBuild = true;
+    let xray = true;
+    let stepTimer = 0;
+    let simTime = 0;
+
+    let camYaw = -0.62;
+    let camPitch = 0.52;
+    let camZoom = 1.0;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+
+    function getStepSpecs() {
+      const is3A = (rollMode === '3A');
+      const totalM = is3A ? '23.60 g' : '24.75 g';
+      return [
+        null,
+        {
+          title: is3A
+            ? 'STEP 1 / 8: 3D-PRINT 2×2 HIDDEN SHROUDED QUAD BELLY SHELL (ARCH 3A)'
+            : 'STEP 1 / 8: 3D-PRINT TWIN 22mm COAXIAL TUNNELS + ROLL VANE BAY (ARCH 3B)',
+          mass: `2.60 g / ${totalM} (Design Target)`,
+          html: is3A
+            ? '<strong class="text-amber-400">Step 1 (Arch 3A — 2×2 Hidden Quad-in-Oval · 52×36×19 mm):</strong> Print the oval beetle abdomen with <strong>four 18.5 mm internal vertical ducts arranged in a 2×2 grid</strong> (X = ±10 mm lateral roll arm, Z = ±12 mm pitch arm) plus a 1.5 mm open-cell melamine acoustic liner. Zero propellers protrude outside the shell, and lateral spacing gives <strong>native quadrotor roll authority with zero roll servos</strong>!'
+            : '<strong class="text-amber-400">Step 1 (Arch 3B — Centerline Coaxial + Ventral Roll Vane Bay · 48×32×19 mm):</strong> Print the narrower oval abdomen with <strong>two centerline 22.0 mm vertical ducts</strong> (Z = -10 mm, +14 mm) lined with 1.5 mm melamine foam, plus ventral pivot bosses beneath each exit nozzle for the coupled roll-control louvers.'
+        },
+        {
+          title: is3A
+            ? 'STEP 2 / 8: MOUNT 4× 0702 PLANAR SHROUDED ROTORS (±10mm ROLL ARM)'
+            : 'STEP 2 / 8: MOUNT 4× 0702 COAXIAL ROTORS + 1.15g VENTRAL ROLL VANES',
+          mass: is3A ? `7.30 g / ${totalM}` : `8.45 g / ${totalM}`,
+          html: is3A
+            ? '<strong class="text-sky-400">Step 2 (Arch 3A — Native Differential Roll):</strong> Bolt <strong>4× 0702 (29,000 KV) brushless motors</strong> with 18 mm 3-blade toroidal props into the 2×2 internal ducts. Because Left (X = -10 mm) and Right (X = +10 mm) rotors sit off-center, standard Betaflight <code>QUAD_X</code> differential thrust produces <strong>±1.02 N·mm roll torque</strong> with zero coaxial wake slap!'
+            : '<strong class="text-sky-400">Step 2 (Arch 3B — Centerline Coaxial + Coupled Ventral Roll Vanes):</strong> Mount 4× 0702 motors in 3-blade × 4-blade counter-rotating coaxial pairs AND snap in the <strong>1.15 g Coupled Ventral Roll-Vane Assembly</strong> (0.9 g micro linear actuator + two 0.25 g polycarbonate efflux louvers at Y = -9 mm). Deflecting the 14 m/s downwash ±18° generates <strong>±0.61 N·mm roll torque (>22 rad/s²)</strong>!'
+        },
+        {
+          title: 'STEP 3 / 8: INSTALL 1S 5A AIO FLIGHT CONTROLLER + 220mAh LAVA CELL + HARNESS',
+          mass: is3A ? `15.80 g / ${totalM}` : `16.95 g / ${totalM}`,
+          html: '<strong class="text-emerald-400">Step 3 — Reconciled Avionics &amp; Power Budget (+8.50 g incl. 0.6 g Harness/Pads):</strong> Connect the <strong>BetaFPV F4 1S 5A AIO board (2.7 g)</strong>, slide in a verified COTS <strong>1S 220 mAh Lava LiHV cell (5.2 g)</strong>, and include <strong>0.6 g for JST-1.25 plugs, solder &amp; gold magnetic pogo pads</strong> (bench load-cell &amp; INA226 power test required before claiming flight endurance).'
+        },
+        {
+          title: 'STEP 4 / 8: ADD XIAO ESP32S3 AI CAMERA + TOF/FLOW + 6mm SPIDER-SILK WINCH',
+          mass: is3A ? `19.60 g / ${totalM}` : `20.75 g / ${totalM}`,
+          html: '<strong class="text-purple-400">Step 4 — Front AI Camera Eye, Downward ToF/Flow &amp; Center-of-Gravity Micro-Winch (+3.80 g):</strong> Seat the <strong>OV2640/OV5640 micro-camera + amber eye LEDs</strong> in the front pronotum notch, mount the <strong>VL53L7CX 8×8 laser ToF + PMW3901 optical flow</strong> looking down between the ducts, and mount the <strong>6mm Dyneema SK99 Spider-Silk Winch spool (2.1 g)</strong> at the CG bridge.'
+        },
+        {
+          title: 'STEP 5 / 8: ATTACH NATURE (2024) 3-PANEL ORIGAMI WINGS + 22Hz FLUTTER CAM',
+          mass: is3A ? `20.80 g / ${totalM}` : `21.95 g / ${totalM}`,
+          html: '<strong class="text-emerald-300">Step 5 — Hinge the 3-Panel Bistable Origami Mylar Wings &amp; Passive 22 Hz Flutter Reed (+1.20 g):</strong> Cut two <strong>0.05 mm iridescent BoPET/Mylar hindwings (138 mm span)</strong> reinforced with 0.4 mm carbon veins along the <strong>Nature (July 2024) Marginal Joint (MJ) &amp; Medial Vein Crease (MVC)</strong>. Driven by intake air + cam reed, the wings flutter at 22 Hz for biomimetic disguise and passive roll damping.'
+        },
+        {
+          title: 'STEP 6 / 8: BOLT ON BRONZE 4-BAR LINKAGE, 1.2g SERVO &amp; MATTE-OBSIDIAN ELYTRA',
+          mass: is3A ? `23.60 g / ${totalM}` : `24.75 g / ${totalM}`,
+          html: '<strong class="text-amber-300">Step 6 — Complete the Armored Carapace with 1.2 g Linear Servo + 4-Bar Bronze Hinges (+2.80 g incl. fasteners):</strong> Connect the <strong>1.2 g ultra-micro linear servo</strong> to the Left &amp; Right domed <strong>0.4 mm Matte-Obsidian Elytra shells</strong> via 0.6 mm brass 4-bar links. When closed, zero propellers are visible; when opened <strong>68°</strong>, intake air flows freely into the shrouded belly ducts!'
+        },
+        {
+          title: 'STEP 7 / 8: ASSEMBLE THE 0.14J SPRING-LEAP WRIST CUFF &amp; 5V EPM LATCH',
+          mass: `${totalM} (Cuff stays on wrist)`,
+          html: '<strong class="text-sky-300">Step 7 — Build the Self-Cocking Wrist Cuff with Conical Watch Spring + EPM Latch:</strong> Mount a <strong>conical beryllium-copper compression spring (0.14 J, 16 mm stroke)</strong> and a <strong>5V Electro-Permanent Magnet (EPM, 400 gf hold at 0 mW)</strong> in the cradle (Milestone 1 tests fixed magnetic perch docking first before wearable spring launch).'
+        },
+        {
+          title: 'STEP 8 / 8: 6-DOF ROLL-CONTROL &amp; HOVER VERIFICATION (ARCH 3A vs ARCH 3B)',
+          mass: `${totalM} • 6-DOF Active Roll`,
+          html: is3A
+            ? '<strong class="text-emerald-400">Step 8 (Arch 3A Live 6-DOF Demo):</strong> Watch the <strong>2×2 Hidden Internal Quad</strong> actively correct lateral roll gusts using left/right differential rotor thrust (±10 mm moment arm) while keeping 100% of propellers concealed beneath the 68° open elytra and 22 Hz fluttering origami wings!'
+            : '<strong class="text-emerald-400">Step 8 (Arch 3B Live 6-DOF Demo):</strong> Watch the <strong>Coupled Ventral Slipstream Roll Vanes (cyan louvers under the belly)</strong> actively vector the coaxial exit jet ±18° left and right to command crisp roll banking and disturbance rejection on a narrow centerline coaxial body!'
+        }
+      ];
+    }
+
+    function toggleRollArch() {
+      rollMode = (rollMode === '3A') ? '3B' : '3A';
+      const is3A = (rollMode === '3A');
+      document.getElementById('btnRollArch').textContent = is3A
+        ? '🎛️ Roll Mode: Arch 3A (2×2 Hidden Quad)'
+        : '🎛️ Roll Mode: Arch 3B (Coax + Roll Vanes)';
+      document.getElementById('hdrSubSpec').textContent = is3A
+        ? 'ARCH 3A: 2×2 HIDDEN QUAD (52×36×19 mm · 23.6g Target)'
+        : 'ARCH 3B: COAXIAL + ROLL VANES (48×32×19 mm · 24.8g Target)';
+      document.getElementById('hudRoll').textContent = is3A
+        ? '±10mm Quad Diff (0 Servos)'
+        : '±18° Ventral Vanes (+1.15g)';
+      updateStepUI();
+    }
+
+    function selectStep(s) {
+      curStep = s;
+      autoBuild = false;
+      document.getElementById('btnAutoBuild').textContent = '▶ Auto-Step: PAUSED';
+      updateStepUI();
+    }
+
+    function toggleAutoBuild() {
+      autoBuild = !autoBuild;
+      document.getElementById('btnAutoBuild').textContent = autoBuild
+        ? '⏸ Auto-Step: ON'
+        : '▶ Auto-Step: PAUSED';
+    }
+
+    function toggleCutaway() {
+      xray = !xray;
+      const btn = document.getElementById('btnCutaway');
+      btn.textContent = xray ? '🔬 X-Ray Shell: ON' : '👁️ Solid Shell: ON';
+      btn.className = xray
+        ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-purple-500/25 text-purple-300 border border-purple-400/60 transition'
+        : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/60 transition';
+    }
+
+    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 1.0; }
+
+    function updateStepUI() {
+      const specs = getStepSpecs();
+      for (let i = 1; i <= 8; i++) {
+        const b = document.getElementById('sbtn-' + i);
+        b.className = (i === curStep)
+          ? 'text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition'
+          : 'text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition';
+      }
+      const sp = specs[curStep];
+      document.getElementById('hudStepTitle').textContent = sp.title;
+      document.getElementById('hudMass').textContent = sp.mass;
+      document.getElementById('stepDetailBox').innerHTML = sp.html;
+    }
+    updateStepUI();
+
+    canvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      camYaw += (e.clientX - lastX) * 0.01;
+      camPitch = Math.max(-1.45, Math.min(1.50, camPitch + (e.clientY - lastY) * 0.01));
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { isDragging = false; });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camZoom = Math.max(0.65, Math.min(1.65, camZoom - e.deltaY * 0.001));
+    }, { passive: false });
+
+    function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
+    function rotX(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], p[1]*c - p[2]*s, p[1]*s + p[2]*c]; }
+    function rotZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c - p[1]*s, p[0]*s + p[1]*c, p[2]]; }
+    function add3(a, b) { return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }
+    function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+    function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function project(pt, W, H) {
+      let p = rotY(pt, camYaw);
+      p = rotX(p, camPitch);
+      const fov = 355 * camZoom;
+      const dist = 240;
+      const z = dist - p[2];
+      const s = fov / Math.max(35, z);
+      return [W * 0.5 + p[0] * s, H * 0.58 - p[1] * s, z, s];
+    }
+
+    function renderFrame(dt) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      simTime += dt;
+      if (autoBuild) {
+        stepTimer += dt;
+        const dur = curStep === 8 ? 6.5 : 3.2;
+        if (stepTimer > dur) {
+          stepTimer = 0;
+          curStep = (curStep % 8) + 1;
+          updateStepUI();
+        }
+      }
+
+      let altY = 0;
+      let elytraOpen = 0;
+      let unfold = 0;
+      let spinEnv = 0;
+      let springH = 4;
+      let bodyRoll = 0;
+      let vaneAngle = 0;
+
+      if (curStep === 2) {
+        spinEnv = 0.7;
+        vaneAngle = Math.sin(simTime * 3.5) * 0.32; // ±18 deg vane preview
+      } else if (curStep === 5) {
+        unfold = 0.5 + 0.5 * Math.sin(simTime * 2.2);
+      } else if (curStep === 6) {
+        elytraOpen = 0.5 + 0.5 * Math.sin(simTime * 2.2);
+        unfold = elytraOpen;
+      } else if (curStep === 8) {
+        const cyc = (simTime * 18) % 100;
+        const jump = smoothstep(10, 28, cyc) * (1 - smoothstep(82, 94, cyc));
+        altY = jump * 44 + (cyc > 32 && cyc < 80 ? Math.sin(simTime * 5) * 3 : 0);
+        springH = 4 + smoothstep(10, 16, cyc) * (1 - smoothstep(88, 95, cyc)) * 18;
+        elytraOpen = smoothstep(24, 38, cyc) * (1 - smoothstep(76, 86, cyc));
+        unfold = smoothstep(26, 42, cyc) * (1 - smoothstep(74, 85, cyc));
+        spinEnv = smoothstep(25, 34, cyc) * (1 - smoothstep(78, 86, cyc));
+        if (cyc > 34 && cyc < 76) {
+          bodyRoll = Math.sin(simTime * 3.2) * 0.16; // active 6-DOF roll banking demonstration
+          vaneAngle = Math.cos(simTime * 3.2) * 0.32;
+        }
+      }
+
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
+      grad.addColorStop(0, '#101b32');
+      grad.addColorStop(1, '#04070f');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      const drawList = [];
+      function bPt(p) {
+        // Apply body roll around [0, altY, 0]
+        const rel = [p[0], p[1] - altY, p[2]];
+        const r = rotZ(rel, bodyRoll);
+        return [r[0], r[1] + altY, r[2]];
+      }
+      function qPoly(pts3D, fill, stroke, lw = 1.2, applyBodyRoll = true) {
+        const pts = applyBodyRoll ? pts3D.map(bPt) : pts3D;
+        const pr = pts.map(p => project(p, W, H));
+        const avgZ = pr.reduce((s, p) => s + p[2], 0) / pr.length;
+        drawList.push({
+          z: avgZ,
+          fn: () => {
+            ctx.beginPath();
+            pr.forEach((p, i) => { if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+            ctx.closePath();
+            if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+            if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+          }
+        });
+      }
+      function qLine(a, b, stroke, lw = 1.5, dash = [], applyBodyRoll = true) {
+        const pa3 = applyBodyRoll ? bPt(a) : a;
+        const pb3 = applyBodyRoll ? bPt(b) : b;
+        const pa = project(pa3, W, H), pb = project(pb3, W, H);
+        drawList.push({
+          z: (pa[2] + pb[2]) * 0.5,
+          fn: () => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash(dash);
+            ctx.moveTo(pa[0], pa[1]);
+            ctx.lineTo(pb[0], pb[1]);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = lw;
+            ctx.stroke();
+            ctx.restore();
+          }
+        });
+      }
+
+      // Reference CAD Grid
+      for (let g = -90; g <= 90; g += 30) {
+        qLine([g, -26, -90], [g, -26, 90], 'rgba(56,189,248,0.07)', 1, [], false);
+        qLine([-90, -26, g], [90, -26, g], 'rgba(56,189,248,0.07)', 1, [], false);
+      }
+
+      // STEP 7+: WRIST CUFF BASE + 0.14J CONICAL WATCH SPRING + EPM MAGNET
+      if (curStep >= 7) {
+        qPoly([[-32, -16, -54], [32, -16, -54], [35, -16, 54], [-35, -16, 54]], 'rgba(28, 24, 21, 0.92)', '#d97706', 1.4, false);
+        qPoly([[-14, -14, -16], [14, -14, -16], [14, -14, 16], [-14, -14, 16]], 'rgba(168, 85, 247, 0.65)', '#e9d5ff', 1.2, false);
+        const sPts = [];
+        for (let i = 0; i <= 24; i++) {
+          const t = i / 24;
+          const a = t * 4.5 * Math.PI * 2;
+          const r = lerp(13, 6.5, t);
+          sPts.push([Math.cos(a) * r, -14 + t * springH, Math.sin(a) * r]);
+        }
+        for (let i = 0; i < sPts.length - 1; i++) {
+          qLine(sPts[i], sPts[i+1], '#fbbf24', 2.2, [], false);
+        }
+      }
+
+      // STEP 1+: OVAL BELLY-TUNNEL CHASSIS
+      const wHalf = (rollMode === '3A') ? 23 : 20;
+      const chassisPts = [
+        [-wHalf*0.85, altY - 5, -28], [wHalf*0.85, altY - 5, -28],
+        [wHalf, altY - 5, 0], [wHalf*0.82, altY - 5, 29], [-wHalf*0.82, altY - 5, 29], [-wHalf, altY - 5, 0]
+      ];
+      qPoly(chassisPts, 'rgba(15, 23, 42, 0.94)', '#94a3b8', 1.4);
+
+      if (rollMode === '3A') {
+        // ARCH 3A: 2×2 Hidden Internal Shrouded Quad (X = ±10.5, Z = -11, +13)
+        const ducts3A = [[-10.5, -11], [10.5, -11], [-10.5, 13], [10.5, 13]];
+        ducts3A.forEach(([cx, cz], idx) => {
+          const topRing = [], botRing = [];
+          for (let i = 0; i < 14; i++) {
+            const a = (i / 14) * Math.PI * 2;
+            topRing.push([cx + Math.cos(a) * 8.6, altY + 2.4, cz + Math.sin(a) * 8.6]);
+            botRing.push([cx + Math.cos(a) * 8.6, altY - 4.5, cz + Math.sin(a) * 8.6]);
+          }
+          qPoly(topRing, 'rgba(30, 41, 59, 0.78)', '#38bdf8', 1.3);
+          qPoly(botRing, 'rgba(15, 23, 42, 0.85)', '#64748b', 1.0);
+
+          if (curStep >= 2) {
+            const dir = (idx === 0 || idx === 3) ? 1 : -1;
+            const spin = simTime * 32 * spinEnv * dir;
+            for (let b = 0; b < 3; b++) {
+              const a = spin + (b * Math.PI * 2 / 3);
+              qLine([cx, altY + 0.5, cz], [cx + Math.cos(a)*7.5, altY + 0.5, cz + Math.sin(a)*7.5], (cx < 0 ? '#fde047' : '#38bdf8'), 2.1);
+            }
+            qPoly([[cx-1.8, altY+2, cz-1.8], [cx+1.8, altY+2, cz-1.8], [cx+1.8, altY-2, cz+1.8], [cx-1.8, altY-2, cz+1.8]], '#0284c7', '#e0f2fe', 1.0);
+          }
+        });
+      } else {
+        // ARCH 3B: Centerline Twin 22mm Coaxial Tunnels + Coupled Ventral Roll Vanes
+        [-10, 14].forEach((cz, idx) => {
+          const topRing = [], botRing = [], foamRing = [];
+          for (let i = 0; i < 16; i++) {
+            const a = (i / 16) * Math.PI * 2;
+            topRing.push([Math.cos(a) * 14, altY + 2.5, cz + Math.sin(a) * 10.5]);
+            foamRing.push([Math.cos(a) * 12.6, altY + 2.2, cz + Math.sin(a) * 9.3]);
+            botRing.push([Math.cos(a) * 14, altY - 4.5, cz + Math.sin(a) * 10.5]);
+          }
+          qPoly(topRing, 'rgba(30, 41, 59, 0.75)', '#f59e0b', 1.4);
+          qPoly(foamRing, 'rgba(14, 165, 233, 0.16)', '#38bdf8', 1.1);
+          qPoly(botRing, 'rgba(15, 23, 42, 0.85)', '#64748b', 1.1);
+
+          if (curStep >= 2) {
+            const dir = idx === 0 ? 1 : -1;
+            const uSpin = simTime * 30 * spinEnv * dir;
+            const lSpin = -simTime * 30 * spinEnv * dir;
+            for (let b = 0; b < 3; b++) {
+              const a = uSpin + (b * Math.PI * 2 / 3);
+              qLine([0, altY + 1.8, cz], [Math.cos(a)*11.5, altY + 1.8, cz + Math.sin(a)*8.8], '#fde047', 2.2);
+            }
+            for (let b = 0; b < 4; b++) {
+              const a = lSpin + (b * Math.PI * 0.5) + 0.35;
+              qLine([0, altY - 2.0, cz], [Math.cos(a)*11.5, altY - 2.0, cz + Math.sin(a)*8.8], '#38bdf8', 1.9);
+            }
+            qPoly([[-2.5, altY + 2.5, cz - 2], [2.5, altY + 2.5, cz - 2], [2.5, altY - 2.5, cz + 2], [-2.5, altY - 2.5, cz + 2]], '#0284c7', '#e0f2fe', 1.1);
+
+            // Coupled Ventral Slipstream Roll Vane beneath each tunnel exit (Y = altY - 5 to altY - 11)
+            const vx = Math.sin(vaneAngle) * 6.5;
+            const vy = Math.cos(vaneAngle) * 6.5;
+            qPoly([
+              [0, altY - 4.8, cz - 7.5],
+              [0, altY - 4.8, cz + 7.5],
+              [vx, altY - 4.8 - vy, cz + 7.5],
+              [vx, altY - 4.8 - vy, cz - 7.5]
+            ], 'rgba(34, 211, 238, 0.78)', '#a5f3fc', 1.5);
+          }
+        });
+      }
+
+      // STEP 3+: 1S 5A AIO FLIGHT CONTROLLER + NARROW 220mAh LAVA STICK BATTERY
+      if (curStep >= 3) {
+        qPoly([[-wHalf+1, altY, -18], [-wHalf+5, altY, -18], [-wHalf+5, altY, 20], [-wHalf+1, altY, 20]], 'rgba(16, 185, 129, 0.65)', '#34d399', 1.3);
+        qPoly([[wHalf-5, altY, -16], [wHalf-1, altY, -16], [wHalf-1, altY, 18], [wHalf-5, altY, 18]], 'rgba(56, 189, 248, 0.65)', '#7dd3fc', 1.3);
+      }
+
+      // STEP 4+: FRONT AI CAMERA PRONOTUM + TOF/FLOW + CENTER 6mm SPIDER-SILK WINCH
+      if (curStep >= 4) {
+        qPoly([[-18, altY + 3, -14], [18, altY + 3, -14], [14, altY + 1.5, -30], [-14, altY + 1.5, -30]], 'rgba(26, 28, 38, 0.96)', '#d97706', 1.4);
+        qLine([-11, altY + 3.2, -27], [-5, altY + 3.2, -29], '#fbbf24', 2.6);
+        qLine([ 5, altY + 3.2, -29], [11, altY + 3.2, -27], '#fbbf24', 2.6);
+        qPoly([[-3, altY + 2.8, -30], [3, altY + 2.8, -30], [3, altY - 1, -31], [-3, altY - 1, -31]], '#38bdf8', '#e0f2fe', 1.2);
+        qPoly([[-4.5, altY - 1, -1], [4.5, altY - 1, -1], [4.5, altY - 1, 5], [-4.5, altY - 1, 5]], 'rgba(244, 63, 94, 0.75)', '#fda4af', 1.3);
+      }
+
+      // STEP 5+: NATURE (2024) 3-PANEL BISTABLE ORIGAMI WINGS (138mm Span + 22Hz Flutter Reed)
+      if (curStep >= 5) {
+        [-1, 1].forEach(side => {
+          const flutter = (curStep === 8 ? spinEnv : 0.4) * Math.sin(simTime * 24) * 0.35;
+          const s1 = 12 + unfold * 18;
+          const s2 = unfold * 26;
+          const s3 = unfold * 30;
+
+          const r0 = [side * 15, altY + 2, -4];
+          const r1 = add3(r0, rotY([side * s1, 2, 2], side * flutter));
+          const r2 = add3(r1, rotY([side * s2, 1.5, (1 - unfold) * 12], side * flutter));
+          const r3 = add3(r2, rotY([side * s3, 1, (1 - unfold) * 8], side * flutter));
+
+          qPoly([r0, r1, [r1[0], r1[1]-1, r1[2]+16], [side * 14, altY + 1, 12]], 'rgba(245, 158, 11, 0.28)', '#fbbf24', 1.2);
+          qPoly([r1, r2, [r2[0]*0.92, r2[1]-1, r2[2]+14], [r1[0], r1[1]-1, r1[2]+16]], 'rgba(52, 211, 153, 0.25)', '#34d399', 1.2);
+          qPoly([r2, r3, [r3[0]*0.88, r3[1]-1, r3[2]+10], [r2[0]*0.92, r2[1]-1, r2[2]+14]], 'rgba(56, 189, 248, 0.28)', '#38bdf8', 1.2);
+        });
+      }
+
+      // STEP 6+: BRONZE 4-BAR LINKAGE + 1.2g SERVO + MATTE-OBSIDIAN SPLIT ELYTRA
+      if (curStep >= 6) {
+        [-1, 1].forEach(side => {
+          const hinge = [side * 11, altY + 4, -12];
+          const lift = elytraOpen * 1.15;
+          const sweep = elytraOpen * 0.85;
+          const raw = [
+            [0, 0, 0], [side * 11.5, -0.5, 0], [side * 12, -1.5, 22], [side * 8.5, -1, 40], [0, 0.8, 40]
+          ];
+          const tr = raw.map(pt => add3(hinge, rotY(rotZ(pt, side * lift), -side * sweep)));
+
+          qLine([side * 5, altY + 2, -6], tr[1], '#f59e0b', 2.0);
+          qLine([side * 5, altY + 2, 2], tr[2], '#d97706', 1.6);
+
+          const fill = xray ? 'rgba(30, 41, 59, 0.32)' : 'rgba(18, 20, 28, 0.96)';
+          const stroke = xray ? 'rgba(245, 158, 11, 0.85)' : '#d97706';
+          qPoly(tr, fill, stroke, 1.5);
+        });
+      }
+
+      drawList.sort((a, b) => b.z - a.z);
+      drawList.forEach(item => item.fn());
+
+      ctx.restore();
+    }
+
+    let lastTS = performance.now();
+    function loop(ts) {
+      const dt = Math.min(0.1, (ts - lastTS) / 1000);
+      lastTS = ts;
+      renderFrame(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
