@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCARAB 1 — 1:1 Life-Size Human Wearable Scale 3D Simulator</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-2.5 sm:p-3.5 select-none">
+  <div class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-2xl p-3 sm:p-3.5 shadow-lg space-y-2.5">
+
+    <!-- Top Header & Camera Focus Modes -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
+      <div>
+        <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-amber-400">
+          <span>1:1 ANTHROPOMETRIC HUMAN SCALE (178 cm / 5'10" • 58 mm WRIST)</span>
+          <span class="text-[var(--muted-foreground)]">•</span>
+          <span id="archLabel" class="text-sky-400">Arch 2: Switchblade Quad + Origami Wings (62×44mm • 38.5g)</span>
+        </div>
+        <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
+          Life-Size 3D Wearable Scale: Wrist Cuff, Chest Pendant &amp; Belt Holster Launch
+        </h2>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button id="cam-body" onclick="setCameraMode('body')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/60 transition">
+          🧍 Full Body (All 3 Docks)
+        </button>
+        <button id="cam-wrist" onclick="setCameraMode('wrist')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition">
+          ⌚ 1:1 Wrist Cuff Zoom
+        </button>
+        <button id="cam-pendant" onclick="setCameraMode('pendant')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition">
+          📿 1:1 Chest Pendant Zoom
+        </button>
+        <button id="cam-belt" onclick="setCameraMode('belt')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition">
+          🔋 Belt → Shoulder Familiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Main 3D Viewport + Scale Comparison HUD -->
+    <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#050912]">
+      <canvas id="simCanvas" class="w-full h-[300px] sm:h-[325px] block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Top-Left Architecture + Everyday Size Reference Toggles -->
+      <div class="absolute top-2 left-2 flex flex-col gap-1.5 bg-black/80 backdrop-blur-md p-2 rounded-lg border border-white/15 max-w-[270px]">
+        <div class="text-xs font-bold text-slate-300">Propulsion Build (All Fit 62×44mm):</div>
+        <div class="flex flex-wrap gap-1">
+          <button id="btn-arch2" onclick="setArch('arch2')" class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-500/30 text-sky-200 border border-sky-400/60">
+            🛸 Arch 2 Quad (38.5g)
+          </button>
+          <button id="btn-arch3" onclick="setArch('arch3')" class="px-2 py-0.5 rounded text-xs font-semibold text-slate-300 hover:text-white">
+            ⚡ Arch 3 Coax (36.2g)
+          </button>
+          <button id="btn-arch1" onclick="setArch('arch1')" class="px-2 py-0.5 rounded text-xs font-semibold text-slate-300 hover:text-white">
+            🦋 Arch 1 Flap (29.8g)
+          </button>
+        </div>
+        <div class="pt-1 border-t border-white/10 flex items-center justify-between gap-2">
+          <button id="btnGhost" onclick="toggleGhost()" class="text-xs font-semibold text-emerald-300 hover:underline">
+            ⌚ Apple Watch Ultra Ghost: ON
+          </button>
+        </div>
+      </div>
+
+      <!-- Top-Right 1:1 Millimeter & Gram Comparison Table -->
+      <div class="absolute top-2 right-2 bg-black/80 backdrop-blur-md px-3 py-2 rounded-lg border border-white/15 text-xs text-slate-200 space-y-0.5 font-mono">
+        <div class="text-amber-300 font-bold border-b border-white/10 pb-0.5 mb-1">1:1 HUMAN SCALE METRICS</div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Human Wrist Width:</span><span class="text-white font-bold">58.0 mm</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">SCARAB 1 Closed:</span><span class="text-amber-300 font-bold">62 × 44 × 25 mm</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">Apple Watch Ultra:</span><span class="text-emerald-300 font-bold">49 × 44 mm (61.4g)</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">AirPods Pro Case:</span><span class="text-sky-300 font-bold">61 × 45 mm (50.8g)</span></div>
+        <div class="flex justify-between gap-3"><span class="text-slate-400">SCARAB 1 Weight:</span><span id="hudMass" class="text-purple-300 font-bold">38.5 g (37% lighter!)</span></div>
+      </div>
+
+      <!-- Bottom Controls Overlay -->
+      <div class="absolute bottom-2 left-2 right-2 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+        <div class="pointer-events-auto flex items-center gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
+          <span>Drag to Orbit 360° • Scroll to Zoom •</span>
+          <button id="btnPlay" onclick="togglePlay()" class="text-amber-300 font-bold hover:underline">⏸ Auto-Launch Mission: ON</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Scrubber & Wearable Launch Stages -->
+    <div class="space-y-1.5">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xs font-semibold text-[var(--muted-foreground)] whitespace-nowrap">Wearable Sortie:</span>
+        <input id="timelineSlider" type="range" min="0" max="100" value="0" oninput="onScrub(this.value)" class="w-full accent-amber-400 cursor-pointer" />
+        <span id="timelinePct" class="text-xs font-mono font-bold text-amber-400 w-9 text-right">0%</span>
+      </div>
+
+      <div class="grid grid-cols-4 gap-1.5">
+        <button onclick="jumpStage(0)" id="st-0" class="text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition">
+          <div class="text-xs font-bold text-amber-300">1. DOCKED ON BODY</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">44mm Watch/Pin Footprint</div>
+        </button>
+        <button onclick="jumpStage(1)" id="st-1" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">2. UNLATCH &amp; UNFOLD</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">195mm Wings Clear Skin</div>
+        </button>
+        <button onclick="jumpStage(2)" id="st-2" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">3. POV SELFIE / SCOUT</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">Hovers 65cm Out + Shoulder</div>
+        </button>
+        <button onclick="jumpStage(3)" id="st-3" class="text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition">
+          <div class="text-xs font-bold text-[var(--foreground)]">4. AUTO-RETURN DOCK</div>
+          <div class="text-xs text-[var(--muted-foreground)] truncate">IR/ToF Lands on Forearm</div>
+        </button>
+      </div>
+
+      <div id="stageDesc" class="rounded-lg bg-[var(--secondary)]/60 border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--foreground)] leading-relaxed">
+        <strong class="text-amber-400">1:1 Human Scale Reality Check:</strong> An adult wrist is <strong>58 mm wide</strong>. At <strong>62 × 44 × 25 mm</strong> and <strong>29.8–38.5 g</strong>, SCARAB 1 has the exact same <strong>44 mm width as an Apple Watch Ultra (49 × 44 mm, 61.4 g)</strong> and is nearly <strong>40% lighter</strong>! Click <strong>⌚ 1:1 Wrist Cuff Zoom</strong> above to see the green Apple Watch Ultra ghost outline right underneath SCARAB 1.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 1 unit in 3D space = 1 millimeter (mm) for 100% true anthropometric scale!
+    // Human torso center (sternum) is around [0, 120, 0]
+    let camMode = 'body';   // 'body' | 'wrist' | 'pendant' | 'belt'
+    let archMode = 'arch2'; // 'arch2' | 'arch3' | 'arch1'
+    let showGhost = true;
+    let progress = 0;
+    let autoPlay = true;
+    let simTime = 0;
+
+    // Camera state (target 3D point in mm, yaw, pitch, zoom/fov)
+    let camTarget = [0, 60, 40];
+    let camYaw = -0.45;
+    let camPitch = 0.25;
+    let camDist = 780;
+    let isDragging = false;
+    let lastX = 0, lastY = 0;
+
+    const stageTexts = [
+      '<strong class="text-amber-400">Stage 1 — Docked on Your Body (98% of the Day):</strong> On your <strong>58 mm wrist</strong>, SCARAB 1 (<strong>62 × 44 mm, 38.5 g</strong>) has the exact 44 mm width of an <strong>Apple Watch Ultra (61.4 g, green dashed ghost)</strong>. On your chest, it is smaller and lighter than an <strong>AirPods Pro case (50.8 g)</strong> while running its front 1080p AI lens at 35 mW.',
+      '<strong class="text-sky-400">Stage 2 — 120 ms Unfold on Forearm / Sternum:</strong> As the bronze 4-bar elytra lift 68°, the <strong>76 mm Switchblade Quad arms</strong> (or 34 mm internal coaxial ducts) + <strong>195 mm origami hindwings</strong> deploy 18 mm above the dock surface—completely clearing your wrist skin, knuckles, and collar!',
+      '<strong class="text-emerald-400">Stage 3 — Autonomous 3rd-Person Portrait &amp; Shoulder "Familiar" Overwatch:</strong> The Wrist &amp; Chest units fly <strong>550–650 mm out in front of you</strong> and yaw 180° to frame a hands-free group photo/video, while the Belt Dock unit ascends to hover <strong>200 mm above your right shoulder</strong> as an over-the-shoulder AI scout!',
+      '<strong class="text-purple-400">Stage 4 — Precision ToF + IR Beacon Return to Forearm / Pendant:</strong> Downward 8×8 laser ToF + IR dock homing guides SCARAB 1 gently back onto the self-aligning gold pogo pads on your raised forearm or chest medallion, where closing the elytra sweeps the wings/arms back into the <strong>62 × 44 mm</strong> shell.'
+    ];
+
+    function setCameraMode(mode) {
+      camMode = mode;
+      ['body', 'wrist', 'pendant', 'belt'].forEach(k => {
+        const btn = document.getElementById('cam-' + k);
+        btn.className = (k === mode)
+          ? 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-500/25 text-amber-300 border border-amber-400/60 transition'
+          : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)] transition';
+      });
+      if (mode === 'body') {
+        camTarget = [0, 75, 60];
+        camYaw = -0.48; camPitch = 0.24; camDist = 760;
+      } else if (mode === 'wrist') {
+        // Focus directly on the raised Right Wrist at [-95, 25, 195] mm
+        camTarget = [-95, 35, 195];
+        camYaw = -0.55; camPitch = 0.48; camDist = 250;
+      } else if (mode === 'pendant') {
+        // Focus on Sternum Chest Pendant at [0, 135, 115] mm
+        camTarget = [0, 140, 130];
+        camYaw = -0.38; camPitch = 0.22; camDist = 290;
+      } else if (mode === 'belt') {
+        // Focus on Right Hip Belt Dock + Shoulder Familiar trajectory
+        camTarget = [120, 40, 60];
+        camYaw = -0.65; camPitch = 0.28; camDist = 560;
+      }
+    }
+
+    function setArch(a) {
+      archMode = a;
+      const map = {
+        arch2: { label: 'Arch 2: Switchblade Quad + Origami Wings (62×44mm • 38.5g)', mass: '38.5 g (37% lighter!)', cls: 'text-sky-400' },
+        arch3: { label: 'Arch 3: Tandem Coaxial 34mm Oval Ducts (62×44mm • 36.2g)', mass: '36.2 g (41% lighter!)', cls: 'text-amber-400' },
+        arch1: { label: 'Arch 1: Nature (2024) Passive Flapper (62×44mm • 29.8g)', mass: '29.8 g (51% lighter!)', cls: 'text-emerald-400' }
+      };
+      const lbl = document.getElementById('archLabel');
+      lbl.textContent = map[a].label;
+      lbl.className = map[a].cls;
+      document.getElementById('hudMass').textContent = map[a].mass;
+
+      ['arch2', 'arch3', 'arch1'].forEach(k => {
+        const b = document.getElementById('btn-' + k);
+        b.className = (k === a)
+          ? 'px-2 py-0.5 rounded text-xs font-semibold bg-sky-500/30 text-sky-200 border border-sky-400/60'
+          : 'px-2 py-0.5 rounded text-xs font-semibold text-slate-300 hover:text-white';
+      });
+    }
+
+    function toggleGhost() {
+      showGhost = !showGhost;
+      document.getElementById('btnGhost').textContent = showGhost
+        ? '⌚ Apple Watch Ultra Ghost: ON'
+        : '⌚ Apple Watch Ultra Ghost: OFF';
+    }
+
+    function togglePlay() {
+      autoPlay = !autoPlay;
+      document.getElementById('btnPlay').textContent = autoPlay
+        ? '⏸ Auto-Launch Mission: ON'
+        : '▶ Auto-Launch Mission: PAUSED';
+    }
+
+    function onScrub(v) {
+      autoPlay = false;
+      document.getElementById('btnPlay').textContent = '▶ Auto-Launch Mission: PAUSED';
+      progress = parseFloat(v);
+      updateStageUI();
+    }
+
+    function jumpStage(idx) {
+      autoPlay = false;
+      document.getElementById('btnPlay').textContent = '▶ Auto-Launch Mission: PAUSED';
+      const pts = [6, 28, 62, 90];
+      progress = pts[idx];
+      document.getElementById('timelineSlider').value = progress;
+      updateStageUI();
+    }
+
+    function updateStageUI() {
+      document.getElementById('timelinePct').textContent = Math.round(progress) + '%';
+      let sIdx = 0;
+      if (progress < 18) sIdx = 0;
+      else if (progress < 42) sIdx = 1;
+      else if (progress < 78) sIdx = 2;
+      else sIdx = 3;
+
+      for (let i = 0; i < 4; i++) {
+        const el = document.getElementById('st-' + i);
+        el.className = (i === sIdx)
+          ? 'text-left p-1.5 rounded-lg border border-amber-400/80 bg-amber-500/20 transition'
+          : 'text-left p-1.5 rounded-lg border border-[var(--border)] bg-[var(--secondary)]/40 transition';
+      }
+      document.getElementById('stageDesc').innerHTML = stageTexts[sIdx];
+    }
+
+    canvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      camYaw += (e.clientX - lastX) * 0.009;
+      camPitch = Math.max(-0.4, Math.min(1.45, camPitch + (e.clientY - lastY) * 0.009));
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => { isDragging = false; });
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      camDist = Math.max(150, Math.min(1100, camDist + e.deltaY * 0.45));
+    }, { passive: false });
+
+    function sub3(a, b) { return [a[0]-b[0], a[1]-b[1], a[2]-b[2]]; }
+    function add3(a, b) { return [a[0]+b[0], a[1]+b[1], a[2]+b[2]]; }
+    function rotY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c + p[2]*s, p[1], -p[0]*s + p[2]*c]; }
+    function rotX(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], p[1]*c - p[2]*s, p[1]*s + p[2]*c]; }
+    function rotZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0]*c - p[1]*s, p[0]*s + p[1]*c, p[2]]; }
+    function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+    function smoothstep(a, b, x) { const t = clamp01((x - a) / (b - a)); return t * t * (3 - 2 * t); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function lerp3(a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+
+    function project(pt, W, H) {
+      let p = sub3(pt, camTarget);
+      p = rotY(p, camYaw);
+      p = rotX(p, camPitch);
+      const fov = 460;
+      const z = camDist - p[2];
+      const s = fov / Math.max(40, z);
+      return [W * 0.5 + p[0] * s, H * 0.52 - p[1] * s, z, s];
+    }
+
+    // Build a 3D lofted limb/torso segment between two 3D centers with elliptical radii [rx, ry, rz]
+    function queueLoftRing(drawList, W, H, center, rx, ry, rz, tiltX, tiltZ, fill, stroke, lw = 1) {
+      const pts = [];
+      const N = 12;
+      for (let i = 0; i < N; i++) {
+        const a = (i / N) * Math.PI * 2;
+        let local = [Math.cos(a) * rx, Math.sin(a) * ry, Math.sin(a) * rz];
+        local = rotX(local, tiltX);
+        local = rotZ(local, tiltZ);
+        pts.push(add3(center, local));
+      }
+      const pr = pts.map(p => project(p, W, H));
+      const avgZ = pr.reduce((s, p) => s + p[2], 0) / N;
+      drawList.push({
+        z: avgZ,
+        fn: () => {
+          ctx.beginPath();
+          pr.forEach((p, idx) => { if (idx === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+          ctx.closePath();
+          if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+          if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+        }
+      });
+    }
+
+    // Draw an individual 1:1 Millimeter-Accurate SCARAB 1 (62 mm long × 44 mm wide × 25 mm tall) at pos3D + orientation
+    function queueScarab1Unit(drawList, W, H, pos, pitchRad, yawRad, unfold, flapEnv, labelText, showWatchGhost) {
+      function toWorld(localPt) {
+        let p = rotX(localPt, pitchRad);
+        p = rotY(p, yawRad);
+        return add3(pos, p);
+      }
+
+      function qPoly(localPts, fill, stroke, lw = 1.2) {
+        const pr = localPts.map(lp => project(toWorld(lp), W, H));
+        const avgZ = pr.reduce((s, p) => s + p[2], 0) / pr.length;
+        drawList.push({
+          z: avgZ,
+          fn: () => {
+            ctx.beginPath();
+            pr.forEach((p, i) => { if (i === 0) ctx.moveTo(p[0], p[1]); else ctx.lineTo(p[0], p[1]); });
+            ctx.closePath();
+            if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+            if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
+          }
+        });
+      }
+
+      function qLine(la, lb, stroke, lw = 1.5, dash = []) {
+        const pa = project(toWorld(la), W, H);
+        const pb = project(toWorld(lb), W, H);
+        drawList.push({
+          z: (pa[2] + pb[2]) * 0.5,
+          fn: () => {
+            ctx.save();
+            ctx.beginPath();
+            ctx.setLineDash(dash);
+            ctx.moveTo(pa[0], pa[1]);
+            ctx.lineTo(pb[0], pb[1]);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = lw;
+            ctx.stroke();
+            ctx.restore();
+          }
+        });
+      }
+
+      // Optional 1:1 Apple Watch Ultra Ghost (49 mm long × 44 mm wide × 14.4 mm thick) at the dock base
+      if (showWatchGhost && showGhost) {
+        qPoly([
+          [-22, -2, -24.5], [22, -2, -24.5], [22, -2, 24.5], [-22, -2, 24.5]
+        ], 'rgba(16, 185, 129, 0.14)', '#10b981', 1.5);
+      }
+
+      // 1. SCARAB 1 Ventral Body (Exact 62 mm long: Z = -31..+31 mm, 44 mm wide: X = -22..+22 mm)
+      qPoly([
+        [-20, 0, -29], [20, 0, -29], [22, 0, 0], [18, 0, 31], [-18, 0, 31], [-22, 0, 0]
+      ], 'rgba(17, 24, 39, 0.96)', '#94a3b8', 1.2);
+
+      // Pronotum + Front OV5640 AI Lens + Amber Eye Slits
+      qPoly([[-19, 8, -10], [19, 8, -10], [15, 6, -31], [-15, 6, -31]], 'rgba(28, 30, 38, 0.98)', '#f59e0b', 1.3);
+      qLine([-12, 8.5, -28], [-5, 8.5, -30], '#fbbf24', 2.4);
+      qLine([ 5, 8.5, -30], [12, 8.5, -28], '#fbbf24', 2.4);
+
+      // 2. Architecture-Specific Rotors (True mm scale!)
+      if (archMode === 'arch2' && (unfold > 0.05)) {
+        // 4 Switchblade 0802 Quad Arms: Stowed at X=±10mm inside 44mm shell -> Deployed to X=±29mm (76mm span across centers + 28mm props)
+        const hx = 10 + unfold * 19;
+        [[-1, -1, -16], [1, -1, -16], [-1, 1, 16], [1, 1, 16]].forEach(([sx, sz, hz]) => {
+          qLine([sx * 6, 6, hz * 0.5], [sx * hx, 7, hz], '#e2e8f0', 2.0);
+          const rPts = [];
+          const R = 13.5; // 27-28mm diameter rotor = 13.5mm radius!
+          for (let i = 0; i < 10; i++) {
+            const a = (i / 10) * Math.PI * 2 + simTime * 28 * flapEnv;
+            rPts.push([sx * hx + Math.cos(a) * R, 7.5, hz + Math.sin(a) * R]);
+          }
+          qPoly(rPts, 'rgba(56, 189, 248, 0.28)', '#38bdf8', 1.2);
+        });
+      } else if (archMode === 'arch3' && (unfold > 0.05)) {
+        // 2 Tandem 34mm Coaxial Ducts (R = 16.5mm inside the ±22mm body!)
+        [-5, 16].forEach(cz => {
+          const dPts = [];
+          for (let i = 0; i < 12; i++) {
+            const a = (i / 12) * Math.PI * 2;
+            dPts.push([Math.cos(a) * 16.5, 7, cz + Math.sin(a) * 11]);
+          }
+          qPoly(dPts, 'rgba(251, 191, 36, 0.26)', '#fbbf24', 1.3);
+        });
+      }
+
+      // 3. Nature (2024) 3-Panel Origami Hindwings (Exact 195 mm tip-to-tip span = ±97.5 mm per side when unfold = 1!)
+      if (unfold > 0.04) {
+        [-1, 1].forEach(side => {
+          const stroke = flapEnv * Math.sin(simTime * 26) * 0.42 * (archMode === 'arch1' ? 1.0 : 0.35);
+          const span1 = 14 + unfold * 20; // 34mm
+          const span2 = unfold * 30;      // +30mm = 64mm
+          const span3 = unfold * 33.5;    // +33.5mm = 97.5mm per side -> 195mm total span!
+
+          const r0 = [side * 12, 7, -4];
+          const r1 = add3(r0, rotY([side * span1, 3, 2], side * stroke));
+          const r2 = add3(r1, rotY([side * span2, 2, (1 - unfold) * 12], side * stroke));
+          const r3 = add3(r2, rotY([side * span3, 1, (1 - unfold) * 8], side * stroke));
+
+          qPoly([r0, r1, [r1[0], r1[1]-1, r1[2]+18], [side * 10, 6, 14]], 'rgba(245, 158, 11, 0.28)', '#fbbf24', 1.1);
+          qPoly([r1, r2, [r2[0]*0.92, r2[1]-1, r2[2]+15], [r1[0], r1[1]-1, r1[2]+18]], 'rgba(52, 211, 153, 0.25)', '#34d399', 1.1);
+          qPoly([r2, r3, [r3[0]*0.88, r3[1]-1, r3[2]+11], [r2[0]*0.92, r2[1]-1, r2[2]+15]], 'rgba(56, 189, 248, 0.28)', '#38bdf8', 1.1);
+        });
+      }
+
+      // 4. Split Obsidian + Brushed-Bronze Elytra (Lift 68° when unfold > 0)
+      [-1, 1].forEach(side => {
+        const hinge = [side * 11, 9, -10];
+        const lift = unfold * 1.15;
+        const sweep = unfold * 0.85;
+        const raw = [
+          [0, 0, 0], [side * 11, -1, 0], [side * 11, -2, 22], [side * 8, -1, 41], [0, 1, 41]
+        ];
+        const tr = raw.map(pt => add3(hinge, rotY(rotZ(pt, side * lift), -side * sweep)));
+        qPoly(tr, 'rgba(22, 25, 34, 0.92)', '#d97706', 1.4);
+      });
+
+      // 5. Floating Callout Pill
+      if (labelText) {
+        const lp = project(toWorld([0, 34, 0]), W, H);
+        drawList.push({
+          z: lp[2] - 20,
+          fn: () => {
+            ctx.save();
+            ctx.font = '600 12px ui-sans-serif, system-ui, sans-serif';
+            const tw = ctx.measureText(labelText).width;
+            ctx.fillStyle = 'rgba(10, 16, 29, 0.86)';
+            ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.roundRect(lp[0] - tw * 0.5 - 6, lp[1] - 10, tw + 12, 20, 5);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fde68a';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(labelText, lp[0], lp[1]);
+            ctx.restore();
+          }
+        });
+      }
+    }
+
+    function renderFrame(dt) {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      const rect = canvas.getBoundingClientRect();
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      const W = rect.width, H = rect.height;
+
+      if (autoPlay) {
+        progress = (progress + dt * 7.5) % 100;
+        document.getElementById('timelineSlider').value = progress;
+        updateStageUI();
+      }
+      simTime += dt;
+
+      // Mission phases:
+      // unfold: opens 16..34, stays open 34..86, closes 86..96
+      const unfold = smoothstep(15, 32, progress) * (1 - smoothstep(85, 96, progress));
+      const flapEnv = smoothstep(24, 34, progress) * (1 - smoothstep(82, 88, progress));
+      // Flight excursion out from dock: 38..56 out, 56..74 hover, 74..86 return
+      const flyOut = smoothstep(36, 54, progress) * (1 - smoothstep(74, 86, progress));
+      const bob = flyOut * Math.sin(simTime * 4.5) * 8;
+
+      // Studio Backdrop
+      const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 30, W * 0.5, H * 0.5, W * 0.75);
+      grad.addColorStop(0, '#101b33');
+      grad.addColorStop(1, '#040710');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      const drawList = [];
+
+      // 1. RENDER 1:1 MILLIMETER-CALIBRATED 3D HUMAN MANNEQUIN (Torso, Head, Neck, Shoulders, Raised Right Forearm/Hand, Hip)
+      const humanFill = 'rgba(30, 58, 95, 0.28)';
+      const humanStroke = 'rgba(56, 189, 248, 0.38)';
+
+      // Torso ribcage & waist slices (Y = -180mm waist to +220mm shoulders; shoulder width = 440mm = ±220mm)
+      const torsoSlices = [
+        { y: -180, rx: 155, rz: 105 }, // Waist / Belt line (310mm wide)
+        { y: -110, rx: 148, rz: 102 },
+        { y:  -40, rx: 160, rz: 112 },
+        { y:   30, rx: 175, rz: 120 },
+        { y:  100, rx: 190, rz: 124 }, // Sternum / Chest (380mm chest, 248mm deep)
+        { y:  170, rx: 215, rz: 118 }, // Shoulders (430mm bi-deltoid)
+        { y:  215, rx: 140, rz:  90 }  // Collarbone / Clavicle
+      ];
+      torsoSlices.forEach(s => {
+        queueLoftRing(drawList, W, H, [0, s.y, 0], s.rx, 8, s.rz, Math.PI * 0.5, 0, humanFill, humanStroke, 1.1);
+      });
+
+      // Neck & Head (Y = +240mm to +460mm; Head width = 156mm, height = 220mm)
+      queueLoftRing(drawList, W, H, [0, 245, 10], 58, 8, 58, Math.PI * 0.5, 0, humanFill, humanStroke, 1.1);
+      queueLoftRing(drawList, W, H, [0, 310, 22], 74, 15, 88, Math.PI * 0.5, 0, humanFill, humanStroke, 1.2);
+      queueLoftRing(drawList, W, H, [0, 365, 25], 78, 18, 95, Math.PI * 0.5, 0, 'rgba(30,58,95,0.36)', '#38bdf8', 1.4); // Eye/Visor level
+      queueLoftRing(drawList, W, H, [0, 420, 18], 68, 15, 84, Math.PI * 0.5, 0, humanFill, humanStroke, 1.1);
+
+      // Left Arm (Relaxed down at left side X = +225mm)
+      [150, 80, 10, -60, -130].forEach((ay, i) => {
+        const r = 46 - i * 3.5;
+        queueLoftRing(drawList, W, H, [225 + i * 4, ay, 10], r, 6, r, Math.PI * 0.5, 0, humanFill, humanStroke, 1.0);
+      });
+
+      // RIGHT ARM & FOREARM (Raised in natural "Check Wrist Cuff / Launch Scout" horizontal pose in front of chest!)
+      // Right Shoulder at [-215, 160, 0] -> Elbow at [-210, 15, 75] -> Forearm sweeps forward/inward to Wrist at [-95, 25, 195]!
+      // Notice: At the Wrist [-95, 25, 195], the human wrist cross-section is EXACTLY 58 mm wide (rx=29mm) × 42 mm thick (ry=21mm)!
+      const forearmRings = [
+        { pos: [-210, 95, 35], rx: 46, ry: 44 },  // Upper arm
+        { pos: [-210, 20, 75], rx: 42, ry: 40 },  // Elbow
+        { pos: [-175, 22, 118], rx: 39, ry: 34 }, // Proximal forearm (78mm wide)
+        { pos: [-138, 24, 156], rx: 34, ry: 27 }, // Mid forearm (68mm wide)
+        { pos: [-95,  25, 195], rx: 29, ry: 21 }, // WRIST CUFF LOCATION (Exact 58mm wide × 42mm thick adult wrist!)
+        { pos: [-62,  25, 218], rx: 42, ry: 14 }, // Palm / Metacarpals (84mm wide palm)
+        { pos: [-32,  24, 235], rx: 36, ry: 10 }  // Fingers extended
+      ];
+      forearmRings.forEach((f, idx) => {
+        const isWrist = (idx === 4);
+        queueLoftRing(
+          drawList, W, H, f.pos, f.rx, f.ry, f.rx * 0.7, 0.25, 0.4,
+          isWrist ? 'rgba(217, 119, 6, 0.28)' : 'rgba(30, 58, 95, 0.34)',
+          isWrist ? '#f59e0b' : 'rgba(56, 189, 248, 0.5)',
+          isWrist ? 1.8 : 1.1
+        );
+      });
+
+      // 2. DOCK 1: WRIST CUFF SCARAB 1 (Mounted on top of the 58mm Right Wrist at [-95, 48, 195])
+      const wristDockPos = [-95, 49, 195];
+      // When flyOut > 0, it launches off the forearm to [-60, 175 + bob, 420] and yaws to face the human!
+      const wristFlyPos = [-50, 185 + bob, 410];
+      const wristCurPos = lerp3(wristDockPos, wristFlyPos, flyOut);
+      const wristYaw = lerp(0.55, Math.PI - 0.15, flyOut);
+      queueScarab1Unit(
+        drawList, W, H,
+        wristCurPos,
+        lerp(0.08, -0.1, flyOut),
+        wristYaw,
+        unfold,
+        flapEnv,
+        flyOut > 0.2 ? '⌚ Wrist Unit: Hovering 40cm Out' : '⌚ Wrist Cuff (62×44mm on 58mm Wrist)',
+        flyOut < 0.05 // Show 49×44mm Apple Watch Ultra Ghost underneath when docked!
+      );
+
+      // 3. DOCK 2: CHEST PENDANT SCARAB 1 (Mounted on Sternum Lanyard at [0, 125, 126])
+      // Draw Lanyard Neck Cord from Neck [±55, 225, 35] down to Sternum Medallion [0, 125, 124]
+      const pL1 = project([-55, 220, 45], W, H), pL2 = project([0, 132, 124], W, H), pL3 = project([55, 220, 45], W, H);
+      drawList.push({
+        z: pL2[2],
+        fn: () => {
+          ctx.beginPath();
+          ctx.moveTo(pL1[0], pL1[1]);
+          ctx.lineTo(pL2[0], pL2[1]);
+          ctx.lineTo(pL3[0], pL3[1]);
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 2.0;
+          ctx.stroke();
+        }
+      });
+
+      const pendantDockPos = [0, 125, 130];
+      // Launches forward to [40, 290 + bob, 470] (Eye-level 3rd-person Selfie / Scout camera!)
+      const pendantFlyPos = [45, 295 + bob, 470];
+      const pendantCurPos = lerp3(pendantDockPos, pendantFlyPos, flyOut);
+      const pendantPitch = lerp(1.15, 0.0, smoothstep(0, 0.35, flyOut)); // Vertical on chest -> horizontal in hover!
+      const pendantYaw = lerp(0.0, Math.PI + 0.1, flyOut);
+      queueScarab1Unit(
+        drawList, W, H,
+        pendantCurPos,
+        pendantPitch,
+        pendantYaw,
+        unfold,
+        flapEnv,
+        flyOut > 0.2 ? '📿 Chest Unit: 3rd-Person Selfie Hover' : '📿 Chest Pendant (Smaller than AirPods Case)',
+        false
+      );
+
+      // 4. DOCK 3: BELT HOLSTER SCARAB 1 (Right Hip at [158, -165, 35] -> Ascends to Over-the-Shoulder Familiar at [195, 285 + bob, 40]!)
+      const beltDockPos = [162, -165, 38];
+      const shoulderFamiliarPos = [195, 285 + bob, 45];
+      const beltCurPos = lerp3(beltDockPos, shoulderFamiliarPos, flyOut);
+      queueScarab1Unit(
+        drawList, W, H,
+        beltCurPos,
+        lerp(1.2, 0.05, smoothstep(0, 0.3, flyOut)),
+        lerp(0.4, 0.0, flyOut),
+        unfold,
+        flapEnv,
+        flyOut > 0.2 ? '🔋 Shoulder "Familiar" Overwatch' : '🔋 Belt Holster (2,500 mAh Fast-Charge)',
+        false
+      );
+
+      // Draw Dashed Flight Trajectory Curves & Camera FOV Cone when airborne
+      if (flyOut > 0.05) {
+        [
+          [wristDockPos, wristCurPos, 'rgba(56, 189, 248, 0.55)'],
+          [pendantDockPos, pendantCurPos, 'rgba(251, 191, 36, 0.55)'],
+          [beltDockPos, beltCurPos, 'rgba(52, 211, 153, 0.55)']
+        ].forEach(([a, b, col]) => {
+          const pa = project(a, W, H), pb = project(b, W, H);
+          drawList.push({
+            z: (pa[2] + pb[2]) * 0.5 + 10,
+            fn: () => {
+              ctx.save();
+              ctx.beginPath();
+              ctx.setLineDash([4, 4]);
+              ctx.moveTo(pa[0], pa[1]);
+              ctx.lineTo(pb[0], pb[1]);
+              ctx.strokeStyle = col;
+              ctx.lineWidth = 1.6;
+              ctx.stroke();
+              ctx.restore();
+            }
+          });
+        });
+
+        // 3rd-Person AI Camera Framing Cone from Chest Unit back toward Human Face [0, 365, 25]
+        if (flyOut > 0.45) {
+          const camP = project(pendantCurPos, W, H);
+          const faceTop = project([0, 420, 25], W, H);
+          const faceBot = project([0, 120, 40], W, H);
+          drawList.push({
+            z: camP[2] + 5,
+            fn: () => {
+              ctx.save();
+              ctx.beginPath();
+              ctx.moveTo(camP[0], camP[1]);
+              ctx.lineTo(faceTop[0], faceTop[1]);
+              ctx.lineTo(faceBot[0], faceBot[1]);
+              ctx.closePath();
+              ctx.fillStyle = 'rgba(56, 189, 248, 0.09)';
+              ctx.fill();
+              ctx.setLineDash([3, 3]);
+              ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+              ctx.stroke();
+              ctx.restore();
+            }
+          });
+        }
+      }
+
+      // Sort all 3D primitives back-to-front and render
+      drawList.sort((a, b) => b.z - a.z);
+      drawList.forEach(item => item.fn());
+
+      ctx.restore();
+    }
+
+    let lastTS = performance.now();
+    function loop(ts) {
+      const dt = Math.min(0.1, (ts - lastTS) / 1000);
+      lastTS = ts;
+      renderFrame(dt);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
