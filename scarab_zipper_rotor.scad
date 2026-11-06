@@ -22,9 +22,11 @@ $fn = 72;
 /* [Deployment State (0.0 = Stowed Ø24.8x2.6mm Wafer, 1.0 = Deployed Ø64.0x16.0mm)] */
 deploy        = 1.0;   // [0.0:0.05:1.0]
 fold_mode     = 2;     // [2:2-Hinge Bi-Fold (Stows to Ø24.8mm), 1:1-Hinge Single-Arc (Stows to Ø39.2mm)]
+wing_mode     = 1;     // [0:Stowed Carapace, 1:Hover Vertical Coanda Vanes (0 Servos), 2:Cruise Lifting Elytra + 120mm Hindwings]
 show_upper    = true;
 show_lower    = true;
 show_shaft    = true;
+show_elytra   = true;
 
 /* [Primary Rotor & Hub Geometry] */
 D_stowed_target = 25.0; // Target stowed outer diameter (mm)
@@ -185,6 +187,46 @@ union() {
             // Internal Ø7.2mm clear bore for stationary camera / OIS pod
             translate([0, 0, -0.5])
                 cylinder(h = H_flight + 2.0, d = D_shaft_bore - 1.6);
+        }
+    }
+
+    // 4. Functional Structural-Battery + Solar Split Elytra (+1.60g curved Si-C cell + 0.40g skin)
+    //    Driven passively by the 3-start helical spline via a 4-bar scissor-cam linkage (0 servos):
+    //    • wing_mode == 0 (or deploy == 0): Stowed Ø32.5 mm IP52 beetle carapace over folded rotor
+    //    • wing_mode == 1: Vertical Edge-On Coanda Slipstream Vanes at R = 26.5 mm (0% wake blockage)
+    //    • wing_mode == 2: Horizontal Cambered Lifting Elytra + Unfolded 120 mm Origami Hindwings
+    if (show_elytra) {
+        for (side = [-1, 1]) {
+            eff_dep = (wing_mode == 0) ? 0.0 : deploy;
+            piv_x   = side * (8.0 + eff_dep * 18.5);
+            piv_z   = (wing_mode == 1) ? (3.0 - eff_dep * 7.2) : (3.0 + eff_dep * 0.5);
+            roll_deg = (wing_mode == 1) ? (side * eff_dep * 88.0) : (side * eff_dep * 9.0);
+
+            // Passive 4-Bar Scissor-Cam Struts
+            color([0.58, 0.64, 0.72])
+            hull() {
+                translate([side * 10.5, -3.5, 0.5]) sphere(r = 0.35);
+                translate([piv_x,       -3.5, piv_z]) sphere(r = 0.35);
+            }
+
+            translate([piv_x, 0, piv_z])
+            rotate([0, roll_deg, 0]) {
+                // Curved Structural-Battery Elytra Shell (26 mm chord x 11 mm width x 0.65 mm thick)
+                color([0.08, 0.72, 0.52, 0.85])
+                scale([0.45, 1.0, 0.14])
+                difference() {
+                    sphere(r = 13.0);
+                    translate([0, 0, -4.0]) sphere(r = 12.2);
+                    translate([-side * 14.0, -15.0, -15.0]) cube([14.0, 30.0, 30.0]);
+                }
+
+                // Unfolding 120 mm Origami Hindwing Membrane (Active in Forward Cruise wing_mode == 2)
+                if (wing_mode == 2 && eff_dep > 0.25) {
+                    color([0.22, 0.74, 0.97, 0.55])
+                    translate([side * 16.0 * eff_dep, 0, -0.2])
+                        cube([34.0 * eff_dep, 22.0, 0.12], center = true);
+                }
+            }
         }
     }
 }
