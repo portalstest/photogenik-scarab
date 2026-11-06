@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SCARAB Ω³-ELYTRA — Functional Structural-Battery Beetle Wings, Coandă Slipstream Vectoring &amp; 2-Hinge Bi-Fold 3D Simulator</title>
+  <title>SCARAB Ω³-ELYTRA — Active 36Hz Resonant Flapping Hindwings, Structural-Battery Elytra &amp; Servo-Free Coandă 3D Simulator</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     :root {
@@ -24,114 +24,133 @@
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
       <div>
         <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-cyan-400">
-          <span>🪲 SCARAB Ω³-ELYTRA · FUNCTIONAL STRUCTURAL-BATTERY WINGS + SERVO-FREE COANDĂ &amp; DIPOLE CONTROL</span>
+          <span>🪲 SCARAB Ω³-ELYTRA · 36 Hz RESONANT FLAPPING HINDWINGS + STRUCTURAL-BATTERY ELYTRA + 0-SERVO COANDĂ</span>
           <span class="text-[var(--muted-foreground)]">•</span>
           <span class="text-amber-300">⚠️ CONCEPT ANIMATION &amp; KINEMATIC EXPLORER (UNVERIFIED TARGETS)</span>
         </div>
         <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
-          Curved Si-C Battery + Solar Elytra (+3.0 min Hover) • Vertical Coandă Slipstream Vanes (0 Servos) • 120mm Origami Hindwings (-23.9% Cruise Thrust)
+          Active ±28° Figure-8 Flapping Hindwings (44mW NiTi Resonance) • Curved Si-C Battery Elytra (+3.0 min Hover) • Coandă Vane Steer (0 Servos)
         </h2>
       </div>
       <!-- 4 Biomimetic Wing States -->
       <div class="flex flex-wrap items-center gap-1.5">
         <button id="wbtn-hover" onclick="setWingMode('hover')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition">
-          🚁 1. Hover: Vertical Coandă Vanes (22.35m)
+          🚁 1. Hover: Coandă Vanes + 36Hz Flap
         </button>
         <button id="wbtn-cruise" onclick="setWingMode('cruise')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🦅 2. Forward Cruise: 120mm Hindwings (-24% Load)
+          🦋 2. Cruise: Full ±28° Figure-8 Flap
         </button>
         <button id="wbtn-bask" onclick="setWingMode('bask')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          ☀️ 3. Perched: Solar Bask &amp; Pet Purr (+240mW)
+          ☀️ 3. Perched: Solar Bask &amp; Wing Purr
         </button>
         <button id="wbtn-stowed" onclick="setWingMode('stowed')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🛡️ 4. Stowed: IP52 Beetle Armor (Ø32.5×7.6mm)
+          🛡️ 4. Stowed: IP52 Beetle Armor
         </button>
       </div>
     </div>
 
-    <!-- Interactive Unfurl + Servo-Free Airflow Manipulation Sliders -->
+    <!-- Interactive Unfurl + Wing Flap + Servo-Free Airflow Manipulation Sliders -->
     <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 bg-[var(--secondary)]/50 border border-[var(--border)] rounded-xl p-2.5 text-xs items-center">
-      <!-- Slider 1: Euclidean 2-Hinge Bi-Fold & Scissor-Cam Morph -->
-      <div class="sm:col-span-4 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2.5">
+      <!-- Slider 1: Euclidean 2-Hinge Bi-Fold & Wing Unfurl -->
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
         <div class="flex justify-between font-semibold">
-          <span class="text-cyan-300">1. Bi-Fold Rotor &amp; Wing Cam:</span>
-          <span id="lblMorph" class="font-mono text-emerald-300">100% Deployed</span>
+          <span class="text-cyan-300">1. Unfurl (Rotor + Wings):</span>
+          <span id="lblMorph" class="font-mono text-emerald-300">100% Open</span>
         </div>
         <input id="rngMorph" type="range" min="0" max="100" value="100" oninput="onMorphSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer mt-1" />
         <div class="flex justify-between text-[11px] text-slate-400">
-          <span>0%: Ø24.8mm Bi-Fold</span>
+          <span>0%: Ø24.8mm</span>
           <button onclick="toggleAutoMorph()" id="btnAutoLoop" class="text-cyan-300 underline">Auto-Loop: OFF</button>
-          <span>100%: Ø64.0mm Disk</span>
+          <span>100%: Ø64mm+120mm</span>
         </div>
       </div>
 
-      <!-- Slider 2: Servo-Free Coanda Slipstream Swirl Vectoring (From Scarab Omega!) -->
-      <div class="sm:col-span-4 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2.5">
+      <!-- Slider 2: 36 Hz Resonant NiTi Wing-Beat Amplitude & Slow-Mo Inspector -->
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
         <div class="flex justify-between font-semibold">
-          <span class="text-amber-300">2. Coandă Vane Swirl Steer (0 Servos):</span>
-          <span id="lblSwirl" class="font-mono text-amber-200">+0% (0.00 gf)</span>
+          <span class="text-emerald-300">2. 🦋 Wing-Beat Stroke:</span>
+          <span id="lblFlap" class="font-mono text-emerald-200">36 Hz (±28°)</span>
+        </div>
+        <input id="rngFlap" type="range" min="0" max="100" value="100" oninput="onFlapSlider(this.value)" class="w-full accent-emerald-400 cursor-pointer mt-1" />
+        <div class="flex justify-between text-[11px] text-slate-400">
+          <span>0%: Fixed Glide</span>
+          <button onclick="toggleSlowMo()" id="btnSlowMo" class="text-emerald-300 underline font-semibold">🔍 Slow-Mo: OFF</button>
+          <span>100%: ±28° Flap</span>
+        </div>
+      </div>
+
+      <!-- Slider 3: Servo-Free Coanda Slipstream Swirl Vectoring -->
+      <div class="sm:col-span-3 flex flex-col justify-between border-b sm:border-b-0 sm:border-r border-[var(--border)] pb-2 sm:pb-0 sm:pr-2">
+        <div class="flex justify-between font-semibold">
+          <span class="text-amber-300">3. Coandă Swirl Steer:</span>
+          <span id="lblSwirl" class="font-mono text-amber-200">+35% (+0.29gf)</span>
         </div>
         <input id="rngSwirl" type="range" min="-100" max="100" value="35" oninput="onSwirlSlider(this.value)" class="w-full accent-amber-400 cursor-pointer mt-1" />
         <div class="flex justify-between text-[11px] text-slate-400">
-          <span>-100%: Left Jet (-0.83gf)</span>
+          <span>-0.83gf Left</span>
           <button onclick="onSwirlSlider(0); document.getElementById('rngSwirl').value=0;" class="text-amber-300 underline">Center</button>
-          <span>+100%: Right Jet (+0.83gf)</span>
+          <span>+0.83gf Right</span>
         </div>
       </div>
 
-      <!-- Slider 3: Servo-Free Paulos-Yim Antisymmetric Dipole 1/rev Cyclic -->
-      <div class="sm:col-span-4 flex flex-col justify-between">
+      <!-- Slider 4: Servo-Free Paulos-Yim Antisymmetric Dipole 1/rev Cyclic -->
+      <div class="sm:col-span-3 flex flex-col justify-between">
         <div class="flex justify-between font-semibold">
-          <span class="text-purple-300">3. Paulos–Yim 1/rev Cyclic (0 Servos):</span>
-          <span id="lblCyclic" class="font-mono text-purple-200">+0.00 N·mm</span>
+          <span class="text-purple-300">4. Dipole 1/rev Cyclic:</span>
+          <span id="lblCyclic" class="font-mono text-purple-200">+0.36 N·mm</span>
         </div>
         <input id="rngCyclic" type="range" min="-100" max="100" value="25" oninput="onCyclicSlider(this.value)" class="w-full accent-purple-400 cursor-pointer mt-1" />
         <div class="flex justify-between text-[11px] text-slate-400">
-          <span>-1.42 N·mm Pitch/Roll</span>
+          <span>-1.42 N·mm</span>
           <button onclick="onCyclicSlider(0); document.getElementById('rngCyclic').value=0;" class="text-purple-300 underline">Level</button>
-          <span>+1.42 N·mm Pitch/Roll</span>
+          <span>+1.42 N·mm</span>
         </div>
       </div>
     </div>
 
     <!-- Main 3D Viewport -->
     <div class="relative rounded-xl overflow-hidden border border-[var(--border)] bg-[#040814]">
-      <canvas id="mainCanvas" class="w-full h-[335px] sm:h-[375px] block cursor-grab active:cursor-grabbing"></canvas>
+      <canvas id="mainCanvas" class="w-full h-[340px] sm:h-[385px] block cursor-grab active:cursor-grabbing"></canvas>
 
       <!-- Top-Left Live Physics & Wing Battery HUD -->
       <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none max-w-[95%]">
-        <div id="hudTitle" class="text-emerald-300 font-bold">SCARAB Ω³-ELYTRA (11.85g AUW = 9.85g Core + 2.00g Structural-Battery Elytra)</div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Euclidean 2-Hinge Rotor:</span><span id="hudSpan" class="text-cyan-300 font-bold">L1=13.0mm + L2=12.8mm → Ø 64.0mm (32.17 cm²)</span></div>
+        <div id="hudTitle" class="text-emerald-300 font-bold">SCARAB Ω³-ELYTRA (11.85g AUW = 9.85g Core + 2.00g Battery Elytra + 0.35g Flapping Hindwings)</div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Resonant NiTi Wing-Beat:</span><span id="hudFlap" class="text-cyan-300 font-bold">36.0 Hz Figure-8 Stroke (±28° Flap + ±22° Pronation Twist • 44 mW)</span></div>
         <div class="flex justify-between gap-4"><span class="text-slate-400">Battery &amp; Hover Target:</span><span id="hudPower" class="text-emerald-300 font-bold">5.00g Si-C (0.929 Wh @80%) • 2.50W → 22.35 min (+3.0m Gain)</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">0-Servo Airflow Control:</span><span id="hudState" class="text-amber-300 font-bold">COANDĂ ELYTRA VANES (±0.83gf) + PAULOS–YIM DIPOLE (±1.42 N·mm)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">0-Servo Control + Thrust:</span><span id="hudState" class="text-amber-300 font-bold">COANDĂ VANES: +0.29gf | DIPOLE CYCLIC: +0.36 N·mm | KNOLLER–BETZ: +0.31gf</span></div>
       </div>
 
       <!-- Top-Right Functional Wing Legend -->
       <div class="hidden md:block absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-[11px] font-mono space-y-0.5 pointer-events-none">
-        <div class="text-slate-200 font-bold">5 FUNCTIONAL ROLES OF BIOMIMETIC ELYTRA</div>
-        <div class="text-emerald-300">■ 1. Curved Si-C Battery: +1.6g cell → +3.0 min net hover</div>
-        <div class="text-amber-300">■ 2. Vertical Coandă Vanes: 0% wake blockage, ±0.83gf side-jet</div>
-        <div class="text-cyan-300">■ 3. 120mm Origami Hindwings: 3.24gf lift (-23.9% cruise load)</div>
-        <div class="text-yellow-300">■ 4. Perovskite Solar Bask: 14.5 cm² → +180–280 mW perched</div>
-        <div class="text-purple-300">■ 5. IP52 Carapace &amp; Pet Purr: Protects 0.35mm bi-fold blades</div>
+        <div class="text-slate-200 font-bold">ZERO-SERVO RESONANT WING-BEAT PHYSICS</div>
+        <div class="text-emerald-300">■ 1. NiTi Root Flexure (k=2.48 N·mm/rad): 85% elastic recovery</div>
+        <div class="text-cyan-300">■ 2. 36 Hz Sub-Harmonic FOC Drive: Only 44 mW total flap power</div>
+        <div class="text-amber-300">■ 3. Knoller–Betz + LEV Lift: +0.31gf thrust + 3.24gf cruise lift</div>
+        <div class="text-yellow-300">■ 4. Curved Si-C Battery Elytra: +1.6g cell → +3.0 min hover</div>
+        <div class="text-purple-300">■ 5. Figure-8 Shimmer: Fuses at &gt;24 Hz into living beetle halo</div>
       </div>
 
       <!-- Bottom Camera & Quick Action Bar -->
       <div class="absolute bottom-2 left-2 right-2 flex flex-wrap items-center justify-between gap-1.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 text-xs text-slate-300">
         <div class="flex flex-wrap items-center gap-1.5">
           <span class="text-slate-400">Drag 3D Orbit •</span>
-          <button onclick="setCam(-0.48, 0.44, 1.02)" class="hover:text-cyan-300 underline">3D Isometric</button>
+          <button onclick="setCam(-0.46, 0.42, 0.98)" class="hover:text-cyan-300 underline">3D Isometric</button>
           <span>·</span>
-          <button onclick="setCam(0.0, 1.50, 0.98)" class="hover:text-cyan-300 underline">Top Bi-Fold &amp; Wing Span</button>
+          <button onclick="setCam(0.0, 0.10, 1.05)" class="hover:text-cyan-300 underline">Front Flapping Stroke View</button>
           <span>·</span>
-          <button onclick="setCam(0.0, 0.08, 1.15)" class="hover:text-cyan-300 underline">Front Coandă Slipstream View</button>
+          <button onclick="setCam(-1.52, 0.12, 1.05)" class="hover:text-cyan-300 underline">Side Figure-8 Wingtip Path</button>
+          <span>·</span>
+          <button onclick="setCam(0.0, 1.50, 0.92)" class="hover:text-cyan-300 underline">Top 120mm Span View</button>
         </div>
         <div class="flex items-center gap-2">
+          <button onclick="toggleSlowMo()" id="btnSlowMoBottom" class="px-2 py-0.5 rounded bg-emerald-500/25 border border-emerald-400/60 text-emerald-200 hover:bg-emerald-500/40 font-semibold">
+            🔍 Toggle 0.15× Slow-Mo Flap
+          </button>
           <button onclick="triggerPetPurr()" class="px-2 py-0.5 rounded bg-purple-500/25 border border-purple-400/60 text-purple-200 hover:bg-purple-500/40 font-semibold">
-            🪲 Pet Purr / Wing Twitch
+            🪲 Pet Purr Flutter
           </button>
           <button onclick="triggerWhiskerBrake()" class="px-2 py-0.5 rounded bg-rose-500/25 border border-rose-400/60 text-rose-200 hover:bg-rose-500/40 font-semibold">
-            🖐️ 15ms Bumper Brake
+            🖐️ 15ms Brake
           </button>
         </div>
       </div>
@@ -149,26 +168,29 @@
 
     let wingMode = 'hover'; // 'hover', 'cruise', 'bask', 'stowed'
     let autoMorph = false;
-    let morphVal = 1.0; // 0.0 (stowed Ø24.8mm rotor + closed carapace) .. 1.0 (deployed Ø64mm rotor + active wings)
-    let swirlCmd = 0.35; // -1.0 .. +1.0 differential rotor swirl -> Coanda vane jet deflection
-    let cyclicCmd = 0.25; // -1.0 .. +1.0 Paulos-Yim 1/rev dipole cyclic tilt
+    let slowMo = false;
+    let morphVal = 1.0;  // 0.0 (stowed) .. 1.0 (deployed)
+    let flapAmp = 1.0;   // 0.0 (fixed glide) .. 1.0 (±28° resonant 36 Hz figure-8 stroke)
+    let swirlCmd = 0.35; // -1.0 .. +1.0 differential rotor swirl -> Coanda vane steering
+    let cyclicCmd = 0.25;// -1.0 .. +1.0 Paulos-Yim 1/rev dipole cyclic
     let whiskerBrakeTimer = 0;
     let petPurrTimer = 0;
 
     let simTime = 0;
+    let flapPhase = 0;
     let rotorPhase = 0;
 
-    let camYaw = -0.48;
-    let camPitch = 0.44;
-    let camZoom = 1.02;
+    let camYaw = -0.46;
+    let camPitch = 0.42;
+    let camZoom = 0.98;
     let isDragging = false;
     let lastX = 0, lastY = 0;
 
     const modeDescriptions = {
-      hover: '<strong class="text-emerald-300">🚁 Mode 1 — Stationary Hover with Vertical Coandă Structural-Battery Elytra (`11.85 g` AUW, `22.35 min` Target, `0 Servos`):</strong> Instead of dead plastic shells that block the `Ø 64 mm` rotor wake, the two curved <strong>Structural-Battery Elytra (`+1.60 g` curved Si-C pouch cell = `0.929 Wh` usable at `80%` DoD)</strong> swing outboard (`R = 27 mm`) on a passive 4-bar scissor cam and rotate <strong>`90°` vertically edge-on</strong> beneath the coaxial slipstream. Their `0.65 mm` leading edges cause `<0.8%` vertical blockage while acting as <strong>Mirrored Chiral Coandă Stator Vanes</strong>: shifting upper/lower rotor torque (`Slider 2`) steers the downward slipstream laterally (`±0.83 gf` side-force, `±0.079 N·mm` trim) alongside <strong>Paulos–Yim `1/rev` Dipole Cyclic (`Slider 3`, `±1.42 N·mm`)</strong> with <strong>zero servos</strong>.',
-      cruise: '<strong class="text-cyan-300">🦅 Mode 2 — Forward Follow-Me Cruise (`5.0 m/s`) with Unfolded `120 mm` Origami Hindwings (`-23.9%` Rotor Thrust Offload, `0 Servos`):</strong> Above `3.8 m/s` forward airspeed (`q = 15.3 Pa`), aerodynamic dynamic pressure passively cams the two Structural-Battery Elytra horizontally outboard of the `Ø 64 mm` rotor disk (`α = 9°`) while unfolding the <strong>translucent `0.35 g` pleated LCP/Mylar Origami Hindwings (`120 mm` span, `28.8 cm²` area, `AR = 5.0`)</strong>. At `5.0 m/s`, the wings generate <strong>`3.24 gf` of aerodynamic lift</strong>, offloading `23.9%` of rotor thrust (`11.85 gf → 9.01 gf`) and cutting induced rotor power by `~32%` during jogging/biking follow-me flight.',
-      bask: '<strong class="text-amber-300">☀️ Mode 3 — Perched "Basking Beetle" Solar Harvesting (`+180–280 mW`) &amp; Emotive Pet Body Language:</strong> When perched on a windowsill, desk, or your shoulder outdoors with rotors folded (`0 W` propulsion), the Scarab cracks its two curved Elytra open `42°` to expose <strong>`14.5 cm²` of flexible Perovskite/GaAs solar skin</strong>. This harvests `180–280 mW` in sunlight—powering the `5 mW` sentinel wake-on-motion sensor indefinitely and recharging a `2-minute` photo hop every `~45 min` of sun-basking.',
-      stowed: '<strong class="text-purple-300">🛡️ Mode 4 — Stowed Jewel-Beetle Carapace (`Ø 32.5 × 7.6 mm` Wearable Coin):</strong> Both 3-bladed coaxial rotors fold via <strong>true Euclidean 2-Hinge Bi-Fold kinematics (`L1 = 13.0 mm` at `-118°`, `L2 = 12.8 mm` at `-102°`)</strong> into a `Ø 24.76 × 2.60 mm` stack, and the two hard Structural-Battery Elytra snap shut over the blades and `OV6946` camera lens (`IP52` pocket/wrist armor with zero snag hazard).'
+      hover: '<strong class="text-emerald-300">🚁 Mode 1 — Stationary Hover with Vertical Coandă Elytra + Active `36 Hz` Resonant Hindwing Beat (`0 Servos`):</strong> The two curved <strong>Structural-Battery Elytra (`+1.60 g` Si-C cell = `22.35 min` target hover)</strong> hang vertically edge-on beneath the slipstream (`<0.8%` blockage) as <strong>Coandă steering vanes (`Slider 3`, `±0.83 gf`)</strong>, while the translucent <strong>`120 mm` Origami Hindwings (`0.14 g` each)</strong> beat in a <strong>`36 Hz`, `±28°` figure-8 stroke</strong> driven by a sub-harmonic FOC motor ripple exciting their <strong>resonant Nitinol (`NiTi`) root flexures (`Q = 6.5`, only `44 mW` total flap power!)</strong>.',
+      cruise: '<strong class="text-cyan-300">🦋 Mode 2 — Forward Cruise (`5.0 m/s`) with Full `±28°` Figure-8 Flapping Hindwings + Lifted Elytra (`-23.9%` Rotor Load + `+0.31 gf` Knoller–Betz Thrust):</strong> The Emerald Structural-Battery Elytra lift into a `22°` cambered forewing posture (with gentle `4 Hz` biomimetic counter-breathing), while the `120 mm` Origami Hindwings execute a full <strong>`±28°` vertical stroke + `±22°` passive pronation/supination pitch twist</strong>. By the <strong>Knoller–Betz flapping-foil effect</strong>, oscillating in the forward airstream generates `+0.31 gf` of direct forward thrust plus `3.24 gf` of aerodynamic lift!',
+      bask: '<strong class="text-amber-300">☀️ Mode 3 — Perched "Basking Beetle" Solar Harvesting (`+180–280 mW`) &amp; `18 Hz` Emotive Wing Purr:</strong> When perched with rotors stopped (`0 W` propulsion), the Scarab fans its curved Elytra open `42°` to expose `14.5 cm²` of Perovskite/GaAs solar skin (`+180–280 mW`), and can flutter its wings at `18 Hz` when it recognizes your face.',
+      stowed: '<strong class="text-purple-300">🛡️ Mode 4 — Stowed Jewel-Beetle Carapace (`Ø 32.5 × 7.6 mm` Wearable Coin):</strong> Both 2-hinge bi-fold rotors (`L1 = 13.0 mm`, `L2 = 12.8 mm`) and the pleated `120 mm` origami hindwings fold completely inside the hard Emerald Structural-Battery Elytra (`IP52` pocket/wrist armor).'
     };
 
     function setWingMode(m) {
@@ -184,15 +206,16 @@
       if (m === 'stowed') {
         morphVal = 0.0;
         document.getElementById('rngMorph').value = 0;
-        document.getElementById('lblMorph').textContent = '0% (Stowed Coin)';
+        document.getElementById('lblMorph').textContent = '0% (Stowed)';
       } else if (m === 'bask') {
-        morphVal = 0.18;
-        document.getElementById('rngMorph').value = 18;
-        document.getElementById('lblMorph').textContent = '18% (Solar Bask)';
+        morphVal = 0.22;
+        document.getElementById('rngMorph').value = 22;
+        document.getElementById('lblMorph').textContent = '22% (Solar Bask)';
+        petPurrTimer = 2.5;
       } else {
         morphVal = 1.0;
         document.getElementById('rngMorph').value = 100;
-        document.getElementById('lblMorph').textContent = '100% Deployed';
+        document.getElementById('lblMorph').textContent = '100% Open';
       }
       document.getElementById('laymanBox').innerHTML = modeDescriptions[m];
       updateHUD();
@@ -202,12 +225,26 @@
       autoMorph = false;
       document.getElementById('btnAutoLoop').textContent = 'Auto-Loop: OFF';
       morphVal = parseFloat(v) / 100.0;
-      document.getElementById('lblMorph').textContent = `${Math.round(morphVal * 100)}% Deployed`;
+      document.getElementById('lblMorph').textContent = `${Math.round(morphVal * 100)}% Open`;
       if (morphVal < 0.05 && wingMode !== 'stowed') {
         wingMode = 'stowed';
       } else if (morphVal > 0.5 && (wingMode === 'stowed' || wingMode === 'bask')) {
         wingMode = 'hover';
       }
+      updateHUD();
+    }
+
+    function onFlapSlider(v) {
+      flapAmp = parseFloat(v) / 100.0;
+      const deg = Math.round(flapAmp * 28);
+      document.getElementById('lblFlap').textContent = deg === 0 ? '0 Hz (Glide)' : `36 Hz (±${deg}°)`;
+      updateHUD();
+    }
+
+    function toggleSlowMo() {
+      slowMo = !slowMo;
+      document.getElementById('btnSlowMo').textContent = slowMo ? '🔍 Slow-Mo: 0.15×' : '🔍 Slow-Mo: OFF';
+      document.getElementById('btnSlowMoBottom').textContent = slowMo ? '⚡ Resume 1.0× Real-Time' : '🔍 Toggle 0.15× Slow-Mo Flap';
       updateHUD();
     }
 
@@ -220,7 +257,7 @@
       swirlCmd = parseFloat(v) / 100.0;
       const gf = (swirlCmd * 0.83).toFixed(2);
       const sign = swirlCmd >= 0 ? '+' : '';
-      document.getElementById('lblSwirl').textContent = `${sign}${Math.round(swirlCmd * 100)}% (${sign}${gf} gf)`;
+      document.getElementById('lblSwirl').textContent = `${sign}${Math.round(swirlCmd * 100)}% (${sign}${gf}gf)`;
       updateHUD();
     }
 
@@ -233,18 +270,18 @@
     }
 
     function triggerPetPurr() {
-      petPurrTimer = 1.4;
-      setWingMode('bask');
-      document.getElementById('laymanBox').innerHTML = '<strong class="text-purple-300">🪲 ZERO-SERVO PET PURR &amp; WING-TWITCH EXPRESSIVENESS:</strong> Sub-flight FOC micro-pulses (`180 Hz` purr) rock the helical spline `±0.8 mm` against its bistable spring, making the iridescent Beetle Elytra flutter and glow cyan-emerald when it recognizes your face—using `0.0 g` of extra servos!';
+      petPurrTimer = 3.0;
+      if (wingMode === 'stowed') setWingMode('bask');
+      document.getElementById('laymanBox').innerHTML = '<strong class="text-purple-300">🪲 ZERO-SERVO PET PURR &amp; 18 Hz WING-FLUTTER EXPRESSIVENESS:</strong> Sub-flight FOC micro-pulses excite the resonant NiTi wing hinges and helical spline, making both the Emerald Elytra and translucent Hindwings flutter and shimmer when it recognizes your face!';
     }
 
     function triggerWhiskerBrake() {
       autoMorph = false;
       whiskerBrakeTimer = 1.0;
-      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ PERIMETER BUMPER CONTACT → 15 ms REGENERATIVE BRAKE (`1.95 mJ` Rotor Kinetic Energy):</strong> Active reverse-DShot braking halts the coaxial rotors in `15 ms` (protecting slow `≤0.25 m/s` approaches) while driving the 3-start helical spline down to snap both 2-hinge bi-fold rotors and the Structural-Battery Elytra shut.';
+      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ PERIMETER BUMPER CONTACT → 15 ms REGENERATIVE BRAKE (`1.95 mJ` Rotor Kinetic Energy):</strong> Active reverse-DShot braking halts the coaxial rotors in `15 ms` while driving the 3-start helical spline down to snap both 2-hinge bi-fold rotors, hindwings, and Structural-Battery Elytra shut.';
     }
 
-    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 1.02; }
+    function setCam(y, p, z) { camYaw = y; camPitch = p; camZoom = z || 0.98; }
 
     canvas.addEventListener('pointerdown', e => {
       isDragging = true;
@@ -275,11 +312,11 @@
     function project(pt, W, H) {
       let p = rotY(pt, camYaw);
       p = rotX(p, camPitch);
-      const fov = 365 * camZoom;
-      const dist = 220;
+      const fov = 360 * camZoom;
+      const dist = 225;
       const z = dist - p[2];
       const s = fov / Math.max(30, z);
-      return [W * 0.50 + p[0] * s, H * 0.54 - p[1] * s, z, s];
+      return [W * 0.50 + p[0] * s, H * 0.55 - p[1] * s, z, s];
     }
 
     // Exact Euclidean 2-Hinge Bi-Fold Kinematics (Rev 2.0 Verified: R_hub=6.2mm, L1=13.0mm, L2=12.8mm)
@@ -292,7 +329,6 @@
       const root = [R_hub, 0];
       const knee = [R_hub + L1 * Math.cos(th1), L1 * Math.sin(th1)];
       const tip  = [knee[0] + L2 * Math.cos(th1 + th2), knee[1] + L2 * Math.sin(th1 + th2)];
-      // Compute maximum radial envelope + 0.9mm half-chord allowance
       let rMax = 0;
       for (let i = 0; i <= 10; i++) {
         const u = i / 10;
@@ -304,32 +340,35 @@
     }
 
     function updateHUD() {
-      const bf = computeBiFoldGeometry(morphVal);
-      const spanStr = wingMode === 'cruise' && morphVal > 0.5
-        ? `Ø ${bf.dEnvelope.toFixed(1)}mm Rotor + 120.0mm Hindwing Span`
-        : `Ø ${bf.dEnvelope.toFixed(1)}mm Bi-Fold Envelope (L1=13.0 + L2=12.8mm)`;
-      document.getElementById('hudSpan').textContent = spanStr;
+      const deg = Math.round(flapAmp * 28 * morphVal);
+      const pwrFlap = Math.round(44 * flapAmp * flapAmp * morphVal);
+      const slowTag = slowMo ? ' [0.15× SLOW-MO INSPECTION]' : '';
+      document.getElementById('hudFlap').textContent =
+        deg > 0 ? `36.0 Hz Figure-8 Stroke (±${deg}° Flap + ±${Math.round(flapAmp*22)}° Twist • ${pwrFlap} mW)${slowTag}`
+                : `0 Hz Fixed Glide (0 mW Flap Power)${slowTag}`;
 
       if (wingMode === 'stowed' || morphVal < 0.05) {
         document.getElementById('hudPower').textContent = '0.00 W (Docked) • 5.00g Si-C Battery (0.929 Wh @80% DoD)';
       } else if (wingMode === 'bask') {
         document.getElementById('hudPower').textContent = '+240 mW Solar Charge (14.5 cm² Elytra) vs 5 mW Sentinel';
       } else if (wingMode === 'cruise') {
-        document.getElementById('hudPower').textContent = '1.72 W Cruise @ 5m/s (-23.9% Rotor Offload) • ~32 min Target';
+        document.getElementById('hudPower').textContent = '1.76 W Cruise @ 5m/s (-23.9% Rotor Offload + 44mW Flap) • ~31.5 min';
       } else {
-        document.getElementById('hudPower').textContent = '2.50 W Hover Target (11.85g AUW) • 22.35 min (+3.0m vs Bare)';
+        document.getElementById('hudPower').textContent = '2.54 W Hover Target (11.85g AUW + 44mW Flap) • 22.0 min (+2.7m vs Bare)';
       }
 
       const coandaGF = (swirlCmd * 0.83 * morphVal).toFixed(2);
       const cycNmm = (cyclicCmd * 1.42 * morphVal).toFixed(2);
+      const kbGF = (0.31 * flapAmp * morphVal).toFixed(2);
       document.getElementById('hudState').textContent =
-        `COANDĂ VANES: ${swirlCmd>=0?'+':''}${coandaGF}gf (Jet ${(swirlCmd*18*morphVal).toFixed(1)}°) | DIPOLE CYCLIC: ${cyclicCmd>=0?'+':''}${cycNmm} N·mm`;
+        `COANDĂ VANES: ${swirlCmd>=0?'+':''}${coandaGF}gf | DIPOLE CYCLIC: ${cyclicCmd>=0?'+':''}${cycNmm} N·mm | KNOLLER–BETZ FLAP: +${kbGF}gf`;
     }
 
     // Initialize labels
     setWingMode('hover');
     onSwirlSlider(35);
     onCyclicSlider(25);
+    onFlapSlider(100);
 
     function renderFrame(dt) {
       const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -342,7 +381,8 @@
       ctx.scale(dpr, dpr);
       const W = rect.width, H = rect.height;
 
-      simTime += dt;
+      const timeScale = slowMo ? 0.15 : 1.0;
+      simTime += dt * timeScale;
 
       if (whiskerBrakeTimer > 0) {
         whiskerBrakeTimer = Math.max(0, whiskerBrakeTimer - dt * 1.1);
@@ -361,7 +401,10 @@
       }
 
       const spinActive = (wingMode === 'hover' || wingMode === 'cruise') ? morphVal : 0.0;
-      rotorPhase += dt * 18.0 * spinActive;
+      rotorPhase += dt * timeScale * 20.0 * spinActive;
+      // 36 Hz resonant wing-beat phase (fast enough in 1.0x to look like a real beating scarab wing, smooth in 0.15x slow-mo!)
+      const activeFlapRate = (wingMode === 'bask' && petPurrTimer > 0) ? 26.0 : 34.0 * spinActive;
+      flapPhase += dt * timeScale * activeFlapRate;
 
       const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
       grad.addColorStop(0, '#0f1d3a');
@@ -371,7 +414,7 @@
 
       const drawList = [];
       const flightLift = (wingMode === 'hover' || wingMode === 'cruise') ? morphVal : 0.0;
-      const altY = flightLift * 24 + (flightLift > 0.5 ? Math.sin(simTime * 3.2) * 1.8 : 0);
+      const altY = flightLift * 24 + (flightLift > 0.5 ? Math.sin(simTime * 3.5) * 1.8 : 0);
       const bodyRoll = cyclicCmd * 0.16 * flightLift + swirlCmd * 0.08 * flightLift;
       const bodyPitch = (wingMode === 'cruise' ? -0.14 * flightLift : 0);
 
@@ -436,7 +479,6 @@
       qLine(xformBody([0, -1.5, 0]), xformBody([0, upperHubLocalY + 2.2, 0]), '#fbbf24', 3.2);
 
       // 3. TRUE EUCLIDEAN 2-HINGE BI-FOLD COAXIAL ROTORS (L1 = 13.0 mm, L2 = 12.8 mm)
-      // Plus Paulos-Yim Antisymmetric Dipole Cyclic Flapping: delta_pitch = cyclicCmd * cos(phi_b)
       const bf = computeBiFoldGeometry(morphVal);
       [
         { y: 1.2,            dir: 1,  phaseOff: 0,           color: '#38bdf8', fill: 'rgba(56, 189, 248, 0.34)', hingeColor: '#f43f5e' },
@@ -445,7 +487,6 @@
         for (let b = 0; b < 3; b++) {
           const phi_b = b * (Math.PI * 2 / 3);
           const worldAz = phi_b + stage.phaseOff + rotorPhase * stage.dir;
-          // Paulos-Yim Antisymmetric Dipole pitch modulation: tan(delta3_b) = tan(38deg)*cos(phi_b)
           const dipoleSign = Math.cos(phi_b);
           const cyclicFlap = cyclicCmd * 2.2 * morphVal * Math.cos(worldAz) * Math.sign(dipoleSign);
 
@@ -458,7 +499,6 @@
           const rKnee = rot2D(bf.knee, worldAz);
           const rTip  = rot2D(bf.tip,  worldAz);
 
-          // Draw Proximal Segment (L1 = 13.0 mm) as a 3.2mm chord ribbon
           const n1Angle = worldAz + Math.PI * 0.5;
           const halfC1 = 1.45;
           const seg1Pts = [
@@ -469,7 +509,6 @@
           ];
           qPoly(seg1Pts, stage.fill, stage.color, 1.3);
 
-          // Draw Distal Segment (L2 = 12.8 mm) from Knee to Tip
           const halfC2 = 1.25;
           const seg2Pts = [
             xformBody([rKnee[0] + Math.cos(n1Angle)*halfC2, stage.y + 0.5 + cyclicFlap*0.5, rKnee[1] + Math.sin(n1Angle)*halfC2]),
@@ -479,7 +518,6 @@
           ];
           qPoly(seg2Pts, stage.fill, stage.color, 1.3);
 
-          // Highlight the Knee Hinge Pin (R_knee) so user clearly sees the 2-hinge bi-fold articulation
           qLine(
             xformBody([rKnee[0], stage.y - 0.8 + cyclicFlap*0.5, rKnee[1]]),
             xformBody([rKnee[0], stage.y + 0.9 + cyclicFlap*0.5, rKnee[1]]),
@@ -488,51 +526,39 @@
         }
       });
 
-      // 4. FUNCTIONAL STRUCTURAL-BATTERY + SOLAR BIOMIMETIC SPLIT ELYTRA (Left & Right Curved Beetle Wing-Casings)
-      // Plus 4-Bar Scissor-Cam Linkage driven passively by the helical spline!
-      const purrFlutter = petPurrTimer > 0 ? Math.abs(Math.sin(simTime * 38)) * 0.22 : 0;
-      [-1, 1].forEach(side => {
-        // Compute 3D pose of each curved Beetle Elytra shell based on wingMode & morphVal:
-        // - Stowed (morphVal = 0): sits snugly atop core at X = side*8mm, Y = +3.2mm, horizontal (0 deg roll)
-        // - Bask (wingMode === 'bask'): opens +42 deg upward like a sun-basking beetle
-        // - Hover (wingMode === 'hover'): translates outboard to X = side * 26.5 mm, drops below disk to Y = -5.5 mm,
-        //   and rotates 90 deg VERTICAL EDGE-ON so it slices cleanly through the slipstream as a Coanda Stator Vane!
-        // - Cruise (wingMode === 'cruise'): extends outboard to X = side * 28.0 mm, Y = +1.5 mm, horizontal lifting camber (alpha = 9 deg)
+      // 4. FUNCTIONAL STRUCTURAL-BATTERY + SOLAR BIOMIMETIC SPLIT ELYTRA (With Active Biomimetic Articulation!)
+      const purrWave = (petPurrTimer > 0 || wingMode === 'bask') ? Math.sin(flapPhase * 1.2) * 0.24 : 0;
+      // In flight, the outer Emerald Elytra also have a gentle counter-phase biomimetic breathing / trim oscillation
+      const flightElytraWave = (wingMode === 'hover' || wingMode === 'cruise')
+        ? Math.sin(flapPhase * 0.25) * 0.11 * flapAmp * morphVal
+        : 0;
 
+      [-1, 1].forEach(side => {
         let pivotX, pivotY, shellRoll, shellYaw;
         if (wingMode === 'bask') {
-          const tBask = clamp01(morphVal / 0.18) + purrFlutter;
+          const tBask = clamp01(morphVal / 0.22);
           pivotX = side * lerp(8.0, 14.5, tBask);
-          pivotY = lerp(3.0, 6.5, tBask);
-          shellRoll = side * lerp(0.0, 0.72, tBask); // 42 deg open solar bask
-          shellYaw = side * 0.18 * tBask;
+          pivotY = lerp(3.0, 6.8, tBask);
+          shellRoll = side * (lerp(0.0, 0.74, tBask) + purrWave);
+          shellYaw = side * (0.18 * tBask + purrWave * 0.4);
         } else if (wingMode === 'cruise') {
-          pivotX = side * lerp(8.0, 26.0, morphVal);
-          pivotY = lerp(3.0, 2.5, morphVal);
-          shellRoll = side * lerp(0.0, 0.12, morphVal); // Horizontal lifting wing outside rotor wake
-          shellYaw = side * lerp(0.0, 0.25, morphVal);
+          // Lifted Beetle Forewing Posture (+26 deg dihedral + active counter-breathing) clear above the flapping hindwings!
+          pivotX = side * lerp(8.0, 24.5, morphVal);
+          pivotY = lerp(3.0, 5.2, morphVal);
+          shellRoll = side * (lerp(0.0, 0.45, morphVal) + flightElytraWave * 1.6);
+          shellYaw = side * lerp(0.0, 0.32, morphVal);
         } else {
-          // Hover (Vertical Coanda Slipstream Vane Mode) or Stowed
+          // Hover Mode: Vertical Coanda Slipstream Vanes (with subtle Coanda trim feathering + breathing)
           pivotX = side * lerp(8.0, 26.5, morphVal);
-          pivotY = lerp(3.0, -6.2, morphVal);
-          // Rotate 90 deg (pi/2) into vertical Coanda stator vane aligned with slipstream!
-          shellRoll = side * lerp(0.0, Math.PI * 0.48, morphVal);
-          shellYaw = 0.0;
+          pivotY = lerp(3.0, -5.8, morphVal);
+          shellRoll = side * (lerp(0.0, Math.PI * 0.47, morphVal) + flightElytraWave);
+          shellYaw = swirlCmd * 0.20 * morphVal;
         }
 
-        // Draw passive 4-bar Scissor-Cam Strut connecting Core Hub to Elytra Shell
-        qLine(
-          xformBody([side * 11.5, 0.5, -4.0]),
-          xformBody([pivotX, pivotY, -4.0]),
-          '#94a3b8', 1.8
-        );
-        qLine(
-          xformBody([side * 11.5, -0.8, 4.0]),
-          xformBody([pivotX, pivotY, 4.0]),
-          '#94a3b8', 1.8
-        );
+        // Passive 4-bar Scissor-Cam Struts
+        qLine(xformBody([side * 11.5, 0.5, -4.0]), xformBody([pivotX, pivotY, -4.0]), '#94a3b8', 1.8);
+        qLine(xformBody([side * 11.5, -0.8, 4.0]), xformBody([pivotX, pivotY, 4.0]), '#94a3b8', 1.8);
 
-        // Build curved 3D Beetle Elytra Carapace (length 26mm along Z, width 13mm, cambered arch)
         const elytraOuter = [
           [-5.5 * side, 0.8, -13.0],
           [ 5.5 * side, 0.0, -11.0],
@@ -546,7 +572,6 @@
           return xformBody([p[0] + pivotX, p[1] + pivotY, p[2]]);
         });
 
-        // Inner curved Si-C Structural Battery Pouch + Perovskite Solar Grid inlay on the Elytra
         const battInlay = [
           [-3.8 * side, 1.0, -9.5],
           [ 3.6 * side, 0.3, -8.5],
@@ -558,44 +583,84 @@
           return xformBody([p[0] + pivotX, p[1] + pivotY, p[2]]);
         });
 
-        qPoly(elytraOuter, 'rgba(16, 185, 129, 0.52)', '#10b981', 1.8);
-        qPoly(battInlay, 'rgba(245, 158, 11, 0.42)', '#fbbf24', 1.2);
+        qPoly(elytraOuter, 'rgba(16, 185, 129, 0.56)', '#10b981', 1.8);
+        qPoly(battInlay, 'rgba(245, 158, 11, 0.46)', '#fbbf24', 1.2);
       });
 
-      // 5. UNFOLDING 120mm TRANSLUCENT ORIGAMI HINDWINGS (Active in Forward Cruise Mode 2!)
-      if (wingMode === 'cruise' && morphVal > 0.25) {
-        const hwFrac = smoothstep(0.25, 0.95, morphVal);
+      // 5. ACTIVE 36 Hz RESONANT FLAPPING 120mm ORIGAMI HINDWINGS (Active in BOTH Hover & Forward Cruise + Pet Purr!)
+      //    Renders the primary flapping wing PLUS 2 motion-blur ghost stroke positions AND the 3D Figure-8 Wingtip Trajectory!
+      if (morphVal > 0.15) {
+        const hwFrac = smoothstep(0.15, 0.90, morphVal);
+        const effAmp = (wingMode === 'bask' ? 0.35 : flapAmp) * hwFrac;
+        const maxFlapRad = 0.49 * effAmp;  // ±28 deg vertical flapping stroke
+        const maxTwistRad = 0.38 * effAmp; // ±22 deg passive pronation/supination pitch twist (90 deg out of phase)
+        const maxSweepRad = 0.22 * effAmp; // ±12.5 deg figure-8 fore-aft sweep (2x harmonic)
+
         [-1, 1].forEach(side => {
-          const rootX = side * 14.0;
-          const midX  = side * lerp(14.0, 38.0, hwFrac);
-          const tipX  = side * lerp(14.0, 60.0, hwFrac); // 60mm half-span = 120mm total span!
-          const hwY   = 1.0;
+          const rootPivot = [side * 13.5, 0.8, 1.0];
+          const spanLen = 46.5 * hwFrac; // 13.5 + 46.5 = 60mm half-span = 120mm total span!
 
-          const hindwingPts = [
-            xformBody([rootX, hwY, -8.0]),
-            xformBody([midX,  hwY + 1.8, -11.0]),
-            xformBody([tipX,  hwY + 2.5, -4.0]),
-            xformBody([tipX * 0.92, hwY + 1.2, 8.0]),
-            xformBody([midX * 0.85, hwY + 0.5, 12.0]),
-            xformBody([rootX, hwY, 8.0])
-          ];
-          qPoly(hindwingPts, 'rgba(56, 189, 248, 0.26)', '#38bdf8', 1.5);
+          // Helper to transform a point in local wing coordinates (u along span [0..spanLen], z along chord)
+          function wingPtAtPhase(uSpan, zChord, yCam, ph) {
+            const flapAng  = Math.sin(ph) * maxFlapRad;
+            const twistAng = Math.cos(ph) * maxTwistRad * (uSpan / Math.max(1, spanLen)); // twist increases toward tip
+            const sweepAng = Math.sin(2.0 * ph) * maxSweepRad; // Figure-8 harmonic!
 
-          // Origami beetle venation crease lines
-          qLine(xformBody([rootX, hwY, -4.0]), xformBody([tipX, hwY + 2.5, -4.0]), '#fde047', 1.3);
-          qLine(xformBody([rootX, hwY,  0.0]), xformBody([tipX * 0.92, hwY + 1.2, 8.0]), 'rgba(253, 224, 71, 0.7)', 1.1, [3, 2]);
+            // Start in wing local frame
+            let p = [side * uSpan, yCam, zChord];
+            // 1. Pitch twist (pronation on downstroke, supination on upstroke -> Knoller-Betz thrust!)
+            p = rotX(p, twistAng);
+            // 2. Vertical flapping dihedral rotation about root
+            p = rotZ(p, side * flapAng);
+            // 3. Fore-aft figure-8 sweep
+            p = rotY(p, side * sweepAng);
 
-          // Green Upward Aerodynamic Lift Arrows (+1.62 gf per wing = +3.24 gf total cruise offload!)
-          for (let aIdx = 0; aIdx < 2; aIdx++) {
-            const ax = side * (32 + aIdx * 18) * hwFrac;
-            qLine(xformBody([ax, hwY - 6, 0]), xformBody([ax, hwY + 11, 0]), '#34d399', 2.2);
+            return xformBody([rootPivot[0] + p[0], rootPivot[1] + p[1], rootPivot[2] + p[2]]);
           }
+
+          // Draw 3D Figure-8 Wingtip Path Loop so user clearly sees the resonant figure-8 stroke envelope
+          if (effAmp > 0.05) {
+            const pathSegs = 20;
+            for (let k = 0; k < pathSegs; k++) {
+              const ph0 = (k / pathSegs) * Math.PI * 2;
+              const ph1 = ((k + 1) / pathSegs) * Math.PI * 2;
+              const tip0 = wingPtAtPhase(spanLen, -1.5, 0.8, ph0);
+              const tip1 = wingPtAtPhase(spanLen, -1.5, 0.8, ph1);
+              qLine(tip0, tip1, 'rgba(52, 211, 153, 0.55)', 1.4, [2, 2]);
+            }
+          }
+
+          // Draw 2 motion-trail ghost wings behind the main flapping wing + the primary wing
+          const ghostOffsets = effAmp > 0.05 ? [-0.95, -0.45, 0.0] : [0.0];
+          ghostOffsets.forEach((phOff, gIdx) => {
+            const isMain = (gIdx === ghostOffsets.length - 1);
+            const ph = flapPhase + phOff;
+            const fillAlpha = isMain ? 0.36 : (gIdx === 1 ? 0.14 : 0.07);
+            const strokeCol = isMain ? '#38bdf8' : 'rgba(56, 189, 248, 0.28)';
+
+            const hwPoly = [
+              wingPtAtPhase(0,               -7.0, 0.0, ph),
+              wingPtAtPhase(spanLen * 0.52, -10.5, 1.2, ph),
+              wingPtAtPhase(spanLen,         -3.5, 1.6, ph),
+              wingPtAtPhase(spanLen * 0.90,   7.5, 0.6, ph),
+              wingPtAtPhase(spanLen * 0.48,  11.5, 0.2, ph),
+              wingPtAtPhase(0,                7.0, 0.0, ph)
+            ];
+            qPoly(hwPoly, `rgba(56, 189, 248, ${fillAlpha})`, strokeCol, isMain ? 1.6 : 0.9);
+
+            // Golden Nitinol / LCP Origami Venation Spar Lines on the main wing
+            if (isMain) {
+              qLine(wingPtAtPhase(0, -4.5, 0.1, ph), wingPtAtPhase(spanLen, -3.5, 1.6, ph), '#fde047', 1.6);
+              qLine(wingPtAtPhase(0,  0.0, 0.1, ph), wingPtAtPhase(spanLen * 0.90, 7.5, 0.6, ph), 'rgba(253, 224, 71, 0.8)', 1.2, [3, 2]);
+              qLine(wingPtAtPhase(spanLen * 0.52, -10.5, 1.2, ph), wingPtAtPhase(spanLen * 0.48, 11.5, 0.2, ph), 'rgba(52, 211, 153, 0.75)', 1.1);
+            }
+          });
         });
       }
 
       // 6. SERVO-FREE COANDĂ SLIPSTREAM STREAMLINES & JET VECTORING VISUALIZATION
       if ((wingMode === 'hover' || wingMode === 'cruise') && morphVal > 0.35) {
-        const jetDeflectX = -swirlCmd * 11.5 * morphVal; // Coanda attachment deflects wake -> opposite reaction force!
+        const jetDeflectX = -swirlCmd * 11.5 * morphVal;
         const cycDeflectZ = cyclicCmd * 8.0 * morphVal;
         for (let s = 0; s < 10; s++) {
           const ang = (s / 10) * Math.PI * 2 + simTime * 1.8;
@@ -615,7 +680,6 @@
           qLine(pTop, pBot, streamCol, 1.6, [4, 3]);
         }
 
-        // Draw Lateral Coandă Reaction Force Vector Arrow when swirlCmd != 0
         if (Math.abs(swirlCmd) > 0.05) {
           const fLen = swirlCmd * 26.0 * morphVal;
           qLine(xformBody([0, -5.5, 0]), xformBody([fLen, -5.5, 0]), '#f59e0b', 3.2);
