@@ -1,144 +1,190 @@
 // ============================================================================
-// SCARAB OMEGA-3 (CHAMELEON-HALO): MONOLITHIC 3D-PRINTED INTERLOCKING ROTOR
-// Architecture: Pangolin-Iris Cartwheel Flexure + 3-Start Helical Zipper-Spline
-//               + Kesel (2000) 120-um Dragonfly Micro-Corrugated Airfoils
-// Stowed Envelope : D = 25.0 mm x H = 2.40 mm (43.7x volumetric compression)
-// Flight Envelope : D = 64.0 mm x H = 16.0 mm (32.17 cm^2 swept area)
+// SCARAB OMEGA-3 (CHAMELEON-HALO): KINEMATIC CONCEPT COUPON CAD (REV 2.0)
+// Status: ANALYTICAL & KINEMATIC CONCEPT MODEL (Pending Gate 1 Bench Coupon)
+// Reconciled with Codex Engineering Review:
+//   1. Fixes root-hinge transform order: pivots AT [R_hub, 0, 0], not [0, 0, 0].
+//   2. Resolves Euclidean triangle-inequality bound (a 1-hinge 25.8mm blade
+//      cannot fold below R = 25.8 - 6.2 = 19.6mm / D = 39.2mm) by implementing
+//      a 2-Hinge Bi-Fold Articulated Blade (Proximal L1 = 13.0mm @ -118 deg +
+//      Distal L2 = 12.8mm @ -102 deg relative knee fold):
+//        • Deployed (deploy = 1.0): R_min = 6.20 mm -> R_max = 32.00 mm (D = 64.00 mm)
+//        • Stowed   (deploy = 0.0): R_min = 6.20 mm -> R_max = 12.38 mm (D = 24.76 mm <= 25.0 mm)
+//   3. Implements Paulos-Yim Antisymmetric Dipole Hinge Coupling:
+//        delta3_b = atan(tan(38 deg) * cos(phi_b))
+//      so a common 1/rev motor torque pulse produces opposite pitch responses
+//      on opposing blades (cyclic roll/pitch) instead of canceling by symmetry.
+//   4. Includes mated internal/external 3-start helical spline sleeve (0.20mm
+//      radial clearance) and 25-um NiTi flexure spine slots.
 // ============================================================================
 
-$fn = 96;
+$fn = 72;
 
-/* [Deployment State (0.0 = Stowed 25x2.4mm Wafer, 1.0 = Deployed 64x16mm Flight)] */
+/* [Deployment State (0.0 = Stowed Ø24.8x2.6mm Wafer, 1.0 = Deployed Ø64.0x16.0mm)] */
 deploy        = 1.0;   // [0.0:0.05:1.0]
+fold_mode     = 2;     // [2:2-Hinge Bi-Fold (Stows to Ø24.8mm), 1:1-Hinge Single-Arc (Stows to Ø39.2mm)]
 show_upper    = true;
 show_lower    = true;
 show_shaft    = true;
-print_bridges = false; // Enable 0.15mm breakaway bridges for SLA printing
 
-/* [Primary Rotor Geometry] */
-D_stowed      = 25.0;  // Stowed outer diameter (mm)
-D_flight      = 64.0;  // Deployed tip-to-tip diameter (mm)
-H_stowed      = 2.40;  // Stowed total axial height (mm)
-H_flight      = 16.0;  // Deployed total axial height (mm)
-N_blades      = 6;     // Blades per rotor (12 total coaxial)
-D_hub_outer   = 12.4;  // Hub outer diameter (mm)
-D_shaft_bore  = 6.4;   // Hollow central camera-gimbal bore (mm)
+/* [Primary Rotor & Hub Geometry] */
+D_stowed_target = 25.0; // Target stowed outer diameter (mm)
+D_flight        = 64.0; // Deployed tip-to-tip diameter (mm)
+H_stowed        = 2.60; // Stowed rotor stack axial height (mm)
+H_flight        = 16.0; // Deployed rotor stack axial height (mm)
+N_blades        = 6;    // Blades per rotor (with m=1 dipole delta3 skew)
+R_hub           = 6.20; // Hub root hinge radius (mm; D_hub = 12.40 mm)
+D_shaft_bore    = 8.80; // Stationary hollow optical/stator shaft OD (mm)
+spline_clear    = 0.20; // Radial clearance between shaft spline and hub sleeve (mm)
 
-/* [Dragonfly Corrugation & Flexure Parameters] */
-t_wall        = 0.14;  // Airfoil wall thickness (0.12-0.15 mm SLA/SLS)
-h_pleat       = 0.45;  // Corrugation peak-to-valley envelope (mm)
-n_pleats      = 4;     // Spanwise trapezoidal pleats per blade
-t_flexure     = 0.10;  // Cartwheel flexure leaf thickness (mm)
-l_flexure     = 1.40;  // Flexure active length (mm)
-pitch_flight  = 14.5;  // Collective pitch at full deployment (deg)
-fold_angle    = 72.0;  // Inward lag sweep angle when stowed (deg)
+/* [2-Hinge Bi-Fold & Dragonfly Pleat Parameters] */
+L1_prox         = 13.0; // Proximal blade link chord (mm: 6.2 -> 19.2 mm)
+L2_dist         = 12.8; // Distal blade link chord (mm: 19.2 -> 32.0 mm)
+th1_stowed      = -118.0; // Root fold angle when stowed (deg)
+th2_rel_stowed  = -102.0; // Knee relative fold angle when stowed (deg)
+th_1hinge_stowed= -172.0; // 1-hinge mode fold angle (stows to Ø39.2mm minimum)
+pitch_flight    = 14.0; // Collective pitch angle at deploy = 1.0 (deg)
+delta3_max      = 38.0; // Max Paulos-Yim pitch-lag skew angle (deg)
+t_wall          = 0.16; // Blade corrugated web thickness (mm)
+h_pleat         = 0.42; // Trapezoidal corrugation depth (mm)
 
-// Derived kinematics
-R_hub    = D_hub_outer / 2;
-R_tip    = D_flight / 2;
-L_blade  = R_tip - R_hub;
-z_zipper = deploy * (H_flight - H_stowed - 2.0);
-phi_zip  = deploy * 120; // 3-start helical rotation during axial unzip
+// Derived axial zipper translation & 3-start helical rotation
+z_zipper = deploy * (H_flight - H_stowed - 2.2);
+phi_zip  = deploy * 90.0; // 90-deg helical rotation over 11.2mm stroke (Lead = 44.8mm)
 
 // ----------------------------------------------------------------------------
-// 1. Dragonfly Micro-Corrugated Blade Profile (Kesel 2000 Trapezoidal Pleats)
+// Helper: Corrugated Curved Segment of chord L and arc sagitta h_arc
 // ----------------------------------------------------------------------------
-module dragonfly_blade(chirality = 1) {
-    cur_fold  = (1.0 - deploy) * fold_angle * chirality;
-    cur_pitch = deploy * pitch_flight * chirality;
+module corrugated_segment(L_seg, h_arc, w_chord, chirality = 1, is_distal = false) {
+    steps = 8;
+    for (i = [0 : steps - 1]) {
+        s0 = i / steps;
+        s1 = (i + 1) / steps;
+        x0 = s0 * L_seg;
+        x1 = s1 * L_seg;
+        y0 = chirality * h_arc * sin(180 * s0);
+        y1 = chirality * h_arc * sin(180 * s1);
+        w0 = w_chord * (is_distal ? (1.0 - 0.35 * s0) : 1.0);
+        w1 = w_chord * (is_distal ? (1.0 - 0.35 * s1) : 1.0);
 
-    rotate([0, 0, cur_fold])
-    translate([R_hub, 0, 0])
-    rotate([cur_pitch, 0, 0]) {
-        // Crossed-leaf cartwheel flexure root (monolithic compliant hinge)
-        color([0.95, 0.75, 0.25])
-        translate([-l_flexure/2, 0, 0]) {
-            rotate([0, 0,  38 * chirality]) cube([l_flexure, t_flexure, 0.95], center=true);
-            rotate([0, 0, -38 * chirality]) cube([l_flexure, t_flexure, 0.95], center=true);
-        }
-
-        // Curved sickle blade with 4 spanwise trapezoidal corrugations
-        color(chirality > 0 ? [0.15, 0.85, 0.72] : [0.38, 0.58, 0.98])
-        for (i = [0 : n_pleats - 1]) {
-            y_off = (i - (n_pleats - 1)/2) * 1.35;
-            z_off = ((i % 2 == 0) ? 1 : -1) * (h_pleat / 2);
+        // 3 spanwise dragonfly pleats across chord width
+        for (p = [-1 : 1]) {
+            z_p = (p == 0) ? (h_pleat / 2) : (-h_pleat / 2);
             hull() {
-                translate([0, y_off * 0.65, z_off * 0.6])
-                    cube([0.4, 1.45, t_wall], center=true);
-                translate([L_blade * 0.55, y_off * 1.15 + chirality * 2.2, z_off])
-                    cube([0.4, 1.65, t_wall], center=true);
-                translate([L_blade, y_off * 0.45 + chirality * 4.8, 0])
-                    cube([0.2, 0.75, t_wall], center=true);
+                translate([x0, y0 + p * (w0 * 0.32), z_p * deploy])
+                    cube([0.25, w0 * 0.36, t_wall], center = true);
+                translate([x1, y1 + p * (w1 * 0.32), z_p * deploy])
+                    cube([0.25, w1 * 0.36, t_wall], center = true);
             }
-        }
-
-        // Leading-edge shingle rabbet step (forms 100% light-tight camera shutter when stowed)
-        color([0.12, 0.16, 0.22])
-        hull() {
-            translate([0.5, chirality * 2.4, 0.18]) cube([0.5, 0.55, 0.22], center=true);
-            translate([L_blade * 0.92, chirality * 5.2, 0.10]) cube([0.3, 0.35, 0.18], center=true);
         }
     }
 }
 
 // ----------------------------------------------------------------------------
-// 2. Single 6-Blade Pangolin-Iris Rotor Assembly
+// 1. Single Blade with Root Pivot AT [R_hub, 0, 0] + Paulos-Yim Dipole Skew
 // ----------------------------------------------------------------------------
-module pangolin_iris_rotor(chirality = 1) {
+module bifold_dipole_blade(blade_idx, chirality = 1) {
+    phi_b = blade_idx * (360.0 / N_blades);
+    // Paulos-Yim antisymmetric dipole law: opposite blades have opposite delta3 skew!
+    delta3_b = atan(tan(delta3_max) * cos(phi_b));
+
+    cur_pitch = deploy * pitch_flight * chirality;
+    cur_th1   = (1.0 - deploy) * ((fold_mode == 2) ? th1_stowed : th_1hinge_stowed) * chirality;
+    cur_th2   = (1.0 - deploy) * ((fold_mode == 2) ? th2_rel_stowed : 0.0) * chirality;
+
+    rotate([0, 0, phi_b])
+    // CRITICAL FIX: Translate to hub perimeter R_hub FIRST, then rotate about root hinge!
+    translate([R_hub, 0, 0])
+    rotate([0, 0, cur_th1])
+    rotate([cur_pitch, 0, 0]) {
+        // Root Cartwheel Flexure + 25-um NiTi Spine Slot (skewed by dipole delta3_b)
+        color([0.95, 0.75, 0.25])
+        rotate([0, delta3_b, 0])
+        translate([0.55, 0, 0])
+            cube([1.10, 0.22, 0.75], center = true);
+
+        // Proximal Blade Segment (L1 = 13.0 mm)
+        color(chirality > 0 ? [0.15, 0.85, 0.72] : [0.38, 0.58, 0.98])
+        corrugated_segment(L1_prox, 1.8, 1.75, chirality, false);
+
+        // Mid-Span Compliant Knee Hinge at x = L1_prox (13.0 mm from root hinge)
+        translate([L1_prox, 0, 0])
+        rotate([0, 0, cur_th2]) {
+            // Knee NiTi ribbon flexure + centrifugal hard-stop tab at 0 deg
+            color([0.95, 0.75, 0.25])
+            cube([0.70, 0.24, 0.65], center = true);
+
+            // Distal Blade Segment (L2 = 12.8 mm -> reaches R = 32.00 mm at deploy = 1.0)
+            color(chirality > 0 ? [0.10, 0.75, 0.62] : [0.28, 0.48, 0.88])
+            corrugated_segment(L2_dist, 1.8, 1.65, chirality, true);
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------
+// 2. Complete Rotor Hub with Mated Female 3-Start Helical Spline Nut
+// ----------------------------------------------------------------------------
+module zipper_iris_rotor(chirality = 1, is_upper = true) {
     difference() {
         union() {
-            // Central hub ring
+            // Annular hub ring (OD = 2*R_hub = 12.40 mm)
             color([0.18, 0.22, 0.28])
-            cylinder(h = 1.15, d = D_hub_outer, center = true);
+            cylinder(h = 1.15, r = R_hub, center = true);
 
-            // 6 interlocking dragonfly blades
+            // Blades with antisymmetric dipole hinge skew
             for (b = [0 : N_blades - 1]) {
-                rotate([0, 0, b * (360 / N_blades)])
-                    dragonfly_blade(chirality);
+                bifold_dipole_blade(b, chirality);
             }
         }
-        // Central bore for hollow camera-gimbal shaft + 3-start helical spline grooves
-        cylinder(h = 4.0, d = D_shaft_bore + 0.3, center = true);
+        // Central bore with mated 3-start helical spline grooves (with spline_clear)
+        if (is_upper) {
+            translate([0, 0, -1.5])
+            linear_extrude(height = 3.0, twist = -90.0 * (3.0 / 11.2), slices = 24)
+            offset(r = spline_clear)
+            shaft_spline_profile();
+        } else {
+            cylinder(h = 3.0, d = D_shaft_bore + 2 * spline_clear, center = true);
+        }
+    }
+}
+
+// 2D cross-section of the 3-start helical spline shaft
+module shaft_spline_profile() {
+    union() {
+        circle(d = D_shaft_bore);
         for (s = [0 : 2]) {
             rotate([0, 0, s * 120])
-            translate([D_shaft_bore/2 + 0.15, 0, 0])
-                cube([0.75, 0.75, 4.0], center = true);
+            translate([D_shaft_bore / 2 - 0.1, -0.35])
+                square([0.65, 0.70]);
         }
     }
 }
 
 // ----------------------------------------------------------------------------
-// 3. Complete Coaxial Zipper-Nested Assembly (Upper + Lower + Helical Shaft)
+// 3. Coaxial Assembly (Stowed: Ø24.76 x 2.60 mm | Deployed: Ø64.00 x 16.00 mm)
 // ----------------------------------------------------------------------------
 union() {
-    // Lower Counter-Rotating Rotor (z = 0.60 mm)
+    // Lower Rotor (z = 0.65 mm)
     if (show_lower) {
-        translate([0, 0, 0.60])
-            pangolin_iris_rotor(chirality = -1);
+        translate([0, 0, 0.65])
+            zipper_iris_rotor(chirality = -1, is_upper = false);
     }
 
-    // Upper Rotor (Unzips from z = 1.80 mm stowed -> z = 13.70 mm deployed)
+    // Upper Rotor (z = 1.95 mm stowed -> z = 13.15 mm deployed, clocked 30 deg)
     if (show_upper) {
-        translate([0, 0, 1.80 + z_zipper])
-        rotate([0, 0, 30 + phi_zip]) // 30-deg phase offset nests blades into lower valleys
-            pangolin_iris_rotor(chirality = 1);
+        translate([0, 0, 1.95 + z_zipper])
+        rotate([0, 0, 30.0 + phi_zip])
+            zipper_iris_rotor(chirality = 1, is_upper = true);
     }
 
-    // Central Hollow Camera-Gimbal Shaft with 3-Start 56.5-deg Helical Zipper Spline
+    // Central Hollow Optical/Stator Shaft with Male 3-Start Helical Spline
     if (show_shaft) {
         color([0.28, 0.32, 0.38])
         difference() {
-            union() {
-                cylinder(h = 2.40 + z_zipper, d = D_shaft_bore);
-                linear_extrude(height = 2.40 + z_zipper, twist = -120 * (0.2 + 0.8*deploy), slices = 60)
-                for (s = [0 : 2]) {
-                    rotate([0, 0, s * 120])
-                    translate([D_shaft_bore/2, -0.3, 0])
-                        square([0.55, 0.60]);
-                }
-            }
+            linear_extrude(height = H_stowed + z_zipper, twist = -phi_zip, slices = 48)
+                shaft_spline_profile();
+            // Internal Ø7.2mm clear bore for stationary camera / OIS pod
             translate([0, 0, -0.5])
-                cylinder(h = H_flight + 2.0, d = D_shaft_bore - 1.2);
+                cylinder(h = H_flight + 2.0, d = D_shaft_bore - 1.6);
         }
     }
 }

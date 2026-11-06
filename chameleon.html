@@ -24,24 +24,24 @@
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-2">
       <div>
         <div class="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-cyan-400">
-          <span>✨ SCARAB Ω³ · "CHAMELEON-HALO" (6.8 mm WAFER WEARABLE)</span>
+          <span>✨ SCARAB Ω³-CAM · CONSOLIDATED CAMERA-PET BASELINE (7.2 mm WAFER)</span>
           <span class="text-[var(--muted-foreground)]">•</span>
           <span class="text-amber-300">⚠️ CONCEPT ANIMATION &amp; ANALYTICAL TARGET EXPLORER (UNVERIFIED TARGETS)</span>
         </div>
         <h2 class="text-[var(--foreground)] font-bold text-sm sm:text-base leading-snug">
-          3D-Printed Interlocking Pangolin-Iris Rotors (Ø 25×2.4mm → Ø 64mm) + Dandelion Pappus Vortex Halo + 3 Snap-On Shells
+          2-Hinge Bi-Fold Coaxial Rotors (Ø 24.8×2.6mm → Ø 64mm) + Paulos–Yim Dipole Cyclic + 3 Snap-On Shells (9.85g Bare / 10.45g Shelled)
         </h2>
       </div>
       <!-- 3 Snap-On 0.6g Chameleon Shells -->
       <div class="flex flex-wrap items-center gap-1.5">
         <button id="sbtn-scarab" onclick="setShell('scarab')" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400/70 transition">
-          🪲 Shell 1: Obsidian Scarab (7.2mm)
+          🪲 Shell 1: Obsidian Scarab (10.45g)
         </button>
         <button id="sbtn-chrono" onclick="setShell('chrono')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          ⌚ Shell 2: Chrono-Bezel Ti (6.8mm)
+          ⌚ Shell 2: Chrono-Bezel Ti (10.45g)
         </button>
         <button id="sbtn-pearl" onclick="setShell('pearl')" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition">
-          🪼 Shell 3: Aurelia Jelly-Pearl (7.5mm)
+          🪼 Shell 3: Aurelia Jelly-Pearl (10.45g)
         </button>
       </div>
     </div>
@@ -50,32 +50,32 @@
     <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 bg-[var(--secondary)]/50 border border-[var(--border)] rounded-xl p-2 text-xs items-center">
       <div class="sm:col-span-5 flex flex-col justify-between">
         <div class="flex justify-between font-semibold">
-          <span class="text-cyan-300">3D-Printed Iris &amp; Zipper-Nest Morph:</span>
+          <span class="text-cyan-300">2-Hinge Bi-Fold &amp; Helical Spline Morph:</span>
           <span id="lblMorph" class="font-mono text-emerald-300">Auto-Morph Cycle</span>
         </div>
         <input id="rngMorph" type="range" min="0" max="100" value="100" oninput="onMorphSlider(this.value)" class="w-full accent-cyan-400 cursor-pointer mt-1" />
         <div class="flex justify-between text-[11px] text-slate-400">
-          <span>0%: 6.8mm Coin (100% Privacy)</span>
+          <span>0%: 7.2mm Coin (Ø24.8mm Bi-Fold)</span>
           <button onclick="enableAutoMorph()" class="text-cyan-300 underline">Auto-Loop</button>
-          <span>100%: 64mm Halo (4,400 RPM)</span>
+          <span>100%: 64mm Disk (4,500 RPM)</span>
         </div>
       </div>
 
       <div class="sm:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
         <button onclick="triggerWhiskerBrake()" class="p-1.5 rounded-lg border border-rose-400/70 bg-rose-500/20 text-left hover:bg-rose-500/30 transition">
-          <div class="text-xs font-bold text-rose-300">🖐️ Touch Whisker!</div>
-          <div class="text-[11px] text-slate-300">15ms Brake+Fold</div>
+          <div class="text-xs font-bold text-rose-300">🖐️ Bumper Brake</div>
+          <div class="text-[11px] text-slate-300">15ms Brake (≤0.2m/s)</div>
         </button>
         <button onclick="togglePlume()" id="btnPlume" class="p-1.5 rounded-lg border border-amber-400/70 bg-amber-500/20 text-left hover:bg-amber-500/30 transition">
-          <div class="text-xs font-bold text-amber-300">🌡️ Body Plume: ON</div>
-          <div class="text-[11px] text-slate-300">-38% Power + SVR</div>
+          <div class="text-xs font-bold text-amber-300">🌡️ Phase II Plume: OFF</div>
+          <div class="text-[11px] text-slate-300">0.0W Baseline Credit</div>
         </button>
         <button onclick="triggerKnuckleTap()" class="p-1.5 rounded-lg border border-purple-400/70 bg-purple-500/20 text-left hover:bg-purple-500/30 transition">
           <div class="text-xs font-bold text-purple-300">🔔 Knuckle Tap</div>
-          <div class="text-[11px] text-slate-300">9.8g Silent Alert</div>
+          <div class="text-[11px] text-slate-300">10.45g Haptic Alert</div>
         </button>
         <button onclick="toggleFixedCompare()" id="btnCompare" class="p-1.5 rounded-lg border border-sky-400/70 bg-sky-500/20 text-left hover:bg-sky-500/30 transition">
-          <div class="text-xs font-bold text-sky-300">📏 Old 18mm Box</div>
+          <div class="text-xs font-bold text-sky-300">📏 Old 17.2mm Box</div>
           <div class="text-[11px] text-slate-300" id="lblCompare">Ghost Overlay: ON</div>
         </button>
       </div>
@@ -87,19 +87,19 @@
 
       <!-- Top-Left Live Physics & Compression HUD -->
       <div class="absolute top-2 left-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-cyan-500/30 text-xs font-mono space-y-0.5 pointer-events-none">
-        <div id="hudTitle" class="text-emerald-300 font-bold">CHAMELEON CORE (28×6.8mm) + SHELL 01: OBSIDIAN SCARAB</div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Rotor Span / Stack:</span><span id="hudSpan" class="text-cyan-300 font-bold">Ø 25.0×2.4mm → Ø 64.0×16.0mm (6.7× Area)</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">Power / Noise Target:</span><span id="hudPower" class="text-emerald-300 font-bold">1.45 W (4,400 RPM) • ~35 dBA • 24m Flight</span></div>
-        <div class="flex justify-between gap-4"><span class="text-slate-400">State / Privacy:</span><span id="hudState" class="text-amber-300 font-bold">UNFURLED HALO + DANDELION SVR CROWN</span></div>
+        <div id="hudTitle" class="text-emerald-300 font-bold">CHAMELEON CORE (Ø28.5×7.2mm, 9.85g) + SHELL 01 (10.45g AUW)</div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">2-Hinge Bi-Fold Span:</span><span id="hudSpan" class="text-cyan-300 font-bold">Ø 24.8×2.6mm → Ø 64.0×16.4mm (6.69× Area)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Hover Target (No Bonus):</span><span id="hudPower" class="text-emerald-300 font-bold">1.60–1.94 W (P_ideal=0.37W) • 19.5–23.7m (80% DoD)</span></div>
+        <div class="flex justify-between gap-4"><span class="text-slate-400">Control / Status:</span><span id="hudState" class="text-amber-300 font-bold">PAULOS–YIM DIPOLE CYCLIC + ±0.062 N·mm OIS TRIM</span></div>
       </div>
 
       <!-- Top-Right Why Compressing Rotors Wins Legend -->
       <div class="hidden sm:block absolute top-2 right-2 bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/15 text-[11px] font-mono space-y-0.5 pointer-events-none">
-        <div class="text-slate-200 font-bold">WHY COMPRESSING ROTOR BEATS FIXED DUCT</div>
-        <div class="text-emerald-300">■ Swept Area: 32.2 cm² vs 4.8 cm² (6.7× larger!)</div>
-        <div class="text-cyan-300">■ Disc Loading: 38 N/m² vs 300 N/m² (7.9× gentler!)</div>
-        <div class="text-amber-300">■ Stowed Height: 6.8 mm vs 17.5 mm (61% thinner!)</div>
-        <div class="text-purple-300">● Dandelion SVR Ring: +16% Lift + Whisker Brake</div>
+        <div class="text-slate-200 font-bold">CONSOLIDATED BASELINE PHYSICS (GATE 1–4 TARGETS)</div>
+        <div class="text-emerald-300">■ Disk Area: 32.17 cm² vs 4.81 cm² (6.69× larger)</div>
+        <div class="text-cyan-300">■ Disc Loading: 31.9 N/m² vs 303 N/m² (v_i = 3.61 m/s)</div>
+        <div class="text-amber-300">■ Stowed Wafer: 7.2 mm vs 17.2 mm (58% thinner)</div>
+        <div class="text-purple-300">● Passive Descent (Cd=4.2): 3.22 m/s (at 10.45 g)</div>
       </div>
 
       <!-- Bottom Camera Controls -->
@@ -107,9 +107,9 @@
         <span class="text-slate-400">Drag 3D Orbit •</span>
         <button onclick="setCam(-0.52, 0.48, 1.05)" class="hover:text-cyan-300 underline">3D Isometric</button>
         <span>·</span>
-        <button onclick="setCam(0.0, 1.50, 1.05)" class="hover:text-cyan-300 underline">Top Camera-Iris View</button>
+        <button onclick="setCam(0.0, 1.50, 1.05)" class="hover:text-cyan-300 underline">Top Bi-Fold View</button>
         <span>·</span>
-        <button onclick="setCam(0.0, 0.06, 1.25)" class="hover:text-cyan-300 underline">Side 6.8mm Wafer Profile</button>
+        <button onclick="setCam(0.0, 0.06, 1.25)" class="hover:text-cyan-300 underline">Side 7.2mm Wafer Profile</button>
       </div>
     </div>
 
@@ -125,10 +125,10 @@
 
     let shellMode = 'scarab'; // 'scarab', 'chrono', 'pearl'
     let autoMorph = true;
-    let morphVal = 1.0; // 0.0 (stowed 6.8mm coin) .. 1.0 (deployed 64mm halo)
+    let morphVal = 1.0; // 0.0 (stowed 7.2mm coin) .. 1.0 (deployed 64mm halo)
     let whiskerBrakeTimer = 0;
     let knuckleTapTimer = 0;
-    let showPlume = true;
+    let showPlume = false;
     let showOldBox = true;
 
     let simTime = 0;
@@ -141,9 +141,9 @@
     let lastX = 0, lastY = 0;
 
     const shellDescriptions = {
-      scarab: '<strong class="text-emerald-300">🪲 Shell 01 — The "Obsidian Scarab" Wafer (`34 × 24 × 7.2 mm`, `9.8 g` Target):</strong> Replaces the old `18 mm` tall ducted box with a <strong>`2.4 mm` 3D-printed Zipper-Nested Pangolin-Iris Rotor</strong> inside a `7.2 mm` wafer! When parked on your wrist or iPhone MagSafe back, all 6 dragonfly-corrugated blades coil inside the `25 mm` hub and physically seal over the camera lens (`100%` hardware privacy). On launch, the upper hub climbs `9.5 mm` up a `56.5°` helical spline while centrifugal force unfurls the blades to a <strong>`64 mm` slow-spinning (`4,400 RPM`) halo</strong> ringed by <strong>64 Nitinol Dandelion Pappus whiskers</strong>!',
-      chrono: '<strong class="text-cyan-300">⌚ Shell 02 — The "Chrono-Bezel" Titanium Watch Coin (`Ø 32 × 6.8 mm`, `9.4 g` Target):</strong> Snaps onto the same universal `28 × 6.8 mm` Chameleon Core to look like a precision Grade-5 Titanium smartwatch bezel or Leica camera lens cap—zero insect features! Double-pinch the bezel: it levitates off your watch strap, unfurls its `64 mm` camera-iris blades (`6.7×` larger lift area, `1.38 W` hover power, `< 36 dBA`), and swivels its central sapphire eye `90°` to film you at eye level.',
-      pearl: '<strong class="text-purple-300">🪼 Shell 03 — "Aurelia" Moon-Jelly Opalescent Pearl (`Ø 30 × 7.5 mm`, `9.2 g` Target):</strong> An opalescent frosted cabochon brooch worn on a collar or pendant cord. In flight, 8 translucent petals + the 64-filament <strong>Dandelion Pappus Crown (*Nature* 2018 Separated Vortex Ring)</strong> surf the warm `0.35 m/s` thermal air plume rising naturally off your shoulders—cutting hover power by `-38%` while glowing like a floating deep-sea moon jellyfish!'
+      scarab: '<strong class="text-emerald-300">🪲 Consolidated Baseline — `SCARAB Ω³-CAM` with Shell 01 (`Ø 32.5 × 7.2 mm`, `9.85 g` Bare / `10.45 g` Shelled Target):</strong> Uses a <strong>2-Hinge Bi-Fold Coaxial Rotor (`L1=13.0mm + L2=12.8mm`)</strong> that folds from `Ø 64.0 mm` (`32.17 cm²`, `6.69×` larger than two `17.5 mm` ducts) into a verified `Ø 24.76 × 2.60 mm` stowed coin. Ideal actuator-disk power is `0.370 W` (`v_i = 3.61 m/s`), giving a reconciled electrical hover target of <strong>`1.60–1.94 W` (`19.5–23.7 min` arithmetic at `0.79 Wh × 80%` DoD, with zero plume/pappus bonus credits)</strong>.',
+      chrono: '<strong class="text-cyan-300">⌚ Shell 02 — `Chrono-Bezel` Grade-5 Titanium Watch Ring (`Ø 32.5 × 7.2 mm`, `10.45 g` Shelled Target):</strong> Snaps onto the universal `9.85 g` Camera-Pet core. Attitude control is driven by <strong>Paulos–Yim Antisymmetric Dipole Hinge Skew (`tan δ3,b = tan 38° cos φ_b`)</strong> so `1/rev` motor torque modulation tilts the tip-path plane without symmetry cancellation, paired with a `0.18 g` <strong>2-Axis Voice-Coil OIS Gimbal (`±0.0622 N·mm` fine static CG trim)</strong>.',
+      pearl: '<strong class="text-purple-300">🪼 Shell 03 — `Aurelia` Opalescent Cabochon (`Ø 32.5 × 7.2 mm`, `10.45 g` Shelled Target):</strong> Evaluates the stationary `Ø 70 mm` 64-filament Nitinol bumper ring (`3.22 m/s` passive terminal descent at `Cd = 4.2`, `10.45 g`). Optional porous-ring (`ε ≈ 0.916`, *Nature* 2018) and thermal-plume experiments are isolated in Phase II and excluded from the baseline energy ledger.'
     };
 
     function setShell(s) {
@@ -155,9 +155,9 @@
           : 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--secondary)] text-slate-300 border border-[var(--border)] transition';
       });
       const titles = {
-        scarab: 'CHAMELEON CORE (28×6.8mm) + SHELL 01: OBSIDIAN SCARAB (9.8g)',
-        chrono: 'CHAMELEON CORE (28×6.8mm) + SHELL 02: CHRONO-BEZEL TI (9.4g)',
-        pearl:  'CHAMELEON CORE (28×6.8mm) + SHELL 03: AURELIA JELLY-PEARL (9.2g)'
+        scarab: 'CHAMELEON CORE (Ø28.5×7.2mm, 9.85g) + SHELL 01: SCARAB (10.45g)',
+        chrono: 'CHAMELEON CORE (Ø28.5×7.2mm, 9.85g) + SHELL 02: CHRONO-TI (10.45g)',
+        pearl:  'CHAMELEON CORE (Ø28.5×7.2mm, 9.85g) + SHELL 03: AURELIA (10.45g)'
       };
       document.getElementById('hudTitle').textContent = titles[s];
       document.getElementById('laymanBox').innerHTML = shellDescriptions[s];
@@ -177,13 +177,13 @@
 
     function triggerWhiskerBrake() {
       autoMorph = false;
-      whiskerBrakeTimer = 1.0; // triggers rapid 15ms snap-shut animation!
-      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ WHISKER CONTACT DETECTED → 15 ms ACTIVE REGENERATIVE BRAKE + AUTO-FOLD!</strong> One of the 64 hair-thin (`40 µm`) Nitinol Dandelion whiskers sensed finger contact `6 mm` outside the blade tips. The ESC fired a `15 ms` reverse-phase braking pulse ($\dot{\\Omega} = -83,800\\text{ rad/s}^2$): Euler decel torque popped all 6 dragonfly blades out of their `14.5°` pitch detents and coiled them safely back into the smooth `25 mm` coin before your skin could touch a blade!';
+      whiskerBrakeTimer = 1.0;
+      document.getElementById('laymanBox').innerHTML = '<strong class="text-rose-300">🖐️ PERIMETER BUMPER CONTACT → 15 ms REGENERATIVE BRAKE (`1.95 mJ` Rotor Kinetic Energy):</strong> A `3.0 mm` whisker buffer provides `15 ms` warning at slow approach speeds (`≤ 0.20 m/s`); for faster contact (`> 0.5 m/s`), low tip speed (`15 m/s`), low rotor inertia (`1.95 mJ`), and compliant bi-fold hinges mitigate impact while braking.';
     }
 
     function togglePlume() {
       showPlume = !showPlume;
-      document.getElementById('btnPlume').querySelector('div').textContent = showPlume ? '🌡️ Body Plume: ON' : '🌡️ Body Plume: OFF';
+      document.getElementById('btnPlume').querySelector('div').textContent = showPlume ? '🌡️ Phase II Plume: ON' : '🌡️ Phase II Plume: OFF';
     }
 
     function triggerKnuckleTap() {
@@ -266,24 +266,24 @@
       // Spin speed proportional to morphVal
       rotorPhase += dt * 18.0 * morphVal;
 
-      const curSpan = lerp(25.0, 64.0, morphVal);
-      const curStack = lerp(2.4, 16.0, morphVal);
+      const curSpan = lerp(24.76, 64.0, morphVal);
+      const curStack = lerp(2.6, 16.4, morphVal);
       const curArea = (Math.PI * 0.25 * (curSpan / 10) * (curSpan / 10)).toFixed(1);
       document.getElementById('hudSpan').textContent = `Ø ${curSpan.toFixed(1)}×${curStack.toFixed(1)}mm (${curArea} cm² Swept)`;
 
-      const pwr = showPlume ? (morphVal > 0.2 ? '0.98 W (Plume Surf)' : '0.00 W (Docked)') : (morphVal > 0.2 ? '1.45 W (Hover)' : '0.00 W (Docked)');
-      document.getElementById('hudPower').textContent = `${pwr} • 4,400 RPM • ~35 dBA`;
+      const pwr = showPlume ? (morphVal > 0.2 ? 'Phase II Plume Study (Unverified)' : '0.00 W (Docked)') : (morphVal > 0.2 ? '1.60–1.94 W Target (P_ideal=0.37W)' : '0.00 W (Docked)');
+      document.getElementById('hudPower').textContent = `${pwr} • 4,500 RPM • 19.5–23.7m (80% DoD)`;
 
       if (whiskerBrakeTimer > 0.1) {
-        document.getElementById('hudState').textContent = '🛑 WHISKER TOUCH -> 15ms BRAKE & AUTO-FOLD!';
+        document.getElementById('hudState').textContent = '🛑 BUMPER CONTACT -> 15ms BRAKE (≤0.2m/s APPROACH)';
       } else if (knuckleTapTimer > 0.1) {
         document.getElementById('hudState').textContent = '🔔 GENTLE KNUCKLE-TAP ALERT ON HAND!';
       } else if (morphVal < 0.08) {
-        document.getElementById('hudState').textContent = '🔒 6.8mm WAFER COIN (IRIS LOCKED OVER LENS = 100% PRIVACY)';
+        document.getElementById('hudState').textContent = '🔒 7.2mm WAFER COIN (Ø24.8mm 2-HINGE BI-FOLD STOWED)';
       } else if (morphVal < 0.85) {
-        document.getElementById('hudState').textContent = '⚙️ 56.5° HELICAL SPLINE POP-UP + IRIS UNFURLING...';
+        document.getElementById('hudState').textContent = '⚙️ HELICAL SPLINE EXTENSION + 2-HINGE BI-FOLD UNFURLING...';
       } else {
-        document.getElementById('hudState').textContent = '✨ 64mm FLIGHT HALO + DANDELION SVR VORTEX RING ACTIVE';
+        document.getElementById('hudState').textContent = '✨ Ø64mm COAXIAL DISK + PAULOS–YIM DIPOLE CYCLIC TARGET';
       }
 
       const grad = ctx.createRadialGradient(W * 0.5, H * 0.45, 20, W * 0.5, H * 0.5, W * 0.75);
